@@ -22,15 +22,51 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/logo-square.png">
   <link rel="apple-touch-icon" href="assets/logos/logo-square.png">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts (Cinzel & Montserrat from Brand Kit) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- =========================================================================
+       LIGHT MODE LUXURY PRELOADER / LOADING ANIMATION
+       ========================================================================= -->
+  <div id="diamoraPreloader" class="diamora-preloader">
+    <div class="preloader-content">
+      <!-- Animated Diamond Emblem SVG -->
+      <div class="preloader-emblem">
+        <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="preloaderGold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#FFF0BE" />
+              <stop offset="50%" stop-color="#D4AF37" />
+              <stop offset="100%" stop-color="#765811" />
+            </linearGradient>
+          </defs>
+          <polygon points="50,5 95,50 50,95 5,50" stroke="url(#preloaderGold)" stroke-width="3" stroke-linejoin="round"/>
+          <polygon points="50,18 82,50 50,82 18,50" fill="url(#preloaderGold)" fill-opacity="0.15" stroke="url(#preloaderGold)" stroke-width="1.5"/>
+          <polygon points="50,18 82,50 50,50" fill="#FFF0BE" fill-opacity="0.35"/>
+          <polygon points="50,50 82,50 50,82" fill="#D4AF37" fill-opacity="0.25"/>
+          <line x1="50" y1="5" x2="50" y2="95" stroke="url(#preloaderGold)" stroke-width="1.5"/>
+          <line x1="5" y1="50" x2="95" y2="50" stroke="url(#preloaderGold)" stroke-width="1.5" stroke-opacity="0.6"/>
+        </svg>
+      </div>
+
+      <!-- Typography Reveal -->
+      <h2 class="preloader-brand-title"><span>DIAMORA</span> PROPERTIES</h2>
+      <p class="preloader-tagline">Curating Prime UAE Real Estate</p>
+
+      <!-- Progress Track & Counter -->
+      <div class="preloader-progress-track">
+        <div id="preloaderBar" class="preloader-progress-bar"></div>
+      </div>
+      <div id="preloaderCounter" class="preloader-counter">00%</div>
+    </div>
+  </div>
 
   <!-- =========================================================================
        PRE-FOOTER: VIP CONSULTATION & NEWSLETTER BANNER
@@ -40,7 +76,7 @@
       <div class="cta-card">
         <div class="cta-grid">
           <div class="cta-info">
-            <span class="cta-tag">Private Client Network</span>
+            <span class="brand-badge">Private Client Network</span>
             <h2 class="cta-title">Receive Off-Market & Pre-Launch UAE Property Deals</h2>
             <p class="cta-desc">
               Subscribe to our discreet investor briefing for priority allocations in iconic Dubai and Abu Dhabi developments.

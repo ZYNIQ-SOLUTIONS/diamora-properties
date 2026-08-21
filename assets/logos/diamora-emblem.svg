@@ -1,0 +1,18 @@
+<svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="goldEmblemGrad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF0BE" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#765811" />
+    </linearGradient>
+  </defs>
+  <!-- Outer Diamond Facet Border -->
+  <polygon points="50,5 95,50 50,95 5,50" stroke="url(#goldEmblemGrad)" stroke-width="3.5" stroke-linejoin="round" class="emblem-stroke-outer"/>
+  <!-- Inner Facets -->
+  <polygon points="50,18 82,50 50,82 18,50" fill="url(#goldEmblemGrad)" fill-opacity="0.12" stroke="url(#goldEmblemGrad)" stroke-width="1.5" class="emblem-inner"/>
+  <polygon points="50,18 82,50 50,50" fill="#FFF0BE" fill-opacity="0.3"/>
+  <polygon points="50,50 82,50 50,82" fill="#D4AF37" fill-opacity="0.25"/>
+  <!-- Axial Precision Lines -->
+  <line x1="50" y1="5" x2="50" y2="95" stroke="url(#goldEmblemGrad)" stroke-width="1.5" class="emblem-axis-v"/>
+  <line x1="5" y1="50" x2="95" y2="50" stroke="url(#goldEmblemGrad)" stroke-width="1.5" stroke-opacity="0.7" class="emblem-axis-h"/>
+</svg>

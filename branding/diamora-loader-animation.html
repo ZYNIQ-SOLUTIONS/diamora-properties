@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diamora Properties — Master Brand Identity System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --bg-dark: #050608;
+    --bg-card: #0d1015;
+    --gold-primary: #D4AF37;
+    --gold-light: #FBE6A2;
+    --gold-dark: #8C6A18;
+    --gold-gradient: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
+    --text-main: #E2E8F0;
+    --text-muted: #8E9BAE;
+    --border-subtle: rgba(212, 175, 55, 0.15);
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 85% 60%, rgba(5, 26, 15, 0.3) 0%, transparent 60%);
+  }
+
+  h1, h2, h3, .serif {
+    font-family: 'Cinzel', serif;
+  }
+
+  .gold-text {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  #loader-wrapper {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #030406; /* Always dark for dramatic entrance */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 1s ease-in-out, visibility 1s;
+  }
+  
+  /* Initial line drawing of the monogram */
+  .loader-line {
+    fill: none;
+    stroke: url(#loader-gold);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: draw 2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+  }
+
+  /* Reveal the monogram fills */
+  .loader-fill {
+    opacity: 0;
+    animation: fadeInFill 1s ease forwards;
+    animation-delay: 1.5s;
+  }
+
+  /* Transition monogram out */
+  #loader-icon-group {
+    transform-origin: center;
+    animation: scaleOutIcon 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    animation-delay: 3s;
+  }
+  
+  /* Transition horizontal lockup in */
+  #loader-horizontal-group {
+    opacity: 0;
+    transform: translateX(20px);
+    animation: slideInHorizontal 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    animation-delay: 3.5s;
+  }
+
+  /* Text below monogram initially */
+  .loader-text {
+    opacity: 0;
+    animation: slideUpFade 1s ease forwards, slideDownFadeOut 0.5s ease forwards 2.8s;
+    animation-delay: 1.8s;
+  }
+
+  @keyframes draw { 100% { stroke-dashoffset: 0; } }
+  @keyframes fadeInFill { 100% { opacity: 1; } }
+  @keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideDownFadeOut {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(10px); }
+  }
+  @keyframes scaleOutIcon {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
+  }
+  @keyframes slideInHorizontal {
+    0% { opacity: 0; transform: translateX(20px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  body.loaded #loader-wrapper {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .preview-box {
+    background: #030406;
+    background-image: radial-gradient(circle at center, #0a0c12 0%, #030406 100%);
+    position: relative;
+  }
+  
+  .preview-box::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+    pointer-events: none;
+  }
+
+  .preview-box.light {
+    background: #ffffff;
+    background-image: linear-gradient(135deg, #fdfdfd 0%, #f0f0f0 100%);
+  }
+  .preview-box.light::after {
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+  }
+
+  .card-hover-effect {
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .card-hover-effect:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15);
+    border-color: rgba(212, 175, 55, 0.4);
+  }
+
+  .swatch-color { box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2); }
+  
+  .business-card {
+    aspect-ratio: 1.75 / 1;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .business-card:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+  }
+
+  /* SVG Standard Gradients */
+  .btn-gold {
+    background: var(--gold-gradient);
+    color: #050608;
+    transition: all 0.3s ease;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+  }
+
+  #toast {
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  #toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+</style>
+</head>
+<body class="overflow-x-hidden">
+
+<div id="loader-wrapper">
+  <!-- Container absolute positioned to center both svgs perfectly -->
+  <div style="position: relative; width: 300px; height: 150px; display: flex; justify-content: center; align-items: center;">
+    
+    <!-- Step 1: The Monogram (Draws in, then scales out) -->
+    <svg id="loader-icon-group" style="position: absolute;" width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="loader-gold" x1="0" y1="0" x2="100" y2="100">
+          <stop offset="0%" stop-color="#FBE6A2" />
+          <stop offset="50%" stop-color="#D4AF37" />
+          <stop offset="100%" stop-color="#8C6A18" />
+        </linearGradient>
+        <linearGradient id="loader-facetLeft" x1="0" y1="0" x2="100" y2="100">
+          <stop offset="0%" stop-color="#E5C768" />
+          <stop offset="100%" stop-color="#664D10" />
+        </linearGradient>
+        <linearGradient id="loader-facetRight" x1="0" y1="0" x2="100" y2="100">
+          <stop offset="0%" stop-color="#FFF0BE" />
+          <stop offset="100%" stop-color="#B38F24" />
+        </linearGradient>
+        <filter id="loader-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="2" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+      
+      <!-- Outline structure (drawn in CSS) -->
+      <path class="loader-line" d="M50,0 L0,42 L50,55 L100,42 Z" />
+      <path class="loader-line" d="M0,42 L0,100 L50,100 L50,55" />
+      <path class="loader-line" d="M100,42 L100,100 L50,100" />
+      <path class="loader-line" d="M50,0 L20,22 L50,45 L80,22 Z" />
+      <line class="loader-line" x1="50" y1="45" x2="50" y2="100" />
+      
+      <!-- Solid fills matching user request -->
+      <g class="loader-fill">
+        <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+        <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
+        <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+        <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
+        <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+        <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+        <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+        <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+        <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+        <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+        <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1" filter="url(#loader-glow)"/>
+        <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+        <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+        <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+        <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+      </g>
+    </svg>
+
+    <!-- Step 2: The Horizontal Lockup (Slides in after monogram scales out) -->
+    <svg id="loader-horizontal-group" style="position: absolute;" width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(10, 15) scale(0.7)">
+        <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+        <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
+        <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+        <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
+        <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+        <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+        <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+        <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+        <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+        <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+        <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1" filter="url(#loader-glow)"/>
+        <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+        <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+      </g>
+      <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.3)" stroke-width="1.5"/>
+      <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="url(#loader-gold)" letter-spacing="4">DIAMORA</text>
+      <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8" font-weight="400" fill="#A8B5C7" letter-spacing="4">PROPERTIES</text>
+    </svg>
+  </div>
+  
+  <div class="loader-text mt-2 text-center" style="position: absolute; bottom: 35%;">
+    <p class="font-sans text-[9px] tracking-[0.4em] text-[#D4AF37] mt-2 uppercase">Initializing Identity System</p>
+  </div>
+</div>
+
+<button class="theme-toggle-btn" onclick="toggleTheme()" id="themeToggle" title="Toggle Light/Dark Mode">
+            <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+            <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+            <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+            <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+            <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+            <polygon points="46,43 54,43 54,105 46,105" fill="#030406"/>
+            <line x1="50" y1="45" x2="50" y2="102" stroke="url(#m-gold1)" stroke-width="1" filter="url(#m-glow)"/>
+            <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+            <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+            <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+            <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+            <line x1="0" y1="42" x2="50" y2="55" stroke="#FFF" stroke-width="0.5" opacity="0.3"/>
+            <line x1="100" y1="42" x2="50" y2="55" stroke="#FFF" stroke-width="1" opacity="0.5"/>
+          </g>
+          <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="url(#m-gold1)" letter-spacing="9">DIAMORA</text>
+          <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="400" fill="#A8B5C7" letter-spacing="8">PROPERTIES</text>
+          <path d="M 85 210 Q 170 205 255 210" fill="none" stroke="url(#m-gold1)" stroke-width="0.75" opacity="0.4"/>
+          <circle cx="170" cy="207.5" r="2" fill="#D4AF37" filter="url(#m-glow)"/>
+        </svg>
+      </div>
+      <div class="md:w-[350px] p-10 bg-[#080a0e] flex flex-col justify-center border-t md:border-t-0 md:border-l border-[var(--border-subtle)]">
+        <h3 class="text-2xl font-semibold mb-3 text-white serif">The Sovereign Monolith</h3>
+        <p class="text-sm text-[#8E9BAE] font-light leading-relaxed mb-8">The flagship primary lockup. A masterpiece of structural geometry combining an emerald-cut diamond with a soaring high-rise silhouette. Use this configuration for main entryways, cover pages, and primary branding.</p>
+        <div class="flex flex-col gap-4">
+          <button class="btn-gold py-3 px-6 rounded text-xs tracking-[0.15em] uppercase font-bold text-center" onclick="copySVG('svg-master')">Copy Master SVG</button>
+          <button class="border border-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37] py-3 px-6 rounded text-xs tracking-[0.15em] uppercase font-bold text-center transition-colors" onclick="downloadSVG('svg-master', 'Diamora-Primary.svg')">Download Vector</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 border-b border-[var(--border-subtle)]">
+    <div class="text-center mb-16">
+      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">System Variations</span>
+      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white">Logo Configurations</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      
+      <!-- Monogram / Icon -->
+      <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg overflow-hidden flex flex-col">
+        <div class="preview-box flex-1 flex items-center justify-center p-12 min-h-[300px]" id="svg-icon">
+          <svg width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(0, 0)">
+              <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+              <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
+              <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+              <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
+              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+              <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+              <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+              <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+              <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+              <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+              <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1" filter="url(#m-glow)"/>
+              <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+              <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+              <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+              <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+            </g>
+          </svg>
+        </div>
+        <div class="p-8 bg-[#080a0e] border-t border-[var(--border-subtle)] flex justify-between items-center">
+          <div>
+            <h3 class="text-xl font-semibold text-white serif mb-1">The Monogram</h3>
+            <p class="text-xs text-[#8E9BAE]">For social media, apps, and favicons.</p>
+          </div>
+          <button class="text-[#D4AF37] hover:text-white transition-colors" onclick="copySVG('svg-icon')" title="Copy SVG">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Horizontal Lockup -->
+      <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg overflow-hidden flex flex-col">
+        <div class="preview-box flex-1 flex items-center justify-center p-8 min-h-[300px]" id="svg-horizontal">
+          <svg width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <g transform="translate(10, 15) scale(0.7)">
+              <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+              <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
+              <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+              <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
+              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+              <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+              <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+              <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+              <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+              <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+              <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1" filter="url(#m-glow)"/>
+              <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+              <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+            </g>
+            <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.3)" stroke-width="1.5"/>
+            <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="url(#m-gold1)" letter-spacing="4">DIAMORA</text>
+            <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8" font-weight="400" fill="#A8B5C7" letter-spacing="4">PROPERTIES</text>
+          </svg>
+        </div>
+        <div class="p-8 bg-[#080a0e] border-t border-[var(--border-subtle)] flex justify-between items-center">
+          <div>
+            <h3 class="text-xl font-semibold text-white serif mb-1">Horizontal Lockup</h3>
+            <p class="text-xs text-[#8E9BAE]">For website navbars and digital signatures.</p>
+          </div>
+          <button class="text-[#D4AF37] hover:text-white transition-colors" onclick="copySVG('svg-horizontal')" title="Copy SVG">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Light Mode Master -->
+      <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg overflow-hidden flex flex-col md:col-span-2">
+        <div class="preview-box light flex-1 flex items-center justify-center p-12 min-h-[350px]" id="svg-light">
+          <!-- Light Mode SVG -->
+          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="l-gold1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#C59B27" />
+                <stop offset="50%" stop-color="#8C6A18" />
+                <stop offset="100%" stop-color="#4A370A" />
+              </linearGradient>
+              <linearGradient id="l-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFFFFF" />
+                <stop offset="100%" stop-color="#E2E8F0" />
+              </linearGradient>
+              <linearGradient id="l-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#F8FAFC" />
+                <stop offset="100%" stop-color="#CBD5E1" />
+              </linearGradient>
+              <filter id="l-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.1"/>
+              </filter>
+            </defs>
+            <g transform="translate(120, 20)" filter="url(#l-shadow)">
+              <polygon points="50,0 0,42 0,100 50,55" fill="url(#l-facetLeft)"/>
+              <polygon points="50,0 100,42 100,100 50,55" fill="url(#l-facetRight)"/>
+              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFFFF"/>
+              <polygon points="20,22 50,45 50,22" fill="#E2E8F0" opacity="0.8"/>
+              <polygon points="80,22 50,45 50,22" fill="#F1F5F9" opacity="0.9"/>
+              <polygon points="48,44 52,44 52,105 48,105" fill="url(#l-gold1)"/>
+              
+              <!-- Dark Outlines for contrast on light -->
+              <path d="M50,0 L0,42 L0,100 L50,55 L100,100 L100,42 Z" fill="none" stroke="url(#l-gold1)" stroke-width="1"/>
+              <path d="M0,42 L50,45 L100,42" fill="none" stroke="url(#l-gold1)" stroke-width="1"/>
+              <path d="M50,0 L20,22 L50,45 L80,22 Z" fill="none" stroke="url(#l-gold1)" stroke-width="1"/>
+              <line x1="50" y1="0" x2="50" y2="45" stroke="url(#l-gold1)" stroke-width="1"/>
+            </g>
+            <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="#0A0C10" letter-spacing="9">DIAMORA</text>
+            <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="600" fill="url(#l-gold1)" letter-spacing="8">PROPERTIES</text>
+            <path d="M 85 210 Q 170 205 255 210" fill="none" stroke="#0A0C10" stroke-width="0.75" opacity="0.2"/>
+            <circle cx="170" cy="207.5" r="2" fill="#8C6A18"/>
+          </svg>
+        </div>
+        <div class="p-8 bg-[#080a0e] border-t border-[var(--border-subtle)] flex justify-between items-center">
+          <div>
+            <h3 class="text-xl font-semibold text-white serif mb-1">Light Mode / Platinum Edition</h3>
+            <p class="text-xs text-[#8E9BAE]">For print materials, light brochures, and white backgrounds. Features structural stroke outlines.</p>
+          </div>
+          <button class="text-[#D4AF37] hover:text-white transition-colors" onclick="copySVG('svg-light')" title="Copy SVG">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 border-b border-[var(--border-subtle)] grid md:grid-cols-2 gap-16">
+    
+    <!-- Typography -->
+    <div>
+      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Typographic Scale</span>
+      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white mb-10">Brand Fonts</h2>
+      
+      <div class="mb-10">
+        <div class="flex justify-between items-end mb-4 border-b border-[var(--border-subtle)] pb-2">
+          <span class="text-xl serif text-white">Cinzel</span>
+          <span class="text-xs text-[#8E9BAE] uppercase tracking-widest">Primary / Headings</span>
+        </div>
+        <p class="serif text-4xl text-[#FBE6A2] mb-2 leading-tight">Aa Bb Cc Dd Ee Ff Gg Hh Ii</p>
+        <p class="serif text-sm text-gray-400">0123456789 • !@#$%^&*()</p>
+      </div>
+
+      <div>
+        <div class="flex justify-between items-end mb-4 border-b border-[var(--border-subtle)] pb-2">
+          <span class="text-xl font-sans font-medium text-white">Montserrat</span>
+          <span class="text-xs text-[#8E9BAE] uppercase tracking-widest">Secondary / Body</span>
+        </div>
+        <p class="font-sans font-light text-2xl text-gray-300 mb-2 leading-tight">Aa Bb Cc Dd Ee Ff Gg Hh Ii</p>
+        <p class="font-sans font-light text-sm text-gray-400 leading-relaxed">The quick brown fox jumps over the lazy dog. Designed for ultimate legibility in dense financial portfolios and luxury property listings.</p>
+      </div>
+    </div>
+
+    <!-- Colors -->
+    <div>
+      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Materiality</span>
+      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white mb-10">Color Palette</h2>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
+          <div class="swatch-color h-24" style="background: #050608;"></div>
+          <div class="p-4">
+            <div class="font-semibold text-sm text-white serif">Obsidian Core</div>
+            <div class="text-[10px] text-[#D4AF37] font-mono mt-1">#050608</div>
+          </div>
+        </div>
+        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
+          <div class="swatch-color h-24" style="background: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);"></div>
+          <div class="p-4">
+            <div class="font-semibold text-sm text-white serif">Imperial Gold</div>
+            <div class="text-[10px] text-gray-400 font-mono mt-1">Gradient</div>
+          </div>
+        </div>
+        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
+          <div class="swatch-color h-24" style="background: #FDFBF7;"></div>
+          <div class="p-4 bg-white">
+            <div class="font-semibold text-sm text-black serif">Diamond Alabaster</div>
+            <div class="text-[10px] text-gray-500 font-mono mt-1">#FDFBF7</div>
+          </div>
+        </div>
+        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
+          <div class="swatch-color h-24" style="background: #8E9BAE;"></div>
+          <div class="p-4">
+            <div class="font-semibold text-sm text-white serif">Platinum Slate</div>
+            <div class="text-[10px] text-[#D4AF37] font-mono mt-1">#8E9BAE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 border-b border-[var(--border-subtle)]">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+      <div>
+        <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">UI / UX Motion</span>
+        <h2 class="text-4xl font-normal tracking-[0.08em] serif theme-heading">Digital Loader</h2>
+      </div>
+      <button onclick="replayLoader()" class="mt-4 md:mt-0 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#D4AF37] hover:text-[#8C6A18] transition-colors bg-transparent border-none cursor-pointer p-2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+        Replay Animation
+      </button>
+    </div>
+    
+    <div class="theme-card border p-8 rounded-lg flex items-center gap-8">
+      <div class="text-sm theme-text-muted font-light leading-relaxed flex-1">
+        This custom SVG path animation builds the precise architectural lines of the Monolith, illuminates the facets, and smoothly transitions into the full Horizontal Lockup. Perfect for luxury web or app pre-loaders.
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24">
+    <div class="text-center mb-16">
+      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Brand Application</span>
+      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white">Stationery Executions</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <!-- Business Card Front -->
+      <div class="business-card bg-gradient-to-br from-[#161a22] to-[#0a0c10] border border-[rgba(212,175,55,0.2)] p-10 flex flex-col justify-between shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
+        <div class="flex justify-between items-start z-10">
+          <div>
+            <div class="serif text-2xl font-bold text-[#D4AF37] tracking-[0.2em]">DIAMORA</div>
+            <div class="text-[8px] text-[#8E9BAE] tracking-[0.4em] mt-1 font-sans">PROPERTIES</div>
+          </div>
+          <!-- Foil stamp hint -->
+          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" style="filter: drop-shadow(0 2px 5px rgba(212,175,55,0.3));">
+             <polygon points="50,5 95,50 50,95 5,50" stroke="#D4AF37" stroke-width="4"/>
+             <polygon points="50,20 75,50 50,80 25,50" fill="url(#m-gold1)" opacity="0.4"/>
+             <line x1="50" y1="5" x2="50" y2="95" stroke="#D4AF37" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="z-10 mt-12">
+          <div class="text-lg font-semibold text-white tracking-[0.1em] mb-1">ALEXANDER VANE</div>
+          <div class="text-[9px] text-[#D4AF37] tracking-[0.3em] uppercase mb-5 border-b border-[rgba(212,175,55,0.3)] pb-2 inline-block">Managing Partner</div>
+          <div class="text-[9px] text-[#8E9BAE] leading-loose tracking-[0.1em] font-light font-sans">
+            <div class="flex gap-3"><span class="text-[#D4AF37]">T:</span> +971 4 800 DIAMORA</div>
+            <div class="flex gap-3"><span class="text-[#D4AF37]">E:</span> a.vane@diamoraproperties.com</div>
+            <div class="flex gap-3"><span class="text-[#D4AF37]">W:</span> diamoraproperties.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Card Back -->
+      <div class="business-card bg-[#050608] border border-[rgba(212,175,55,0.1)] flex items-center justify-center relative shadow-[0_25px_50px_rgba(0,0,0,0.8)]">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+        <div class="text-center z-10 flex flex-col items-center">
+          <svg width="60" height="60" viewBox="0 0 100 100" fill="none" class="mb-5 drop-shadow-[0_5px_15px_rgba(212,175,55,0.2)]">
+            <polygon points="50,5 95,50 50,95 5,50" stroke="#D4AF37" stroke-width="3"/>
+            <polygon points="50,15 80,50 50,85 20,50" fill="url(#m-gold1)" opacity="0.15"/>
+            <polygon points="50,15 80,50 50,50" fill="#D4AF37" opacity="0.3"/>
+            <line x1="50" y1="5" x2="50" y2="95" stroke="#D4AF37" stroke-width="1.5"/>
+            <line x1="5" y1="50" x2="95" y2="50" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+          </svg>
+          <div class="serif text-xl font-bold text-[#D4AF37] tracking-[0.4em]">DIAMORA</div>
+          <div class="text-[7px] text-[#8E9BAE] tracking-[0.5em] mt-2 font-sans">DUBAI • LONDON • MONACO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 text-center text-[#8E9BAE] text-[10px] tracking-[0.2em] uppercase border-t border-[var(--border-subtle)] mt-12">
+    <p>© 2026 Diamora Properties. Masterpiece Vector Assets & Identity System.</p>
+  </footer>
+
+</div>
+
+<div id="toast" class="fixed bottom-10 right-10 bg-[#0d1015] border border-[#D4AF37] text-white px-6 py-4 rounded shadow-[0_15px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(212,175,55,0.2)] flex items-center gap-3 z-[1000]">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    try {
+      if (localStorage.getItem('diamora-theme') === 'light') {
+        toggleTheme();
+      }
+    } catch (e) {}
+
+    setTimeout(() => {
+      document.body.classList.add('loaded');
+    }, 5500); // Extended wait for the new 2-part animation sequence
+  });
+
+  // Replay Loader Functionality
+  function replayLoader() {
+    const loader = document.getElementById('loader-wrapper');
+    const oldLines = loader.querySelectorAll('.loader-line');
+    const oldFills = loader.querySelectorAll('.loader-fill, .loader-text, #loader-icon-group, #loader-horizontal-group');
+    
+    // Reset animations by forcing reflow
+    oldLines.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // trigger reflow
+      el.style.animation = null; 
+    });
+    oldFills.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // trigger reflow
+      el.style.animation = null; 
+    });
+
+    document.body.classList.remove('loaded');
+    
+    setTimeout(() => {
+      document.body.classList.add('loaded');
+    }, 5500);
+  }
+
+  // Toast & Copy Functions
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    toastMsg.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
+  function copySVG(containerId) {
+    const container = document.getElementById(containerId);
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    const svgString = new XMLSerializer().serializeToString(svg);
+    navigator.clipboard.writeText(svgString).then(() => {
+      showToast("SVG Code copied to clipboard!");
+    }).catch(err => {
+      showToast("Unable to copy SVG automatically.");
+    });
+  }
+
+  function downloadSVG(containerId, filename) {
+    const container = document.getElementById(containerId);
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    const svgString = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename || 'diamora-logo.svg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast(filename + " downloaded!");
+  }
+</script>
+
+</body>
+</html>

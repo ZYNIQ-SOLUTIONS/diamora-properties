@@ -1,48 +1,49 @@
 /* ==========================================================================
-   DIAMORA PROPERTIES — MAIN STYLESHEET (LIGHT LUXURY THEME)
-   Luxury Real Estate & Property Advisory
+   DIAMORA PROPERTIES — SIGNATURE BRAND STYLESHEET (LIGHT LUXURY THEME)
+   Crafted in alignment with the Diamora Properties Brand Kit & Design System
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. CSS Custom Properties / Design Tokens (Light Luxury Theme)
+   1. CSS Custom Properties / Design Tokens (From Branding Kit)
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Gold Palette */
-  --color-gold-primary: #b89255;
-  --color-gold-light: #cfa86e;
-  --color-gold-dark: #8c6a2d;
-  --color-gold-glow: rgba(184, 146, 85, 0.18);
-  --color-gold-gradient: linear-gradient(135deg, #cfa86e 0%, #b89255 50%, #967233 100%);
-  --color-gold-subtle-bg: rgba(184, 146, 85, 0.08);
+  /* Brand Palette (From Brand Kit) */
+  --gold-primary: #D4AF37;
+  --gold-light: #FBE6A2;
+  --gold-dark: #8C6A18;
+  --gold-gradient: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
+  --gold-subtle-bg: rgba(212, 175, 55, 0.08);
+  --gold-glow: rgba(212, 175, 55, 0.25);
 
-  /* Light Theme Surfaces */
-  --color-bg-deep: #fbfbf9;
-  --color-bg-surface: #f4f1ea;
-  --color-bg-card: #ffffff;
-  --color-bg-card-hover: #faf8f3;
-  --color-bg-glass: rgba(255, 255, 255, 0.88);
+  /* Light Theme Surfaces (Diamond Alabaster) */
+  --bg-deep: #FDFBF7;
+  --bg-surface: #FAF6EC;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FDFBF8;
+  --bg-glass: rgba(253, 251, 247, 0.92);
 
-  /* Typography Colors (Dark on Light) */
-  --color-text-light: #16181c;        /* Main Headings / High Contrast */
-  --color-text-muted: #525866;        /* Body text / Descriptions */
-  --color-text-dim: #7e8594;          /* Sub-labels / Hints */
-  --color-text-gold: #a07c42;         /* Accent gold text */
+  /* Typography Colors */
+  --text-main: #050608;          /* Obsidian Core (Primary Headings) */
+  --text-body: #4A5160;          /* Refined Dark Slate (Body Text) */
+  --text-muted: #8E9BAE;         /* Platinum Slate (Sub-labels & Secondary) */
+  --text-gold: #8C6A18;          /* High-contrast Gold Text */
 
   /* Borders & Dividers */
-  --color-border-subtle: rgba(0, 0, 0, 0.08);
-  --color-border-gold: rgba(184, 146, 85, 0.3);
-  --color-border-gold-strong: rgba(184, 146, 85, 0.65);
+  --border-color: rgba(212, 175, 55, 0.28);
+  --border-subtle: rgba(0, 0, 0, 0.07);
+  --border-gold-strong: rgba(212, 175, 55, 0.65);
 
-  /* Fonts */
-  --font-serif: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography */
+  --font-serif: 'Cinzel', serif;
+  --font-sans: 'Montserrat', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Spacings */
-  --container-max-width: 1320px;
-  --container-padding: 24px;
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  /* Spacing Scale */
+  --container-max-width: 1360px;
+  --container-padding: 32px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
   --radius-full: 9999px;
 
   /* Transitions */
@@ -50,10 +51,10 @@
   --transition-normal: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Elevation / Shadows */
-  --shadow-gold-sm: 0 4px 18px rgba(184, 146, 85, 0.25);
-  --shadow-gold-md: 0 8px 28px rgba(184, 146, 85, 0.35);
+  /* Shadows */
   --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+  --shadow-gold-sm: 0 4px 18px rgba(212, 175, 55, 0.22);
+  --shadow-gold-md: 0 8px 30px rgba(212, 175, 55, 0.35);
 }
 
 /* --------------------------------------------------------------------------
@@ -72,16 +73,19 @@ html {
 }
 
 body {
-  background-color: var(--color-bg-deep);
-  color: var(--color-text-muted);
+  background-color: var(--bg-deep);
+  color: var(--text-body);
   font-family: var(--font-sans);
   line-height: 1.65;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(184, 146, 85, 0.05) 0%, transparent 60%),
-    radial-gradient(circle at 100% 100%, rgba(184, 146, 85, 0.03) 0%, transparent 40%);
+    radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 60%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+    linear-gradient(rgba(212, 175, 55, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
   background-attachment: fixed;
   min-height: 100vh;
   display: flex;
@@ -118,7 +122,6 @@ button {
   cursor: pointer;
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: var(--container-max-width);
@@ -128,16 +131,117 @@ button {
   padding-right: var(--container-padding);
 }
 
-/* Gold Gradient Text */
-.gold-gradient-text {
-  background: var(--color-gold-gradient);
+.gold-text {
+  background: var(--gold-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  display: inline-block;
 }
 
 /* --------------------------------------------------------------------------
-   3. Pre-Footer: VIP Newsletter & Advisory CTA Banner
+   3. Light Mode Luxury Loading Animation (Preloader)
+   -------------------------------------------------------------------------- */
+.diamora-preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.preloader-emblem {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.preloader-emblem svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 15px rgba(212, 175, 55, 0.25));
+}
+
+.preloader-brand-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: var(--text-main);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.preloader-brand-title span {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.preloader-tagline {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.4em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.preloader-progress-track {
+  width: 200px;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.preloader-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--gold-gradient);
+  box-shadow: 0 0 10px var(--gold-primary);
+  border-radius: var(--radius-full);
+}
+
+.preloader-counter {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   4. Pre-Footer: VIP Consultation & Newsletter Banner
    -------------------------------------------------------------------------- */
 .pre-footer-cta {
   position: relative;
@@ -147,12 +251,12 @@ button {
 
 .cta-card {
   position: relative;
-  background: linear-gradient(135deg, #ffffff 0%, #f9f7f2 100%);
-  border: 1px solid var(--color-border-gold);
-  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAF6EC 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
   padding: 50px 48px;
   overflow: hidden;
-  box-shadow: var(--shadow-card), 0 0 30px rgba(184, 146, 85, 0.08);
+  box-shadow: var(--shadow-card), 0 0 35px rgba(212, 175, 55, 0.08);
 }
 
 .cta-card::after {
@@ -160,9 +264,9 @@ button {
   position: absolute;
   top: -50%;
   right: -20%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(184, 146, 85, 0.12) 0%, transparent 70%);
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -175,14 +279,18 @@ button {
   z-index: 1;
 }
 
-.cta-tag {
-  font-size: 0.8rem;
+.brand-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border: 1px solid var(--gold-dark);
+  border-radius: var(--radius-xs);
+  font-size: 9px;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--color-gold-primary);
-  font-weight: 700;
-  display: block;
-  margin-bottom: 10px;
+  color: var(--gold-dark);
+  margin-bottom: 16px;
+  background: rgba(212, 175, 55, 0.06);
+  font-weight: 600;
 }
 
 .cta-title {
@@ -190,14 +298,16 @@ button {
   font-size: clamp(1.6rem, 3vw, 2.3rem);
   font-weight: 600;
   line-height: 1.25;
-  color: var(--color-text-light);
+  color: var(--text-main);
   margin-bottom: 12px;
+  letter-spacing: 0.02em;
 }
 
 .cta-desc {
-  color: var(--color-text-muted);
+  color: var(--text-body);
   font-size: 0.95rem;
   max-width: 500px;
+  line-height: 1.7;
 }
 
 .newsletter-form {
@@ -208,64 +318,66 @@ button {
 
 .input-group {
   display: flex;
-  background: #ffffff;
+  background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xs);
   padding: 6px 6px 6px 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
   transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .input-group:focus-within {
-  border-color: var(--color-gold-primary);
-  box-shadow: 0 0 16px rgba(184, 146, 85, 0.25);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
 }
 
 .input-group input {
   flex: 1;
-  color: var(--color-text-light);
+  color: var(--text-main);
   font-size: 0.92rem;
   background: transparent;
   min-width: 0;
 }
 
 .input-group input::placeholder {
-  color: var(--color-text-dim);
+  color: var(--text-muted);
 }
 
 .btn-subscribe {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--color-gold-gradient);
-  color: #ffffff;
+  background: var(--gold-gradient);
+  color: #050608;
   padding: 12px 24px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-xs);
   font-weight: 600;
-  font-size: 0.88rem;
-  letter-spacing: 0.5px;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  font-size: 0.86rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
   white-space: nowrap;
   box-shadow: var(--shadow-gold-sm);
 }
 
 .btn-subscribe:hover {
-  transform: scale(1.02);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-gold-md);
 }
 
 .form-privacy-note {
   font-size: 0.78rem;
-  color: var(--color-text-dim);
-  padding-left: 12px;
+  color: var(--text-muted);
+  padding-left: 8px;
 }
 
 /* --------------------------------------------------------------------------
-   4. Main Footer Section (Light Theme)
+   5. Main Footer Section
    -------------------------------------------------------------------------- */
 .main-footer {
-  background-color: var(--color-bg-surface);
-  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
   position: relative;
   padding-top: 70px;
   padding-bottom: 30px;
@@ -279,7 +391,7 @@ button {
   left: 15%;
   right: 15%;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, var(--color-border-gold-strong), transparent);
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
 }
 
 /* Multi-Column Layout */
@@ -314,9 +426,9 @@ button {
 }
 
 .footer-brand-tagline {
-  color: var(--color-text-muted);
+  color: var(--text-body);
   font-size: 0.92rem;
-  line-height: 1.7;
+  line-height: 1.75;
   margin-bottom: 24px;
   max-width: 340px;
 }
@@ -327,12 +439,12 @@ button {
 }
 
 .footer-social-title {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--color-gold-dark);
+  letter-spacing: 0.2em;
+  color: var(--gold-dark);
   margin-bottom: 12px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .social-links {
@@ -345,29 +457,29 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid var(--color-border-subtle);
-  color: var(--color-text-muted);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-xs);
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-body);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   transition: all var(--transition-normal);
   position: relative;
 }
 
 .social-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   transition: transform var(--transition-fast), fill var(--transition-fast);
 }
 
 .social-btn:hover {
-  border-color: var(--color-gold-primary);
-  background: var(--color-gold-subtle-bg);
-  color: var(--color-gold-dark);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(184, 146, 85, 0.22);
+  border-color: var(--gold-primary);
+  background: var(--gold-subtle-bg);
+  color: var(--gold-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(212, 175, 55, 0.22);
 }
 
 .social-btn:hover svg {
@@ -379,8 +491,8 @@ button {
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 600;
-  color: var(--color-text-light);
-  letter-spacing: 0.8px;
+  color: var(--text-main);
+  letter-spacing: 0.05em;
   margin-bottom: 24px;
   position: relative;
   padding-bottom: 10px;
@@ -391,9 +503,9 @@ button {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 32px;
+  width: 30px;
   height: 2px;
-  background: var(--color-gold-primary);
+  background: var(--gold-primary);
 }
 
 /* Navigation Lists */
@@ -404,7 +516,7 @@ button {
 }
 
 .footer-nav-link {
-  color: var(--color-text-muted);
+  color: var(--text-body);
   font-size: 0.92rem;
   display: inline-flex;
   align-items: center;
@@ -417,14 +529,14 @@ button {
   content: '›';
   font-size: 1.1rem;
   line-height: 1;
-  color: var(--color-gold-primary);
+  color: var(--gold-primary);
   opacity: 0;
   transform: translateX(-6px);
   transition: all var(--transition-fast);
 }
 
 .footer-nav-link:hover {
-  color: var(--color-gold-dark);
+  color: var(--gold-dark);
   transform: translateX(4px);
 }
 
@@ -437,7 +549,7 @@ button {
 .footer-contact-cards {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .contact-item {
@@ -445,17 +557,17 @@ button {
   align-items: flex-start;
   gap: 14px;
   padding: 12px 14px;
-  border-radius: var(--radius-md);
-  background: #ffffff;
-  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-xs);
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
   transition: all var(--transition-normal);
 }
 
 .contact-item:hover {
-  background: #ffffff;
-  border-color: var(--color-border-gold);
-  box-shadow: 0 6px 18px rgba(184, 146, 85, 0.12);
+  background: #FFFFFF;
+  border-color: var(--border-color);
+  box-shadow: 0 6px 18px rgba(212, 175, 55, 0.12);
   transform: translateY(-2px);
 }
 
@@ -463,18 +575,18 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: var(--color-gold-subtle-bg);
-  border: 1px solid var(--color-border-gold);
-  color: var(--color-gold-dark);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-xs);
+  background: var(--gold-subtle-bg);
+  border: 1px solid var(--border-color);
+  color: var(--gold-dark);
   flex-shrink: 0;
 }
 
 .contact-icon-box svg {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
 }
 
 .contact-content {
@@ -483,32 +595,32 @@ button {
 }
 
 .contact-label {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--color-text-dim);
-  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  font-weight: 600;
   margin-bottom: 2px;
 }
 
 .contact-val {
   font-size: 0.92rem;
-  color: var(--color-text-light);
+  color: var(--text-main);
   font-weight: 500;
   transition: color var(--transition-fast);
 }
 
 .contact-item:hover .contact-val {
-  color: var(--color-gold-dark);
+  color: var(--gold-dark);
 }
 
 /* --------------------------------------------------------------------------
-   5. Footer Middle: Trust Marks & Accreditations
+   6. Footer Middle: Trust Marks & Accreditations
    -------------------------------------------------------------------------- */
 .footer-trust-strip {
   padding: 22px 0;
-  border-top: 1px solid var(--color-border-subtle);
-  border-bottom: 1px solid var(--color-border-subtle);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   margin-bottom: 30px;
 }
 
@@ -531,31 +643,31 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-text-muted);
+  color: var(--text-body);
   font-size: 0.84rem;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.03em;
   font-weight: 500;
 }
 
 .trust-badge svg {
   width: 18px;
   height: 18px;
-  color: var(--color-gold-primary);
+  color: var(--gold-primary);
 }
 
 .trust-locations-tag {
   font-size: 0.84rem;
-  color: var(--color-text-dim);
-  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
 }
 
 .trust-locations-tag span {
-  color: var(--color-gold-dark);
+  color: var(--gold-dark);
   font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
-   6. Footer Bottom Bar (Copyright & Legal)
+   7. Footer Bottom Bar (Copyright & Legal)
    -------------------------------------------------------------------------- */
 .footer-bottom-bar {
   display: flex;
@@ -568,16 +680,16 @@ button {
 
 .footer-copy {
   font-size: 0.84rem;
-  color: var(--color-text-dim);
+  color: var(--text-muted);
 }
 
 .footer-copy a {
-  color: var(--color-text-muted);
+  color: var(--text-body);
   font-weight: 500;
 }
 
 .footer-copy a:hover {
-  color: var(--color-gold-dark);
+  color: var(--gold-dark);
 }
 
 .footer-legal-links {
@@ -589,16 +701,16 @@ button {
 
 .legal-link {
   font-size: 0.82rem;
-  color: var(--color-text-dim);
+  color: var(--text-muted);
   transition: color var(--transition-fast);
 }
 
 .legal-link:hover {
-  color: var(--color-gold-dark);
+  color: var(--gold-dark);
 }
 
 .legal-divider {
-  color: var(--color-border-subtle);
+  color: var(--border-subtle);
 }
 
 /* Back to Top Button */
@@ -607,13 +719,14 @@ button {
   align-items: center;
   gap: 8px;
   padding: 8px 18px;
-  border-radius: var(--radius-full);
-  background: #ffffff;
-  border: 1px solid var(--color-border-subtle);
-  color: var(--color-text-muted);
+  border-radius: var(--radius-xs);
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-body);
   font-size: 0.82rem;
-  letter-spacing: 0.5px;
-  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
   transition: all var(--transition-normal);
 }
@@ -625,11 +738,11 @@ button {
 }
 
 .back-to-top-btn:hover {
-  border-color: var(--color-gold-primary);
-  background: var(--color-gold-subtle-bg);
-  color: var(--color-gold-dark);
+  border-color: var(--gold-primary);
+  background: var(--gold-subtle-bg);
+  color: var(--gold-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(184, 146, 85, 0.18);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.18);
 }
 
 .back-to-top-btn:hover svg {
@@ -637,7 +750,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   7. Floating WhatsApp Action Button
+   8. Floating WhatsApp Action Button
    -------------------------------------------------------------------------- */
 .floating-whatsapp-btn {
   position: fixed;
@@ -671,7 +784,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   8. Responsive Breakpoints
+   9. Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1080px) {
   .footer-top-grid {

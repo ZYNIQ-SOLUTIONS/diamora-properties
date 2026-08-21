@@ -3,92 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Page Not Found | Diamora Properties</title>
-  
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/logo-preview.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/logo-square.png">
-
-  <!-- Google Fonts -->
+  <title>Page Not Found | Diamora Properties</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logos/diamora-icon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .error-page-wrapper {
+    .error-container {
       min-height: 80vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       text-align: center;
       padding: 60px 24px;
+      position: relative;
+      z-index: 2;
     }
     .error-code {
       font-family: var(--font-serif);
-      font-size: clamp(4rem, 12vw, 8rem);
+      font-size: clamp(5rem, 12vw, 9rem);
       font-weight: 700;
       line-height: 1;
-      margin-bottom: 16px;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: 0.1em;
     }
-    .error-heading {
+    .error-title {
       font-family: var(--font-serif);
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      color: var(--color-text-light);
-      margin-bottom: 14px;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: var(--text-main);
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
     }
-    .error-message {
-      color: var(--color-text-muted);
+    .error-desc {
+      color: var(--text-muted);
       max-width: 480px;
-      margin-bottom: 32px;
-      font-size: 1rem;
+      margin-bottom: 36px;
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
-    .error-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .btn-gold-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold-gradient);
+      color: #050608;
+      padding: 14px 32px;
+      border-radius: var(--radius-xs);
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+      box-shadow: var(--shadow-gold-sm);
+    }
+    .btn-gold-home:hover {
+      filter: brightness(1.2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-gold-md);
     }
   </style>
 </head>
 <body>
-  
-  <div class="error-page-wrapper container">
-    <a href="/" title="Diamora Properties" style="margin-bottom: 24px;">
-      <img src="assets/logos/logo-gold.png" alt="Diamora Properties Logo" width="220" height="96">
+  <div class="error-container">
+    <a href="index.html" style="margin-bottom: 30px; display: inline-block;">
+      <img src="assets/logos/diamora-horizontal.svg" alt="Diamora Properties" width="220">
     </a>
-    
-    <div class="error-code gold-gradient-text">404</div>
-    <h1 class="error-heading">Exclusive Location Not Found</h1>
-    <p class="error-message">
-      The property or page you are looking for has either been relocated or is no longer available in our public listings.
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page Not Found</h1>
+    <p class="error-desc">
+      The property or page you are seeking is no longer active or has been moved to our private portfolio archives.
     </p>
-
-    <div class="error-actions">
-      <a href="/" class="btn-subscribe" style="padding: 14px 28px; text-decoration: none;">
-        <span>Return to Homepage</span>
-      </a>
-      <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="back-to-top-btn" style="padding: 14px 24px; text-decoration: none;">
-        <span>WhatsApp Concierge</span>
-      </a>
-    </div>
+    <a href="index.html" class="btn-gold-home">
+      <span>Return to Homepage</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </a>
   </div>
-
-  <footer class="main-footer" style="padding-top: 30px;">
-    <div class="container">
-      <div class="footer-bottom-bar" style="padding-top: 0;">
-        <div class="footer-copy">
-          © 2026 <a href="/">Diamora Properties</a>. All rights reserved. Registered P.O. Box 92813.
-        </div>
-        <div class="footer-legal-links">
-          <a href="/#contact" class="legal-link">Contact</a>
-          <span class="legal-divider">•</span>
-          <a href="mailto:info@diamora.properties" class="legal-link">info@diamora.properties</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
 </body>
 </html>

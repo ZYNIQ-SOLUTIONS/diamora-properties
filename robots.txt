@@ -1,0 +1,5 @@
+# robots.txt for Diamora Properties
+User-agent: *
+Allow: /
+
+Sitemap: https://diamora.properties/sitemap.xml

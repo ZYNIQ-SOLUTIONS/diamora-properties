@@ -14,18 +14,19 @@
   <!-- OpenGraph / Social Sharing -->
   <meta property="og:title" content="Diamora Properties | Curating Luxury Living in the UAE">
   <meta property="og:description" content="Explore exclusive luxury properties, high-ROI investments, and private real estate advisory with Diamora Properties.">
-  <meta property="og:image" content="assets/logos/logo-gold.png">
+  <meta property="og:image" content="assets/logos/diamora-horizontal.svg">
   <meta property="og:type" content="website">
 
   <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/logos/diamora-icon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/logo-preview.png">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/logo-square.png">
   <link rel="apple-touch-icon" href="assets/logos/logo-square.png">
 
-  <!-- Google Fonts (Cinzel & Montserrat from Brand Kit) -->
+  <!-- Google Fonts (Cinzel & Montserrat from Master Brand Kit) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
@@ -33,38 +34,88 @@
 <body>
 
   <!-- =========================================================================
-       LIGHT MODE LUXURY PRELOADER / LOADING ANIMATION
+       EXACT LIGHT MODE LOADING ANIMATION (From Brand Kit / Digital Loader)
        ========================================================================= -->
-  <div id="diamoraPreloader" class="diamora-preloader">
-    <div class="preloader-content">
-      <!-- Animated Diamond Emblem SVG -->
-      <div class="preloader-emblem">
-        <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="preloaderGold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#FFF0BE" />
-              <stop offset="50%" stop-color="#D4AF37" />
-              <stop offset="100%" stop-color="#765811" />
-            </linearGradient>
-          </defs>
-          <polygon points="50,5 95,50 50,95 5,50" stroke="url(#preloaderGold)" stroke-width="3" stroke-linejoin="round"/>
-          <polygon points="50,18 82,50 50,82 18,50" fill="url(#preloaderGold)" fill-opacity="0.15" stroke="url(#preloaderGold)" stroke-width="1.5"/>
-          <polygon points="50,18 82,50 50,50" fill="#FFF0BE" fill-opacity="0.35"/>
-          <polygon points="50,50 82,50 50,82" fill="#D4AF37" fill-opacity="0.25"/>
-          <line x1="50" y1="5" x2="50" y2="95" stroke="url(#preloaderGold)" stroke-width="1.5"/>
-          <line x1="5" y1="50" x2="95" y2="50" stroke="url(#preloaderGold)" stroke-width="1.5" stroke-opacity="0.6"/>
-        </svg>
-      </div>
+  <div id="loader-wrapper">
+    <!-- Container absolute positioned to center both SVGs -->
+    <div style="position: relative; width: 320px; height: 160px; display: flex; justify-content: center; align-items: center;">
+      
+      <!-- Step 1: The Monogram Monolith (Draws in, then scales out) -->
+      <svg id="loader-icon-group" style="position: absolute;" width="140" height="140" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="loader-gold" x1="0" y1="0" x2="100" y2="100">
+            <stop offset="0%" stop-color="#FBE6A2" />
+            <stop offset="50%" stop-color="#D4AF37" />
+            <stop offset="100%" stop-color="#8C6A18" />
+          </linearGradient>
+          <linearGradient id="loader-facetLeft" x1="0" y1="0" x2="100" y2="100">
+            <stop offset="0%" stop-color="#E5C768" />
+            <stop offset="100%" stop-color="#664D10" />
+          </linearGradient>
+          <linearGradient id="loader-facetRight" x1="0" y1="0" x2="100" y2="100">
+            <stop offset="0%" stop-color="#FFF0BE" />
+            <stop offset="100%" stop-color="#B38F24" />
+          </linearGradient>
+          <filter id="loader-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+        
+        <!-- Outline structure (drawn in CSS keyframes) -->
+        <path class="loader-line" d="M50,0 L0,42 L50,55 L100,42 Z" />
+        <path class="loader-line" d="M0,42 L0,100 L50,100 L50,55" />
+        <path class="loader-line" d="M100,42 L100,100 L50,100" />
+        <path class="loader-line" d="M50,0 L20,22 L50,45 L80,22 Z" />
+        <line class="loader-line" x1="50" y1="45" x2="50" y2="100" />
+        
+        <!-- Solid master facets revealed smoothly -->
+        <g class="loader-fill">
+          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+          <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
+          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+          <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+          <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1" filter="url(#loader-glow)"/>
+          <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+          <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+        </g>
+      </svg>
 
-      <!-- Typography Reveal -->
-      <h2 class="preloader-brand-title"><span>DIAMORA</span> PROPERTIES</h2>
-      <p class="preloader-tagline">Curating Prime UAE Real Estate</p>
-
-      <!-- Progress Track & Counter -->
-      <div class="preloader-progress-track">
-        <div id="preloaderBar" class="preloader-progress-bar"></div>
-      </div>
-      <div id="preloaderCounter" class="preloader-counter">00%</div>
+      <!-- Step 2: The Horizontal Lockup (Slides in after monogram scales out) -->
+      <svg id="loader-horizontal-group" style="position: absolute;" width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(10, 15) scale(0.7)">
+          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+          <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
+          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+          <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+          <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1" filter="url(#loader-glow)"/>
+          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+        </g>
+        <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.4)" stroke-width="1.5"/>
+        <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="url(#loader-gold)" letter-spacing="4">DIAMORA</text>
+        <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8.5" font-weight="500" fill="#8C6A18" letter-spacing="4">PROPERTIES</text>
+      </svg>
+    </div>
+    
+    <div class="loader-text text-center">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.4em; color: #8C6A18; text-transform: uppercase; font-weight: 600;">
+        Initializing Identity System
+      </p>
     </div>
   </div>
 
@@ -103,7 +154,7 @@
   </section>
 
   <!-- =========================================================================
-       MAIN FOOTER SECTION (LIGHT THEME)
+       MAIN FOOTER SECTION (EXACT SVGs & LIGHT THEME)
        ========================================================================= -->
   <footer class="main-footer">
     <div class="container">
@@ -111,10 +162,49 @@
       <!-- Top Multi-Column Grid -->
       <div class="footer-top-grid">
         
-        <!-- Column 1: Brand & Socials -->
+        <!-- Column 1: Brand & Socials (Exact Vector SVG Lockup) -->
         <div class="footer-col footer-brand">
           <a href="#" class="footer-logo-link" title="Diamora Properties">
-            <img src="assets/logos/logo-gold.png" alt="Diamora Properties Logo" class="footer-logo-img" width="220" height="96">
+            <!-- Exact Master Vector SVG Lockup -->
+            <svg width="240" height="80" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="f-gold1" x1="0" y1="0" x2="300" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FBE6A2" />
+                  <stop offset="50%" stop-color="#D4AF37" />
+                  <stop offset="100%" stop-color="#8C6A18" />
+                </linearGradient>
+                <linearGradient id="f-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#E5C768" />
+                  <stop offset="100%" stop-color="#664D10" />
+                </linearGradient>
+                <linearGradient id="f-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFF0BE" />
+                  <stop offset="100%" stop-color="#B38F24" />
+                </linearGradient>
+                <filter id="f-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="2" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
+              <g transform="translate(10, 15) scale(0.7)">
+                <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+                <polygon points="50,0 0,42 0,100 50,55" fill="url(#f-facetLeft)"/>
+                <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+                <polygon points="50,0 100,42 100,100 50,55" fill="url(#f-facetRight)"/>
+                <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+                <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+                <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+                <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+                <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+                <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+                <line x1="50" y1="45" x2="50" y2="100" stroke="url(#f-gold1)" stroke-width="1" filter="url(#f-glow)"/>
+                <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+                <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+              </g>
+              <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.4)" stroke-width="1.5"/>
+              <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="#050608" letter-spacing="4">DIAMORA</text>
+              <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8.5" font-weight="600" fill="#8C6A18" letter-spacing="4">PROPERTIES</text>
+            </svg>
           </a>
           <p class="footer-brand-tagline">
             Your trusted gateway to prime luxury real estate in the UAE. Delivering bespoke property solutions, high-yield investments, and unparalleled living experiences.

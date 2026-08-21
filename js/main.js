@@ -1,11 +1,11 @@
 /**
  * DIAMORA PROPERTIES — MAIN JAVASCRIPT
- * Light Mode Preloader & GSAP ScrollTrigger Animations
+ * Exact Light Mode Brand Loader & GSAP ScrollTrigger Sequence
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Light Mode Loading Animation
-  initPreloader();
+  // 1. Initialize Brand Loading Animation Sequence
+  initBrandLoader();
 
   // 2. Initialize UI Interactions
   initBackToTop();
@@ -13,111 +13,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Luxury Light Mode Loading Animation (Preloader)
+ * Exact Brand Loading Animation Sequence (Light Mode)
  */
-function initPreloader() {
-  const preloader = document.getElementById('diamoraPreloader');
-  if (!preloader) {
+function initBrandLoader() {
+  const loader = document.getElementById('loader-wrapper');
+  if (!loader) {
     initPageAnimations();
     return;
   }
 
-  // Disable scroll during preloader
+  // Prevent scroll during loader sequence
   document.body.style.overflow = 'hidden';
 
-  const counterEl = document.getElementById('preloaderCounter');
-  const progressBar = document.getElementById('preloaderBar');
-  const emblem = document.querySelector('.preloader-emblem svg');
-  const title = document.querySelector('.preloader-brand-title');
-  const tagline = document.querySelector('.preloader-tagline');
+  // Dismiss sequence matching the 2-step monogram -> horizontal lockup animation
+  const animationDuration = 4200; // ms for full stroke drawing + lockup slide
 
-  const counterObj = { val: 0 };
-
-  if (typeof gsap !== 'undefined') {
-    const tl = gsap.timeline({
-      onComplete: () => {
-        dismissPreloader();
-      }
-    });
-
-    // Emblem & Text Entrance
-    tl.from(emblem, {
-      scale: 0.6,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power3.out'
-    })
-    .from(title, {
-      y: 15,
-      opacity: 0,
-      letterSpacing: '0.15em',
-      duration: 0.6,
-      ease: 'power2.out'
-    }, '-=0.4')
-    .from(tagline, {
-      y: 10,
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.out'
-    }, '-=0.3')
-    
-    // Counter & Progress Bar Animation (0 to 100)
-    .to(counterObj, {
-      val: 100,
-      duration: 1.4,
-      ease: 'power2.inOut',
-      onUpdate: () => {
-        const rounded = Math.floor(counterObj.val);
-        if (counterEl) counterEl.textContent = `${rounded < 10 ? '0' + rounded : rounded}%`;
-        if (progressBar) progressBar.style.width = `${counterObj.val}%`;
-      }
-    }, '-=0.3')
-    
-    // Emblem Glow Pulse at 100%
-    .to(emblem, {
-      scale: 1.08,
-      filter: 'drop-shadow(0 0 25px rgba(212, 175, 55, 0.6))',
-      duration: 0.35,
-      ease: 'power2.out'
-    })
-    .to(emblem, {
-      scale: 1,
-      filter: 'drop-shadow(0 4px 15px rgba(212, 175, 55, 0.25))',
-      duration: 0.25
-    });
-
-  } else {
-    // Fallback if GSAP is not yet ready
-    setTimeout(() => {
-      dismissPreloader();
-    }, 1500);
-  }
-
-  function dismissPreloader() {
+  const completeLoading = () => {
     if (typeof gsap !== 'undefined') {
-      gsap.to(preloader, {
+      gsap.to(loader, {
         yPercent: -100,
         duration: 0.85,
         ease: 'power4.inOut',
         onComplete: () => {
-          preloader.style.display = 'none';
+          document.body.classList.add('loaded');
           document.body.style.overflow = '';
+          loader.style.display = 'none';
           initPageAnimations();
         }
       });
     } else {
-      preloader.style.opacity = '0';
-      preloader.style.visibility = 'hidden';
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+      document.body.classList.add('loaded');
       document.body.style.overflow = '';
+      initPageAnimations();
     }
-  }
+  };
 
-  // Safety timer to prevent any freeze
+  setTimeout(completeLoading, animationDuration);
+
+  // Safety fallback
   setTimeout(() => {
-    if (preloader.style.display !== 'none') {
-      dismissPreloader();
+    if (!document.body.classList.contains('loaded')) {
+      completeLoading();
     }
-  }, 4000);
+  }, 5500);
 }
 
 /**
@@ -181,7 +121,7 @@ function initPageAnimations() {
       scale: 0,
       opacity: 0,
       duration: 0.8,
-      delay: 0.3,
+      delay: 0.2,
       ease: 'back.out(1.7)'
     });
   }

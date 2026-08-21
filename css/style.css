@@ -1,13 +1,13 @@
 /* ==========================================================================
    DIAMORA PROPERTIES — SIGNATURE BRAND STYLESHEET (LIGHT LUXURY THEME)
-   Crafted in alignment with the Diamora Properties Brand Kit & Design System
+   Exact implementation from Brand Design Kit & Digital Loader System
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
    1. CSS Custom Properties / Design Tokens (From Branding Kit)
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Palette (From Brand Kit) */
+  /* Brand Gold Palette */
   --gold-primary: #D4AF37;
   --gold-light: #FBE6A2;
   --gold-dark: #8C6A18;
@@ -35,7 +35,7 @@
 
   /* Typography */
   --font-serif: 'Cinzel', serif;
-  --font-sans: 'Montserrat', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing Scale */
   --container-max-width: 1360px;
@@ -140,104 +140,102 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   3. Light Mode Luxury Loading Animation (Preloader)
+   3. EXACT LIGHT MODE LOADING ANIMATION (From diamora-loader-animation.html)
    -------------------------------------------------------------------------- */
-.diamora-preloader {
+#loader-wrapper {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--bg-deep);
-  background-image: 
-    radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
-    linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 40px 40px, 40px 40px;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: all;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-}
-
-.preloader-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-}
-
-.preloader-emblem {
-  width: 90px;
-  height: 90px;
-  margin-bottom: 24px;
-  position: relative;
-}
-
-.preloader-emblem svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 4px 15px rgba(212, 175, 55, 0.25));
+  background-color: var(--bg-deep);
+  background-image: 
+    radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.preloader-brand-title {
-  font-family: var(--font-serif);
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  color: var(--text-main);
-  margin-bottom: 6px;
-  text-transform: uppercase;
+/* Initial line drawing of the monolith monogram */
+.loader-line {
+  fill: none;
+  stroke: url(#loader-gold);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw 2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
-.preloader-brand-title span {
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Reveal the monogram solid facets */
+.loader-fill {
+  opacity: 0;
+  animation: fadeInFill 1s ease forwards;
+  animation-delay: 1.5s;
 }
 
-.preloader-tagline {
-  font-family: var(--font-sans);
-  font-size: 9px;
-  font-weight: 500;
-  letter-spacing: 0.4em;
-  color: var(--gold-dark);
-  text-transform: uppercase;
-  margin-bottom: 30px;
+/* Transition monogram out */
+#loader-icon-group {
+  transform-origin: center;
+  animation: scaleOutIcon 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation-delay: 2.8s;
 }
 
-.preloader-progress-track {
-  width: 200px;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.06);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  position: relative;
-  margin-bottom: 12px;
+/* Transition horizontal lockup in */
+#loader-horizontal-group {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideInHorizontal 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation-delay: 3.3s;
 }
 
-.preloader-progress-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 0%;
-  background: var(--gold-gradient);
-  box-shadow: 0 0 10px var(--gold-primary);
-  border-radius: var(--radius-full);
+/* Text below monogram */
+.loader-text {
+  opacity: 0;
+  animation: slideUpFade 1s ease forwards, slideDownFadeOut 0.5s ease forwards 2.6s;
+  animation-delay: 1.6s;
+  margin-top: 24px;
 }
 
-.preloader-counter {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  letter-spacing: 0.15em;
-  font-variant-numeric: tabular-nums;
+@keyframes draw {
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeInFill {
+  100% { opacity: 1; }
+}
+
+@keyframes slideUpFade {
+  0% { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDownFadeOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes scaleOutIcon {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+
+@keyframes slideInHorizontal {
+  0% { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+body.loaded #loader-wrapper {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -411,18 +409,12 @@ button {
 .footer-logo-link {
   display: inline-block;
   margin-bottom: 20px;
-  max-width: 220px;
-}
-
-.footer-logo-img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
+  max-width: 240px;
   transition: opacity var(--transition-fast);
 }
 
-.footer-logo-link:hover .footer-logo-img {
-  opacity: 0.85;
+.footer-logo-link:hover {
+  opacity: 0.88;
 }
 
 .footer-brand-tagline {

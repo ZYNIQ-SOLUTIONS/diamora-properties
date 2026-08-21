@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diamora Properties — Signature Brand & Logo Design Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #050608;
+    --bg-card: #0d1015;
+    --bg-card-hover: #13171f;
+    --gold-primary: #D4AF37;
+    --gold-light: #FBE6A2;
+    --gold-dark: #8C6A18;
+    --gold-gradient: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
+    --silver-gradient: linear-gradient(135deg, #FFFFFF 0%, #B8C2CC 50%, #718096 100%);
+    --emerald-deep: #051a0f;
+    --text-main: #E2E8F0;
+    --text-muted: #8E9BAE;
+    --border-color: rgba(212, 175, 55, 0.25);
+    --border-subtle: rgba(255, 255, 255, 0.05);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 85% 60%, rgba(5, 26, 15, 0.5) 0%, transparent 60%),
+      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
+  }
+
+  h1, h2, h3, .serif {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.05em;
+  }
+
+  .gold-text {
+    background: var(--gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  header {
+    padding: 100px 0 70px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+    box-shadow: 0 0 15px var(--gold-primary);
+  }
+
+  .brand-badge {
+    display: inline-block;
+    padding: 8px 24px;
+    border: 1px solid var(--gold-dark);
+    border-radius: 4px;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 30px;
+    background: rgba(212, 175, 55, 0.05);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+  }
+
+  header h1 {
+    font-size: 64px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    letter-spacing: 0.15em;
+    text-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+  }
+
+  header p {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  section {
+    padding: 90px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section-title-wrap {
+    margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .section-tag {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: var(--gold-primary);
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 40px;
+  }
+
+  .logo-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .logo-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 4px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), transparent 50%, rgba(212, 175, 55, 0.1));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .logo-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.1);
+  }
+
+  .logo-card:hover::before {
+    opacity: 1;
+  }
+
+  .logo-preview-box {
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 340px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Advanced Background Textures */
+  .bg-dark-obsidian { 
+    background: #030406; 
+    background-image: radial-gradient(circle at center, #0a0c12 0%, #030406 100%);
+  }
+  .bg-emerald-luxury { 
+    background: var(--emerald-deep);
+    background-image: 
+      radial-gradient(ellipse at top, #0a331c 0%, transparent 70%),
+      radial-gradient(ellipse at bottom, #030f08 0%, #030f08 100%);
+  }
+  .bg-pure-white { 
+    background: #ffffff; 
+    background-image: linear-gradient(135deg, #fdfdfd 0%, #f0f0f0 100%);
+  }
+  .bg-light-creme { 
+    background: #FCF9F2; 
+    background-image: radial-gradient(circle at top right, #ffffff 0%, #F5EEDC 100%);
+  }
+  .bg-midnight-gold { 
+    background: #080705;
+    background-image: radial-gradient(circle at center, #1a150c 0%, #080705 100%);
+  }
+
+  /* Vignette Overlay for Depth */
+  .logo-preview-box::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+    pointer-events: none;
+  }
+  .bg-pure-white::after, .bg-light-creme::after {
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
+  }
+
+  .logo-info {
+    padding: 30px 40px;
+    background: rgba(8, 10, 14, 0.95);
+    border-top: 1px solid var(--border-subtle);
+    flex-grow: 1;
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo-info h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #FFF;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-info .concept-tag {
+    display: inline-block;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold-primary);
+    margin-bottom: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--gold-dark);
+    padding-bottom: 4px;
+  }
+
+  .logo-info p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 25px;
+    font-weight: 300;
+  }
+
+  .logo-actions {
+    display: flex;
+    gap: 15px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .btn-gold {
+    background: var(--gold-gradient);
+    color: #050608;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+  }
+
+  .btn-gold:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-main);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold-primary);
+    color: var(--gold-light);
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateY(-2px);
+  }
+
+  /* Color Palette Section */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+  }
+
+  .swatch {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  
+  .swatch:hover {
+    transform: scale(1.02);
+    border-color: rgba(212, 175, 55, 0.3);
+  }
+
+  .swatch-color {
+    height: 140px;
+    width: 100%;
+    position: relative;
+    box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2);
+  }
+
+  .swatch-details {
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .swatch-name {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 6px;
+    color: #FFF;
+  }
+
+  .swatch-hex {
+    font-size: 11px;
+    color: var(--gold-primary);
+    font-family: monospace;
+    letter-spacing: 0.1em;
+  }
+
+  /* Stationery Mockup Preview */
+  .stationery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 50px;
+  }
+
+  .business-card {
+    aspect-ratio: 1.75 / 1;
+    border-radius: 2px;
+    padding: 45px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s ease;
+  }
+  
+  .business-card:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+  }
+
+  .card-front {
+    background: linear-gradient(135deg, #161a22 0%, #0a0c10 100%);
+  }
+
+  .card-front::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .card-back {
+    background: #050608;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Toast Notification */
+  #toast {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background: #0d1015;
+    border: 1px solid var(--gold-primary);
+    color: #FFF;
+    padding: 16px 30px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 20px rgba(212, 175, 55, 0.2);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  svg {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.3));
+    transition: transform 0.5s ease, filter 0.5s ease;
+  }
+  
+  .logo-card:hover svg {
+    transform: scale(1.05);
+    filter: drop-shadow(0px 15px 25px rgba(0,0,0,0.5)) drop-shadow(0px 0px 10px rgba(212,175,55,0.1));
+  }
+  
+  .bg-pure-white svg {
+    filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.05));
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <span class="brand-badge">Masterpiece Identity System</span>
+    <h1><span class="gold-text">DIAMORA</span> PROPERTIES</h1>
+    <p>Ultra-Prime Real Estate • High-Yield Asset Advisory • Global Portfolios</p>
+  </header>
+
+  <section>
+    <div class="section-title-wrap">
+      <span class="section-tag">Vector Masterworks</span>
+      <h2 class="section-title">Signature SVG Collection</h2>
+    </div>
+
+    <div class="logo-grid">
+
+      <!-- CONCEPT 1: The Diamond Monolith (Enhanced) -->
+      <div class="logo-card">
+        <div class="logo-preview-box bg-dark-obsidian" id="svg-concept-1">
+          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="goldGrad1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFF5D1" />
+                <stop offset="35%" stop-color="#D4AF37" />
+                <stop offset="80%" stop-color="#8C6A18" />
+                <stop offset="100%" stop-color="#4A370A" />
+              </linearGradient>
+              <linearGradient id="facetLeft1" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#E5C768" />
+                <stop offset="100%" stop-color="#664D10" />
+              </linearGradient>
+              <linearGradient id="facetRight1" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFF0BE" />
+                <stop offset="100%" stop-color="#B38F24" />
+              </linearGradient>
+              <filter id="glow1" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            
+            <g transform="translate(120, 20)">
+              <!-- Back facets / shadow -->
+              <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+              
+              <!-- Left Building Wing (Darker) -->
+              <polygon points="50,0 0,42 0,100 50,55" fill="url(#facetLeft1)"/>
+              <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> <!-- Shadow overlay -->
+              
+              <!-- Right Building Wing (Lighter) -->
+              <polygon points="50,0 100,42 100,100 50,55" fill="url(#facetRight1)"/>
+              
+              <!-- Top Diamond Facets (Crown) -->
+              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+              <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+              <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+              <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+              <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+
+              <!-- Architectural Core Cutout -->
+              <polygon points="46,43 54,43 54,105 46,105" fill="#030406"/>
+              
+              <!-- Inner glowing structure lines -->
+              <line x1="50" y1="45" x2="50" y2="102" stroke="url(#goldGrad1)" stroke-width="1" filter="url(#glow1)"/>
+              <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+              <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
+              
+              <!-- Edge Highlights -->
+              <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
+              <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+              <line x1="0" y1="42" x2="50" y2="55" stroke="#FFF" stroke-width="0.5" opacity="0.3"/>
+              <line x1="100" y1="42" x2="50" y2="55" stroke="#FFF" stroke-width="1" opacity="0.5"/>
+              <line x1="50" y1="0" x2="50" y2="55" stroke="#000" stroke-width="1" opacity="0.3"/>
+            </g>
+            
+            <!-- Typography -->
+            <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="url(#goldGrad1)" letter-spacing="9">DIAMORA</text>
+            <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="400" fill="#A8B5C7" letter-spacing="8">PROPERTIES</text>
+            
+            <!-- Elegant baseline -->
+            <path d="M 85 210 Q 170 205 255 210" fill="none" stroke="url(#goldGrad1)" stroke-width="0.75" opacity="0.4"/>
+            <circle cx="170" cy="207.5" r="2" fill="#D4AF37" filter="url(#glow1)"/>
+          </svg>
+        </div>
+        <div class="logo-info">
+          <span class="concept-tag">Concept 01 • The Apex</span>
+          <h3>The Sovereign Monolith</h3>
+          <p>A masterpiece of structural geometry. The isometric monolith combines an emerald-cut diamond with a soaring high-rise silhouette, radiating ultimate prestige and monumental value.</p>
+          <div class="logo-actions">
+            <button class="btn btn-gold" onclick="copySVG('svg-concept-1')">Copy SVG</button>
+            <button class="btn btn-outline" onclick="downloadSVG('svg-concept-1', 'Diamora-Sovereign-Monolith.svg')">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEPT 2: The Prismatic 'D' -->
+      <div class="logo-card">
+        <div class="logo-preview-box bg-dark-obsidian" id="svg-concept-2">
+          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c2-gold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFF5D1" />
+                <stop offset="40%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#59430A" />
+              </linearGradient>
+              <linearGradient id="c2-dark" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#2a2a2a" />
+                <stop offset="100%" stop-color="#050608" />
+              </linearGradient>
+              <filter id="c2-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <g transform="translate(120, 20)">
+              <!-- Vertical Obsidian Pillar -->
+              <polygon points="0,0 25,15 25,85 0,100" fill="url(#c2-dark)" stroke="url(#c2-gold)" stroke-width="1.5"/>
+              <line x1="25" y1="15" x2="25" y2="85" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+              
+              <!-- Top Golden Facet -->
+              <polygon points="25,15 65,15 85,35 45,35" fill="url(#c2-gold)" opacity="0.95"/>
+              <!-- Right Golden Facet -->
+              <polygon points="85,35 95,50 85,65 45,50" fill="url(#c2-gold)" opacity="0.7"/>
+              <!-- Bottom Golden Facet -->
+              <polygon points="25,85 65,85 85,65 45,65" fill="url(#c2-gold)" opacity="0.4"/>
+              
+              <!-- Structural Wireframe Lines -->
+              <line x1="65" y1="15" x2="95" y2="50" stroke="#fff" stroke-width="1" opacity="0.4"/>
+              <line x1="65" y1="85" x2="95" y2="50" stroke="#fff" stroke-width="1" opacity="0.4"/>
+              
+              <!-- Inner Glowing Diamond Core -->
+              <polygon points="45,35 65,50 45,65 25,50" fill="#fff" filter="url(#c2-glow)" opacity="0.9"/>
+              <polygon points="45,35 65,50 45,65 25,50" fill="url(#c2-gold)" opacity="0.5"/>
+            </g>
+            
+            <text x="170" y="175" text-anchor="middle" font-family="'Cinzel', serif" font-size="26" font-weight="600" fill="#FFFFFF" letter-spacing="10">DIAMORA</text>
+            <text x="170" y="200" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="8.5" font-weight="300" fill="url(#c2-gold)" letter-spacing="9">LUXURY REAL ESTATE</text>
+            
+            <line x1="150" y1="215" x2="190" y2="215" stroke="url(#c2-gold)" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="logo-info">
+          <span class="concept-tag">Concept 02 • Structural Majesty</span>
+          <h3>The Prismatic Monogram</h3>
+          <p>A staggering 3D execution of the letter 'D', forged from interlocking geometric shards. It visually mimics high-end jewelry casing and hyper-modern luxury development facades.</p>
+          <div class="logo-actions">
+            <button class="btn btn-gold" onclick="copySVG('svg-concept-2')">Copy SVG</button>
+            <button class="btn btn-outline" onclick="downloadSVG('svg-concept-2', 'Diamora-Prismatic-Monogram.svg')">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEPT 3: The Astral Compass -->
+      <div class="logo-card">
+        <div class="logo-preview-box bg-pure-white" id="svg-concept-3">
+          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c3-gold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#8C6A18" />
+              </linearGradient>
+            </defs>
+            <g transform="translate(120, 20)">
+              <!-- Outer Global Tracking Ring -->
+              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#c3-gold)" stroke-width="1" stroke-dasharray="3 4"/>
+              <!-- Inner Solid Architectural Ring -->
+              <circle cx="50" cy="50" r="35" fill="none" stroke="#050608" stroke-width="1.5"/>
+              
+              <!-- 8-Point Compass Star -->
+              <path d="M50,5 L55,45 L95,50 L55,55 L50,95 L45,55 L5,50 L45,45 Z" fill="none" stroke="url(#c3-gold)" stroke-width="1.5"/>
+              <path d="M25,25 L45,45 M75,25 L55,45 M75,75 L55,55 M25,75 L45,55" stroke="#050608" stroke-width="1" opacity="0.3"/>
+              
+              <!-- Core Obsidian Diamond -->
+              <polygon points="50,25 60,50 50,75 40,50" fill="#050608"/>
+              <polygon points="50,25 60,50 50,50" fill="url(#c3-gold)"/>
+              
+              <!-- Precision Drafting Lines -->
+              <line x1="15" y1="15" x2="85" y2="85" stroke="url(#c3-gold)" stroke-width="0.5" opacity="0.4"/>
+              <line x1="15" y1="85" x2="85" y2="15" stroke="url(#c3-gold)" stroke-width="0.5" opacity="0.4"/>
+              <line x1="50" y1="-5" x2="50" y2="105" stroke="#050608" stroke-width="0.5" opacity="0.2"/>
+              <line x1="-5" y1="50" x2="105" y2="50" stroke="#050608" stroke-width="0.5" opacity="0.2"/>
+            </g>
+            
+            <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="#050608" letter-spacing="8">DIAMORA</text>
+            <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="600" fill="url(#c3-gold)" letter-spacing="7">G L O B A L   P O R T F O L I O S</text>
+          </svg>
+        </div>
+        <div class="logo-info">
+          <span class="concept-tag">Concept 03 • Global Navigation</span>
+          <h3>The Astral Compass</h3>
+          <p>An incredibly detailed, drafting-style crest. It implies flawless global reach, perfect market navigation, and the precision engineering of mega-developments. Perfect for light modes.</p>
+          <div class="logo-actions">
+            <button class="btn btn-gold" onclick="copySVG('svg-concept-3')">Copy SVG</button>
+            <button class="btn btn-outline" onclick="downloadSVG('svg-concept-3', 'Diamora-Astral-Compass.svg')">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEPT 4: The Art Deco Gate -->
+      <div class="logo-card">
+        <div class="logo-preview-box bg-emerald-luxury" id="svg-concept-4">
+          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c4-gold" x1="0" y1="0" x2="0" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FBE6A2" />
+                <stop offset="50%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#6B5010" />
+              </linearGradient>
+              <filter id="c4-drop">
+                <feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#000" flood-opacity="0.9"/>
+              </filter>
+            </defs>
+            <g transform="translate(120, 20)" filter="url(#c4-drop)">
+              <!-- Art Deco Archway Framework -->
+              <path d="M10,95 L10,35 L50,5 L90,35 L90,95" fill="none" stroke="url(#c4-gold)" stroke-width="3"/>
+              <path d="M20,95 L20,42 L50,20 L80,42 L80,95" fill="none" stroke="#fff" stroke-width="1" opacity="0.4"/>
+              <path d="M30,95 L30,50 L50,35 L70,50 L70,95" fill="none" stroke="url(#c4-gold)" stroke-width="2"/>
+              
+              <!-- Wrought Iron Diamond Inset -->
+              <polygon points="50,50 65,70 50,90 35,70" fill="url(#c4-gold)" opacity="0.9"/>
+              <polygon points="50,50 65,70 50,70" fill="#fff" opacity="0.4"/>
+              
+              <!-- Deco Vertical Streaks -->
+              <line x1="50" y1="35" x2="50" y2="50" stroke="#fff" stroke-width="2"/>
+              <line x1="50" y1="90" x2="50" y2="105" stroke="url(#c4-gold)" stroke-width="1.5"/>
+              
+              <!-- Foundation Baseline -->
+              <line x1="0" y1="95" x2="100" y2="95" stroke="url(#c4-gold)" stroke-width="2.5"/>
+            </g>
+            
+            <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="25" font-weight="600" fill="url(#c4-gold)" letter-spacing="9">DIAMORA</text>
+            <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="8" font-weight="400" fill="#C5D6C8" letter-spacing="7">HERITAGE ESTATES</text>
+          </svg>
+        </div>
+        <div class="logo-info">
+          <span class="concept-tag">Concept 04 • Heritage Wealth</span>
+          <h3>The Art Deco Gate</h3>
+          <p>A towering, Gatsby-era geometric archway that frames a central diamond. It radiates extreme, established generational wealth and timeless institutional credibility.</p>
+          <div class="logo-actions">
+            <button class="btn btn-gold" onclick="copySVG('svg-concept-4')">Copy SVG</button>
+            <button class="btn btn-outline" onclick="downloadSVG('svg-concept-4', 'Diamora-Art-Deco-Gate.svg')">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEPT 5: Minimalist Linear Monogram (Enhanced) -->
+      <div class="logo-card">
+        <div class="logo-preview-box bg-dark-obsidian" id="svg-concept-5">
+          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="goldGrad5" x1="0" y1="0" x2="200" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFFFFF" />
+                <stop offset="40%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#59430A" />
+              </linearGradient>
+              <filter id="glow5" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            
+            <!-- Continuous Line Tri-Tower Diamond -->
+            <g transform="translate(100, 20)">
+              <!-- Left Tower Blade -->
+              <path d="M20,90 L20,40 L50,15 L50,90" stroke="url(#goldGrad5)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Left Inner Detail -->
+              <line x1="35" y1="45" x2="35" y2="90" stroke="#FFF" stroke-width="1" opacity="0.3"/>
+              
+              <!-- Center High Penthouse Blade -->
+              <path d="M50,90 L70,0 L90,90" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow5)"/>
+              
+              <!-- Right Tower Blade -->
+              <path d="M90,90 L90,15 L120,40 L120,90" stroke="url(#goldGrad5)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <!-- Right Inner Detail -->
+              <line x1="105" y1="45" x2="105" y2="90" stroke="#FFF" stroke-width="1" opacity="0.3"/>
+              
+              <!-- Base Foundation Line -->
+              <line x1="0" y1="105" x2="140" y2="105" stroke="url(#goldGrad5)" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="20" y1="112" x2="120" y2="112" stroke="#FFF" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+            </g>
+            
+            <text x="170" y="175" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="22" font-weight="700" fill="#FFFFFF" letter-spacing="10">DIAMORA</text>
+            <text x="170" y="200" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="400" fill="url(#goldGrad5)" letter-spacing="8">PROPERTIES</text>
+          </svg>
+        </div>
+        <div class="logo-info">
+          <span class="concept-tag">Concept 05 • Modern Velocity</span>
+          <h3>The Trinity Skyline Blades</h3>
+          <p>A continuous, energetic line art silhouette of a tri-tower vertical ascent, forming an overarching diamond peak. Dynamic and bold, optimized for app icons and digital-first branding.</p>
+          <div class="logo-actions">
+            <button class="btn btn-gold" onclick="copySVG('svg-concept-5')">Copy SVG</button>
+            <button class="btn btn-outline" onclick="downloadSVG('svg-concept-5', 'Diamora-Skyline-Blades.svg')">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEPT 6: The Apex Pinnacle (Horizontal Lockup) -->
+      <div class="logo-card">
+        <div class="logo-preview-box bg-midnight-gold" id="svg-concept-6">
+          <svg width="380" height="180" viewBox="0 0 380 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="c6-gold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFF5D1" />
+                <stop offset="50%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#765811" />
+              </linearGradient>
+              <filter id="c6-glow">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <g transform="translate(15, 45)">
+              <!-- Dynamic Sweeping Ribbon -->
+              <path d="M 0,40 Q 35,40 50,5 Q 65,40 100,40" fill="none" stroke="url(#c6-gold)" stroke-width="3"/>
+              <path d="M 12,47 Q 40,47 50,15 Q 60,47 88,47" fill="none" stroke="#fff" stroke-width="1" opacity="0.3"/>
+              
+              <!-- Perfect Diamond Intersection -->
+              <polygon points="50,-15 70,15 50,45 30,15" fill="none" stroke="url(#c6-gold)" stroke-width="2.5"/>
+              <polygon points="50,-15 70,15 50,15" fill="url(#c6-gold)" opacity="0.5"/>
+              <polygon points="50,15 70,15 50,45" fill="#000" opacity="0.3"/>
+              
+              <!-- Starburst Core -->
+              <circle cx="50" cy="15" r="2.5" fill="#fff" filter="url(#c6-glow)"/>
+              
+              <!-- Vertical Separator Bar -->
+              <line x1="120" y1="-5" x2="120" y2="55" stroke="rgba(212,175,55,0.4)" stroke-width="2"/>
+              <line x1="124" y1="5" x2="124" y2="45" stroke="#fff" stroke-width="0.5" opacity="0.3"/>
+
+              <!-- Executive Typography -->
+              <text x="145" y="32" font-family="'Cinzel', serif" font-size="34" font-weight="700" fill="url(#c6-gold)" letter-spacing="5">DIAMORA</text>
+              <text x="148" y="55" font-family="'Montserrat', sans-serif" font-size="10" font-weight="500" fill="#B0BBC9" letter-spacing="6">P R O P E R T I E S</text>
+            </g>
+          </svg>
+        </div>
+        <div class="logo-info">
+          <span class="concept-tag">Concept 06 • High-Momentum Utility</span>
+          <h3>The Apex Pinnacle Lockup</h3>
+          <p>A breathtaking aerodynamic curve intersecting a sharp diamond. Designed specifically to look spectacular on digital navbars, high-end letterheads, and contract signatures.</p>
+          <div class="logo-actions">
+            <button class="btn btn-gold" onclick="copySVG('svg-concept-6')">Copy SVG</button>
+            <button class="btn btn-outline" onclick="downloadSVG('svg-concept-6', 'Diamora-Apex-Lockup.svg')">Download</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title-wrap">
+      <span class="section-tag">Visual Standards</span>
+      <h2 class="section-title">Materiality & Color Palette</h2>
+    </div>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #030406; background-image: radial-gradient(circle at top left, #0a0c12, #030406);"></div>
+        <div class="swatch-details">
+          <div class="swatch-name">Obsidian Core</div>
+          <div class="swatch-hex">#030406</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);"></div>
+        <div class="swatch-details">
+          <div class="swatch-name">Imperial Gold</div>
+          <div class="swatch-hex">#D4AF37</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #051a0f; background-image: linear-gradient(180deg, #0a331c, #051a0f);"></div>
+        <div class="swatch-details">
+          <div class="swatch-name">Emerald Reserve</div>
+          <div class="swatch-hex">#051A0F</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #FDFBF7; border-bottom: 1px solid #eee; background-image: linear-gradient(135deg, #ffffff, #f0f0f0);"></div>
+        <div class="swatch-details" style="background: #fff;">
+          <div class="swatch-name" style="color: #000;">Diamond Alabaster</div>
+          <div class="swatch-hex">#FDFBF7</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #8E9BAE; background-image: linear-gradient(135deg, #a0aec0, #718096);"></div>
+        <div class="swatch-details">
+          <div class="swatch-name">Platinum Slate</div>
+          <div class="swatch-hex">#8E9BAE</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-title-wrap">
+      <span class="section-tag">Brand Application</span>
+      <h2 class="section-title">Executive Stationery Mockups</h2>
+    </div>
+    <div class="stationery-container">
+      
+      <!-- Card Front Mockup -->
+      <div class="business-card card-front">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; z-index: 2;">
+          <div>
+            <div style="font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; color: #D4AF37; letter-spacing: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">DIAMORA</div>
+            <div style="font-size: 8px; color: #8E9BAE; letter-spacing: 4px; font-family: 'Montserrat', sans-serif;">PROPERTIES</div>
+          </div>
+          <!-- Foil stamp logo hint -->
+          <svg width="45" height="45" viewBox="0 0 100 100" fill="none" style="filter: drop-shadow(0 2px 5px rgba(212,175,55,0.3));">
+            <polygon points="50,5 95,50 50,95 5,50" stroke="#D4AF37" stroke-width="4" stroke-linejoin="round"/>
+            <polygon points="50,20 75,50 50,80 25,50" fill="url(#goldGrad1)" opacity="0.4"/>
+            <line x1="50" y1="5" x2="50" y2="95" stroke="#D4AF37" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div style="z-index: 2;">
+          <div style="font-size: 16px; font-weight: 600; color: #FFF; letter-spacing: 2px; margin-bottom: 4px;">ALEXANDER VANE</div>
+          <div style="font-size: 10px; color: #D4AF37; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid rgba(212,175,55,0.3); padding-bottom: 8px; display: inline-block;">Managing Partner</div>
+          <div style="font-size: 10px; color: #8E9BAE; line-height: 1.8; letter-spacing: 1px; font-weight: 300;">
+            <div style="display: flex; gap: 10px;"><span style="color:#D4AF37">T:</span> +971 4 800 DIAMORA</div>
+            <div style="display: flex; gap: 10px;"><span style="color:#D4AF37">E:</span> a.vane@diamoraproperties.com</div>
+            <div style="display: flex; gap: 10px;"><span style="color:#D4AF37">W:</span> diamoraproperties.com</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Back Mockup -->
+      <div class="business-card card-back">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at center, rgba(212,175,55,0.05) 0%, transparent 70%);"></div>
+        <div style="text-align: center; z-index: 2;">
+          <svg width="70" height="70" viewBox="0 0 100 100" fill="none" style="margin-bottom: 15px; filter: drop-shadow(0 5px 15px rgba(212,175,55,0.2));">
+            <polygon points="50,5 95,50 50,95 5,50" stroke="#D4AF37" stroke-width="3" stroke-linejoin="round"/>
+            <polygon points="50,15 80,50 50,85 20,50" fill="url(#goldGrad1)" opacity="0.15"/>
+            <polygon points="50,15 80,50 50,50" fill="#D4AF37" opacity="0.3"/>
+            <line x1="50" y1="5" x2="50" y2="95" stroke="#D4AF37" stroke-width="1.5"/>
+            <line x1="5" y1="50" x2="95" y2="50" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+          </svg>
+          <div style="font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; color: #D4AF37; letter-spacing: 8px;">DIAMORA</div>
+          <div style="font-size: 8px; color: #8E9BAE; letter-spacing: 5px; margin-top: 8px;">DUBAI • LONDON • MONACO</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="padding: 60px 0 80px; text-align: center; color: var(--text-muted); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;">
+    <p>© 2026 Diamora Properties. Masterpiece Vector Assets.</p>
+  </footer>
+
+</div>
+
+<!-- Interactive Toast -->
+<div id="toast">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+  <span id="toast-msg">SVG code copied!</span>
+</div>
+
+<script>
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    toastMsg.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
+  function copySVG(containerId) {
+    const container = document.getElementById(containerId);
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    const svgString = new XMLSerializer().serializeToString(svg);
+    navigator.clipboard.writeText(svgString).then(() => {
+      showToast("SVG Code copied to clipboard!");
+    }).catch(err => {
+      showToast("Unable to copy SVG automatically.");
+    });
+  }
+
+  function downloadSVG(containerId, filename) {
+    const container = document.getElementById(containerId);
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+    const svgString = new XMLSerializer().serializeToString(svg);
+    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename || 'diamora-logo.svg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast(filename + " downloaded!");
+  }
+</script>
+
+</body>
+</html>

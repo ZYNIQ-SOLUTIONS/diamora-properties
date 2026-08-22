@@ -1,10 +1,10 @@
 /**
  * DIAMORA PROPERTIES — MAIN JAVASCRIPT
- * Exact Brand Loader, Interactive Context Map & GSAP ScrollTrigger Sequence
+ * Exact Brand Loader, High-Detail Interactive Context Map & GSAP ScrollTrigger Sequence
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Interactive Context Map (Light Mode)
+  // 1. Initialize Interactive Context Map (Rich Real Estate Cartography)
   initInteractiveMap();
 
   // 2. Initialize Brand Loading Animation Sequence
@@ -16,21 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Interactive Context Map (Al Markaziyah West / Al Bateen Sector)
+ * High-Detail Interactive Context Map (Al Markaziyah West / Al Bateen Sector, Abu Dhabi)
  */
 let leafletMapInstance = null;
+let landmarkMarkers = [];
 
 function initInteractiveMap() {
   const mapElement = document.getElementById('map');
   if (!mapElement || typeof L === 'undefined') return;
 
-  // Prevent multiple initializations
+  // Prevent duplicate initializations
   if (leafletMapInstance) {
     leafletMapInstance.invalidateSize();
     return;
   }
 
-  // Fix default icon path resolution to prevent 404 console errors
+  // Prevent default icon 404 network warnings
   try {
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -39,10 +40,10 @@ function initInteractiveMap() {
       shadowUrl: ''
     });
   } catch (e) {
-    // Ignore if not supported
+    // Ignore fallback
   }
 
-  // Target Coordinates (Al Markaziyah West / Al Bateen Sector)
+  // Target Coordinates: Diamora Sovereign Headquarters
   const targetLat = 24.4820317;
   const targetLng = 54.3496455;
 
@@ -50,18 +51,39 @@ function initInteractiveMap() {
   leafletMapInstance = L.map('map', {
     zoomControl: false,
     attributionControl: true,
-    scrollWheelZoom: false, // Prevents page scroll trapping
+    scrollWheelZoom: false, // Prevents page scrolling trap
     preferCanvas: true
-  }).setView([targetLat, targetLng], 15);
+  }).setView([targetLat, targetLng], 14);
 
-  // CartoDB Voyager Tile Layer — High Contrast (Rich Dark Roads & Crisp Luminous Clair Land)
+  // High-Definition CartoDB Voyager Tile Layer
+  // Renders detailed dark roads, building blocks, coastline, landmarks and legible labels
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 20,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
   }).addTo(leafletMapInstance);
 
-  // Define exact Sovereign Monolith SVG string for the custom animated pin
+  // 1. Add Investment Radius Perimeter Rings (1.5KM & 3.5KM Corridors)
+  L.circle([targetLat, targetLng], {
+    radius: 1500,
+    color: '#D4AF37',
+    weight: 1.5,
+    opacity: 0.65,
+    fillColor: '#D4AF37',
+    fillOpacity: 0.04,
+    dashArray: '6, 8'
+  }).addTo(leafletMapInstance);
+
+  L.circle([targetLat, targetLng], {
+    radius: 3200,
+    color: '#8C6A18',
+    weight: 1,
+    opacity: 0.35,
+    fillOpacity: 0.01,
+    dashArray: '4, 10'
+  }).addTo(leafletMapInstance);
+
+  // 2. Define Master Sovereign Monolith SVG Pin for Diamora HQ
   const diamoraSvgPin = `
     <div class="custom-map-pin">
       <div class="marker-shadow-pulse"></div>
@@ -94,7 +116,6 @@ function initInteractiveMap() {
     </div>
   `;
 
-  // Create custom DivIcon
   const diamoraIcon = L.divIcon({
     className: 'diamora-marker',
     html: diamoraSvgPin,
@@ -102,16 +123,109 @@ function initInteractiveMap() {
     iconAnchor: [60, 125]
   });
 
-  // Add Marker to Map
-  L.marker([targetLat, targetLng], { icon: diamoraIcon }).addTo(leafletMapInstance);
+  const hqMarker = L.marker([targetLat, targetLng], { icon: diamoraIcon, zIndexOffset: 1000 }).addTo(leafletMapInstance);
+  hqMarker.bindPopup(`
+    <div class="map-popup-card">
+      <div class="popup-tag">Headquarters</div>
+      <div class="popup-title">Diamora Properties</div>
+      <div class="popup-desc">Sovereign advisory & investment headquarters in Al Markaziyah West.</div>
+      <div class="popup-meta">P.O. Box 92813 • 025848478</div>
+    </div>
+  `);
+
+  // 3. Add Surrounding Prime Luxury Landmarks
+  const primeLandmarks = [
+    {
+      name: 'Corniche Beach',
+      category: 'waterfront',
+      coords: [24.4715, 54.3310],
+      tag: 'Prime Waterfront',
+      desc: 'Iconic 8km promenade with world-class beach clubs and beachfront residences.',
+      dist: '3 min'
+    },
+    {
+      name: 'Emirates Palace',
+      category: 'culture',
+      coords: [24.4618, 54.3173],
+      tag: 'Ultra-Luxury & Royal',
+      desc: 'World-renowned 7-star palace & Presidential Court corridor.',
+      dist: '6 min'
+    },
+    {
+      name: 'Al Bateen Marina',
+      category: 'marina',
+      coords: [24.4532, 54.3418],
+      tag: 'Yacht Club & Waterfront',
+      desc: 'Exclusive private yacht berths, gourmet dining, and waterfront villas.',
+      dist: '5 min'
+    },
+    {
+      name: 'Qasr Al Hosn',
+      category: 'culture',
+      coords: [24.4815, 54.3548],
+      tag: 'Heritage & Culture',
+      desc: 'Abu Dhabi historic cultural beacon and architectural heritage quarter.',
+      dist: '2 min'
+    }
+  ];
+
+  primeLandmarks.forEach(item => {
+    const landmarkHtml = `
+      <div class="landmark-hotspot-pin" data-category="${item.category}">
+        <span class="landmark-dot"></span>
+        <span class="landmark-name">${item.name}</span>
+        <span class="landmark-dist">${item.dist}</span>
+      </div>
+    `;
+
+    const icon = L.divIcon({
+      className: 'landmark-marker-wrapper',
+      html: landmarkHtml,
+      iconSize: [140, 36],
+      iconAnchor: [70, 18]
+    });
+
+    const marker = L.marker(item.coords, { icon: icon }).addTo(leafletMapInstance);
+    marker.bindPopup(`
+      <div class="map-popup-card">
+        <div class="popup-tag">${item.tag}</div>
+        <div class="popup-title">${item.name}</div>
+        <div class="popup-desc">${item.desc}</div>
+        <div class="popup-meta">Drive Time: ${item.dist} from Diamora HQ</div>
+      </div>
+    `);
+
+    landmarkMarkers.push({ marker, category: item.category, coords: item.coords });
+  });
+
+  // 4. Setup Filter Chip Buttons
+  const filterButtons = document.querySelectorAll('.chip-btn');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.getAttribute('data-filter');
+      if (filter === 'all') {
+        leafletMapInstance.flyTo([targetLat, targetLng], 14, { duration: 1.2 });
+        landmarkMarkers.forEach(lm => lm.marker.addTo(leafletMapInstance));
+      } else {
+        const matching = landmarkMarkers.find(lm => lm.category === filter);
+        if (matching) {
+          leafletMapInstance.flyTo(matching.coords, 15, { duration: 1.2 });
+          matching.marker.openPopup();
+        }
+      }
+    });
+  });
 
   // Add Zoom Control to Bottom Left
   L.control.zoom({ position: 'bottomleft' }).addTo(leafletMapInstance);
 
-  // Ensure map recalculates tile positions accurately
+  // Recalculate dimensions
   setTimeout(() => {
     if (leafletMapInstance) leafletMapInstance.invalidateSize();
-  }, 200);
+  }, 250);
 
   window.addEventListener('resize', () => {
     if (leafletMapInstance) {

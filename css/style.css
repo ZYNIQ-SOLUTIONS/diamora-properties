@@ -254,17 +254,17 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   4. INTERACTIVE CONTEXT MAP SECTION (HIGH-CONTRAST CLAIR & DARK SYSTEM)
+   4. INTERACTIVE CONTEXT MAP SECTION (HIGH-DETAIL REAL ESTATE CARTOGRAPHY)
    -------------------------------------------------------------------------- */
 .interactive-map-section {
   position: relative;
   width: 100%;
-  height: 75vh;
-  min-height: 640px;
-  max-height: 840px;
-  background-color: #FAF6EC;
+  height: 78vh;
+  min-height: 680px;
+  max-height: 880px;
+  background-color: #FAF8F5;
   overflow: hidden;
-  border-bottom: 1.5px solid rgba(212, 175, 55, 0.45);
+  border-bottom: 2px solid rgba(212, 175, 55, 0.45);
   box-shadow: 0 15px 40px rgba(3, 4, 6, 0.08);
   z-index: 5;
 }
@@ -273,30 +273,30 @@ body.loaded #loader-wrapper {
 #map.context-map-canvas {
   width: 100%;
   height: 100%;
-  background-color: #FAF6EC !important;
+  background-color: #FAF8F5 !important;
   z-index: 1;
 }
 
-/* High-Contrast Leaflet Tile Treatment (Crisp Clair Alabaster & Dark Obsidian Roads) */
+/* Crisp & Rich Map Tiles (High definition details, legible labels, vibrant water) */
 .interactive-map-section .leaflet-layer {
-  filter: contrast(135%) brightness(102%) saturate(90%) sepia(8%) !important;
+  filter: saturate(115%) contrast(108%) brightness(98%) !important;
 }
 
 .interactive-map-section .leaflet-control-attribution {
-  background: rgba(253, 251, 247, 0.92) !important;
-  color: var(--obsidian-core) !important;
+  background: rgba(253, 251, 247, 0.94) !important;
+  color: #050608 !important;
   font-size: 10.5px !important;
-  font-weight: 500 !important;
-  border-top: 1px solid rgba(212, 175, 55, 0.3) !important;
-  border-left: 1px solid rgba(212, 175, 55, 0.3) !important;
+  font-weight: 600 !important;
+  border-top: 1.5px solid rgba(212, 175, 55, 0.4) !important;
+  border-left: 1.5px solid rgba(212, 175, 55, 0.4) !important;
   border-radius: 4px 0 0 0;
   backdrop-filter: blur(8px);
-  padding: 3px 10px !important;
+  padding: 4px 12px !important;
 }
 
 .interactive-map-section .leaflet-control-attribution a {
   color: var(--gold-dark) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   text-decoration: none !important;
 }
 
@@ -327,10 +327,10 @@ body.loaded #loader-wrapper {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image: 
-    linear-gradient(rgba(212, 175, 55, 0.22) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.22) 1px, transparent 1px),
-    linear-gradient(rgba(212, 175, 55, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.08) 1px, transparent 1px);
+    linear-gradient(rgba(212, 175, 55, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.2) 1px, transparent 1px),
+    linear-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.06) 1px, transparent 1px);
   background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
   background-position: center center;
   pointer-events: none;
@@ -350,15 +350,15 @@ body.loaded #loader-wrapper {
   animation: float 4s ease-in-out infinite;
   position: relative;
   z-index: 10;
-  filter: drop-shadow(0px 18px 20px rgba(3, 4, 6, 0.45));
+  filter: drop-shadow(0px 18px 22px rgba(3, 4, 6, 0.5));
 }
 
 .marker-shadow-pulse {
   position: absolute;
   bottom: -15px;
-  width: 54px;
-  height: 14px;
-  background: radial-gradient(ellipse at center, rgba(3, 4, 6, 0.55) 0%, rgba(0,0,0,0) 70%);
+  width: 56px;
+  height: 15px;
+  background: radial-gradient(ellipse at center, rgba(3, 4, 6, 0.6) 0%, rgba(0,0,0,0) 70%);
   border-radius: 50%;
   animation: pulse 4s ease-in-out infinite;
   z-index: 1;
@@ -377,12 +377,12 @@ body.loaded #loader-wrapper {
   font-weight: 700;
   color: #050608;
   letter-spacing: 3px;
-  text-shadow: 0 2px 8px rgba(253, 251, 247, 1), 0 0 12px rgba(253, 251, 247, 0.9);
+  text-shadow: 0 2px 8px rgba(253, 251, 247, 1), 0 0 14px rgba(253, 251, 247, 0.95);
 }
 
 .marker-subtitle {
   font-family: var(--font-sans);
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: 700;
   color: var(--gold-dark);
   letter-spacing: 3px;
@@ -400,6 +400,104 @@ body.loaded #loader-wrapper {
   0% { transform: scale(0.8); opacity: 0.6; }
   50% { transform: scale(1.25); opacity: 0.2; }
   100% { transform: scale(0.8); opacity: 0.6; }
+}
+
+/* Landmark Hotspot Pin Styling */
+.landmark-hotspot-pin {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(5, 6, 8, 0.92);
+  border: 1.5px solid var(--gold-primary);
+  padding: 5px 12px 5px 8px;
+  border-radius: 30px;
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25), 0 0 12px rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.landmark-hotspot-pin:hover {
+  background: #050608;
+  border-color: #FFF0BE;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.landmark-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-primary);
+  box-shadow: 0 0 8px var(--gold-light);
+  flex-shrink: 0;
+}
+
+.landmark-name {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+}
+
+.landmark-dist {
+  font-size: 9.5px;
+  color: var(--gold-light);
+  font-weight: 600;
+  font-family: monospace;
+  margin-left: 2px;
+}
+
+/* Leaflet Custom Popup Styling */
+.interactive-map-section .leaflet-popup-content-wrapper {
+  background: rgba(253, 251, 247, 0.98) !important;
+  border: 1.5px solid var(--gold-primary) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+  padding: 4px !important;
+}
+
+.interactive-map-section .leaflet-popup-tip {
+  background: rgba(253, 251, 247, 0.98) !important;
+  border: 1.5px solid var(--gold-primary) !important;
+}
+
+.map-popup-card {
+  padding: 14px 18px;
+  font-family: var(--font-sans);
+}
+
+.popup-tag {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-dark);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.popup-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: #050608;
+  margin-bottom: 6px;
+}
+
+.popup-desc {
+  font-size: 11px;
+  color: var(--text-body);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.popup-meta {
+  font-size: 10px;
+  color: var(--gold-dark);
+  font-weight: 600;
+  font-family: monospace;
 }
 
 /* Floating UI Overlay Panels (Crisp Light Diamond Alabaster & Deep Obsidian Typography) */
@@ -424,8 +522,8 @@ body.loaded #loader-wrapper {
 .header-panel {
   top: 40px;
   left: 40px;
-  padding: 28px 34px;
-  max-width: 400px;
+  padding: 26px 32px;
+  max-width: 420px;
 }
 
 .map-badge {
@@ -460,9 +558,36 @@ body.loaded #loader-wrapper {
   line-height: 1.7;
 }
 
+/* Interactive Landmark Filter Chips */
+.map-filter-chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.chip-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: #FFFFFF;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #050608;
+  transition: all var(--transition-fast);
+}
+
+.chip-btn.active, .chip-btn:hover {
+  background: var(--gold-gradient);
+  color: #050608;
+  border-color: var(--gold-primary);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
 .map-metrics-grid {
-  margin-top: 22px;
-  padding-top: 18px;
+  margin-top: 18px;
+  padding-top: 16px;
   border-top: 1px solid rgba(212, 175, 55, 0.3);
   display: flex;
   justify-content: space-between;
@@ -1058,15 +1183,15 @@ body.loaded #loader-wrapper {
   }
 
   .interactive-map-section {
-    height: 65vh;
-    min-height: 560px;
+    height: 68vh;
+    min-height: 580px;
   }
 }
 
 @media (max-width: 768px) {
   .interactive-map-section {
-    height: 540px;
-    min-height: 500px;
+    height: 580px;
+    min-height: 520px;
   }
 
   .header-panel {
@@ -1079,6 +1204,10 @@ body.loaded #loader-wrapper {
 
   .map-title {
     font-size: 1.45rem;
+  }
+
+  .map-filter-chips {
+    display: none;
   }
 
   .coord-panel {

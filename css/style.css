@@ -254,14 +254,14 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   4. INTERACTIVE CONTEXT MAP SECTION (HIGH-DETAIL REAL ESTATE CARTOGRAPHY)
+   4. INTERACTIVE CONTEXT MAP SECTION (EXTENDED UNIFIED REAL ESTATE CANVAS)
    -------------------------------------------------------------------------- */
 .interactive-map-section {
   position: relative;
   width: 100%;
-  height: 78vh;
-  min-height: 680px;
-  max-height: 880px;
+  height: 96vh;
+  min-height: 880px;
+  max-height: 1050px;
   background-color: #FAF8F5;
   overflow: hidden;
   border-bottom: 2px solid rgba(212, 175, 55, 0.45);
@@ -305,7 +305,7 @@ body.loaded #loader-wrapper {
   border-radius: 6px !important;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(3, 4, 6, 0.15) !important;
-  margin-bottom: 30px !important;
+  margin-top: 40px !important;
   margin-left: 30px !important;
 }
 
@@ -522,8 +522,8 @@ body.loaded #loader-wrapper {
 .header-panel {
   top: 40px;
   left: 40px;
-  padding: 26px 32px;
-  max-width: 420px;
+  padding: 24px 30px;
+  max-width: 410px;
 }
 
 .map-badge {
@@ -535,34 +535,34 @@ body.loaded #loader-wrapper {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold-dark);
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   background: rgba(212, 175, 55, 0.12);
   font-weight: 700;
 }
 
 .map-title {
   font-family: var(--font-serif);
-  font-size: 1.95rem;
+  font-size: 1.85rem;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   letter-spacing: 0.06em;
   color: #050608;
   line-height: 1.25;
 }
 
 .map-desc {
-  font-size: 12px;
+  font-size: 11.5px;
   color: #2D3748;
   font-weight: 500;
   letter-spacing: 0.03em;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
 /* Interactive Landmark Filter Chips */
 .map-filter-chips {
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 14px;
   flex-wrap: wrap;
 }
 
@@ -586,8 +586,8 @@ body.loaded #loader-wrapper {
 }
 
 .map-metrics-grid {
-  margin-top: 18px;
-  padding-top: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
   border-top: 1px solid rgba(212, 175, 55, 0.3);
   display: flex;
   justify-content: space-between;
@@ -609,43 +609,57 @@ body.loaded #loader-wrapper {
 }
 
 .metric-val {
-  font-size: 13px;
+  font-size: 12.5px;
   color: #050608;
   font-family: monospace;
   font-weight: 700;
 }
 
+/* Coordinates Panel (Positioned in Top Right) */
 .coord-panel {
-  bottom: 40px;
+  top: 40px;
   right: 40px;
-  padding: 14px 26px;
+  padding: 14px 24px;
   font-family: monospace;
   font-size: 11.5px;
   color: #050608;
   font-weight: 700;
   letter-spacing: 1.2px;
-  border-left: 3.5px solid var(--gold-primary);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-right: 3.5px solid var(--gold-primary);
+  border-left: none;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
 }
 
 /* --------------------------------------------------------------------------
-   5. Pre-Footer: VIP Consultation & Newsletter Banner (LIGHT MODE)
+   5. FLOATING VIP SUBSCRIBER CARD OVERLAY (ON MAP CANVAS)
    -------------------------------------------------------------------------- */
-.pre-footer-cta {
-  position: relative;
-  padding: 70px 0 50px;
-  z-index: 2;
+.map-floating-cta {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 80px);
+  max-width: var(--container-max-width);
+  z-index: 1000;
+  pointer-events: auto;
 }
 
 .cta-card {
   position: relative;
-  background: linear-gradient(135deg, #FFFFFF 0%, #FAF6EC 100%);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  padding: 50px 48px;
+  background: rgba(253, 251, 247, 0.96);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(212, 175, 55, 0.4);
+  border-radius: var(--radius-md);
+  padding: 36px 44px;
   overflow: hidden;
-  box-shadow: var(--shadow-card), 0 0 35px rgba(212, 175, 55, 0.08);
+  box-shadow: 0 20px 50px rgba(3, 4, 6, 0.16), 0 0 35px rgba(212, 175, 55, 0.12);
   transition: all var(--transition-normal);
+}
+
+.cta-card:hover {
+  border-color: var(--gold-primary);
+  box-shadow: 0 25px 65px rgba(3, 4, 6, 0.22), 0 0 45px rgba(212, 175, 55, 0.2);
 }
 
 .cta-card::after {
@@ -655,7 +669,7 @@ body.loaded #loader-wrapper {
   right: -20%;
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.16) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -670,48 +684,48 @@ body.loaded #loader-wrapper {
 
 .brand-badge {
   display: inline-block;
-  padding: 6px 18px;
+  padding: 5px 16px;
   border: 1px solid var(--gold-dark);
   border-radius: var(--radius-xs);
   font-size: 9px;
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: var(--gold-dark);
-  margin-bottom: 16px;
-  background: rgba(212, 175, 55, 0.08);
-  font-weight: 600;
+  margin-bottom: 12px;
+  background: rgba(212, 175, 55, 0.1);
+  font-weight: 700;
 }
 
 .cta-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
-  font-weight: 600;
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  font-weight: 700;
   line-height: 1.25;
   color: var(--text-main);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   letter-spacing: 0.02em;
 }
 
 .cta-desc {
   color: var(--text-body);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   max-width: 500px;
-  line-height: 1.7;
+  line-height: 1.65;
 }
 
 .newsletter-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .input-group {
   display: flex;
   background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.14);
   border-radius: var(--radius-xs);
-  padding: 6px 6px 6px 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+  padding: 6px 6px 6px 18px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
@@ -740,7 +754,7 @@ body.loaded #loader-wrapper {
   color: #050608;
   padding: 12px 24px;
   border-radius: var(--radius-xs);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.86rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -758,7 +772,7 @@ body.loaded #loader-wrapper {
 .form-privacy-note {
   font-size: 0.78rem;
   color: var(--text-muted);
-  padding-left: 8px;
+  padding-left: 6px;
 }
 
 /* --------------------------------------------------------------------------
@@ -1172,6 +1186,11 @@ body.loaded #loader-wrapper {
    10. Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1080px) {
+  .interactive-map-section {
+    height: auto;
+    min-height: 960px;
+  }
+
   .footer-top-grid {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
@@ -1179,25 +1198,25 @@ body.loaded #loader-wrapper {
 
   .cta-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 24px;
   }
 
-  .interactive-map-section {
-    height: 68vh;
-    min-height: 580px;
+  .map-floating-cta {
+    width: calc(100% - 48px);
+    bottom: 25px;
   }
 }
 
 @media (max-width: 768px) {
   .interactive-map-section {
-    height: 580px;
-    min-height: 520px;
+    height: auto;
+    min-height: 1020px;
   }
 
   .header-panel {
     top: 20px;
-    left: 20px;
-    right: 20px;
+    left: 16px;
+    right: 16px;
     max-width: none;
     padding: 18px 20px;
   }
@@ -1207,27 +1226,35 @@ body.loaded #loader-wrapper {
   }
 
   .map-filter-chips {
-    display: none;
+    display: flex;
   }
 
   .coord-panel {
-    bottom: 20px;
-    right: 20px;
-    left: 20px;
-    padding: 10px 16px;
-    font-size: 9.5px;
-    text-align: center;
-    border-left: none;
-    border-top: 2px solid var(--gold-primary);
-    border-radius: var(--radius-md);
+    display: none; /* Keep clean on small mobile */
   }
 
   .interactive-map-section .leaflet-control-zoom {
     display: none;
   }
 
+  .map-floating-cta {
+    width: calc(100% - 32px);
+    bottom: 20px;
+  }
+
   .cta-card {
-    padding: 36px 24px;
+    padding: 28px 20px;
+  }
+
+  .btn-subscribe {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .input-group {
+    flex-direction: column;
+    padding: 12px;
+    gap: 10px;
   }
 
   .footer-top-grid {

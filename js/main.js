@@ -47,13 +47,13 @@ function initInteractiveMap() {
   const targetLat = 24.4820317;
   const targetLng = 54.3496455;
 
-  // Initialize Map
+  // Initialize Map (Offset slightly south so pins appear gracefully above the floating subscriber card)
   leafletMapInstance = L.map('map', {
     zoomControl: false,
     attributionControl: true,
     scrollWheelZoom: false, // Prevents page scrolling trap
     preferCanvas: true
-  }).setView([targetLat, targetLng], 14);
+  }).setView([24.4780, 54.3496], 14);
 
   // High-Definition CartoDB Voyager Tile Layer
   // Renders detailed dark roads, building blocks, coastline, landmarks and legible labels
@@ -321,17 +321,13 @@ function initPageAnimations() {
     });
   }
 
-  // Pre-Footer CTA Card ScrollTrigger Reveal
-  if (document.querySelector('.cta-card')) {
-    gsap.from('.cta-card', {
-      scrollTrigger: {
-        trigger: '.pre-footer-cta',
-        start: 'top 85%',
-        toggleActions: 'play none none none'
-      },
+  // Floating Subscriber CTA Card Entrance
+  if (document.querySelector('.map-floating-cta')) {
+    gsap.from('.map-floating-cta', {
       y: 40,
       opacity: 0,
       duration: 1,
+      delay: 0.4,
       ease: 'power3.out'
     });
   }

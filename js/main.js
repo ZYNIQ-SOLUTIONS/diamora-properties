@@ -1,19 +1,103 @@
 /**
  * DIAMORA PROPERTIES — MAIN JAVASCRIPT
- * Exact Light Mode Brand Loader & GSAP ScrollTrigger Sequence
+ * Exact Brand Loader, Interactive Context Map & GSAP ScrollTrigger Sequence
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Brand Loading Animation Sequence
+  // 1. Initialize Interactive Context Map (Light Mode)
+  initInteractiveMap();
+
+  // 2. Initialize Brand Loading Animation Sequence
   initBrandLoader();
 
-  // 2. Initialize UI Interactions
+  // 3. Initialize UI Interactions
   initBackToTop();
   initNewsletterForm();
 });
 
 /**
- * Exact Brand Loading Animation Sequence (Light Mode)
+ * Interactive Context Map (Al Markaziyah West / Al Bateen Sector)
+ */
+let leafletMapInstance = null;
+
+function initInteractiveMap() {
+  const mapElement = document.getElementById('map');
+  if (!mapElement || typeof L === 'undefined') return;
+
+  // Target Coordinates (Al Markaziyah West / Al Bateen Sector)
+  const targetLat = 24.4820317;
+  const targetLng = 54.3496455;
+
+  // Initialize Map with smooth settings (scrollWheelZoom disabled for smooth page scroll)
+  leafletMapInstance = L.map('map', {
+    zoomControl: false,
+    attributionControl: true,
+    scrollWheelZoom: false
+  }).setView([targetLat, targetLng], 15);
+
+  // Standard OpenStreetMap tiles (filtered to Diamond Alabaster in CSS)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors | Diamora Properties'
+  }).addTo(leafletMapInstance);
+
+  // Define exact Monogram SVG string for the custom animated pin
+  const diamoraSvgPin = `
+    <div class="custom-map-pin">
+      <div class="marker-shadow-pulse"></div>
+      <svg class="marker-graphic" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(0, 0)">
+          <!-- Facets referencing global defs -->
+          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+          <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
+          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+          <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
+          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
+          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+          
+          <!-- Lines referencing global defs -->
+          <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1.5" filter="url(#m-glow)"/>
+          <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.4"/>
+          <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.4"/>
+          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="2" opacity="0.6"/>
+          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="2" opacity="0.8"/>
+        </g>
+      </svg>
+      <div class="marker-label">
+        <div class="marker-title">DIAMORA</div>
+        <div class="marker-subtitle">PROPERTIES</div>
+      </div>
+    </div>
+  `;
+
+  // Create custom DivIcon
+  const diamoraIcon = L.divIcon({
+    className: 'diamora-marker',
+    html: diamoraSvgPin,
+    iconSize: [120, 150],
+    iconAnchor: [60, 125]
+  });
+
+  // Add Marker to Map
+  L.marker([targetLat, targetLng], { icon: diamoraIcon }).addTo(leafletMapInstance);
+
+  // Add Zoom Control to Bottom Left
+  L.control.zoom({ position: 'bottomleft' }).addTo(leafletMapInstance);
+
+  // Invalidate size on window resize
+  window.addEventListener('resize', () => {
+    if (leafletMapInstance) {
+      leafletMapInstance.invalidateSize();
+    }
+  });
+}
+
+/**
+ * Exact Brand Loading Animation Sequence
  */
 function initBrandLoader() {
   const loader = document.getElementById('loader-wrapper');
@@ -25,7 +109,6 @@ function initBrandLoader() {
   // Prevent scroll during loader sequence
   document.body.style.overflow = 'hidden';
 
-  // Dismiss sequence matching the 2-step monogram -> horizontal lockup animation
   const animationDuration = 4200; // ms for full stroke drawing + lockup slide
 
   const completeLoading = () => {
@@ -38,6 +121,12 @@ function initBrandLoader() {
           document.body.classList.add('loaded');
           document.body.style.overflow = '';
           loader.style.display = 'none';
+
+          // Ensure map dimensions refresh after curtain opens
+          if (leafletMapInstance) {
+            leafletMapInstance.invalidateSize();
+          }
+
           initPageAnimations();
         }
       });
@@ -46,6 +135,11 @@ function initBrandLoader() {
       loader.style.visibility = 'hidden';
       document.body.classList.add('loaded');
       document.body.style.overflow = '';
+
+      if (leafletMapInstance) {
+        leafletMapInstance.invalidateSize();
+      }
+
       initPageAnimations();
     }
   };
@@ -67,6 +161,27 @@ function initPageAnimations() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger);
+
+  // Map Panels Reveal
+  if (document.querySelector('.header-panel')) {
+    gsap.from('.header-panel', {
+      x: -40,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+      delay: 0.2
+    });
+  }
+
+  if (document.querySelector('.coord-panel')) {
+    gsap.from('.coord-panel', {
+      x: 40,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+      delay: 0.3
+    });
+  }
 
   // Pre-Footer CTA Card ScrollTrigger Reveal
   if (document.querySelector('.cta-card')) {

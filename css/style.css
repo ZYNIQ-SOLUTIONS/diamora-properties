@@ -1,6 +1,6 @@
 /* ==========================================================================
-   DIAMORA PROPERTIES — SIGNATURE BRAND STYLESHEET (OBSIDIAN DARK THEME)
-   Crafted in exact alignment with the Diamora Properties Brand Kit & Design System
+   DIAMORA PROPERTIES — SIGNATURE BRAND STYLESHEET
+   Obsidian Dark Luxury Foundation with Light Mode Interactive Context Map
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -13,6 +13,13 @@
   --bg-card-hover: #13171F;       /* Card Hover State */
   --bg-panel: #080A0E;            /* Secondary Info Panel / Footer */
   --bg-glass: rgba(13, 16, 21, 0.85);
+
+  /* Light Theme Palette for Map Section */
+  --diamond-alabaster: #FDFBF7;
+  --alabaster-surface: #FAF6EC;
+  --obsidian-core: #030406;
+  --emerald-reserve: #051A0F;
+  --platinum-slate: #8E9BAE;
 
   /* Imperial Gold System */
   --gold-primary: #D4AF37;
@@ -92,7 +99,6 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
 }
 
 img, svg {
@@ -139,6 +145,14 @@ button {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   display: inline-block;
+}
+
+.svg-defs-hidden {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -241,11 +255,247 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   4. Pre-Footer: VIP Consultation & Newsletter Banner
+   4. INTERACTIVE CONTEXT MAP SECTION (LIGHT MODE ALABASTER & GOLD)
+   -------------------------------------------------------------------------- */
+.interactive-map-section {
+  position: relative;
+  width: 100%;
+  height: 75vh;
+  min-height: 640px;
+  max-height: 840px;
+  background-color: var(--diamond-alabaster);
+  overflow: hidden;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  z-index: 5;
+}
+
+/* Map Container */
+#map.context-map-canvas {
+  width: 100%;
+  height: 100%;
+  background-color: var(--diamond-alabaster) !important;
+  z-index: 1;
+}
+
+/* Leaflet Tile Styling for Light Diamond Alabaster */
+.interactive-map-section .leaflet-layer {
+  filter: grayscale(100%) sepia(10%) contrast(80%) brightness(120%) opacity(0.65) !important;
+}
+
+.interactive-map-section .leaflet-control-attribution {
+  background: rgba(253, 251, 247, 0.85) !important;
+  color: var(--platinum-slate) !important;
+  font-size: 10px !important;
+  border-radius: 4px 0 0 0;
+  backdrop-filter: blur(4px);
+}
+
+.interactive-map-section .leaflet-control-zoom {
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border-radius: 6px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(3, 4, 6, 0.12) !important;
+  margin-bottom: 30px !important;
+  margin-left: 30px !important;
+}
+
+.interactive-map-section .leaflet-control-zoom a {
+  background-color: rgba(253, 251, 247, 0.95) !important;
+  color: var(--obsidian-core) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.interactive-map-section .leaflet-control-zoom a:hover {
+  background-color: var(--gold-primary) !important;
+  color: #050608 !important;
+}
+
+/* Architectural Blueprint Grid Overlay */
+.blueprint-grid {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(212, 175, 55, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.15) 1px, transparent 1px),
+    linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: center center;
+  pointer-events: none;
+  z-index: 400; /* Above tiles, below UI & Markers */
+}
+
+/* Custom Marker Pin Styling */
+.custom-map-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.marker-graphic {
+  animation: float 4s ease-in-out infinite;
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0px 15px 15px rgba(3, 4, 6, 0.35));
+}
+
+.marker-shadow-pulse {
+  position: absolute;
+  bottom: -15px;
+  width: 50px;
+  height: 12px;
+  background: radial-gradient(ellipse at center, rgba(3, 4, 6, 0.4) 0%, rgba(0,0,0,0) 70%);
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+  z-index: 1;
+}
+
+.marker-label {
+  text-align: center;
+  margin-top: 6px;
+  pointer-events: none;
+  animation: float 4s ease-in-out infinite;
+}
+
+.marker-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--obsidian-core);
+  letter-spacing: 2.5px;
+  text-shadow: 0 2px 6px rgba(253, 251, 247, 0.95);
+}
+
+.marker-subtitle {
+  font-family: var(--font-sans);
+  font-size: 7.5px;
+  font-weight: 600;
+  color: var(--gold-primary);
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.2; }
+  100% { transform: scale(0.8); opacity: 0.5; }
+}
+
+/* Floating UI Overlay Panels */
+.map-ui-overlay {
+  position: absolute;
+  z-index: 1000;
+  background: rgba(253, 251, 247, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: var(--radius-md);
+  box-shadow: 0 15px 35px rgba(3, 4, 6, 0.1);
+  transition: all var(--transition-normal);
+}
+
+.map-ui-overlay:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 20px 45px rgba(3, 4, 6, 0.15), 0 0 25px rgba(212, 175, 55, 0.12);
+}
+
+.header-panel {
+  top: 40px;
+  left: 40px;
+  padding: 26px 32px;
+  max-width: 390px;
+}
+
+.map-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border: 1px solid var(--gold-primary);
+  border-radius: var(--radius-xs);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 14px;
+  background: rgba(212, 175, 55, 0.1);
+  font-weight: 700;
+}
+
+.map-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.06em;
+  color: var(--obsidian-core);
+  line-height: 1.25;
+}
+
+.map-desc {
+  font-size: 11.5px;
+  color: var(--platinum-slate);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  line-height: 1.65;
+}
+
+.map-metrics-grid {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 8.5px;
+  color: var(--gold-dark);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  font-weight: 700;
+}
+
+.metric-val {
+  font-size: 12px;
+  color: var(--obsidian-core);
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.coord-panel {
+  bottom: 40px;
+  right: 40px;
+  padding: 14px 24px;
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--obsidian-core);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  border-left: 3px solid var(--gold-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+/* --------------------------------------------------------------------------
+   5. Pre-Footer: VIP Consultation & Newsletter Banner
    -------------------------------------------------------------------------- */
 .pre-footer-cta {
   position: relative;
-  padding: 60px 0 40px;
+  padding: 70px 0 40px;
   z-index: 2;
 }
 
@@ -389,7 +639,7 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   5. Main Footer Section (Obsidian Dark Theme)
+   6. Main Footer Section (Obsidian Dark Theme)
    -------------------------------------------------------------------------- */
 .main-footer {
   background-color: var(--bg-panel);
@@ -626,7 +876,7 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   6. Footer Middle: Trust Marks & Accreditations
+   7. Footer Middle: Trust Marks & Accreditations
    -------------------------------------------------------------------------- */
 .footer-trust-strip {
   padding: 22px 0;
@@ -678,7 +928,7 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   7. Footer Bottom Bar (Copyright & Legal)
+   8. Footer Bottom Bar (Copyright & Legal)
    -------------------------------------------------------------------------- */
 .footer-bottom-bar {
   display: flex;
@@ -760,7 +1010,7 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   8. Floating WhatsApp Action Button
+   9. Floating WhatsApp Action Button
    -------------------------------------------------------------------------- */
 .floating-whatsapp-btn {
   position: fixed;
@@ -794,7 +1044,7 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   9. Responsive Breakpoints
+   10. Responsive Breakpoints
    -------------------------------------------------------------------------- */
 @media (max-width: 1080px) {
   .footer-top-grid {
@@ -806,9 +1056,47 @@ body.loaded #loader-wrapper {
     grid-template-columns: 1fr;
     gap: 30px;
   }
+
+  .interactive-map-section {
+    height: 65vh;
+    min-height: 560px;
+  }
 }
 
 @media (max-width: 768px) {
+  .interactive-map-section {
+    height: 540px;
+    min-height: 500px;
+  }
+
+  .header-panel {
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: none;
+    padding: 18px 20px;
+  }
+
+  .map-title {
+    font-size: 1.45rem;
+  }
+
+  .coord-panel {
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    padding: 10px 16px;
+    font-size: 9.5px;
+    text-align: center;
+    border-left: none;
+    border-top: 2px solid var(--gold-primary);
+    border-radius: var(--radius-md);
+  }
+
+  .interactive-map-section .leaflet-control-zoom {
+    display: none; /* Hide zoom controls on small screens to prevent overlap with UI overlay */
+  }
+
   .cta-card {
     padding: 36px 24px;
   }

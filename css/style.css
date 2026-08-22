@@ -1,25 +1,32 @@
 /* ==========================================================================
    DIAMORA PROPERTIES — SIGNATURE BRAND STYLESHEET
-   Obsidian Dark Luxury Foundation with Light Mode Interactive Context Map
+   Light Mode Luxury Canvas (Alabaster & Gold) with Obsidian Dark Footer
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. CSS Custom Properties / Design Tokens (From Master Brand Kit)
+   1. CSS Custom Properties / Design Tokens
    -------------------------------------------------------------------------- */
 :root {
-  /* Brand Palette */
-  --bg-dark: #050608;             /* Obsidian Core (Primary Canvas) */
-  --bg-card: #0D1015;             /* Elevated Luxury Card Surface */
-  --bg-card-hover: #13171F;       /* Card Hover State */
-  --bg-panel: #080A0E;            /* Secondary Info Panel / Footer */
-  --bg-glass: rgba(13, 16, 21, 0.85);
+  /* Primary Light Mode Palette (Diamond Alabaster & Surfaces) */
+  --bg-deep: #FDFBF7;             /* Diamond Alabaster (Primary Page Canvas) */
+  --bg-surface: #FAF6EC;          /* Elevated Surface / Soft Cream */
+  --bg-card: #FFFFFF;             /* Crisp Pure Card Surface */
+  --bg-card-hover: #FDFBF8;       /* Light Card Hover */
+  --bg-glass: rgba(253, 251, 247, 0.95);
 
-  /* Light Theme Palette for Map Section */
-  --diamond-alabaster: #FDFBF7;
-  --alabaster-surface: #FAF6EC;
-  --obsidian-core: #030406;
-  --emerald-reserve: #051A0F;
-  --platinum-slate: #8E9BAE;
+  /* Primary Light Mode Typography Colors */
+  --text-main: #050608;           /* Obsidian Core (Headings) */
+  --text-body: #4A5160;           /* Refined Dark Slate (Body Text) */
+  --text-muted: #8E9BAE;          /* Platinum Slate (Metadata & Secondary) */
+  --text-gold: #8C6A18;           /* High-contrast Gold Text */
+
+  /* Dark Theme Palette (Dedicated for Main Footer) */
+  --footer-bg: #080A0E;           /* Deep Obsidian Panel */
+  --footer-card: #0D1015;         /* Dark Luxury Card */
+  --footer-card-hover: #13171F;   /* Dark Card Hover */
+  --footer-text-main: #E2E8F0;    /* High-contrast Ivory */
+  --footer-text-muted: #8E9BAE;   /* Platinum Slate */
+  --footer-border: rgba(255, 255, 255, 0.06);
 
   /* Imperial Gold System */
   --gold-primary: #D4AF37;
@@ -28,17 +35,10 @@
   --gold-gradient: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
   --gold-subtle-bg: rgba(212, 175, 55, 0.08);
   --gold-glow: rgba(212, 175, 55, 0.25);
-  --emerald-deep: #051A0F;
-
-  /* Typography Colors */
-  --text-main: #E2E8F0;           /* High Contrast Ivory (Primary Headings) */
-  --text-body: #C4CDD8;           /* Light Slate (Body Text) */
-  --text-muted: #8E9BAE;          /* Platinum Slate (Sub-labels & Secondary) */
-  --text-gold: #D4AF37;           /* Gold Accent Text */
 
   /* Borders & Dividers */
-  --border-color: rgba(212, 175, 55, 0.25);
-  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(212, 175, 55, 0.28);
+  --border-subtle: rgba(0, 0, 0, 0.07);
   --border-gold-strong: rgba(212, 175, 55, 0.65);
 
   /* Typography Families */
@@ -60,14 +60,13 @@
   --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Shadows */
-  --shadow-card: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03);
-  --shadow-card-hover: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15);
-  --shadow-gold-sm: 0 4px 18px rgba(212, 175, 55, 0.25);
-  --shadow-gold-md: 0 8px 30px rgba(212, 175, 55, 0.4);
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+  --shadow-gold-sm: 0 4px 18px rgba(212, 175, 55, 0.22);
+  --shadow-gold-md: 0 8px 30px rgba(212, 175, 55, 0.35);
 }
 
 /* --------------------------------------------------------------------------
-   2. Reset & Global Styles
+   2. Reset & Global Styles (Light Mode Base)
    -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -82,7 +81,7 @@ html {
 }
 
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg-deep);
   color: var(--text-body);
   font-family: var(--font-sans);
   line-height: 1.65;
@@ -90,10 +89,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: 
-    radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.07) 0%, transparent 50%),
-    radial-gradient(circle at 85% 60%, rgba(5, 26, 15, 0.45) 0%, transparent 60%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 60%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+    linear-gradient(rgba(212, 175, 55, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.035) 1px, transparent 1px);
   background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px;
   background-attachment: fixed;
   min-height: 100vh;
@@ -156,7 +155,7 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   3. DIGITAL LOADER ANIMATION (OBSIDIAN DARK THEME)
+   3. DIGITAL LOADER ANIMATION (LIGHT MODE ALABASTER THEME)
    -------------------------------------------------------------------------- */
 #loader-wrapper {
   position: fixed;
@@ -164,12 +163,12 @@ button {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #030406;
+  background-color: var(--bg-deep);
   background-image: 
     radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 100% 100%, 50px 50px, 50px 50px;
+    linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -263,18 +262,18 @@ body.loaded #loader-wrapper {
   height: 75vh;
   min-height: 640px;
   max-height: 840px;
-  background-color: var(--diamond-alabaster);
+  background-color: var(--bg-deep);
   overflow: hidden;
   border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   z-index: 5;
 }
 
-/* Map Container */
+/* Map Canvas Container */
 #map.context-map-canvas {
   width: 100%;
   height: 100%;
-  background-color: var(--diamond-alabaster) !important;
+  background-color: var(--bg-deep) !important;
   z-index: 1;
 }
 
@@ -285,7 +284,7 @@ body.loaded #loader-wrapper {
 
 .interactive-map-section .leaflet-control-attribution {
   background: rgba(253, 251, 247, 0.85) !important;
-  color: var(--platinum-slate) !important;
+  color: var(--text-muted) !important;
   font-size: 10px !important;
   border-radius: 4px 0 0 0;
   backdrop-filter: blur(4px);
@@ -295,14 +294,14 @@ body.loaded #loader-wrapper {
   border: 1px solid rgba(212, 175, 55, 0.4) !important;
   border-radius: 6px !important;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(3, 4, 6, 0.12) !important;
+  box-shadow: 0 8px 20px rgba(3, 4, 6, 0.1) !important;
   margin-bottom: 30px !important;
   margin-left: 30px !important;
 }
 
 .interactive-map-section .leaflet-control-zoom a {
   background-color: rgba(253, 251, 247, 0.95) !important;
-  color: var(--obsidian-core) !important;
+  color: #050608 !important;
   transition: all var(--transition-fast) !important;
 }
 
@@ -323,7 +322,7 @@ body.loaded #loader-wrapper {
   background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
   background-position: center center;
   pointer-events: none;
-  z-index: 400; /* Above tiles, below UI & Markers */
+  z-index: 400;
 }
 
 /* Custom Marker Pin Styling */
@@ -339,7 +338,7 @@ body.loaded #loader-wrapper {
   animation: float 4s ease-in-out infinite;
   position: relative;
   z-index: 10;
-  filter: drop-shadow(0px 15px 15px rgba(3, 4, 6, 0.35));
+  filter: drop-shadow(0px 15px 15px rgba(3, 4, 6, 0.25));
 }
 
 .marker-shadow-pulse {
@@ -347,7 +346,7 @@ body.loaded #loader-wrapper {
   bottom: -15px;
   width: 50px;
   height: 12px;
-  background: radial-gradient(ellipse at center, rgba(3, 4, 6, 0.4) 0%, rgba(0,0,0,0) 70%);
+  background: radial-gradient(ellipse at center, rgba(3, 4, 6, 0.35) 0%, rgba(0,0,0,0) 70%);
   border-radius: 50%;
   animation: pulse 4s ease-in-out infinite;
   z-index: 1;
@@ -364,7 +363,7 @@ body.loaded #loader-wrapper {
   font-family: var(--font-serif);
   font-size: 16px;
   font-weight: 700;
-  color: var(--obsidian-core);
+  color: #050608;
   letter-spacing: 2.5px;
   text-shadow: 0 2px 6px rgba(253, 251, 247, 0.95);
 }
@@ -373,7 +372,7 @@ body.loaded #loader-wrapper {
   font-family: var(--font-sans);
   font-size: 7.5px;
   font-weight: 600;
-  color: var(--gold-primary);
+  color: var(--gold-dark);
   letter-spacing: 2.5px;
   text-transform: uppercase;
 }
@@ -390,7 +389,7 @@ body.loaded #loader-wrapper {
   100% { transform: scale(0.8); opacity: 0.5; }
 }
 
-/* Floating UI Overlay Panels */
+/* Floating UI Overlay Panels (Light Mode Glass) */
 .map-ui-overlay {
   position: absolute;
   z-index: 1000;
@@ -399,13 +398,13 @@ body.loaded #loader-wrapper {
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(212, 175, 55, 0.35);
   border-radius: var(--radius-md);
-  box-shadow: 0 15px 35px rgba(3, 4, 6, 0.1);
+  box-shadow: 0 15px 35px rgba(3, 4, 6, 0.08);
   transition: all var(--transition-normal);
 }
 
 .map-ui-overlay:hover {
   border-color: rgba(212, 175, 55, 0.6);
-  box-shadow: 0 20px 45px rgba(3, 4, 6, 0.15), 0 0 25px rgba(212, 175, 55, 0.12);
+  box-shadow: 0 20px 45px rgba(3, 4, 6, 0.12), 0 0 25px rgba(212, 175, 55, 0.1);
 }
 
 .header-panel {
@@ -418,14 +417,14 @@ body.loaded #loader-wrapper {
 .map-badge {
   display: inline-block;
   padding: 4px 14px;
-  border: 1px solid var(--gold-primary);
+  border: 1px solid var(--gold-dark);
   border-radius: var(--radius-xs);
   font-size: 9px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold-dark);
   margin-bottom: 14px;
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.08);
   font-weight: 700;
 }
 
@@ -435,13 +434,13 @@ body.loaded #loader-wrapper {
   font-weight: 600;
   margin-bottom: 8px;
   letter-spacing: 0.06em;
-  color: var(--obsidian-core);
+  color: #050608;
   line-height: 1.25;
 }
 
 .map-desc {
   font-size: 11.5px;
-  color: var(--platinum-slate);
+  color: var(--text-body);
   font-weight: 500;
   letter-spacing: 0.03em;
   line-height: 1.65;
@@ -472,7 +471,7 @@ body.loaded #loader-wrapper {
 
 .metric-val {
   font-size: 12px;
-  color: var(--obsidian-core);
+  color: #050608;
   font-family: monospace;
   font-weight: 600;
 }
@@ -483,7 +482,7 @@ body.loaded #loader-wrapper {
   padding: 14px 24px;
   font-family: monospace;
   font-size: 11px;
-  color: var(--obsidian-core);
+  color: #050608;
   font-weight: 600;
   letter-spacing: 1.2px;
   border-left: 3px solid var(--gold-primary);
@@ -491,37 +490,23 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   5. Pre-Footer: VIP Consultation & Newsletter Banner
+   5. Pre-Footer: VIP Consultation & Newsletter Banner (LIGHT MODE)
    -------------------------------------------------------------------------- */
 .pre-footer-cta {
   position: relative;
-  padding: 70px 0 40px;
+  padding: 70px 0 50px;
   z-index: 2;
 }
 
 .cta-card {
   position: relative;
-  background: linear-gradient(135deg, #0D1015 0%, #050608 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FAF6EC 100%);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-sm);
   padding: 50px 48px;
   overflow: hidden;
   box-shadow: var(--shadow-card), 0 0 35px rgba(212, 175, 55, 0.08);
   transition: all var(--transition-normal);
-}
-
-.cta-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.4), transparent 50%, rgba(212, 175, 55, 0.1));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.6;
-  pointer-events: none;
 }
 
 .cta-card::after {
@@ -531,7 +516,7 @@ body.loaded #loader-wrapper {
   right: -20%;
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -552,11 +537,10 @@ body.loaded #loader-wrapper {
   font-size: 9px;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--gold-light);
+  color: var(--gold-dark);
   margin-bottom: 16px;
-  background: rgba(212, 175, 55, 0.06);
+  background: rgba(212, 175, 55, 0.08);
   font-weight: 600;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
 }
 
 .cta-title {
@@ -566,11 +550,11 @@ body.loaded #loader-wrapper {
   line-height: 1.25;
   color: var(--text-main);
   margin-bottom: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
 }
 
 .cta-desc {
-  color: var(--text-muted);
+  color: var(--text-body);
   font-size: 0.95rem;
   max-width: 500px;
   line-height: 1.7;
@@ -584,17 +568,17 @@ body.loaded #loader-wrapper {
 
 .input-group {
   display: flex;
-  background: rgba(8, 10, 14, 0.95);
-  border: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: var(--radius-xs);
   padding: 6px 6px 6px 20px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
   transition: border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .input-group:focus-within {
   border-color: var(--gold-primary);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
 }
 
 .input-group input {
@@ -619,7 +603,7 @@ body.loaded #loader-wrapper {
   border-radius: var(--radius-xs);
   font-weight: 600;
   font-size: 0.86rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
   white-space: nowrap;
@@ -627,8 +611,8 @@ body.loaded #loader-wrapper {
 }
 
 .btn-subscribe:hover {
-  filter: brightness(1.2);
-  transform: translateY(-2px);
+  filter: brightness(1.1);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-gold-md);
 }
 
@@ -639,15 +623,17 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   6. Main Footer Section (Obsidian Dark Theme)
+   6. MAIN FOOTER SECTION (EXCLUSIVELY OBSIDIAN DARK THEME)
    -------------------------------------------------------------------------- */
 .main-footer {
-  background-color: var(--bg-panel);
-  border-top: 1px solid var(--border-subtle);
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  color: var(--footer-text-muted);
   position: relative;
   padding-top: 70px;
   padding-bottom: 30px;
   overflow: hidden;
+  margin-top: auto;
 }
 
 .main-footer::before {
@@ -656,7 +642,7 @@ body.loaded #loader-wrapper {
   top: 0;
   left: 15%;
   right: 15%;
-  height: 1px;
+  height: 1.5px;
   background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
   box-shadow: 0 0 15px var(--gold-primary);
 }
@@ -687,7 +673,7 @@ body.loaded #loader-wrapper {
 }
 
 .footer-brand-tagline {
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
   font-size: 0.92rem;
   line-height: 1.75;
   margin-bottom: 24px;
@@ -721,9 +707,9 @@ body.loaded #loader-wrapper {
   width: 38px;
   height: 38px;
   border-radius: var(--radius-xs);
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
+  background: var(--footer-card);
+  border: 1px solid var(--footer-border);
+  color: var(--footer-text-muted);
   transition: all var(--transition-normal);
   position: relative;
 }
@@ -751,7 +737,7 @@ body.loaded #loader-wrapper {
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--footer-text-main);
   letter-spacing: 0.08em;
   margin-bottom: 24px;
   position: relative;
@@ -777,7 +763,7 @@ body.loaded #loader-wrapper {
 }
 
 .footer-nav-link {
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
   font-size: 0.92rem;
   display: inline-flex;
   align-items: center;
@@ -819,16 +805,16 @@ body.loaded #loader-wrapper {
   gap: 14px;
   padding: 12px 14px;
   border-radius: var(--radius-xs);
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background: var(--footer-card);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   transition: all var(--transition-normal);
 }
 
 .contact-item:hover {
-  background: var(--bg-card-hover);
+  background: var(--footer-card-hover);
   border-color: var(--border-color);
-  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2);
   transform: translateY(-2px);
 }
 
@@ -859,14 +845,14 @@ body.loaded #loader-wrapper {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
   font-weight: 600;
   margin-bottom: 2px;
 }
 
 .contact-val {
   font-size: 0.92rem;
-  color: var(--text-main);
+  color: var(--footer-text-main);
   font-weight: 500;
   transition: color var(--transition-fast);
 }
@@ -876,12 +862,12 @@ body.loaded #loader-wrapper {
 }
 
 /* --------------------------------------------------------------------------
-   7. Footer Middle: Trust Marks & Accreditations
+   7. Footer Middle: Trust Marks & Accreditations (Dark Theme)
    -------------------------------------------------------------------------- */
 .footer-trust-strip {
   padding: 22px 0;
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  border-top: 1px solid var(--footer-border);
+  border-bottom: 1px solid var(--footer-border);
   margin-bottom: 30px;
 }
 
@@ -904,7 +890,7 @@ body.loaded #loader-wrapper {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
   font-size: 0.84rem;
   letter-spacing: 0.05em;
   font-weight: 500;
@@ -918,7 +904,7 @@ body.loaded #loader-wrapper {
 
 .trust-locations-tag {
   font-size: 0.84rem;
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
   letter-spacing: 0.08em;
 }
 
@@ -941,11 +927,11 @@ body.loaded #loader-wrapper {
 
 .footer-copy {
   font-size: 0.84rem;
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
 }
 
 .footer-copy a {
-  color: var(--text-main);
+  color: var(--footer-text-main);
   font-weight: 500;
 }
 
@@ -962,7 +948,7 @@ body.loaded #loader-wrapper {
 
 .legal-link {
   font-size: 0.82rem;
-  color: var(--text-muted);
+  color: var(--footer-text-muted);
   transition: color var(--transition-fast);
 }
 
@@ -971,7 +957,7 @@ body.loaded #loader-wrapper {
 }
 
 .legal-divider {
-  color: var(--border-subtle);
+  color: var(--footer-border);
 }
 
 /* Back to Top Button */
@@ -981,9 +967,9 @@ body.loaded #loader-wrapper {
   gap: 8px;
   padding: 8px 18px;
   border-radius: var(--radius-xs);
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-main);
+  background: var(--footer-card);
+  border: 1px solid var(--border-color);
+  color: var(--footer-text-main);
   font-size: 0.82rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1094,7 +1080,7 @@ body.loaded #loader-wrapper {
   }
 
   .interactive-map-section .leaflet-control-zoom {
-    display: none; /* Hide zoom controls on small screens to prevent overlap with UI overlay */
+    display: none;
   }
 
   .cta-card {

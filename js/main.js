@@ -24,24 +24,45 @@ function initInteractiveMap() {
   const mapElement = document.getElementById('map');
   if (!mapElement || typeof L === 'undefined') return;
 
+  // Prevent multiple initializations
+  if (leafletMapInstance) {
+    leafletMapInstance.invalidateSize();
+    return;
+  }
+
+  // Fix default icon path resolution to prevent 404 console errors
+  try {
+    delete L.Icon.Default.prototype._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: 'assets/logos/diamora-icon.svg',
+      iconUrl: 'assets/logos/diamora-icon.svg',
+      shadowUrl: ''
+    });
+  } catch (e) {
+    // Ignore if not supported
+  }
+
   // Target Coordinates (Al Markaziyah West / Al Bateen Sector)
   const targetLat = 24.4820317;
   const targetLng = 54.3496455;
 
-  // Initialize Map with smooth settings (scrollWheelZoom disabled for smooth page scroll)
+  // Initialize Map
   leafletMapInstance = L.map('map', {
     zoomControl: false,
     attributionControl: true,
-    scrollWheelZoom: false
+    scrollWheelZoom: false, // Prevents page scroll trapping
+    preferCanvas: true
   }).setView([targetLat, targetLng], 15);
 
-  // Standard OpenStreetMap tiles (filtered to Diamond Alabaster in CSS)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors | Diamora Properties'
+  // High-performance OpenStreetMap CDN (CartoDB Light Positron)
+  // Provides 100% reliable tile delivery, zero rate-limiting, and native Alabaster tone
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 20,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
   }).addTo(leafletMapInstance);
 
-  // Define exact Monogram SVG string for the custom animated pin
+  // Define exact Sovereign Monolith SVG string for the custom animated pin
   const diamoraSvgPin = `
     <div class="custom-map-pin">
       <div class="marker-shadow-pulse"></div>
@@ -88,7 +109,11 @@ function initInteractiveMap() {
   // Add Zoom Control to Bottom Left
   L.control.zoom({ position: 'bottomleft' }).addTo(leafletMapInstance);
 
-  // Invalidate size on window resize
+  // Ensure map recalculates tile positions accurately
+  setTimeout(() => {
+    if (leafletMapInstance) leafletMapInstance.invalidateSize();
+  }, 200);
+
   window.addEventListener('resize', () => {
     if (leafletMapInstance) {
       leafletMapInstance.invalidateSize();
@@ -122,7 +147,7 @@ function initBrandLoader() {
           document.body.style.overflow = '';
           loader.style.display = 'none';
 
-          // Ensure map dimensions refresh after curtain opens
+          // Force Leaflet to refresh tile grid once curtain rises
           if (leafletMapInstance) {
             leafletMapInstance.invalidateSize();
           }

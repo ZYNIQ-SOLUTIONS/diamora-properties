@@ -38,11 +38,12 @@ function initHeroSequence() {
 
   const frameCount = 30;
   const currentFrame = index =>
-    `assets/images/abudhabi_drone_view/frame_${String(index + 1).padStart(3, '0')}.png`;
+    `assets/images/abudhabi_drone_view/frame_${String(index + 1).padStart(3, '0')}.webp`;
 
   const images = [];
   const droneSeq = { frame: 0 };
   let lastValidFrame = 0;
+  let isFirstFrameRendered = false;
 
   function resizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -64,12 +65,11 @@ function initHeroSequence() {
 
     if (!img || !img.complete || img.naturalWidth === 0) return;
     lastValidFrame = targetIndex;
+    isFirstFrameRendered = true;
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     // Calculate background-size: cover
-    const hRatio = canvas.width / img.naturalWidth;
-    const vRatio = canvas.height / img.naturalWidth * (img.naturalWidth / img.naturalHeight);
     const ratio = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
     const centerShiftX = (canvas.width - img.naturalWidth * ratio) / 2;
     const centerShiftY = (canvas.height - img.naturalHeight * ratio) / 2;
@@ -87,12 +87,12 @@ function initHeroSequence() {
     );
   }
 
-  // Preload all frames
+  // Preload all 30 WebP frames with zero lag
   for (let i = 0; i < frameCount; i++) {
     const img = new Image();
     img.src = currentFrame(i);
     img.onload = () => {
-      if (i === 0) {
+      if (!isFirstFrameRendered || i === 0) {
         render();
       }
     };
@@ -157,6 +157,13 @@ function initHeroSequence() {
     });
   }
 }
+
+// Window load refresh hook to ensure complete layout accuracy after all fonts/styles arrive
+window.addEventListener('load', () => {
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.refresh();
+  }
+});
 
 /**
  * =========================================================================

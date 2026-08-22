@@ -54,9 +54,8 @@ function initInteractiveMap() {
     preferCanvas: true
   }).setView([targetLat, targetLng], 15);
 
-  // High-performance OpenStreetMap CDN (CartoDB Light Positron)
-  // Provides 100% reliable tile delivery, zero rate-limiting, and native Alabaster tone
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  // CartoDB Voyager Tile Layer — High Contrast (Rich Dark Roads & Crisp Luminous Clair Land)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 20,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
@@ -66,26 +65,26 @@ function initInteractiveMap() {
   const diamoraSvgPin = `
     <div class="custom-map-pin">
       <div class="marker-shadow-pulse"></div>
-      <svg class="marker-graphic" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="marker-graphic" width="104" height="104" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(0, 0)">
           <!-- Facets referencing global defs -->
-          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.85"/>
           <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
           <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
           <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
           <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
           <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
+          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.95"/>
+          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.55"/>
+          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.85"/>
           <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
           
           <!-- Lines referencing global defs -->
           <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1.5" filter="url(#m-glow)"/>
-          <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.4"/>
-          <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.4"/>
-          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="2" opacity="0.6"/>
-          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="2" opacity="0.8"/>
+          <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.5"/>
+          <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.5"/>
+          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="2" opacity="0.7"/>
+          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="2" opacity="0.85"/>
         </g>
       </svg>
       <div class="marker-label">

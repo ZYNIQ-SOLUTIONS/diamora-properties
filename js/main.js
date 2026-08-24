@@ -613,7 +613,7 @@ function initNavBehavior() {
      7. GSAP ScrollTrigger: active section highlight (adds .nav-link--active)
      ---------------------------------------------------------------------- */
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    const sections = ['#properties', '#location-map', '#why-diamora', '#partners', '#consult'];
+    const sections = ['#properties', '#location-map', '#about', '#why-diamora', '#partners', '#consult'];
 
     sections.forEach(id => {
       const el = document.querySelector(id);
@@ -764,12 +764,30 @@ function initPageAnimations() {
     });
   }
 
+  // About Us Heritage Section
+  if (document.querySelector('.about-heritage-section')) {
+    gsap.from('.about-text-content', {
+      x: -35, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: '.about-heritage-section', start: 'top 75%', toggleActions: 'play none none reverse' }
+    });
+
+    gsap.from('.about-visual-frame', {
+      x: 35, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { 
+        trigger: '.about-heritage-section', 
+        start: 'top 75%', 
+        toggleActions: 'play none none reverse',
+        onEnter: () => playArchitecturalDrawing()
+      }
+    });
+  }
+
   // WhatsApp button entrance
   if (document.querySelector('.floating-whatsapp-btn')) {
     gsap.from('.floating-whatsapp-btn', {
       scale: 0.7, opacity: 0, duration: 0.6, ease: 'back.out(1.5)',
       scrollTrigger: {
-        trigger: '.interactive-map-section',
+        trigger: '.interactive-map-section-wrapper',
         start: 'top 80%',
         toggleActions: 'play reverse play reverse'
       }
@@ -1091,6 +1109,123 @@ function initHeroPropertySearch() {
       if (budgetSelect) budgetSelect.value = 'all';
       quickTags.forEach(t => t.classList.remove('active'));
       filterProperties(false);
+    });
+  }
+}
+
+/* ==========================================================================
+   10. ARCHITECTURAL SVG BLUEPRINT DRAWING ANIMATION
+   ========================================================================== */
+let hasDrawnArchitecture = false;
+
+function playArchitecturalDrawing() {
+  if (hasDrawnArchitecture || typeof anime === 'undefined') return;
+  hasDrawnArchitecture = true;
+
+  const svgTimeline = anime.timeline({
+    easing: 'easeInOutSine'
+  });
+
+  // 1. Fade in Desert Sun Glow
+  svgTimeline.add({
+    targets: '.ab-sun-shape',
+    opacity: [0, 0.95],
+    duration: 1400,
+    easing: 'linear'
+  }, 0)
+  // 2. Draw Ground Base Line
+  .add({
+    targets: ['.ab-base-line', '.ab-base-line-accent'],
+    strokeDashoffset: [anime.setDashoffset, 0],
+    easing: 'easeOutQuart',
+    duration: 1000,
+  }, 200)
+  // 3. Draw Background Buildings Outlines
+  .add({
+    targets: '.ab-bg-buildings .ad-building-path',
+    strokeDashoffset: [anime.setDashoffset, 0],
+    duration: 1200,
+    delay: anime.stagger(100)
+  }, '-=600')
+  // 4. Draw Coastal Palm Trees
+  .add({
+    targets: ['.ab-palm-trees .trunk', '.ab-palm-trees .frond'],
+    strokeDashoffset: [anime.setDashoffset, 0],
+    duration: 1000,
+    delay: anime.stagger(40)
+  }, '-=800')
+  // 5. Draw Circular Building (Aldar HQ style)
+  .add({
+    targets: '.ab-circular-building .outline',
+    strokeDashoffset: [anime.setDashoffset, 0],
+    duration: 1500,
+    easing: 'easeInOutQuart'
+  }, '-=800')
+  // 6. Draw Sculptural Curved Towers (Etihad style)
+  .add({
+    targets: '.ab-curved-towers .outline',
+    strokeDashoffset: [anime.setDashoffset, 0],
+    duration: 1500,
+    easing: 'easeInOutQuart'
+  }, '-=1000')
+  // 7. Fade in Glass Fills & Balcony Grid Lines
+  .add({
+    targets: ['.ab-curved-towers .ad-fill-shape', '.ab-circular-building .ad-fill-shape', '.ab-curved-towers .grid-line', '.ab-circular-building .grid-line'],
+    opacity: [0, 1],
+    strokeDashoffset: [anime.setDashoffset, 0],
+    duration: 1000,
+    delay: anime.stagger(40)
+  }, '-=500')
+  // 8. Draw Golden Blueprint Drafting Lines & Orbit Accents
+  .add({
+    targets: '.ab-blueprint-lines .ad-accent-path',
+    strokeDashoffset: [anime.setDashoffset, 0],
+    duration: 1800,
+    opacity: [0, 0.65],
+    delay: anime.stagger(150)
+  }, '-=800')
+  // 9. Fade in Blueprint Metadata Text
+  .add({
+    targets: '.ab-blueprint-lines text',
+    opacity: [0, 1],
+    duration: 1000,
+  }, '-=1000');
+
+  // Continuous Gentle UAE Desert Sun Pulse
+  anime({
+    targets: '.ab-sun-shape',
+    scale: [1, 1.04],
+    opacity: [0.85, 1],
+    direction: 'alternate',
+    loop: true,
+    easing: 'easeInOutSine',
+    duration: 4000
+  });
+
+  // Continuous Orbital Blueprint Rotation
+  anime({
+    targets: '.ab-blueprint-lines circle',
+    rotate: '1turn',
+    transformOrigin: '220px 310px',
+    loop: true,
+    easing: 'linear',
+    duration: 22000
+  });
+
+  // Interactive Hover Redraw
+  const blueprintFrame = document.getElementById('architectureBlueprintFrame');
+  if (blueprintFrame) {
+    let isRedrawing = false;
+    blueprintFrame.addEventListener('mouseenter', () => {
+      if (isRedrawing) return;
+      isRedrawing = true;
+      anime({
+        targets: '.ab-blueprint-lines .ad-accent-path',
+        strokeDashoffset: [anime.setDashoffset, 0],
+        duration: 1000,
+        easing: 'easeOutExpo',
+        complete: () => { isRedrawing = false; }
+      });
     });
   }
 }

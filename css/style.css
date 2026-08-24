@@ -1771,6 +1771,278 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 }
 
 /* --------------------------------------------------------------------------
+   ABOUT US — ARCHITECTURAL HERITAGE & SOVEREIGN ADVISORY
+   -------------------------------------------------------------------------- */
+.about-heritage-section {
+  background: var(--bg-deep);
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--sp-2xl);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.about-ambient-glow-1 {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 45%;
+  height: 45%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-ambient-glow-2 {
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(142, 155, 174, 0.15) 0%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.about-text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.15;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.about-intro-p {
+  font-size: 1.05rem;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.about-stat-box {
+  padding: 16px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.about-stat-box:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-h);
+}
+
+.about-stat-box--gold {
+  border-left: 3.5px solid var(--gold-primary);
+}
+
+.about-stat-box--plat {
+  border-left: 3.5px solid var(--platinum);
+}
+
+.about-stat-num {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.stat-plus {
+  color: var(--gold-dark);
+  font-family: var(--font-sans);
+}
+
+.about-stat-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.about-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-about-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 30px;
+  background: var(--gold-gradient);
+  color: #050608;
+  border-radius: var(--r-xs);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all var(--t-fast);
+  box-shadow: var(--shadow-gold-sm);
+}
+
+.btn-about-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold-md);
+}
+
+.btn-about-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: transparent;
+  color: var(--text-main);
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  border-radius: var(--r-xs);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all var(--t-fast);
+}
+
+.btn-about-secondary:hover {
+  border-color: var(--gold-primary);
+  color: var(--gold-dark);
+  background: rgba(212, 175, 55, 0.06);
+}
+
+/* Right Side: Architectural SVG Canvas Container */
+.about-visual-frame {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  background: rgba(253, 251, 247, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(142, 155, 174, 0.35);
+  border-radius: var(--r-md);
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0 20px 50px rgba(5, 6, 8, 0.06),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  overflow: hidden;
+  transition: border-color var(--t-base), box-shadow var(--t-base);
+}
+
+.about-visual-frame:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 
+    0 25px 60px rgba(5, 6, 8, 0.09),
+    0 0 30px rgba(212, 175, 55, 0.12);
+}
+
+/* Luxury Blueprint Corner Brackets */
+.corner-bracket {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--gold-primary);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.corner-tl { top: 12px; left: 12px; border-top: 1.5px solid; border-left: 1.5px solid; }
+.corner-tr { top: 12px; right: 12px; border-top: 1.5px solid; border-right: 1.5px solid; }
+.corner-bl { bottom: 12px; left: 12px; border-bottom: 1.5px solid; border-left: 1.5px solid; }
+.corner-br { bottom: 12px; right: 12px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+.architecture-svg-canvas {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* SVG Blueprint Styling */
+.ad-building-path {
+  fill: none;
+  stroke: var(--text-main);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ad-accent-path {
+  fill: none;
+  stroke: var(--gold-primary);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.ad-fill-shape {
+  fill: #8E9BAE;
+  opacity: 0.12;
+  stroke: none;
+}
+
+.palm-path {
+  fill: none;
+  stroke: var(--text-main);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 992px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .about-visual-frame {
+    height: 420px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .about-visual-frame {
+    height: 340px;
+    padding: 16px;
+  }
+}
+
+/* --------------------------------------------------------------------------
    11. CONSULTATION FORM SECTION
    -------------------------------------------------------------------------- */
 .consult-section {

@@ -31,6 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initConsultForm();
 });
 
+window.addEventListener('load', () => {
+  window.scrollTo(0, 0);
+});
+
 /* ==========================================================================
    1. HERO VIDEO BACKGROUND
    ========================================================================== */
@@ -324,8 +328,10 @@ function initBrandLoader() {
         onComplete: () => {
           document.body.classList.add('loaded');
           loader.style.display = 'none';
+          window.scrollTo(0, 0);
           if (leafletMapInstance) leafletMapInstance.invalidateSize();
           if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+          window.scrollTo(0, 0);
           initPageAnimations();
         }
       });

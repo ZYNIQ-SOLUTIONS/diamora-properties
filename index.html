@@ -149,6 +149,14 @@
           </a>
         </li>
         <li>
+          <a href="#location-map" class="nav-link" data-label="Locations">
+            <span class="nav-link-text">
+              <span class="nav-link-char">L</span><span class="nav-link-char">o</span><span class="nav-link-char">c</span><span class="nav-link-char">a</span><span class="nav-link-char">t</span><span class="nav-link-char">i</span><span class="nav-link-char">o</span><span class="nav-link-char">n</span><span class="nav-link-char">s</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
           <a href="#why-diamora" class="nav-link" data-label="Advisory">
             <span class="nav-link-text">
               <span class="nav-link-char">A</span><span class="nav-link-char">d</span><span class="nav-link-char">v</span><span class="nav-link-char">i</span><span class="nav-link-char">s</span><span class="nav-link-char">o</span><span class="nav-link-char">r</span><span class="nav-link-char">y</span>
@@ -160,14 +168,6 @@
           <a href="#partners" class="nav-link" data-label="Partners">
             <span class="nav-link-text">
               <span class="nav-link-char">P</span><span class="nav-link-char">a</span><span class="nav-link-char">r</span><span class="nav-link-char">t</span><span class="nav-link-char">n</span><span class="nav-link-char">e</span><span class="nav-link-char">r</span><span class="nav-link-char">s</span>
-            </span>
-            <span class="nav-link-underline"></span>
-          </a>
-        </li>
-        <li>
-          <a href="#location-map" class="nav-link" data-label="Locations">
-            <span class="nav-link-text">
-              <span class="nav-link-char">L</span><span class="nav-link-char">o</span><span class="nav-link-char">c</span><span class="nav-link-char">a</span><span class="nav-link-char">t</span><span class="nav-link-char">i</span><span class="nav-link-char">o</span><span class="nav-link-char">n</span><span class="nav-link-char">s</span>
             </span>
             <span class="nav-link-underline"></span>
           </a>
@@ -191,9 +191,9 @@
     <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
       <ul role="list">
         <li><a href="#properties" class="mobile-nav-link">Properties</a></li>
+        <li><a href="#location-map" class="mobile-nav-link">Locations</a></li>
         <li><a href="#why-diamora" class="mobile-nav-link">Advisory</a></li>
         <li><a href="#partners" class="mobile-nav-link">Partners</a></li>
-        <li><a href="#location-map" class="mobile-nav-link">Locations</a></li>
         <li><a href="#consult" class="mobile-nav-link mobile-nav-cta">Book a Consultation</a></li>
       </ul>
     </div>
@@ -412,6 +412,120 @@
           <a href="#consult" class="btn-private-access">Request Private Access</a>
         </div>
         <div class="private-cta-line" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       INTERACTIVE CONTEXT MAP (Strategic Location Hub)
+       ========================================================================= -->
+  <section class="section interactive-map-section-wrapper" id="location-map" aria-labelledby="location-map-title">
+    <div class="container">
+      <div class="section-header section-header--split">
+        <div class="section-header-left">
+          <div class="section-tag">Strategic Geolocation</div>
+          <h2 class="section-title" id="location-map-title">Prime UAE<br>Investment Zones</h2>
+        </div>
+        <div class="section-header-right">
+          <p class="section-intro">
+            Explore sovereign estates, coastal waterfront corridors, and prime master development zones mapped across Abu Dhabi and Dubai.
+          </p>
+          <div class="map-quick-stats">
+            <span class="map-stat-pill"><strong>04</strong> Prime Hubs</span>
+            <span class="map-stat-pill"><strong>T1-R</strong> Zoning</span>
+            <span class="map-stat-pill"><strong>100%</strong> Freehold</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Canvas Container -->
+    <div class="interactive-map-frame">
+      <svg width="0" height="0" class="svg-defs-hidden" aria-hidden="true">
+        <defs>
+          <linearGradient id="m-gold1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FFF5D1" />
+            <stop offset="35%" stop-color="#D4AF37" />
+            <stop offset="80%" stop-color="#8C6A18" />
+            <stop offset="100%" stop-color="#4A370A" />
+          </linearGradient>
+          <linearGradient id="m-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#E5C768" />
+            <stop offset="100%" stop-color="#664D10" />
+          </linearGradient>
+          <linearGradient id="m-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FFF0BE" />
+            <stop offset="100%" stop-color="#B38F24" />
+          </linearGradient>
+          <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+      </svg>
+
+      <div id="map" class="context-map-canvas" data-lenis-prevent></div>
+      <div class="blueprint-grid" aria-hidden="true"></div>
+
+      <!-- Floating Header Panel -->
+      <div class="map-ui-overlay header-panel" role="complementary" aria-label="Map info panel">
+        <span class="map-badge">Interactive Geolocation Hub</span>
+        <h3 class="map-title">Al Markaziyah West</h3>
+        <p class="map-desc">Sovereign estate mapping &amp; prime investment corridors across Abu Dhabi &amp; UAE.</p>
+        <div class="map-filter-chips" role="group" aria-label="Filter map locations">
+          <button class="chip-btn active" data-filter="all">All Prime Hubs</button>
+          <button class="chip-btn" data-filter="waterfront">Waterfront</button>
+          <button class="chip-btn" data-filter="culture">Culture &amp; Royal</button>
+          <button class="chip-btn" data-filter="marina">Marinas</button>
+        </div>
+        <div class="map-metrics-grid">
+          <div class="metric-item">
+            <span class="metric-label">Scale</span>
+            <span class="metric-val">1 : 5,000</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Elevation</span>
+            <span class="metric-val">14M ASL</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Zoning</span>
+            <span class="metric-val">T1-R</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Coordinates Panel -->
+      <div class="map-ui-overlay coord-panel" aria-label="Geographic coordinates">
+        LOC: 24.4820° N, 54.3496° E &nbsp;|&nbsp; AL BATEEN SECTOR
+      </div>
+
+      <!-- Floating VIP Deals CTA Card -->
+      <div class="map-floating-cta">
+        <div class="cta-card">
+          <div class="cta-grid">
+            <div class="cta-info">
+              <span class="brand-badge">Private Client Network</span>
+              <h3 class="cta-title">Receive Off-Market &amp; Pre-Launch UAE Property Deals</h3>
+              <p class="cta-desc">Subscribe to our discreet investor briefing for priority allocations in iconic Dubai and Abu Dhabi developments.</p>
+            </div>
+            <div class="cta-form-wrapper">
+              <form id="vipNewsletterForm" class="newsletter-form" novalidate>
+                <div class="input-group">
+                  <label for="vip-email" class="sr-only">Email address for private listings</label>
+                  <input type="email" id="vip-email" placeholder="Enter your email for private listings..." required autocomplete="email">
+                  <button type="submit" class="btn-subscribe">
+                    <span>Get Access</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </button>
+                </div>
+                <span class="form-privacy-note">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Strictly confidential. No spam, only verified tier-1 opportunities.
+                </span>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -646,97 +760,6 @@
 
       </div>
     </div>
-  </section>
-
-  <!-- =========================================================================
-       INTERACTIVE CONTEXT MAP
-       ========================================================================= -->
-  <section class="interactive-map-section" id="location-map" aria-label="Interactive location map of Abu Dhabi prime zones">
-
-    <svg width="0" height="0" class="svg-defs-hidden" aria-hidden="true">
-      <defs>
-        <linearGradient id="m-gold1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#FFF5D1" />
-          <stop offset="35%" stop-color="#D4AF37" />
-          <stop offset="80%" stop-color="#8C6A18" />
-          <stop offset="100%" stop-color="#4A370A" />
-        </linearGradient>
-        <linearGradient id="m-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#E5C768" />
-          <stop offset="100%" stop-color="#664D10" />
-        </linearGradient>
-        <linearGradient id="m-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#FFF0BE" />
-          <stop offset="100%" stop-color="#B38F24" />
-        </linearGradient>
-        <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="4" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-      </defs>
-    </svg>
-
-    <div id="map" class="context-map-canvas" data-lenis-prevent></div>
-    <div class="blueprint-grid" aria-hidden="true"></div>
-
-    <div class="map-ui-overlay header-panel" role="complementary" aria-label="Map info panel">
-      <span class="map-badge">Interactive Context Map</span>
-      <h2 class="map-title">Al Markaziyah West</h2>
-      <p class="map-desc">Sovereign estate mapping &amp; prime investment zones across Abu Dhabi &amp; UAE.</p>
-      <div class="map-filter-chips" role="group" aria-label="Filter map locations">
-        <button class="chip-btn active" data-filter="all">All Prime Hubs</button>
-        <button class="chip-btn" data-filter="waterfront">Waterfront</button>
-        <button class="chip-btn" data-filter="culture">Culture &amp; Royal</button>
-        <button class="chip-btn" data-filter="marina">Marinas</button>
-      </div>
-      <div class="map-metrics-grid">
-        <div class="metric-item">
-          <span class="metric-label">Scale</span>
-          <span class="metric-val">1 : 5,000</span>
-        </div>
-        <div class="metric-item">
-          <span class="metric-label">Elevation</span>
-          <span class="metric-val">14M ASL</span>
-        </div>
-        <div class="metric-item">
-          <span class="metric-label">Zoning</span>
-          <span class="metric-val">T1-R</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="map-ui-overlay coord-panel" aria-label="Geographic coordinates">
-      LOC: 24.4820° N, 54.3496° E &nbsp;|&nbsp; AL BATEEN SECTOR
-    </div>
-
-    <div class="map-floating-cta">
-      <div class="cta-card">
-        <div class="cta-grid">
-          <div class="cta-info">
-            <span class="brand-badge">Private Client Network</span>
-            <h2 class="cta-title">Receive Off-Market &amp; Pre-Launch UAE Property Deals</h2>
-            <p class="cta-desc">Subscribe to our discreet investor briefing for priority allocations in iconic Dubai and Abu Dhabi developments.</p>
-          </div>
-          <div class="cta-form-wrapper">
-            <form id="vipNewsletterForm" class="newsletter-form" novalidate>
-              <div class="input-group">
-                <label for="vip-email" class="sr-only">Email address for private listings</label>
-                <input type="email" id="vip-email" placeholder="Enter your email for private listings..." required autocomplete="email">
-                <button type="submit" class="btn-subscribe">
-                  <span>Get Access</span>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </button>
-              </div>
-              <span class="form-privacy-note">
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Strictly confidential. No spam, only verified tier-1 opportunities.
-              </span>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </section>
 
   <!-- =========================================================================

@@ -248,6 +248,83 @@
         </div>
       </div>
     </div>
+    <!-- Phase 2 Hero Search & Discovery Bar (Appears on scroll inside hero sequence before properties) -->
+    <div class="hero-search-stage" id="heroSearchStage" aria-label="Quick luxury property search">
+      <div class="hero-search-card">
+        <div class="hero-search-header">
+          <div class="hero-search-tag">
+            <span class="pulse-icon" aria-hidden="true"></span>
+            Curated UAE Portfolio Search
+          </div>
+          <h2 class="hero-search-title">Discover Available Off-Market &amp; Prime Residences</h2>
+          <p class="hero-search-sub">Filter verified residences across Dubai &amp; Abu Dhabi by city, typology, and investment budget.</p>
+        </div>
+
+        <form id="heroPropertySearchForm" class="hero-search-form" onsubmit="return false;">
+          <!-- Keyword input -->
+          <div class="hero-search-input-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="propSearchKeyword" class="hero-search-input" placeholder="Search by development, island, or feature (e.g. Palm, Villa, Penthouse)..." aria-label="Search available properties">
+          </div>
+
+          <div class="hero-search-filters">
+            <!-- Location Filter -->
+            <div class="search-filter-group">
+              <label for="filterLocation" class="search-filter-label">Location</label>
+              <select id="filterLocation" class="search-select">
+                <option value="all">All Emirates &amp; Hubs</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Abu Dhabi">Abu Dhabi</option>
+                <option value="Palm Jumeirah">Palm Jumeirah</option>
+                <option value="Downtown">Downtown Dubai</option>
+                <option value="Saadiyat">Saadiyat Island</option>
+              </select>
+            </div>
+
+            <!-- Typology Filter -->
+            <div class="search-filter-group">
+              <label for="filterType" class="search-filter-label">Property Type</label>
+              <select id="filterType" class="search-select">
+                <option value="all">All Categories</option>
+                <option value="Penthouse">Sky Penthouses</option>
+                <option value="Villa">Waterfront Villas</option>
+                <option value="Off-Plan">Off-Plan Suites</option>
+                <option value="Mansion">Ultra-Luxury Mansions</option>
+              </select>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="search-filter-group">
+              <label for="filterBudget" class="search-filter-label">Budget Range</label>
+              <select id="filterBudget" class="search-select">
+                <option value="all">Any Investment Range</option>
+                <option value="under20">Under AED 20M</option>
+                <option value="20to40">AED 20M – 40M</option>
+                <option value="above40">AED 40M+</option>
+              </select>
+            </div>
+
+            <!-- Action Button -->
+            <div class="search-filter-action">
+              <button type="button" id="btnExecuteSearch" class="btn-execute-search">
+                <span>View Results</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick tags -->
+          <div class="hero-search-quick-tags">
+            <span class="quick-tag-label">Popular Searches:</span>
+            <button type="button" class="quick-tag" data-tag="Penthouse">#Penthouses</button>
+            <button type="button" class="quick-tag" data-tag="Saadiyat">#SaadiyatBeach</button>
+            <button type="button" class="quick-tag" data-tag="Palm">#PalmJumeirah</button>
+            <button type="button" class="quick-tag" data-tag="Off-Plan">#OffPlanDeals</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div class="scroll-indicator" aria-hidden="true">
       <div class="scroll-line"></div>
     </div>
@@ -274,10 +351,15 @@
         </div>
       </div>
 
-      <div class="properties-grid">
+      <div class="properties-grid" id="propertiesGrid">
 
         <!-- Card 1: Featured large -->
-        <article class="property-card property-card--featured" aria-label="Palm Jumeirah Sky Penthouse">
+        <article class="property-card property-card--featured" 
+                 data-location="Dubai Palm Jumeirah" 
+                 data-type="Penthouse" 
+                 data-price="48000000" 
+                 data-keywords="palm jumeirah west beach sky penthouse beachfront terrace pool dubai" 
+                 aria-label="Palm Jumeirah Sky Penthouse">
           <div class="property-card-image">
             <div class="prop-visual prop-visual-1" aria-hidden="true">
               <div class="prop-visual-inner">
@@ -321,7 +403,12 @@
         </article>
 
         <!-- Card 2 -->
-        <article class="property-card" aria-label="Saadiyat Island Beachfront Villa">
+        <article class="property-card" 
+                 data-location="Abu Dhabi Saadiyat" 
+                 data-type="Villa" 
+                 data-price="22500000" 
+                 data-keywords="saadiyat island aldar mamsha beach villa louvre abu dhabi cultural" 
+                 aria-label="Saadiyat Island Beachfront Villa">
           <div class="property-card-image">
             <div class="prop-visual prop-visual-2" aria-hidden="true">
               <div class="prop-visual-inner">
@@ -360,7 +447,12 @@
         </article>
 
         <!-- Card 3 -->
-        <article class="property-card" aria-label="Emaar Opera Grand Sky Suite">
+        <article class="property-card" 
+                 data-location="Dubai Downtown" 
+                 data-type="Off-Plan" 
+                 data-price="14800000" 
+                 data-keywords="emaar opera grand downtown dubai burj khalifa sky suite off plan payment plan" 
+                 aria-label="Emaar Opera Grand Sky Suite">
           <div class="property-card-image">
             <div class="prop-visual prop-visual-3" aria-hidden="true">
               <div class="prop-visual-inner">
@@ -401,6 +493,14 @@
           </div>
         </article>
 
+      </div>
+
+      <!-- No search results placeholder -->
+      <div id="noPropResults" class="no-prop-results" style="display: none;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+        <h3>No matching residences found</h3>
+        <p>Try refining your criteria or request a private off-market consultation.</p>
+        <button type="button" id="btnResetFilters" class="btn-reset-filters">Reset Filters</button>
       </div>
 
       <!-- Private listings CTA bar -->

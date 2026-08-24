@@ -22,6 +22,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   initHeroSequence();
+  initHeroPropertySearch();
   initInteractiveMap();
   initBrandLoader();
   initNavBehavior();
@@ -97,14 +98,14 @@ function initHeroSequence() {
   });
 
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // Scrub drone frames on scroll
+    // 1. Scrub drone frames across full 2400px scroll distance
     gsap.to(droneSeq, {
       frame: frameCount - 1,
       ease: 'none',
       scrollTrigger: {
         trigger: '.hero-sequence-section',
         start: 'top top',
-        end: '+=2200',
+        end: '+=2400',
         scrub: 0.5,
         pin: true,
         anticipatePin: 1,
@@ -114,7 +115,7 @@ function initHeroSequence() {
       }
     });
 
-    // Parallax fade on hero content
+    // 2. Phase 1: Hero title & initial stats fade out smoothly (0 -> 750px)
     gsap.to('.hero-content-overlay', {
       opacity: 0,
       y: -60,
@@ -122,13 +123,41 @@ function initHeroSequence() {
       scrollTrigger: {
         trigger: '.hero-sequence-section',
         start: 'top top',
-        end: '+=850',
+        end: '+=700',
         scrub: true,
         invalidateOnRefresh: true
       }
     });
 
-    // Scroll indicator fades quickly
+    // 3. Phase 2: Live Search & Filter Stage appears inside hero (800px -> 1700px)
+    const searchStage = document.getElementById('heroSearchStage');
+    if (searchStage) {
+      const searchTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hero-sequence-section',
+          start: 'top+=750 top',
+          end: '+=1100',
+          scrub: true,
+          invalidateOnRefresh: true,
+          onEnter: () => { searchStage.style.pointerEvents = 'auto'; },
+          onLeaveBack: () => { searchStage.style.pointerEvents = 'none'; }
+        }
+      });
+
+      searchTl
+        .fromTo('#heroSearchStage', 
+          { opacity: 0, y: 50, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, ease: 'power2.out', duration: 0.4 }
+        )
+        .to('#heroSearchStage', {
+          opacity: 1, y: 0, duration: 0.3
+        })
+        .to('#heroSearchStage', {
+          opacity: 0, y: -40, scale: 0.98, ease: 'power1.in', duration: 0.3
+        });
+    }
+
+    // Scroll indicator fades out quickly
     gsap.to('.scroll-indicator', {
       opacity: 0,
       y: 20,
@@ -920,4 +949,148 @@ function initConsultForm() {
       }, 1200);
     }, 900);
   });
+}
+
+/* ==========================================================================
+   9. HERO LIVE PROPERTY SEARCH & FILTER
+   ========================================================================== */
+function initHeroPropertySearch() {
+  const searchInput    = document.getElementById('propSearchKeyword');
+  const locationSelect = document.getElementById('filterLocation');
+  const typeSelect     = document.getElementById('filterType');
+  const budgetSelect   = document.getElementById('filterBudget');
+  const searchBtn      = document.getElementById('btnExecuteSearch');
+  const quickTags      = document.querySelectorAll('.quick-tag');
+  const resetBtn       = document.getElementById('btnResetFilters');
+  const propCards      = document.querySelectorAll('.property-card');
+  const noResults      = document.getElementById('noPropResults');
+  const propertiesSec  = document.getElementById('properties');
+
+  if (!propCards.length) return;
+
+  function filterProperties(scrollToSection = false) {
+    const keywordVal  = (searchInput ? searchInput.value : '').trim().toLowerCase();
+    const locationVal = locationSelect ? locationSelect.value : 'all';
+    const typeVal     = typeSelect ? typeSelect.value : 'all';
+    const budgetVal   = budgetSelect ? budgetSelect.value : 'all';
+
+    let matchCount = 0;
+
+    propCards.forEach(card => {
+      const cardLoc      = (card.getAttribute('data-location') || '').toLowerCase();
+      const cardType     = (card.getAttribute('data-type') || '').toLowerCase();
+      const cardPrice    = parseInt(card.getAttribute('data-price') || '0', 10);
+      const cardKeywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+
+      // 1. Match Keyword
+      let matchKeyword = true;
+      if (keywordVal) {
+        matchKeyword = cardKeywords.includes(keywordVal) || cardLoc.includes(keywordVal) || cardType.includes(keywordVal);
+      }
+
+      // 2. Match Location
+      let matchLocation = true;
+      if (locationVal !== 'all') {
+        matchLocation = cardLoc.includes(locationVal.toLowerCase());
+      }
+
+      // 3. Match Typology
+      let matchType = true;
+      if (typeVal !== 'all') {
+        matchType = cardType.includes(typeVal.toLowerCase());
+      }
+
+      // 4. Match Budget
+      let matchBudget = true;
+      if (budgetVal === 'under20') {
+        matchBudget = cardPrice < 20000000;
+      } else if (budgetVal === '20to40') {
+        matchBudget = cardPrice >= 20000000 && cardPrice <= 40000000;
+      } else if (budgetVal === 'above40') {
+        matchBudget = cardPrice > 40000000;
+      }
+
+      const isMatch = matchKeyword && matchLocation && matchType && matchBudget;
+
+      if (isMatch) {
+        card.style.display = '';
+        matchCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Toggle No Results placeholder
+    if (noResults) {
+      noResults.style.display = matchCount === 0 ? 'flex' : 'none';
+    }
+
+    // Animate matching cards with Anime.js
+    if (typeof anime !== 'undefined') {
+      const visibleCards = Array.from(propCards).filter(c => c.style.display !== 'none');
+      if (visibleCards.length > 0) {
+        anime({
+          targets: visibleCards,
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: anime.stagger(80),
+          duration: 450,
+          easing: 'easeOutQuad'
+        });
+      }
+    }
+
+    // Smooth scroll down to property section when button is clicked
+    if (scrollToSection && propertiesSec) {
+      propertiesSec.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Bind input and select change events for real-time reactivity
+  if (searchInput) {
+    searchInput.addEventListener('input', () => filterProperties(false));
+  }
+  if (locationSelect) {
+    locationSelect.addEventListener('change', () => filterProperties(false));
+  }
+  if (typeSelect) {
+    typeSelect.addEventListener('change', () => filterProperties(false));
+  }
+  if (budgetSelect) {
+    budgetSelect.addEventListener('change', () => filterProperties(false));
+  }
+
+  // Execute Search button click (scrolls down to results)
+  if (searchBtn) {
+    searchBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      filterProperties(true);
+    });
+  }
+
+  // Quick Tags
+  quickTags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      const tagValue = tag.getAttribute('data-tag');
+      quickTags.forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+
+      if (searchInput) {
+        searchInput.value = tagValue;
+      }
+      filterProperties(true);
+    });
+  });
+
+  // Reset filters
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (searchInput) searchInput.value = '';
+      if (locationSelect) locationSelect.value = 'all';
+      if (typeSelect) typeSelect.value = 'all';
+      if (budgetSelect) budgetSelect.value = 'all';
+      quickTags.forEach(t => t.classList.remove('active'));
+      filterProperties(false);
+    });
+  }
 }

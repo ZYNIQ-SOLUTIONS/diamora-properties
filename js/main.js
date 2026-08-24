@@ -244,18 +244,33 @@ function initInteractiveMap() {
 }
 
 /* ==========================================================================
-   3. BRAND PRELOADER
+   3. BRAND PRELOADER (Ultra-Luxury Brand Awakening)
    ========================================================================== */
 function initBrandLoader() {
   const loader = document.getElementById('loader-wrapper');
   if (!loader) { initPageAnimations(); return; }
 
-  const completeLoading = () => {
+  const fillBar = document.getElementById('loaderFillBar');
+  const percentText = document.getElementById('loaderPercentText');
+  let currentPercent = 0;
+
+  // Smooth numeric counter animation
+  const countInterval = setInterval(() => {
+    currentPercent += Math.floor(Math.random() * 8) + 3;
+    if (currentPercent > 100) currentPercent = 100;
+    
+    if (fillBar) fillBar.style.width = `${currentPercent}%`;
+    if (percentText) percentText.textContent = `${currentPercent}%`;
+
+    if (currentPercent >= 100) {
+      clearInterval(countInterval);
+      setTimeout(dismissLoader, 350);
+    }
+  }, 45);
+
+  function dismissLoader() {
     if (typeof gsap !== 'undefined') {
-      gsap.to(loader, {
-        yPercent: -100,
-        duration: 0.85,
-        ease: 'power4.inOut',
+      const exitTl = gsap.timeline({
         onComplete: () => {
           document.body.classList.add('loaded');
           loader.style.display = 'none';
@@ -264,20 +279,33 @@ function initBrandLoader() {
           initPageAnimations();
         }
       });
+
+      exitTl
+        .to('.loader-inner', {
+          y: -25,
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power3.in'
+        })
+        .to(loader, {
+          yPercent: -100,
+          duration: 0.75,
+          ease: 'expo.inOut'
+        }, '-=0.15');
     } else {
-      loader.style.display = 'none';
       document.body.classList.add('loaded');
-      if (leafletMapInstance) leafletMapInstance.invalidateSize();
-      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      loader.style.display = 'none';
       initPageAnimations();
     }
-  };
+  }
 
-  setTimeout(completeLoading, 4400);
   // Safety fallback
   setTimeout(() => {
-    if (!document.body.classList.contains('loaded')) completeLoading();
-  }, 6000);
+    if (!document.body.classList.contains('loaded')) {
+      clearInterval(countInterval);
+      dismissLoader();
+    }
+  }, 3500);
 }
 
 /* ==========================================================================

@@ -128,29 +128,62 @@ button { cursor: pointer; }
 .svg-defs-hidden { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
 
 /* --------------------------------------------------------------------------
-   3. PRELOADER
+   3. PRELOADER (Ultra-Luxury Brand Awakening)
    -------------------------------------------------------------------------- */
 #loader-wrapper {
   position: fixed;
   inset: 0;
   background: #030406;
-  background-image:
-    radial-gradient(circle at 50% 45%, rgba(212,175,55,0.10) 0%, transparent 65%),
-    linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
-  background-size: 100%, 50px 50px, 50px 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 99999;
-  transition: opacity 0.85s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.85s;
+  transition: opacity 0.75s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.75s;
+  overflow: hidden;
+}
+
+.loader-bg-ambient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(212, 175, 55, 0.14) 0%, transparent 65%),
+    radial-gradient(circle at 80% 80%, rgba(5, 26, 15, 0.4) 0%, transparent 50%),
+    linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+  pointer-events: none;
 }
 
 .loader-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
+  position: relative;
+  z-index: 2;
+}
+
+.loader-emblem-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-emblem-wrap::after {
+  content: '';
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  filter: blur(12px);
+  pointer-events: none;
+  animation: auraPulse 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes auraPulse {
+  0% { transform: scale(0.85); opacity: 0.5; }
+  100% { transform: scale(1.15); opacity: 0.9; }
 }
 
 .loader-line {
@@ -161,72 +194,105 @@ button { cursor: pointer; }
   stroke-linejoin: round;
   stroke-dasharray: 400;
   stroke-dashoffset: 400;
-  animation: loaderDraw 2s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+  animation: loaderDraw 1.6s cubic-bezier(0.8, 0, 0.2, 1) forwards;
 }
 
 .loader-fill {
   opacity: 0;
-  animation: loaderFadeIn 0.9s ease forwards 1.5s;
+  animation: loaderFadeIn 0.8s ease forwards 1.1s;
 }
 
 #loader-icon-group {
   transform-origin: center;
-  animation: loaderScaleOut 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards 2.8s;
 }
 
 #loader-horizontal-group {
   opacity: 0;
-  transform: translateY(10px);
-  animation: loaderFadeUp 0.9s cubic-bezier(0.19, 1, 0.22, 1) forwards 3.3s;
+  transform: translateY(12px);
+  animation: loaderFadeUp 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards 1.3s;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .loader-wordmark {
   font-family: var(--font-serif);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: 0.35em;
   background: var(--gold-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
 }
 
 .loader-sub {
   font-family: var(--font-sans);
-  font-size: 9.5px;
-  font-weight: 500;
+  font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.45em;
-  color: var(--footer-text-muted);
-  text-transform: uppercase;
+  color: var(--gold-light);
+  opacity: 0.85;
+}
+
+.loader-tagline {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.45);
   margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.loader-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: loaderFadeIn 0.5s ease forwards 0.8s;
+  margin-top: 8px;
 }
 
 .loader-progress-track {
-  width: 180px;
-  height: 1.5px;
-  background: rgba(212,175,55,0.15);
+  width: 200px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: var(--r-full);
   overflow: hidden;
-  opacity: 0;
-  animation: loaderFadeIn 0.5s ease forwards 3.5s;
+  position: relative;
 }
 
 .loader-progress-fill {
   height: 100%;
-  width: 0;
+  width: 0%;
   background: var(--gold-gradient-h);
   border-radius: var(--r-full);
-  animation: loaderProgress 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 3.6s;
+  box-shadow: 0 0 10px var(--gold-primary);
+  transition: width 0.05s linear;
+}
+
+.loader-percent {
+  font-family: monospace;
+  font-size: 10.5px;
+  color: var(--gold-light);
+  letter-spacing: 0.15em;
+  font-weight: 600;
 }
 
 @keyframes loaderDraw     { to { stroke-dashoffset: 0; } }
 @keyframes loaderFadeIn   { to { opacity: 1; } }
 @keyframes loaderFadeUp   { to { opacity: 1; transform: translateY(0); } }
-@keyframes loaderScaleOut { to { transform: scale(0.8); opacity: 0; } }
-@keyframes loaderProgress { to { width: 100%; } }
 
-body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: none; }
+body.loaded #loader-wrapper {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
 /* --------------------------------------------------------------------------
    4. TOP CONTACT BAR (Inside Fixed Header)

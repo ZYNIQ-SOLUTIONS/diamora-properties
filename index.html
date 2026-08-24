@@ -39,57 +39,70 @@
 <body>
 
   <!-- =========================================================================
-       PRELOADER
+       PRELOADER (Ultra-Luxury Brand Awakening)
        ========================================================================= -->
-  <div id="loader-wrapper">
+  <div id="loader-wrapper" aria-label="Loading Diamora Properties">
+    <div class="loader-bg-ambient" aria-hidden="true"></div>
     <div class="loader-inner">
-      <svg id="loader-icon-group" width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="loader-gold" x1="0" y1="0" x2="100" y2="100">
-            <stop offset="0%" stop-color="#FBE6A2" />
-            <stop offset="50%" stop-color="#D4AF37" />
-            <stop offset="100%" stop-color="#8C6A18" />
-          </linearGradient>
-          <linearGradient id="loader-facetLeft" x1="0" y1="0" x2="100" y2="100">
-            <stop offset="0%" stop-color="#E5C768" />
-            <stop offset="100%" stop-color="#664D10" />
-          </linearGradient>
-          <linearGradient id="loader-facetRight" x1="0" y1="0" x2="100" y2="100">
-            <stop offset="0%" stop-color="#FFF0BE" />
-            <stop offset="100%" stop-color="#B38F24" />
-          </linearGradient>
-          <filter id="loader-glow">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-        </defs>
-        <path class="loader-line" d="M50,0 L0,42 L50,55 L100,42 Z" />
-        <path class="loader-line" d="M0,42 L0,100 L50,100 L50,55" />
-        <path class="loader-line" d="M100,42 L100,100 L50,100" />
-        <path class="loader-line" d="M50,0 L20,22 L50,45 L80,22 Z" />
-        <line class="loader-line" x1="50" y1="45" x2="50" y2="100" />
-        <g class="loader-fill">
-          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/>
-          <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
-          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-          <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
-          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-          <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1" filter="url(#loader-glow)"/>
-          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
-          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
-        </g>
-      </svg>
+      <!-- Emerald Diamond Monolith Drawing Animation -->
+      <div class="loader-emblem-wrap">
+        <svg id="loader-icon-group" width="130" height="130" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="loader-gold" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="#FFF5D1" />
+              <stop offset="45%" stop-color="#D4AF37" />
+              <stop offset="100%" stop-color="#8C6A18" />
+            </linearGradient>
+            <linearGradient id="loader-facetLeft" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="#E5C768" />
+              <stop offset="100%" stop-color="#664D10" />
+            </linearGradient>
+            <linearGradient id="loader-facetRight" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="#FFF0BE" />
+              <stop offset="100%" stop-color="#B38F24" />
+            </linearGradient>
+            <filter id="loader-glow">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <!-- Outer drafting geometry lines -->
+          <path class="loader-line" d="M50,0 L0,42 L50,55 L100,42 Z" />
+          <path class="loader-line" d="M0,42 L0,100 L50,100 L50,55" />
+          <path class="loader-line" d="M100,42 L100,100 L50,100" />
+          <path class="loader-line" d="M50,0 L20,22 L50,45 L80,22 Z" />
+          <line class="loader-line" x1="50" y1="45" x2="50" y2="100" />
+          
+          <!-- Inner Facets -->
+          <g class="loader-fill">
+            <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
+            <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
+            <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.35"/>
+            <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
+            <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+            <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
+            <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.95"/>
+            <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.55"/>
+            <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.85"/>
+            <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+            <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1.2" filter="url(#loader-glow)"/>
+            <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.65"/>
+            <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.85"/>
+          </g>
+        </svg>
+      </div>
+
       <div id="loader-horizontal-group">
         <div class="loader-wordmark">DIAMORA</div>
-        <div class="loader-sub">PROPERTIES</div>
+        <div class="loader-sub">P R O P E R T I E S</div>
+        <div class="loader-tagline">Sovereign UAE Real Estate Advisory</div>
       </div>
-      <div class="loader-progress-track" aria-hidden="true">
-        <div class="loader-progress-fill"></div>
+
+      <div class="loader-progress-wrap" aria-hidden="true">
+        <div class="loader-progress-track">
+          <div class="loader-progress-fill" id="loaderFillBar"></div>
+        </div>
+        <span class="loader-percent" id="loaderPercentText">0%</span>
       </div>
     </div>
   </div>

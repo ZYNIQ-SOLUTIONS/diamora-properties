@@ -80,12 +80,13 @@ function initInteractiveMap() {
   const targetLat = 24.4820317;
   const targetLng = 54.3496455;
 
+  // Zoomed out to 12 to capture all key Abu Dhabi destinations (Saadiyat, Yas, Grand Mosque, Corniche, Al Maryah)
   leafletMapInstance = L.map('map', {
     zoomControl: false,
     attributionControl: true,
     scrollWheelZoom: false,
     preferCanvas: true
-  }).setView([24.4780, 54.3496], 14);
+  }).setView([24.4750, 54.4300], 12);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
@@ -95,13 +96,13 @@ function initInteractiveMap() {
 
   // Investment perimeter rings
   L.circle([targetLat, targetLng], {
-    radius: 1500,
+    radius: 3500,
     color: '#D4AF37', weight: 1.5, opacity: 0.65,
     fillColor: '#D4AF37', fillOpacity: 0.04, dashArray: '6, 8'
   }).addTo(leafletMapInstance);
 
   L.circle([targetLat, targetLng], {
-    radius: 3200,
+    radius: 9000,
     color: '#8C6A18', weight: 1, opacity: 0.35,
     fillOpacity: 0.01, dashArray: '4, 10'
   }).addTo(leafletMapInstance);
@@ -129,7 +130,7 @@ function initInteractiveMap() {
       </svg>
       <div class="marker-label">
         <div class="marker-title">DIAMORA</div>
-        <div class="marker-subtitle">PROPERTIES</div>
+        <div class="marker-subtitle">PROPERTIES HQ</div>
       </div>
     </div>
   `;
@@ -151,38 +152,86 @@ function initInteractiveMap() {
     </div>
   `);
 
-  // Landmark markers
+  // Famous Landmarks across Abu Dhabi
   const primeLandmarks = [
     {
-      name: 'Corniche Beach',
-      category: 'waterfront',
-      coords: [24.4715, 54.3310],
-      tag: 'Prime Waterfront',
-      desc: 'Iconic 8km promenade with world-class beach clubs and beachfront residences.',
-      dist: '3 min'
+      name: 'Louvre Abu Dhabi',
+      category: 'culture',
+      coords: [24.5337, 54.3985],
+      tag: 'Saadiyat Cultural District',
+      desc: 'Iconic Jean Nouvel floating dome museum and premier art cultural destination.',
+      dist: '8 min'
     },
     {
-      name: 'Emirates Palace',
+      name: 'Saadiyat Beach & Mamsha',
+      category: 'waterfront',
+      coords: [24.5420, 54.4320],
+      tag: 'Ultra-Luxury Beachfront',
+      desc: 'Pristine turquoise waters, protected turtle sanctuary, and beachfront residences.',
+      dist: '10 min'
+    },
+    {
+      name: 'Emirates Palace Mandarin Oriental',
       category: 'culture',
       coords: [24.4618, 54.3173],
-      tag: 'Ultra-Luxury & Royal',
-      desc: 'World-renowned 7-star palace & Presidential Court corridor.',
+      tag: 'Ultra-Luxury & Royal Landmark',
+      desc: 'World-renowned 7-star palace, private marina & Presidential Court corridor.',
       dist: '6 min'
     },
     {
-      name: 'Al Bateen Marina',
+      name: 'Sheikh Zayed Grand Mosque',
+      category: 'culture',
+      coords: [24.4128, 54.4749],
+      tag: 'National Landmark & Heritage',
+      desc: 'Architectural masterpiece featuring 82 white marble domes and 24-carat gold chandeliers.',
+      dist: '14 min'
+    },
+    {
+      name: 'Corniche Beach & Skyline',
+      category: 'waterfront',
+      coords: [24.4715, 54.3310],
+      tag: 'Prime Waterfront Promenade',
+      desc: 'Iconic 8km landscaped coastal boulevard with luxury high-rises and beach clubs.',
+      dist: '3 min'
+    },
+    {
+      name: 'Yas Marina & Circuit (F1)',
+      category: 'entertainment',
+      coords: [24.4672, 54.6031],
+      tag: 'Global Entertainment Hub',
+      desc: 'Home of the Abu Dhabi F1 Grand Prix, mega yachts, theme parks, and Yas waterfront.',
+      dist: '18 min'
+    },
+    {
+      name: 'Al Maryah Island (ADGM)',
+      category: 'business',
+      coords: [24.5008, 54.3883],
+      tag: 'Financial Free Zone (ADGM)',
+      desc: 'Abu Dhabi international financial center, Rosewood, Four Seasons, and The Galleria.',
+      dist: '5 min'
+    },
+    {
+      name: 'Aldar HQ (The Disc)',
+      category: 'business',
+      coords: [24.4417, 54.5775],
+      tag: 'Iconic Architecture',
+      desc: 'The world’s first circular spherical skyscraper at Al Raha Beach.',
+      dist: '16 min'
+    },
+    {
+      name: 'Al Bateen Marina & Palace',
       category: 'marina',
       coords: [24.4532, 54.3418],
-      tag: 'Yacht Club & Waterfront',
-      desc: 'Exclusive private yacht berths, gourmet dining, and waterfront villas.',
+      tag: 'Royal Enclave & Yacht Club',
+      desc: 'Exclusive private yacht berths, royal palaces, gourmet dining, and waterfront villas.',
       dist: '5 min'
     },
     {
       name: 'Qasr Al Hosn',
       category: 'culture',
       coords: [24.4815, 54.3548],
-      tag: 'Heritage & Culture',
-      desc: 'Abu Dhabi historic cultural beacon and architectural heritage quarter.',
+      tag: 'Historical Beacon',
+      desc: 'Abu Dhabi’s oldest stone building and original sovereign heritage fortress.',
       dist: '2 min'
     }
   ];
@@ -199,8 +248,8 @@ function initInteractiveMap() {
     const icon = L.divIcon({
       className: 'landmark-marker-wrapper',
       html: landmarkHtml,
-      iconSize: [140, 36],
-      iconAnchor: [70, 18]
+      iconSize: [160, 36],
+      iconAnchor: [80, 18]
     });
 
     const marker = L.marker(item.coords, { icon }).addTo(leafletMapInstance);
@@ -224,13 +273,14 @@ function initInteractiveMap() {
 
       const filter = btn.getAttribute('data-filter');
       if (filter === 'all') {
-        leafletMapInstance.flyTo([targetLat, targetLng], 14, { duration: 1.2 });
+        leafletMapInstance.flyTo([24.4750, 54.4300], 12, { duration: 1.2 });
         landmarkMarkers.forEach(lm => lm.marker.addTo(leafletMapInstance));
       } else {
-        const matching = landmarkMarkers.find(lm => lm.category === filter);
-        if (matching) {
-          leafletMapInstance.flyTo(matching.coords, 15, { duration: 1.2 });
-          matching.marker.openPopup();
+        const matching = landmarkMarkers.filter(lm => lm.category === filter);
+        if (matching.length > 0) {
+          const first = matching[0];
+          leafletMapInstance.flyTo(first.coords, 14, { duration: 1.2 });
+          first.marker.openPopup();
         }
       }
     });

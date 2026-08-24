@@ -613,7 +613,7 @@ function initNavBehavior() {
      7. GSAP ScrollTrigger: active section highlight (adds .nav-link--active)
      ---------------------------------------------------------------------- */
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    const sections = ['#properties', '#location-map', '#about', '#why-diamora', '#partners', '#consult'];
+    const sections = ['#properties', '#about', '#location-map', '#why-diamora', '#partners', '#consult'];
 
     sections.forEach(id => {
       const el = document.querySelector(id);

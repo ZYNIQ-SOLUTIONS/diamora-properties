@@ -1,35 +1,31 @@
 /**
- * DIAMORA PROPERTIES — MAIN JAVASCRIPT
- * Abu Dhabi Drone Sequence (Canvas + GSAP ScrollTrigger)
- * Interactive Context Map (Leaflet + CartoDB Voyager)
- * Brand Loading Sequence & Micro-interactions
+ * DIAMORA PROPERTIES — MAIN JAVASCRIPT v2.0
+ * - Hero drone canvas sequence (GSAP ScrollTrigger)
+ * - Sticky nav scroll behavior & mobile hamburger
+ * - Interactive context map (Leaflet)
+ * - Brand preloader sequence
+ * - Consultation form handler
+ * - GSAP ScrollTrigger entrance animations for all sections
  */
 
-// Register GSAP plugins immediately if available
+// Register GSAP plugins immediately
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Abu Dhabi Drone Sequence (Hero Canvas)
   initHeroSequence();
-
-  // 2. Initialize Interactive Context Map
   initInteractiveMap();
-
-  // 3. Initialize Brand Loading Animation Sequence
   initBrandLoader();
-
-  // 4. Initialize UI Interactions
+  initNavBehavior();
   initBackToTop();
   initNewsletterForm();
+  initConsultForm();
 });
 
-/**
- * =========================================================================
- * 1. ABU DHABI DRONE VIEW IMAGE SEQUENCE (HERO CANVAS + GSAP SCROLLTRIGGER)
- * =========================================================================
- */
+/* ==========================================================================
+   1. HERO DRONE SEQUENCE (Canvas + GSAP ScrollTrigger)
+   ========================================================================== */
 function initHeroSequence() {
   const canvas = document.getElementById('hero-drone-canvas');
   if (!canvas) return;
@@ -58,7 +54,6 @@ function initHeroSequence() {
     const targetIndex = Math.min(Math.max(Math.round(droneSeq.frame), 0), frameCount - 1);
     let img = images[targetIndex];
 
-    // Gracefully fallback to closest loaded image if frame is buffering
     if (!img || !img.complete || img.naturalWidth === 0) {
       img = images[lastValidFrame] || images[0];
     }
@@ -69,49 +64,33 @@ function initHeroSequence() {
 
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Calculate background-size: cover
     const ratio = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
     const centerShiftX = (canvas.width - img.naturalWidth * ratio) / 2;
     const centerShiftY = (canvas.height - img.naturalHeight * ratio) / 2;
 
-    context.drawImage(
-      img,
-      0,
-      0,
-      img.naturalWidth,
-      img.naturalHeight,
-      centerShiftX,
-      centerShiftY,
-      img.naturalWidth * ratio,
-      img.naturalHeight * ratio
-    );
+    context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight,
+      centerShiftX, centerShiftY, img.naturalWidth * ratio, img.naturalHeight * ratio);
   }
 
-  // Preload all 30 WebP frames with zero lag
   for (let i = 0; i < frameCount; i++) {
     const img = new Image();
     img.src = currentFrame(i);
     img.onload = () => {
-      if (!isFirstFrameRendered || i === 0) {
-        render();
-      }
+      if (!isFirstFrameRendered || i === 0) render();
     };
     images.push(img);
   }
 
-  // Initial sizing
   resizeCanvas();
 
-  // Debounced Resize Listener
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resizeCanvas, 100);
   });
 
-  // Setup GSAP ScrollTrigger Sequence
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // 1. Scrub Drone Video Frames on Scroll
+    // Scrub drone frames on scroll
     gsap.to(droneSeq, {
       frame: frameCount - 1,
       ease: 'none',
@@ -128,7 +107,7 @@ function initHeroSequence() {
       }
     });
 
-    // 2. Bidirectional Text Overlay Parallax (Fade Out on Down, Fade In on Up)
+    // Parallax fade on hero content
     gsap.to('.hero-content-overlay', {
       opacity: 0,
       y: -60,
@@ -142,7 +121,7 @@ function initHeroSequence() {
       }
     });
 
-    // 3. Scroll Prompt Quick Fade Out
+    // Scroll indicator fades quickly
     gsap.to('.scroll-indicator', {
       opacity: 0,
       y: 20,
@@ -158,18 +137,13 @@ function initHeroSequence() {
   }
 }
 
-// Window load refresh hook to ensure complete layout accuracy after all fonts/styles arrive
 window.addEventListener('load', () => {
-  if (typeof ScrollTrigger !== 'undefined') {
-    ScrollTrigger.refresh();
-  }
+  if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
 });
 
-/**
- * =========================================================================
- * 2. INTERACTIVE CONTEXT MAP (ABU DHABI CORNICHE & AL BATEEN SECTOR)
- * =========================================================================
- */
+/* ==========================================================================
+   2. INTERACTIVE CONTEXT MAP (Leaflet)
+   ========================================================================== */
 let leafletMapInstance = null;
 let landmarkMarkers = [];
 
@@ -182,7 +156,6 @@ function initInteractiveMap() {
     return;
   }
 
-  // Prevent default Leaflet icon 404 warnings
   try {
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -190,9 +163,7 @@ function initInteractiveMap() {
       iconUrl: 'assets/logos/diamora-icon.svg',
       shadowUrl: ''
     });
-  } catch (e) {
-    // Ignore fallback
-  }
+  } catch (e) {}
 
   const targetLat = 24.4820317;
   const targetLng = 54.3496455;
@@ -204,42 +175,34 @@ function initInteractiveMap() {
     preferCanvas: true
   }).setView([24.4780, 54.3496], 14);
 
-  // CartoDB Voyager High-Definition Tile Layer
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
     maxZoom: 20,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
   }).addTo(leafletMapInstance);
 
-  // Investment Perimeter Rings (1.5KM & 3.2KM)
+  // Investment perimeter rings
   L.circle([targetLat, targetLng], {
     radius: 1500,
-    color: '#D4AF37',
-    weight: 1.5,
-    opacity: 0.65,
-    fillColor: '#D4AF37',
-    fillOpacity: 0.04,
-    dashArray: '6, 8'
+    color: '#D4AF37', weight: 1.5, opacity: 0.65,
+    fillColor: '#D4AF37', fillOpacity: 0.04, dashArray: '6, 8'
   }).addTo(leafletMapInstance);
 
   L.circle([targetLat, targetLng], {
     radius: 3200,
-    color: '#8C6A18',
-    weight: 1,
-    opacity: 0.35,
-    fillOpacity: 0.01,
-    dashArray: '4, 10'
+    color: '#8C6A18', weight: 1, opacity: 0.35,
+    fillOpacity: 0.01, dashArray: '4, 10'
   }).addTo(leafletMapInstance);
 
-  // Master Diamora Sovereign SVG Pin
+  // Diamora HQ pin
   const diamoraSvgPin = `
     <div class="custom-map-pin">
       <div class="marker-shadow-pulse"></div>
       <svg class="marker-graphic" width="104" height="104" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(0, 0)">
+        <g>
           <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.85"/>
           <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/>
           <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
           <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
           <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
@@ -247,10 +210,7 @@ function initInteractiveMap() {
           <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.55"/>
           <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.85"/>
           <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-          
           <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1.5" filter="url(#m-glow)"/>
-          <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.5"/>
-          <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1.5" opacity="0.5"/>
           <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="2" opacity="0.7"/>
           <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="2" opacity="0.85"/>
         </g>
@@ -274,12 +234,12 @@ function initInteractiveMap() {
     <div class="map-popup-card">
       <div class="popup-tag">Headquarters</div>
       <div class="popup-title">Diamora Properties</div>
-      <div class="popup-desc">Sovereign advisory & investment headquarters in Al Markaziyah West.</div>
-      <div class="popup-meta">P.O. Box 92813 • 025848478</div>
+      <div class="popup-desc">Sovereign advisory & investment headquarters in Al Markaziyah West, Abu Dhabi.</div>
+      <div class="popup-meta">P.O. Box 92813 · 025 848 478</div>
     </div>
   `);
 
-  // Surrounding Luxury Landmarks
+  // Landmark markers
   const primeLandmarks = [
     {
       name: 'Corniche Beach',
@@ -331,7 +291,7 @@ function initInteractiveMap() {
       iconAnchor: [70, 18]
     });
 
-    const marker = L.marker(item.coords, { icon: icon }).addTo(leafletMapInstance);
+    const marker = L.marker(item.coords, { icon }).addTo(leafletMapInstance);
     marker.bindPopup(`
       <div class="map-popup-card">
         <div class="popup-tag">${item.tag}</div>
@@ -344,11 +304,10 @@ function initInteractiveMap() {
     landmarkMarkers.push({ marker, category: item.category, coords: item.coords });
   });
 
-  // Filter Buttons
-  const filterButtons = document.querySelectorAll('.chip-btn');
-  filterButtons.forEach(btn => {
+  // Filter chips
+  document.querySelectorAll('.chip-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      filterButtons.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
       const filter = btn.getAttribute('data-filter');
@@ -367,30 +326,17 @@ function initInteractiveMap() {
 
   L.control.zoom({ position: 'bottomleft' }).addTo(leafletMapInstance);
 
-  setTimeout(() => {
-    if (leafletMapInstance) leafletMapInstance.invalidateSize();
-  }, 300);
+  setTimeout(() => { if (leafletMapInstance) leafletMapInstance.invalidateSize(); }, 300);
 
-  window.addEventListener('resize', () => {
-    if (leafletMapInstance) {
-      leafletMapInstance.invalidateSize();
-    }
-  });
+  window.addEventListener('resize', () => { if (leafletMapInstance) leafletMapInstance.invalidateSize(); });
 }
 
-/**
- * =========================================================================
- * 3. BRAND LOADER INTRO SEQUENCE
- * =========================================================================
- */
+/* ==========================================================================
+   3. BRAND PRELOADER
+   ========================================================================== */
 function initBrandLoader() {
   const loader = document.getElementById('loader-wrapper');
-  if (!loader) {
-    initPageAnimations();
-    return;
-  }
-
-  const animationDuration = 4000;
+  if (!loader) { initPageAnimations(); return; }
 
   const completeLoading = () => {
     if (typeof gsap !== 'undefined') {
@@ -401,15 +347,8 @@ function initBrandLoader() {
         onComplete: () => {
           document.body.classList.add('loaded');
           loader.style.display = 'none';
-
-          if (leafletMapInstance) {
-            leafletMapInstance.invalidateSize();
-          }
-
-          if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.refresh();
-          }
-
+          if (leafletMapInstance) leafletMapInstance.invalidateSize();
+          if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
           initPageAnimations();
         }
       });
@@ -422,136 +361,186 @@ function initBrandLoader() {
     }
   };
 
-  setTimeout(completeLoading, animationDuration);
-
+  setTimeout(completeLoading, 4400);
   // Safety fallback
   setTimeout(() => {
-    if (!document.body.classList.contains('loaded')) {
-      completeLoading();
-    }
-  }, 5500);
+    if (!document.body.classList.contains('loaded')) completeLoading();
+  }, 6000);
 }
 
-/**
- * =========================================================================
- * 4. GSAP SCROLLTRIGGER ANIMATIONS FOR NEXT SECTIONS
- * =========================================================================
- */
+/* ==========================================================================
+   4. NAV SCROLL BEHAVIOR & MOBILE HAMBURGER
+   ========================================================================== */
+function initNavBehavior() {
+  const nav = document.getElementById('main-nav');
+  const toggleBtn = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (!nav) return;
+
+  // Scroll class for shadow
+  const onScroll = () => {
+    if (window.scrollY > 60) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Hamburger toggle
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('mobile-open');
+      toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+    });
+
+    // Close on mobile link click
+    mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('mobile-open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('mobile-open') && !nav.contains(e.target)) {
+        nav.classList.remove('mobile-open');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
+}
+
+/* ==========================================================================
+   5. GSAP SCROLL ENTRANCE ANIMATIONS
+   ========================================================================== */
 function initPageAnimations() {
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Map Canvas & Grid Entrance
+  // Helper: fade-up animation
+  function fadeUp(selector, options = {}) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    gsap.from(selector, {
+      y: options.y || 40,
+      opacity: 0,
+      duration: options.duration || 0.85,
+      ease: options.ease || 'power3.out',
+      stagger: options.stagger || 0,
+      delay: options.delay || 0,
+      scrollTrigger: {
+        trigger: options.trigger || selector,
+        start: options.start || 'top 80%',
+        toggleActions: 'play none none reverse'
+      }
+    });
+  }
+
+  // Properties section
+  if (document.querySelector('.properties-section')) {
+    gsap.from('.properties-section .section-header', {
+      y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.properties-section', start: 'top 80%', toggleActions: 'play none none reverse' }
+    });
+
+    gsap.from('.property-card', {
+      y: 50, opacity: 0, duration: 0.75, ease: 'power3.out', stagger: 0.12,
+      scrollTrigger: { trigger: '.properties-grid', start: 'top 85%', toggleActions: 'play none none reverse' }
+    });
+
+    gsap.from('.properties-private-cta', {
+      y: 25, opacity: 0, duration: 0.7, ease: 'power2.out',
+      scrollTrigger: { trigger: '.properties-private-cta', start: 'top 90%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  // Pillars section
+  if (document.querySelector('.pillars-section')) {
+    gsap.from('.pillars-section .section-header', {
+      y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.pillars-section', start: 'top 80%', toggleActions: 'play none none reverse' }
+    });
+
+    gsap.from('.pillar-card', {
+      y: 45, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12,
+      scrollTrigger: { trigger: '.pillars-grid', start: 'top 85%', toggleActions: 'play none none reverse' }
+    });
+
+    gsap.from('.pillar-sec-item', {
+      y: 30, opacity: 0, duration: 0.7, ease: 'power2.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.pillars-secondary-grid', start: 'top 90%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  // Partners section
+  if (document.querySelector('.partners-section')) {
+    gsap.from('.partners-section .section-header', {
+      y: 30, opacity: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: '.partners-section', start: 'top 80%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  // Consult section
+  if (document.querySelector('.consult-section')) {
+    gsap.from('.consult-content', {
+      x: -30, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: '.consult-section', start: 'top 75%', toggleActions: 'play none none reverse' }
+    });
+
+    gsap.from('.consult-form-wrap', {
+      x: 30, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: '.consult-section', start: 'top 75%', toggleActions: 'play none none reverse' }
+    });
+  }
+
+  // Map section
   if (document.querySelector('.interactive-map-section')) {
     gsap.from('#map', {
-      opacity: 0,
-      scale: 0.985,
-      duration: 1.2,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.interactive-map-section',
-        start: 'top 75%',
-        toggleActions: 'play none none reverse'
-      }
+      opacity: 0, scale: 0.985, duration: 1.2, ease: 'power2.out',
+      scrollTrigger: { trigger: '.interactive-map-section', start: 'top 75%', toggleActions: 'play none none reverse' }
     });
 
-    gsap.from('.blueprint-grid', {
-      opacity: 0,
-      y: 40,
-      duration: 1.1,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.interactive-map-section',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse'
-      }
-    });
-  }
-
-  // Floating Header & Coord Panels
-  if (document.querySelector('.header-panel')) {
     gsap.from('.header-panel', {
-      x: -35,
-      opacity: 0,
-      duration: 0.95,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.interactive-map-section',
-        start: 'top 60%',
-        toggleActions: 'play none none reverse'
-      }
+      x: -35, opacity: 0, duration: 0.95, ease: 'power3.out',
+      scrollTrigger: { trigger: '.interactive-map-section', start: 'top 60%', toggleActions: 'play none none reverse' }
     });
-  }
 
-  if (document.querySelector('.coord-panel')) {
     gsap.from('.coord-panel', {
-      x: 35,
-      opacity: 0,
-      duration: 0.95,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.interactive-map-section',
-        start: 'top 60%',
-        toggleActions: 'play none none reverse'
-      }
+      x: 35, opacity: 0, duration: 0.95, ease: 'power3.out',
+      scrollTrigger: { trigger: '.interactive-map-section', start: 'top 60%', toggleActions: 'play none none reverse' }
     });
-  }
 
-  // Floating CTA Card
-  if (document.querySelector('.map-floating-cta')) {
     gsap.from('.map-floating-cta', {
-      y: 40,
-      opacity: 0,
-      duration: 0.9,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.interactive-map-section',
-        start: 'top 40%',
-        toggleActions: 'play none none reverse'
-      }
+      y: 40, opacity: 0, duration: 0.9, ease: 'power3.out',
+      scrollTrigger: { trigger: '.interactive-map-section', start: 'top 40%', toggleActions: 'play none none reverse' }
     });
   }
 
-  // Main Footer Columns
-  if (document.querySelector('.footer-top-grid')) {
+  // Footer
+  if (document.querySelector('.main-footer')) {
     gsap.from('.footer-col', {
-      scrollTrigger: {
-        trigger: '.main-footer',
-        start: 'top 85%',
-        toggleActions: 'play none none reverse'
-      },
-      y: 35,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power3.out'
+      y: 35, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.main-footer', start: 'top 85%', toggleActions: 'play none none reverse' }
     });
-  }
 
-  // Footer Trust Strip & Bottom Bar
-  if (document.querySelector('.footer-trust-strip')) {
     gsap.from('.footer-trust-strip, .footer-bottom-bar', {
-      scrollTrigger: {
-        trigger: '.footer-trust-strip',
-        start: 'top 95%',
-        toggleActions: 'play none none reverse'
-      },
-      y: 20,
-      opacity: 0,
-      duration: 0.7,
-      stagger: 0.12,
-      ease: 'power2.out'
+      y: 20, opacity: 0, duration: 0.7, ease: 'power2.out', stagger: 0.12,
+      scrollTrigger: { trigger: '.footer-trust-strip', start: 'top 95%', toggleActions: 'play none none reverse' }
     });
   }
 
-  // Floating WhatsApp Button
+  // WhatsApp button entrance
   if (document.querySelector('.floating-whatsapp-btn')) {
     gsap.from('.floating-whatsapp-btn', {
-      scale: 0.7,
-      opacity: 0,
-      duration: 0.6,
-      ease: 'back.out(1.5)',
+      scale: 0.7, opacity: 0, duration: 0.6, ease: 'back.out(1.5)',
       scrollTrigger: {
         trigger: '.interactive-map-section',
         start: 'top 80%',
@@ -561,24 +550,22 @@ function initPageAnimations() {
   }
 }
 
-/**
- * =========================================================================
- * 5. BACK TO TOP & FORMS
- * =========================================================================
- */
+/* ==========================================================================
+   6. BACK TO TOP
+   ========================================================================== */
 function initBackToTop() {
-  const backToTopBtn = document.getElementById('backToTopBtn');
-  if (!backToTopBtn) return;
+  const btn = document.getElementById('backToTopBtn');
+  if (!btn) return;
 
-  backToTopBtn.addEventListener('click', (e) => {
+  btn.addEventListener('click', (e) => {
     e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
+/* ==========================================================================
+   7. VIP NEWSLETTER FORM
+   ========================================================================== */
 function initNewsletterForm() {
   const form = document.getElementById('vipNewsletterForm');
   if (!form) return;
@@ -587,24 +574,16 @@ function initNewsletterForm() {
     e.preventDefault();
     const input = form.querySelector('input[type="email"]');
     const submitBtn = form.querySelector('.btn-subscribe');
-    const originalText = submitBtn.innerHTML;
+    const originalHTML = submitBtn.innerHTML;
 
     if (!input || !input.value) return;
 
-    submitBtn.innerHTML = `
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spin-icon">
-        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"/>
-        <path d="M12 2a10 10 0 0 1 10 10"/>
-      </svg>
-      <span>Subscribing...</span>
-    `;
+    submitBtn.innerHTML = `<span>Subscribing…</span>`;
     submitBtn.disabled = true;
 
     setTimeout(() => {
       submitBtn.innerHTML = `
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         <span>Joined VIP List</span>
       `;
       submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
@@ -613,12 +592,72 @@ function initNewsletterForm() {
       input.placeholder = 'Thank you for joining our private network.';
 
       setTimeout(() => {
-        submitBtn.innerHTML = originalText;
+        submitBtn.innerHTML = originalHTML;
         submitBtn.style.background = '';
         submitBtn.style.color = '';
         submitBtn.disabled = false;
         input.placeholder = 'Enter your email for private listings...';
-      }, 4000);
+      }, 4500);
+    }, 900);
+  });
+}
+
+/* ==========================================================================
+   8. CONSULTATION FORM
+   ========================================================================== */
+function initConsultForm() {
+  const form = document.getElementById('consultForm');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Basic validation
+    const requiredFields = form.querySelectorAll('[required]');
+    let valid = true;
+
+    requiredFields.forEach(field => {
+      field.style.borderColor = '';
+      if (!field.value.trim()) {
+        field.style.borderColor = '#ef4444';
+        valid = false;
+      }
+    });
+
+    if (!valid) return;
+
+    const btn = document.getElementById('consultSubmitBtn');
+    const btnText = document.getElementById('formBtnText');
+    if (!btn || !btnText) return;
+
+    const originalText = btnText.textContent;
+    btn.disabled = true;
+    btnText.textContent = 'Sending request…';
+
+    // Simulate async submission — replace with real endpoint
+    setTimeout(() => {
+      btnText.textContent = 'Request Sent!';
+      btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+      btn.style.color = '#ffffff';
+
+      // Build WhatsApp deep link fallback
+      const name = form.querySelector('#cf-name')?.value || '';
+      const phone = form.querySelector('#cf-phone')?.value || '';
+      const budget = form.querySelector('#cf-budget')?.value || '';
+      const intent = form.querySelector('#cf-intent')?.value || '';
+      const waMsg = encodeURIComponent(
+        `Hello Diamora Properties! I'd like to book a private consultation.\n\n` +
+        `Name: ${name}\nPhone: ${phone}\nBudget: AED ${budget}\nIntent: ${intent}`
+      );
+
+      setTimeout(() => {
+        window.open(`https://wa.me/971551260772?text=${waMsg}`, '_blank', 'noopener,noreferrer');
+        form.reset();
+        btn.disabled = false;
+        btn.style.background = '';
+        btn.style.color = '';
+        btnText.textContent = originalText;
+      }, 1200);
     }, 900);
   });
 }

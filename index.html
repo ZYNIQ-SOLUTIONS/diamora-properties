@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Diamora Properties | Luxury Real Estate & Property Advisory UAE</title>
-  
+  <title>Diamora Properties | Luxury Real Estate &amp; Property Advisory UAE</title>
+
   <!-- Meta & SEO -->
   <meta name="description" content="Diamora Properties is your premier luxury real estate advisory in the UAE. Discover ultra-luxury villas, penthouses, and high-yield off-plan developments across Dubai and Abu Dhabi.">
   <meta name="keywords" content="Diamora Properties, UAE Real Estate, Dubai Luxury Properties, Abu Dhabi Real Estate, Off Plan Dubai, Golden Visa UAE, Al Markaziyah West">
@@ -14,8 +14,10 @@
   <!-- OpenGraph / Social Sharing -->
   <meta property="og:title" content="Diamora Properties | Curating Luxury Living in the UAE">
   <meta property="og:description" content="Explore exclusive luxury properties, high-ROI investments, and private real estate advisory with Diamora Properties.">
-  <meta property="og:image" content="assets/logos/diamora-horizontal.svg">
+  <meta property="og:image" content="assets/logos/logo-gold.png">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://diamora.properties">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- Favicons -->
   <link rel="icon" type="image/svg+xml" href="assets/logos/diamora-icon.svg">
@@ -23,13 +25,13 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/logo-square.png">
   <link rel="apple-touch-icon" href="assets/logos/logo-square.png">
 
-  <!-- Leaflet CSS for Interactive Context Map -->
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
-  <!-- Google Fonts (Cinzel & Montserrat from Master Brand Kit) -->
+  <!-- Google Fonts: Cinzel (display) + Cormorant (editorial) + Montserrat (UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
@@ -37,13 +39,11 @@
 <body>
 
   <!-- =========================================================================
-       DIGITAL LOADER ANIMATION (OBSIDIAN DARK THEME)
+       PRELOADER
        ========================================================================= -->
   <div id="loader-wrapper">
-    <div style="position: relative; width: 320px; height: 160px; display: flex; justify-content: center; align-items: center;">
-      
-      <!-- Step 1: The Monogram Monolith (Draws in, then scales out) -->
-      <svg id="loader-icon-group" style="position: absolute;" width="140" height="140" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="loader-inner">
+      <svg id="loader-icon-group" width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <linearGradient id="loader-gold" x1="0" y1="0" x2="100" y2="100">
             <stop offset="0%" stop-color="#FBE6A2" />
@@ -58,45 +58,20 @@
             <stop offset="0%" stop-color="#FFF0BE" />
             <stop offset="100%" stop-color="#B38F24" />
           </linearGradient>
-          <filter id="loader-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <filter id="loader-glow">
             <feGaussianBlur stdDeviation="2" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
-        
-        <!-- Outline structure (drawn in CSS keyframes) -->
         <path class="loader-line" d="M50,0 L0,42 L50,55 L100,42 Z" />
         <path class="loader-line" d="M0,42 L0,100 L50,100 L50,55" />
         <path class="loader-line" d="M100,42 L100,100 L50,100" />
         <path class="loader-line" d="M50,0 L20,22 L50,45 L80,22 Z" />
         <line class="loader-line" x1="50" y1="45" x2="50" y2="100" />
-        
-        <!-- Solid master facets revealed smoothly -->
         <g class="loader-fill">
           <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
           <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
-          <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
-          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-          <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
-          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-          <line x1="50" y1="45" x2="50" y2="100" stroke="url(#loader-gold)" stroke-width="1" filter="url(#loader-glow)"/>
-          <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
-          <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
-          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
-          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
-        </g>
-      </svg>
-
-      <!-- Step 2: The Horizontal Lockup (Slides in after monogram scales out) -->
-      <svg id="loader-horizontal-group" style="position: absolute;" width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g transform="translate(10, 15) scale(0.7)">
-          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="url(#loader-facetLeft)"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
+          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/>
           <polygon points="50,0 100,42 100,100 50,55" fill="url(#loader-facetRight)"/>
           <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
           <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
@@ -108,46 +83,534 @@
           <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
           <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
         </g>
-        <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.4)" stroke-width="1.5"/>
-        <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="url(#loader-gold)" letter-spacing="4">DIAMORA</text>
-        <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8.5" font-weight="500" fill="#8E9BAE" letter-spacing="4">PROPERTIES</text>
       </svg>
-    </div>
-    
-    <div class="loader-text text-center">
-      <p style="font-family: 'Montserrat', sans-serif; font-size: 9px; letter-spacing: 0.4em; color: #FBE6A2; text-transform: uppercase; font-weight: 600; text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);">
-        Initializing Identity System
-      </p>
+      <div id="loader-horizontal-group">
+        <div class="loader-wordmark">DIAMORA</div>
+        <div class="loader-sub">PROPERTIES</div>
+      </div>
+      <div class="loader-progress-track" aria-hidden="true">
+        <div class="loader-progress-fill"></div>
+      </div>
     </div>
   </div>
 
   <!-- =========================================================================
-       HERO: ABU DHABI DRONE SEQUENCE (GSAP SCROLLTRIGGER CANVAS)
+       TOP CONTACT BAR
        ========================================================================= -->
-  <section class="hero-sequence-section" id="hero-home">
-    <div class="hero-canvas-container">
-      <canvas id="hero-drone-canvas"></canvas>
+  <div class="top-contact-bar" id="top-bar" role="banner">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <a href="tel:025848478" class="top-bar-link">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          025 848 478
+        </a>
+        <span class="top-bar-sep" aria-hidden="true">·</span>
+        <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="top-bar-link top-bar-link--gold">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/></svg>
+          WhatsApp
+        </a>
+        <span class="top-bar-sep" aria-hidden="true">·</span>
+        <a href="mailto:info@diamora.properties" class="top-bar-link">info@diamora.properties</a>
+      </div>
+      <div class="top-bar-right">
+        <span class="top-bar-tag">Licensed Real Estate Advisory · UAE</span>
+        <span class="top-bar-sep" aria-hidden="true">·</span>
+        <span class="top-bar-tag">Abu Dhabi &amp; Dubai</span>
+      </div>
     </div>
-    
+  </div>
+
+  <!-- =========================================================================
+       NAVIGATION
+       ========================================================================= -->
+  <nav class="main-nav" id="main-nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo" aria-label="Diamora Properties — Home">
+        <img src="assets/logos/logo-gold.png" alt="Diamora Properties" class="nav-logo-img nav-logo-light" width="180" height="60" loading="eager">
+        <img src="assets/logos/logo-white.png" alt="Diamora Properties" class="nav-logo-img nav-logo-dark" width="180" height="60" loading="eager">
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#properties" class="nav-link">Properties</a></li>
+        <li><a href="#why-diamora" class="nav-link">Advisory</a></li>
+        <li><a href="#partners" class="nav-link">Partners</a></li>
+        <li><a href="#location-map" class="nav-link">Locations</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#consult" class="btn-nav-primary">
+          Book a Consultation
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <button class="nav-hamburger" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+      <ul role="list">
+        <li><a href="#properties" class="mobile-nav-link">Properties</a></li>
+        <li><a href="#why-diamora" class="mobile-nav-link">Advisory</a></li>
+        <li><a href="#partners" class="mobile-nav-link">Partners</a></li>
+        <li><a href="#location-map" class="mobile-nav-link">Locations</a></li>
+        <li><a href="#consult" class="mobile-nav-link mobile-nav-cta">Book a Consultation</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- =========================================================================
+       HERO: DRONE SEQUENCE
+       ========================================================================= -->
+  <section class="hero-sequence-section" id="hero-home" aria-label="Hero — Sovereign Real Estate Advisory">
+    <div class="hero-canvas-container">
+      <canvas id="hero-drone-canvas" aria-hidden="true"></canvas>
+    </div>
     <div class="hero-content-overlay">
-      <div class="hero-badge">Welcome to Diamora Properties</div>
-      <h1 class="hero-main-title">ELEVATING <br><span class="gold-text">UAE LUXURY</span></h1>
-      <p class="hero-subtext">Discover the pinnacle of sovereign real estate advisory across Abu Dhabi and Dubai.</p>
-      
-      <div class="scroll-indicator">
-        <span>Scroll to Explore</span>
-        <div class="scroll-line"></div>
+      <div class="hero-content-inner">
+        <div class="hero-eyebrow" aria-label="Sovereign Real Estate Advisory">
+          <span class="eyebrow-dot" aria-hidden="true"></span>
+          Sovereign Real Estate Advisory
+        </div>
+        <h1 class="hero-headline">
+          Elevating<br>
+          <em class="hero-headline-accent">UAE Luxury</em><br>
+          Living
+        </h1>
+        <p class="hero-subtext">
+          Curated access to Abu Dhabi and Dubai's most coveted residences, off-market allocations, and high-yield prime investments.
+        </p>
+        <div class="hero-ctas">
+          <a href="#properties" class="btn-hero-primary">
+            Explore Properties
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="btn-hero-secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/></svg>
+            WhatsApp Us
+          </a>
+        </div>
+        <div class="hero-stats" aria-label="Key statistics">
+          <div class="hero-stat">
+            <span class="hero-stat-num" aria-label="Over 2.4 billion AED portfolio managed">AED 2.4B+</span>
+            <span class="hero-stat-label">Portfolio Managed</span>
+          </div>
+          <div class="hero-stat-div" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" aria-label="Over 850 transactions closed">850+</span>
+            <span class="hero-stat-label">Transactions Closed</span>
+          </div>
+          <div class="hero-stat-div" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" aria-label="12 or more years in UAE market">12+</span>
+            <span class="hero-stat-label">Years in UAE Market</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       FEATURED PROPERTIES
+       ========================================================================= -->
+  <section class="section properties-section" id="properties" aria-labelledby="properties-title">
+    <div class="container">
+      <div class="section-header section-header--split">
+        <div class="section-header-left">
+          <div class="section-tag">Prime Portfolio</div>
+          <h2 class="section-title" id="properties-title">Signature<br>Properties</h2>
+        </div>
+        <div class="section-header-right">
+          <p class="section-intro">
+            Hand-selected from Dubai and Abu Dhabi's most prestigious addresses. Each property evaluated for lifestyle, capital appreciation, and rental yield.
+          </p>
+          <a href="#consult" class="btn-text-link">
+            View all listings
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="properties-grid">
+
+        <!-- Card 1: Featured large -->
+        <article class="property-card property-card--featured" aria-label="Palm Jumeirah Sky Penthouse">
+          <div class="property-card-image">
+            <div class="prop-visual prop-visual-1" aria-hidden="true">
+              <div class="prop-visual-inner">
+                <div class="prop-visual-line"></div>
+                <div class="prop-visual-arch"></div>
+                <div class="prop-visual-glow"></div>
+              </div>
+            </div>
+            <div class="property-badge">Off-Market</div>
+            <div class="property-overlay-metrics">
+              <span class="prop-metric">ROI 8.2%</span>
+              <span class="prop-metric-sep" aria-hidden="true">·</span>
+              <span class="prop-metric">Golden Visa Eligible</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Palm Jumeirah, Dubai
+            </div>
+            <h3 class="property-name">Sky Penthouse — Palm West Beach</h3>
+            <p class="property-desc">Full-floor sky residence with 360° private terrace, private pool, and direct beach access in Dubai's most iconic address.</p>
+            <div class="property-specs" aria-label="5 bedrooms, 7 bathrooms, 12,400 square feet">
+              <span>5 Beds</span>
+              <span class="spec-sep" aria-hidden="true">·</span>
+              <span>7 Baths</span>
+              <span class="spec-sep" aria-hidden="true">·</span>
+              <span>12,400 sqft</span>
+            </div>
+            <div class="property-footer">
+              <div class="property-price">
+                <span class="price-label">Starting From</span>
+                <span class="price-val">AED 48,000,000</span>
+              </div>
+              <a href="https://wa.me/971551260772?text=I'm%20interested%20in%20the%20Palm%20Jumeirah%20Penthouse" target="_blank" rel="noopener noreferrer" class="btn-prop-inquiry" aria-label="Inquire about Palm Jumeirah Sky Penthouse">
+                Inquire
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="property-card" aria-label="Saadiyat Island Beachfront Villa">
+          <div class="property-card-image">
+            <div class="prop-visual prop-visual-2" aria-hidden="true">
+              <div class="prop-visual-inner">
+                <div class="prop-visual-line"></div>
+                <div class="prop-visual-arch"></div>
+                <div class="prop-visual-glow"></div>
+              </div>
+            </div>
+            <div class="property-badge property-badge--new">New Launch</div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Saadiyat Island, Abu Dhabi
+            </div>
+            <h3 class="property-name">Aldar Mamsha Saadiyat Villa</h3>
+            <p class="property-desc">Beachfront ultra-luxury villas steps from the Louvre Abu Dhabi, within the cultural district's exclusive residential enclave.</p>
+            <div class="property-specs" aria-label="4 bedrooms, 5 bathrooms, 6,800 square feet">
+              <span>4 Beds</span>
+              <span class="spec-sep" aria-hidden="true">·</span>
+              <span>5 Baths</span>
+              <span class="spec-sep" aria-hidden="true">·</span>
+              <span>6,800 sqft</span>
+            </div>
+            <div class="property-footer">
+              <div class="property-price">
+                <span class="price-label">Starting From</span>
+                <span class="price-val">AED 22,500,000</span>
+              </div>
+              <a href="https://wa.me/971551260772?text=I'm%20interested%20in%20Saadiyat%20Island%20Villa" target="_blank" rel="noopener noreferrer" class="btn-prop-inquiry" aria-label="Inquire about Saadiyat Island villa">
+                Inquire
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="property-card" aria-label="Emaar Opera Grand Sky Suite">
+          <div class="property-card-image">
+            <div class="prop-visual prop-visual-3" aria-hidden="true">
+              <div class="prop-visual-inner">
+                <div class="prop-visual-line"></div>
+                <div class="prop-visual-arch"></div>
+                <div class="prop-visual-glow"></div>
+              </div>
+            </div>
+            <div class="property-badge property-badge--offplan">Off-Plan</div>
+            <div class="property-overlay-metrics">
+              <span class="prop-metric">ROI 9.1%</span>
+            </div>
+          </div>
+          <div class="property-card-body">
+            <div class="property-location">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Downtown Dubai
+            </div>
+            <h3 class="property-name">Emaar Opera Grand — Sky Suite</h3>
+            <p class="property-desc">Panoramic Burj Khalifa and Opera District views. Exclusive high-floor sky suite with 60/40 payment plan available.</p>
+            <div class="property-specs" aria-label="3 bedrooms, 4 bathrooms, 3,950 square feet">
+              <span>3 Beds</span>
+              <span class="spec-sep" aria-hidden="true">·</span>
+              <span>4 Baths</span>
+              <span class="spec-sep" aria-hidden="true">·</span>
+              <span>3,950 sqft</span>
+            </div>
+            <div class="property-footer">
+              <div class="property-price">
+                <span class="price-label">Starting From</span>
+                <span class="price-val">AED 14,800,000</span>
+              </div>
+              <a href="https://wa.me/971551260772?text=I'm%20interested%20in%20Emaar%20Opera%20Grand" target="_blank" rel="noopener noreferrer" class="btn-prop-inquiry" aria-label="Inquire about Emaar Opera Grand">
+                Inquire
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Private listings CTA bar -->
+      <div class="properties-private-cta">
+        <div class="private-cta-line" aria-hidden="true"></div>
+        <div class="private-cta-content">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <p>Access <strong>43 off-market listings</strong> not publicly advertised — reserved for our private client network.</p>
+          <a href="#consult" class="btn-private-access">Request Private Access</a>
+        </div>
+        <div class="private-cta-line" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 
   <!-- =========================================================================
-       INTERACTIVE CONTEXT MAP SECTION (LIGHT MODE DIAMOND ALABASTER & GOLD)
+       WHY DIAMORA — KEY PILLARS
        ========================================================================= -->
-  <section class="interactive-map-section" id="location-map">
-    
-    <!-- Hidden SVG Defs for the Custom Monolith Marker Pin -->
-    <svg width="0" height="0" class="svg-defs-hidden">
+  <section class="section pillars-section" id="why-diamora" aria-labelledby="pillars-title">
+    <div class="pillars-bg-strip" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-header section-header--center">
+        <div class="section-tag">The Diamora Difference</div>
+        <h2 class="section-title" id="pillars-title">Why Discerning Investors Choose Us</h2>
+        <p class="section-intro section-intro--centered">
+          Three pillars that define every Diamora advisory engagement — from first inquiry to title deed.
+        </p>
+      </div>
+
+      <div class="pillars-grid">
+
+        <div class="pillar-card">
+          <div class="pillar-number" aria-hidden="true">01</div>
+          <div class="pillar-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="pillar-title">Off-Market Priority Access</h3>
+          <p class="pillar-desc">Exclusive pre-launch allocations and off-market listings sourced directly from Emaar, Aldar, DAMAC, and Sobha before public release. Our clients secure at developer-floor pricing.</p>
+          <div class="pillar-metric">
+            <span class="pillar-metric-val">43</span>
+            <span class="pillar-metric-label">Active off-market units</span>
+          </div>
+        </div>
+
+        <div class="pillar-card pillar-card--accent">
+          <div class="pillar-number" aria-hidden="true">02</div>
+          <div class="pillar-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3 class="pillar-title">UAE Golden Visa Advisory</h3>
+          <p class="pillar-desc">Full-service UAE Golden Visa eligibility assessment, documentation, and processing for qualifying property investments of AED 2M+. Our legal team coordinates every step.</p>
+          <div class="pillar-metric">
+            <span class="pillar-metric-val">320+</span>
+            <span class="pillar-metric-label">Visas successfully processed</span>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-number" aria-hidden="true">03</div>
+          <div class="pillar-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3 class="pillar-title">High-Yield ROI Strategy</h3>
+          <p class="pillar-desc">Data-driven investment strategy grounded in real-time DLD transaction data and rental yield benchmarks. We optimize for both capital appreciation and annual income returns.</p>
+          <div class="pillar-metric">
+            <span class="pillar-metric-val">8.7%</span>
+            <span class="pillar-metric-label">Avg. client gross ROI</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pillars-secondary-grid">
+        <div class="pillar-sec-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div>
+            <strong>24/7 Private Concierge</strong>
+            <p>Dedicated relationship manager available via WhatsApp, direct line, or scheduled video call — always on.</p>
+          </div>
+        </div>
+        <div class="pillar-sec-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <div>
+            <strong>End-to-End Property Management</strong>
+            <p>From title deed transfer to tenant placement and maintenance — fully managed, hands-free ownership.</p>
+          </div>
+        </div>
+        <div class="pillar-sec-item">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div>
+            <strong>Multi-City Coverage</strong>
+            <p>Active presence across Abu Dhabi, Dubai, and Ras Al Khaimah with global investor advisory reach.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       DEVELOPER PARTNERS
+       ========================================================================= -->
+  <section class="section partners-section" id="partners" aria-labelledby="partners-title">
+    <div class="container">
+      <div class="section-header section-header--center">
+        <div class="section-tag">Tier-1 Partnerships</div>
+        <h2 class="section-title" id="partners-title">Developer Partners</h2>
+        <p class="section-intro section-intro--centered">
+          Official advisory partner of UAE's most prestigious master developers. Direct access, priority allocations, and co-branded client packages.
+        </p>
+      </div>
+
+      <div class="partners-track-wrap">
+        <div class="partners-track" role="list" aria-label="Developer partners">
+          <div class="partner-item" role="listitem"><div class="partner-logo-box"><div class="partner-wordmark">EMAAR</div><div class="partner-sub">Properties</div></div></div>
+          <div class="partner-item" role="listitem"><div class="partner-logo-box"><div class="partner-wordmark">ALDAR</div><div class="partner-sub">Properties</div></div></div>
+          <div class="partner-item" role="listitem"><div class="partner-logo-box"><div class="partner-wordmark">DAMAC</div><div class="partner-sub">Properties</div></div></div>
+          <div class="partner-item" role="listitem"><div class="partner-logo-box"><div class="partner-wordmark">SOBHA</div><div class="partner-sub">Realty</div></div></div>
+          <div class="partner-item" role="listitem"><div class="partner-logo-box"><div class="partner-wordmark">MERAAS</div><div class="partner-sub">Holding</div></div></div>
+          <div class="partner-item" role="listitem"><div class="partner-logo-box"><div class="partner-wordmark">NAKHEEL</div><div class="partner-sub">Properties</div></div></div>
+          <!-- Duplicates for marquee -->
+          <div class="partner-item" aria-hidden="true"><div class="partner-logo-box"><div class="partner-wordmark">EMAAR</div><div class="partner-sub">Properties</div></div></div>
+          <div class="partner-item" aria-hidden="true"><div class="partner-logo-box"><div class="partner-wordmark">ALDAR</div><div class="partner-sub">Properties</div></div></div>
+          <div class="partner-item" aria-hidden="true"><div class="partner-logo-box"><div class="partner-wordmark">DAMAC</div><div class="partner-sub">Properties</div></div></div>
+          <div class="partner-item" aria-hidden="true"><div class="partner-logo-box"><div class="partner-wordmark">SOBHA</div><div class="partner-sub">Realty</div></div></div>
+          <div class="partner-item" aria-hidden="true"><div class="partner-logo-box"><div class="partner-wordmark">MERAAS</div><div class="partner-sub">Holding</div></div></div>
+          <div class="partner-item" aria-hidden="true"><div class="partner-logo-box"><div class="partner-wordmark">NAKHEEL</div><div class="partner-sub">Properties</div></div></div>
+        </div>
+      </div>
+
+      <div class="partners-trust-row" role="list" aria-label="Trust certifications">
+        <div class="trust-sig" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Licensed Real Estate Advisory UAE
+        </div>
+        <div class="trust-sig-sep" aria-hidden="true"></div>
+        <div class="trust-sig" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          Tier-1 Master Developer Partner
+        </div>
+        <div class="trust-sig-sep" aria-hidden="true"></div>
+        <div class="trust-sig" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          DLD Registered Brokerage
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       CONSULTATION BOOKING FORM
+       ========================================================================= -->
+  <section class="section consult-section" id="consult" aria-labelledby="consult-title">
+    <div class="container">
+      <div class="consult-grid">
+
+        <div class="consult-content">
+          <div class="section-tag">Private Advisory</div>
+          <h2 class="section-title consult-title" id="consult-title">
+            Reserve Your<br>Private Consultation
+          </h2>
+          <p class="consult-desc">
+            Our senior advisors dedicate 45 minutes exclusively to your investment profile. No generic pitches, no pressure — only a precise, data-backed strategy for your goals.
+          </p>
+          <div class="consult-proof">
+            <div class="proof-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Portfolio analysis &amp; yield projections
+            </div>
+            <div class="proof-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Off-market listing preview (NDA protected)
+            </div>
+            <div class="proof-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              UAE Golden Visa eligibility check
+            </div>
+            <div class="proof-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              Zero obligation, strictly confidential
+            </div>
+          </div>
+          <div class="consult-direct">
+            <span class="consult-direct-label">Prefer direct contact?</span>
+            <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="consult-direct-link">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/></svg>
+              WhatsApp +971 55 126 0772
+            </a>
+          </div>
+        </div>
+
+        <div class="consult-form-wrap">
+          <form id="consultForm" class="consult-form" novalidate aria-label="Consultation booking form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="cf-name" class="form-label">Full Name</label>
+                <input type="text" id="cf-name" name="name" class="form-input" placeholder="Your full name" required autocomplete="name">
+              </div>
+              <div class="form-field">
+                <label for="cf-phone" class="form-label">Phone / WhatsApp</label>
+                <input type="tel" id="cf-phone" name="phone" class="form-input" placeholder="+971 __ ___ ____" required autocomplete="tel">
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="cf-email" class="form-label">Email Address</label>
+              <input type="email" id="cf-email" name="email" class="form-input" placeholder="your@email.com" required autocomplete="email">
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="cf-budget" class="form-label">Investment Budget</label>
+                <select id="cf-budget" name="budget" class="form-input form-select" required>
+                  <option value="" disabled selected>Select range</option>
+                  <option value="2-5M">AED 2M – 5M</option>
+                  <option value="5-10M">AED 5M – 10M</option>
+                  <option value="10-25M">AED 10M – 25M</option>
+                  <option value="25M+">AED 25M+</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="cf-intent" class="form-label">Primary Intent</label>
+                <select id="cf-intent" name="intent" class="form-input form-select" required>
+                  <option value="" disabled selected>Select intent</option>
+                  <option value="investment">Investment / ROI</option>
+                  <option value="lifestyle">Personal Residence</option>
+                  <option value="visa">Golden Visa</option>
+                  <option value="offplan">Off-Plan Development</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-field">
+              <label for="cf-message" class="form-label">Anything specific you'd like to discuss? <span class="form-optional">(optional)</span></label>
+              <textarea id="cf-message" name="message" class="form-input form-textarea" placeholder="Preferred locations, timeline, special requirements..." rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn-form-submit" id="consultSubmitBtn">
+              <span id="formBtnText">Schedule Private Consultation</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <p class="form-note">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Strictly confidential. Your information is never shared with third parties.
+            </p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       INTERACTIVE CONTEXT MAP
+       ========================================================================= -->
+  <section class="interactive-map-section" id="location-map" aria-label="Interactive location map of Abu Dhabi prime zones">
+
+    <svg width="0" height="0" class="svg-defs-hidden" aria-hidden="true">
       <defs>
         <linearGradient id="m-gold1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stop-color="#FFF5D1" />
@@ -170,28 +633,19 @@
       </defs>
     </svg>
 
-    <!-- Map Canvas Container -->
     <div id="map" class="context-map-canvas" data-lenis-prevent></div>
+    <div class="blueprint-grid" aria-hidden="true"></div>
 
-    <!-- Architectural Blueprint Grid Overlay -->
-    <div class="blueprint-grid"></div>
-
-    <!-- Floating UI Overlay: Header Info Panel -->
-    <div class="map-ui-overlay header-panel">
+    <div class="map-ui-overlay header-panel" role="complementary" aria-label="Map info panel">
       <span class="map-badge">Interactive Context Map</span>
       <h2 class="map-title">Al Markaziyah West</h2>
-      <p class="map-desc">
-        Sovereign estate mapping & prime investment zones across Abu Dhabi & UAE.
-      </p>
-
-      <!-- Quick Interactive Hotspot Filters -->
-      <div class="map-filter-chips">
+      <p class="map-desc">Sovereign estate mapping &amp; prime investment zones across Abu Dhabi &amp; UAE.</p>
+      <div class="map-filter-chips" role="group" aria-label="Filter map locations">
         <button class="chip-btn active" data-filter="all">All Prime Hubs</button>
         <button class="chip-btn" data-filter="waterfront">Waterfront</button>
-        <button class="chip-btn" data-filter="culture">Culture & Royal</button>
+        <button class="chip-btn" data-filter="culture">Culture &amp; Royal</button>
         <button class="chip-btn" data-filter="marina">Marinas</button>
       </div>
-
       <div class="map-metrics-grid">
         <div class="metric-item">
           <span class="metric-label">Scale</span>
@@ -208,35 +662,32 @@
       </div>
     </div>
 
-    <!-- Floating UI Overlay: Coordinates Panel (Top Right) -->
-    <div class="map-ui-overlay coord-panel">
-      LOC: 24.4820° N, 54.3496° E &nbsp; | &nbsp; AL BATEEN SECTOR
+    <div class="map-ui-overlay coord-panel" aria-label="Geographic coordinates">
+      LOC: 24.4820° N, 54.3496° E &nbsp;|&nbsp; AL BATEEN SECTOR
     </div>
 
-    <!-- Floating UI Overlay: VIP Subscriber / Private Client Network Card -->
     <div class="map-floating-cta">
       <div class="cta-card">
         <div class="cta-grid">
           <div class="cta-info">
             <span class="brand-badge">Private Client Network</span>
-            <h2 class="cta-title">Receive Off-Market & Pre-Launch UAE Property Deals</h2>
-            <p class="cta-desc">
-              Subscribe to our discreet investor briefing for priority allocations in iconic Dubai and Abu Dhabi developments.
-            </p>
+            <h2 class="cta-title">Receive Off-Market &amp; Pre-Launch UAE Property Deals</h2>
+            <p class="cta-desc">Subscribe to our discreet investor briefing for priority allocations in iconic Dubai and Abu Dhabi developments.</p>
           </div>
           <div class="cta-form-wrapper">
-            <form id="vipNewsletterForm" class="newsletter-form">
+            <form id="vipNewsletterForm" class="newsletter-form" novalidate>
               <div class="input-group">
-                <input type="email" placeholder="Enter your email for private listings..." required>
+                <label for="vip-email" class="sr-only">Email address for private listings</label>
+                <input type="email" id="vip-email" placeholder="Enter your email for private listings..." required autocomplete="email">
                 <button type="submit" class="btn-subscribe">
                   <span>Get Access</span>
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </button>
               </div>
-              <span class="form-privacy-note">🔒 Strictly confidential. No spam, only verified tier-1 opportunities.</span>
+              <span class="form-privacy-note">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Strictly confidential. No spam, only verified tier-1 opportunities.
+              </span>
             </form>
           </div>
         </div>
@@ -246,115 +697,57 @@
   </section>
 
   <!-- =========================================================================
-       MAIN FOOTER SECTION (EXACT SVGs & OBSIDIAN DARK THEME)
+       FOOTER
        ========================================================================= -->
-  <footer class="main-footer">
+  <footer class="main-footer" role="contentinfo">
     <div class="container">
-      
-      <!-- Top Multi-Column Grid -->
+
       <div class="footer-top-grid">
-        
-        <!-- Column 1: Brand & Socials (Exact Master SVG Lockup) -->
+
         <div class="footer-col footer-brand">
-          <a href="#" class="footer-logo-link" title="Diamora Properties">
-            <!-- Exact Master Vector SVG Lockup -->
-            <svg width="240" height="80" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="f-gold1" x1="0" y1="0" x2="300" y2="100" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#FFF0BE" />
-                  <stop offset="50%" stop-color="#D4AF37" />
-                  <stop offset="100%" stop-color="#765811" />
-                </linearGradient>
-                <linearGradient id="f-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#E5C768" />
-                  <stop offset="100%" stop-color="#664D10" />
-                </linearGradient>
-                <linearGradient id="f-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stop-color="#FFF0BE" />
-                  <stop offset="100%" stop-color="#B38F24" />
-                </linearGradient>
-                <filter id="f-glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="2" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-              <g transform="translate(10, 15) scale(0.7)">
-                <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
-                <polygon points="50,0 0,42 0,100 50,55" fill="url(#f-facetLeft)"/>
-                <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
-                <polygon points="50,0 100,42 100,100 50,55" fill="url(#f-facetRight)"/>
-                <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-                <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-                <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-                <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-                <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
-                <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-                <line x1="50" y1="45" x2="50" y2="100" stroke="url(#f-gold1)" stroke-width="1" filter="url(#f-glow)"/>
-                <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
-                <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
-              </g>
-              <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.4)" stroke-width="1.5"/>
-              <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="url(#f-gold1)" letter-spacing="4">DIAMORA</text>
-              <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8.5" font-weight="500" fill="#8E9BAE" letter-spacing="4">PROPERTIES</text>
-            </svg>
+          <a href="#" class="footer-logo-link" aria-label="Diamora Properties — Return to top">
+            <img src="assets/logos/logo-white.png" alt="Diamora Properties" class="footer-logo-img" width="200" height="70" loading="lazy">
           </a>
           <p class="footer-brand-tagline">
-            Your trusted gateway to prime luxury real estate in the UAE. Delivering bespoke property solutions, high-yield investments, and unparalleled living experiences.
+            Your trusted gateway to prime luxury real estate in the UAE. Bespoke property solutions, high-yield investments, and unparalleled living experiences.
           </p>
           <div class="footer-social-wrapper">
-            <h4 class="footer-social-title">Follow Us @diamoraproperties</h4>
-            <div class="social-links">
-              <!-- Instagram -->
-              <a href="https://instagram.com/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" title="Instagram">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
+            <h3 class="footer-social-title">Follow @diamoraproperties</h3>
+            <div class="social-links" role="list">
+              <a href="https://instagram.com/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" role="listitem" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
               </a>
-              <!-- LinkedIn -->
-              <a href="https://linkedin.com/company/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" title="LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                </svg>
+              <a href="https://linkedin.com/company/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" role="listitem" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
               </a>
-              <!-- Facebook -->
-              <a href="https://facebook.com/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" title="Facebook">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                </svg>
+              <a href="https://facebook.com/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" role="listitem" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
               </a>
-              <!-- X (Twitter) -->
-              <a href="https://x.com/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" title="X">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
+              <a href="https://x.com/diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" role="listitem" aria-label="X formerly Twitter">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <!-- TikTok -->
-              <a href="https://tiktok.com/@diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" title="TikTok">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-1.01-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                </svg>
+              <a href="https://tiktok.com/@diamoraproperties" target="_blank" rel="noopener noreferrer" class="social-btn" role="listitem" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-1.01-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Column 2: Exclusive Advisory & Services -->
         <div class="footer-col">
-          <h3 class="footer-col-title">Advisory & Portfolios</h3>
-          <ul class="footer-nav-list">
+          <h3 class="footer-col-title">Advisory &amp; Portfolios</h3>
+          <ul class="footer-nav-list" role="list">
             <li><a href="#offplan" class="footer-nav-link">Off-Plan Developments</a></li>
             <li><a href="#villas" class="footer-nav-link">Ultra-Luxury Mansions</a></li>
             <li><a href="#penthouses" class="footer-nav-link">Waterfront Penthouses</a></li>
             <li><a href="#golden-visa" class="footer-nav-link">UAE Golden Visa Support</a></li>
-            <li><a href="#valuation" class="footer-nav-link">Property Valuation & ROI</a></li>
+            <li><a href="#valuation" class="footer-nav-link">Property Valuation &amp; ROI</a></li>
             <li><a href="#about" class="footer-nav-link">About Diamora Properties</a></li>
           </ul>
         </div>
 
-        <!-- Column 3: Prime Locations -->
         <div class="footer-col">
           <h3 class="footer-col-title">Prime Locations</h3>
-          <ul class="footer-nav-list">
+          <ul class="footer-nav-list" role="list">
             <li><a href="#palm-jumeirah" class="footer-nav-link">Palm Jumeirah, Dubai</a></li>
             <li><a href="#downtown-dubai" class="footer-nav-link">Downtown Dubai</a></li>
             <li><a href="#dubai-hills" class="footer-nav-link">Dubai Hills Estate</a></li>
@@ -364,135 +757,77 @@
           </ul>
         </div>
 
-        <!-- Column 4: Contact & Office Details -->
         <div class="footer-col">
           <h3 class="footer-col-title">Official Inquiries</h3>
           <div class="footer-contact-cards">
-            
-            <!-- Landline -->
             <a href="tel:025848478" class="contact-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-              </div>
-              <div class="contact-content">
-                <span class="contact-label">Landline</span>
-                <span class="contact-val">025848478</span>
-              </div>
+              <div class="contact-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div class="contact-content"><span class="contact-label">Landline</span><span class="contact-val">025 848 478</span></div>
             </a>
-
-            <!-- WhatsApp & Mobile -->
             <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="contact-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/>
-                </svg>
-              </div>
-              <div class="contact-content">
-                <span class="contact-label">Mobile / WhatsApp</span>
-                <span class="contact-val">+971 55 126 0772</span>
-              </div>
+              <div class="contact-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/></svg></div>
+              <div class="contact-content"><span class="contact-label">Mobile / WhatsApp</span><span class="contact-val">+971 55 126 0772</span></div>
             </a>
-
-            <!-- Email -->
             <a href="mailto:info@diamora.properties" class="contact-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                  <polyline points="22,6 12,13 2,6"></polyline>
-                </svg>
-              </div>
-              <div class="contact-content">
-                <span class="contact-label">Official Email</span>
-                <span class="contact-val">info@diamora.properties</span>
-              </div>
+              <div class="contact-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div class="contact-content"><span class="contact-label">Official Email</span><span class="contact-val">info@diamora.properties</span></div>
             </a>
-
-            <!-- P.O. Box -->
             <div class="contact-item">
-              <div class="contact-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-              </div>
-              <div class="contact-content">
-                <span class="contact-label">Postal Address</span>
-                <span class="contact-val">P.O. Box 92813, UAE</span>
-              </div>
+              <div class="contact-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div class="contact-content"><span class="contact-label">Postal Address</span><span class="contact-val">P.O. Box 92813, UAE</span></div>
             </div>
-
           </div>
         </div>
 
       </div>
 
-      <!-- Middle Strip: Accreditations & Trust Signals -->
       <div class="footer-trust-strip">
         <div class="trust-strip-inner">
           <div class="trust-badge-group">
             <div class="trust-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               <span>Licensed Real Estate Advisory UAE</span>
             </div>
             <div class="trust-badge">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="8" r="7"></circle>
-                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-              </svg>
-              <span>Tier 1 Master Developers Official Partner</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              <span>Tier-1 Master Developer Partner</span>
             </div>
           </div>
           <div class="trust-locations-tag">
-            Coverage: <span>Abu Dhabi • Dubai • Ras Al Khaimah</span>
+            Coverage: <span>Abu Dhabi · Dubai · Ras Al Khaimah</span>
           </div>
         </div>
       </div>
 
-      <!-- Bottom Bar: Copyright, Legal & Back to Top -->
       <div class="footer-bottom-bar">
         <div class="footer-copy">
-          © 2026 <a href="#">Diamora Properties</a>. All rights reserved. Registered P.O. Box 92813.
+          &copy; 2026 <a href="#">Diamora Properties</a>. All rights reserved. Registered P.O.&nbsp;Box&nbsp;92813.
         </div>
-
         <div class="footer-legal-links">
           <a href="#privacy" class="legal-link">Privacy Policy</a>
-          <span class="legal-divider">•</span>
+          <span class="legal-divider" aria-hidden="true">·</span>
           <a href="#terms" class="legal-link">Terms of Service</a>
-          <span class="legal-divider">•</span>
-          <a href="#compliance" class="legal-link">AML & Regulations</a>
-          <span class="legal-divider">•</span>
+          <span class="legal-divider" aria-hidden="true">·</span>
+          <a href="#compliance" class="legal-link">AML &amp; Regulations</a>
+          <span class="legal-divider" aria-hidden="true">·</span>
           <a href="#cookies" class="legal-link">Cookie Settings</a>
         </div>
-
-        <button id="backToTopBtn" class="back-to-top-btn" title="Scroll back to top">
+        <button id="backToTopBtn" class="back-to-top-btn" aria-label="Scroll back to top">
           <span>Top</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="12" y1="19" x2="12" y2="5"></line>
-            <polyline points="5 12 12 5 19 12"></polyline>
-          </svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
         </button>
       </div>
 
     </div>
   </footer>
 
-  <!-- =========================================================================
-       FLOATING WHATSAPP BUTTON (Quick conversion trigger)
-       ========================================================================= -->
-  <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" title="Chat with Diamora Properties on WhatsApp">
-    <svg viewBox="0 0 24 24">
-      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/>
-    </svg>
+  <!-- Floating WhatsApp -->
+  <a href="https://wa.me/971551260772" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" aria-label="Chat with Diamora Properties on WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/></svg>
     <span class="btn-text">WhatsApp Us</span>
   </a>
 
-  <!-- =========================================================================
-       SCRIPTS: Leaflet JS, GSAP Core, ScrollTrigger & App Script
-       ========================================================================= -->
+  <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>

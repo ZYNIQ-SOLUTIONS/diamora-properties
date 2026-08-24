@@ -369,35 +369,196 @@ function initBrandLoader() {
 }
 
 /* ==========================================================================
-   4. NAV SCROLL BEHAVIOR & MOBILE HAMBURGER
+   4. NAV SCROLL BEHAVIOR — GSAP + Anime.js
    ========================================================================== */
 function initNavBehavior() {
-  const nav = document.getElementById('main-nav');
+  const nav       = document.getElementById('main-nav');
   const toggleBtn = document.getElementById('navToggle');
   const mobileMenu = document.getElementById('mobileMenu');
+  const progressFill = document.getElementById('navProgressFill');
+  const navCta    = document.getElementById('navCta');
 
   if (!nav) return;
 
-  // Scroll class for shadow
-  const onScroll = () => {
-    if (window.scrollY > 60) {
-      nav.classList.add('scrolled');
+  /* -------------------------------------------------------------------------
+     1. Scroll-state machine:
+        0–80px    → nav--transparent (fully clear)
+        80–200px  → nav--tinting    (40% dark glass)
+        200px+    → nav--solid      (frosted cream glass)
+        Scroll up faster than 60px/frame → nav--hidden
+     ---------------------------------------------------------------------- */
+  let lastScrollY = window.scrollY;
+  let ticking     = false;
+
+  function applyNavState() {
+    const y = window.scrollY;
+    const delta = y - lastScrollY;
+    lastScrollY = y;
+
+    // Hide/show on direction
+    if (y > 300 && delta > 12) {
+      nav.classList.add('nav--hidden');
     } else {
-      nav.classList.remove('scrolled');
+      nav.classList.remove('nav--hidden');
     }
-  };
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+    // State classes (mutually exclusive)
+    if (y < 80) {
+      nav.classList.add('nav--transparent');
+      nav.classList.remove('nav--tinting', 'nav--solid');
+    } else if (y < 200) {
+      nav.classList.add('nav--tinting');
+      nav.classList.remove('nav--transparent', 'nav--solid');
+    } else {
+      nav.classList.add('nav--solid');
+      nav.classList.remove('nav--transparent', 'nav--tinting');
+    }
 
-  // Hamburger toggle
+    // Scroll progress bar
+    if (progressFill) {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      progressFill.style.width = docH > 0 ? `${(y / docH) * 100}%` : '0%';
+    }
+
+    ticking = false;
+  }
+
+  // Set initial state immediately (page may reload mid-scroll)
+  applyNavState();
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(applyNavState);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* -------------------------------------------------------------------------
+     2. GSAP: Nav entrance on page load (stagger logo + links + CTA)
+     ---------------------------------------------------------------------- */
+  if (typeof gsap !== 'undefined') {
+    const navTl = gsap.timeline({ delay: 4.2 }); // after loader
+
+    navTl
+      .from('.nav-logo', {
+        opacity: 0, x: -24, duration: 0.7, ease: 'power3.out'
+      })
+      .from('.nav-link', {
+        opacity: 0, y: -16, stagger: 0.08, duration: 0.55, ease: 'power3.out'
+      }, '-=0.35')
+      .from('#navCta', {
+        opacity: 0, scale: 0.88, duration: 0.55, ease: 'back.out(1.8)'
+      }, '-=0.3')
+      .from('.nav-hamburger', {
+        opacity: 0, duration: 0.4, ease: 'power2.out'
+      }, '-=0.4');
+  }
+
+  /* -------------------------------------------------------------------------
+     3. Anime.js: Per-character bounce on nav link hover
+     ---------------------------------------------------------------------- */
+  if (typeof anime !== 'undefined') {
+    document.querySelectorAll('.nav-link').forEach(link => {
+      const chars     = link.querySelectorAll('.nav-link-char');
+      const underline = link.querySelector('.nav-link-underline');
+      let hoverAnim   = null;
+      let underlineAnim = null;
+
+      link.addEventListener('mouseenter', () => {
+        // Char wave — each letter bounces up in a ripple
+        if (hoverAnim) hoverAnim.pause();
+        hoverAnim = anime({
+          targets: chars,
+          translateY: [0, -5, 0],
+          duration: 420,
+          delay: anime.stagger(32, { start: 0 }),
+          easing: 'spring(1, 80, 12, 0)',
+          loop: false
+        });
+
+        // Gold underline draws in from left
+        if (underlineAnim) underlineAnim.pause();
+        underlineAnim = anime({
+          targets: underline,
+          width: ['0%', '100%'],
+          duration: 320,
+          easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+        });
+      });
+
+      link.addEventListener('mouseleave', () => {
+        // Underline retracts from right
+        anime({
+          targets: underline,
+          width: ['100%', '0%'],
+          duration: 220,
+          easing: 'cubicBezier(0.7, 0, 0.3, 1)'
+        });
+      });
+    });
+
+    /* -----------------------------------------------------------------------
+       4. Anime.js: CTA button magnetic shimmer on hover
+    ----------------------------------------------------------------------- */
+    if (navCta) {
+      navCta.addEventListener('mouseenter', () => {
+        anime({
+          targets: navCta,
+          scale: [1, 1.04, 1],
+          duration: 500,
+          easing: 'spring(1, 80, 10, 0)'
+        });
+      });
+    }
+
+    /* -----------------------------------------------------------------------
+       5. Anime.js: Hamburger line morph (staggered draw)
+    ----------------------------------------------------------------------- */
+    if (toggleBtn) {
+      toggleBtn.addEventListener('mouseenter', () => {
+        if (nav.classList.contains('mobile-open')) return;
+        anime({
+          targets: '.ham-line-2',
+          width: ['70%', '100%'],
+          duration: 280,
+          easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+        });
+      });
+
+      toggleBtn.addEventListener('mouseleave', () => {
+        if (nav.classList.contains('mobile-open')) return;
+        anime({
+          targets: '.ham-line-2',
+          width: ['100%', '70%'],
+          duration: 220,
+          easing: 'cubicBezier(0.7, 0, 0.3, 1)'
+        });
+      });
+    }
+  }
+
+  /* -------------------------------------------------------------------------
+     6. Mobile hamburger toggle
+     ---------------------------------------------------------------------- */
   if (toggleBtn && mobileMenu) {
     toggleBtn.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('mobile-open');
       toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       mobileMenu.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+      // Anime.js: stagger mobile links in on open
+      if (isOpen && typeof anime !== 'undefined') {
+        anime({
+          targets: '.mobile-nav-link',
+          translateX: [-24, 0],
+          opacity: [0, 1],
+          delay: anime.stagger(50, { start: 60 }),
+          duration: 360,
+          easing: 'cubicBezier(0.16, 1, 0.3, 1)'
+        });
+      }
     });
 
-    // Close on mobile link click
     mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
       link.addEventListener('click', () => {
         nav.classList.remove('mobile-open');
@@ -406,7 +567,6 @@ function initNavBehavior() {
       });
     });
 
-    // Close on outside click
     document.addEventListener('click', (e) => {
       if (nav.classList.contains('mobile-open') && !nav.contains(e.target)) {
         nav.classList.remove('mobile-open');
@@ -414,6 +574,40 @@ function initNavBehavior() {
         mobileMenu.setAttribute('aria-hidden', 'true');
       }
     });
+  }
+
+  /* -------------------------------------------------------------------------
+     7. GSAP ScrollTrigger: active section highlight (adds .nav-link--active)
+     ---------------------------------------------------------------------- */
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    const sections = ['#properties', '#why-diamora', '#partners', '#location-map'];
+
+    sections.forEach(id => {
+      const el = document.querySelector(id);
+      if (!el) return;
+
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 55%',
+        end: 'bottom 55%',
+        onEnter: () => setActiveNav(id),
+        onEnterBack: () => setActiveNav(id),
+        onLeave: () => clearActiveNav(id),
+        onLeaveBack: () => clearActiveNav(id)
+      });
+    });
+
+    function setActiveNav(id) {
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('nav-link--active', l.getAttribute('href') === id);
+      });
+    }
+
+    function clearActiveNav(id) {
+      document.querySelectorAll('.nav-link').forEach(l => {
+        if (l.getAttribute('href') === id) l.classList.remove('nav-link--active');
+      });
+    }
   }
 }
 
@@ -547,6 +741,68 @@ function initPageAnimations() {
         toggleActions: 'play reverse play reverse'
       }
     });
+  }
+
+  /* -------------------------------------------------------------------------
+     Anime.js: Advanced interactive on-scroll & hover micro-interactions
+     ---------------------------------------------------------------------- */
+  if (typeof anime !== 'undefined') {
+    // 1. Property card 3D tilt & dynamic glow on hover
+    document.querySelectorAll('.property-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        anime({
+          targets: card,
+          scale: 1.02,
+          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.15)',
+          duration: 400,
+          easing: 'easeOutCubic'
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        anime({
+          targets: card,
+          scale: 1,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04), 0 10px 32px rgba(0,0,0,0.05)',
+          duration: 350,
+          easing: 'easeOutCubic'
+        });
+      });
+    });
+
+    // 2. Animated numbers count-up with Anime.js triggered by ScrollTrigger
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.create({
+        trigger: '.pillars-grid',
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          anime({
+            targets: '.pillar-metric-val',
+            opacity: [0, 1],
+            translateY: [20, 0],
+            delay: anime.stagger(150),
+            duration: 800,
+            easing: 'easeOutElastic(1, .8)'
+          });
+        }
+      });
+
+      // 3. Partner badges smooth stagger breath effect
+      ScrollTrigger.create({
+        trigger: '.partners-section',
+        start: 'top 75%',
+        onEnter: () => {
+          anime({
+            targets: '.partner-item',
+            opacity: [0.3, 0.85],
+            translateY: [15, 0],
+            delay: anime.stagger(80),
+            duration: 700,
+            easing: 'easeOutQuad'
+          });
+        }
+      });
+    }
   }
 }
 

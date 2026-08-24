@@ -280,24 +280,107 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 }
 
 /* --------------------------------------------------------------------------
-   5. NAVIGATION
+   5. NAVIGATION — Transparent hero-overlay → Frosted glass on scroll
    -------------------------------------------------------------------------- */
+
+/* === Progress bar === */
+.nav-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: transparent;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.nav-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--gold-gradient-h);
+  border-radius: 0 var(--r-full) var(--r-full) 0;
+  box-shadow: 0 0 12px rgba(212,175,55,0.6);
+  transition: width 0.1s linear;
+  will-change: width;
+}
+
+/* === Gold accent stripe (thin line below nav when transparent) === */
+.nav-line-accent {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1px;
+  background: var(--gold-gradient-h);
+  opacity: 0;
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  z-index: 5;
+}
+
 .main-nav {
-  position: sticky;
+  position: fixed;                   /* Fixed so it overlays the hero */
   top: 0;
   left: 0;
   right: 0;
   z-index: 90;
-  background: rgba(253,251,247,0.97);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(212,175,55,0.18);
-  transition: background var(--t-base), box-shadow var(--t-base);
+
+  /* START: fully transparent over the hero */
+  background: rgba(5, 6, 8, 0.00);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  border-bottom: 1px solid transparent;
+
+  /* Smooth morph on scroll */
+  transition:
+    background   0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow   0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform    0.45s cubic-bezier(0.16, 1, 0.3, 1);
+
+  will-change: background, backdrop-filter, transform;
 }
 
-.main-nav.scrolled {
-  background: rgba(253,251,247,0.98);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+/* Transparent state — hero overlay with 40% luxury dark glass (0–80px scroll) */
+.main-nav.nav--transparent {
+  background: rgba(5, 6, 8, 0.40);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.20);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Partially scrolled — transitioning gold tint (80–200px) */
+.main-nav.nav--tinting {
+  background: rgba(5, 6, 8, 0.65);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+/* Fully scrolled — refined frosted light-alabaster glass panel (200px+) */
+.main-nav.nav--solid {
+  background: rgba(253, 251, 247, 0.88);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.30);
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(212, 175, 55, 0.25) inset;
+}
+
+/* Hidden (scroll up quickly) */
+.main-nav.nav--hidden {
+  transform: translateY(-100%);
+}
+
+/* Accent line visible on solid state */
+.main-nav.nav--solid .nav-line-accent {
+  width: 72px;
+  opacity: 1;
 }
 
 .nav-inner {
@@ -306,12 +389,24 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
   justify-content: space-between;
   height: 72px;
   gap: 32px;
+  position: relative;
+  z-index: 2;
 }
 
-.nav-logo { display: block; flex-shrink: 0; }
+/* === Logo: white over hero, gold when nav solidifies === */
+.nav-logo { display: block; flex-shrink: 0; transition: opacity var(--t-fast); }
+.nav-logo:hover { opacity: 0.85; }
 .nav-logo-img { height: 48px; width: auto; display: block; }
-.nav-logo-dark { display: none; }
 
+/* Show white logo on dark transparent nav */
+.nav-logo-light { display: none; }
+.nav-logo-dark  { display: block; }
+
+/* When nav is solid/light, show gold logo */
+.main-nav.nav--solid .nav-logo-light { display: block; }
+.main-nav.nav--solid .nav-logo-dark  { display: none; }
+
+/* === Nav links === */
 .nav-links {
   display: flex;
   align-items: center;
@@ -319,82 +414,172 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 }
 
 .nav-link {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--text-body);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.88);    /* White over hero */
   padding: 6px 0;
-  position: relative;
   transition: color var(--t-fast);
+  overflow: visible;
+  cursor: pointer;
 }
 
-.nav-link::after {
-  content: '';
+/* Solid state: dark text */
+.main-nav.nav--solid .nav-link {
+  color: var(--text-body);
+}
+
+.nav-link:hover { color: #FFFFFF; }
+.main-nav.nav--solid .nav-link:hover { color: var(--text-main); }
+
+/* Char-split text */
+.nav-link-text {
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+}
+
+.nav-link-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  /* anime.js animates these on hover */
+}
+
+/* Custom underline (Anime.js draws width on hover) */
+.nav-link-underline {
+  display: block;
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
-  width: 0;
   height: 1.5px;
-  background: var(--gold-gradient);
-  transition: width var(--t-base);
+  width: 0%;
+  background: var(--gold-gradient-h);
+  border-radius: var(--r-full);
+  box-shadow: 0 0 8px rgba(212,175,55,0.5);
+  transition: none; /* JS-driven */
 }
 
-.nav-link:hover { color: var(--text-main); }
-.nav-link:hover::after { width: 100%; }
-
+/* === Nav actions === */
 .nav-actions { display: flex; align-items: center; gap: 16px; }
 
+/* CTA button — gold over transparent, opaque on solid */
 .btn-nav-primary {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 22px;
-  background: var(--gold-gradient);
-  color: #050608;
+  background: rgba(212, 175, 55, 0.18);
+  border: 1.5px solid rgba(212, 175, 55, 0.55);
+  color: var(--gold-light);
   border-radius: var(--r-xs);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  transition: filter var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
-  box-shadow: var(--shadow-gold-sm);
   white-space: nowrap;
+  backdrop-filter: blur(6px);
+  transition:
+    background  var(--t-fast),
+    border-color var(--t-fast),
+    color       var(--t-fast),
+    box-shadow  var(--t-fast),
+    transform   var(--t-fast);
+  overflow: hidden;
+  position: relative;
 }
 
+/* Shimmer line inside button */
+.btn-nav-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.55s ease;
+}
+
+.btn-nav-primary:hover::before { left: 160%; }
+
 .btn-nav-primary:hover {
+  background: rgba(212,175,55,0.32);
+  border-color: var(--gold-light);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(212,175,55,0.3);
+}
+
+/* Solid nav: filled gold button */
+.main-nav.nav--solid .btn-nav-primary {
+  background: var(--gold-gradient);
+  border-color: transparent;
+  color: #050608;
+  box-shadow: var(--shadow-gold-sm);
+  backdrop-filter: none;
+}
+
+.main-nav.nav--solid .btn-nav-primary:hover {
   filter: brightness(1.07);
   transform: translateY(-1px);
   box-shadow: var(--shadow-gold-md);
+  color: #050608;
 }
 
+.main-nav.nav--solid .btn-nav-primary::before { display: none; }
+
+/* === Hamburger (enhanced) === */
 .nav-hamburger {
   display: none;
   flex-direction: column;
   gap: 5px;
   padding: 8px;
-  width: 38px;
+  width: 40px;
+  cursor: pointer;
 }
 
-.nav-hamburger span {
+.ham-line {
   display: block;
   height: 1.5px;
-  width: 100%;
-  background: var(--text-main);
+  background: rgba(255,255,255,0.9);
   border-radius: 2px;
-  transition: transform var(--t-base), opacity var(--t-fast);
+  transform-origin: center;
+  transition:
+    transform  0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity    0.25s ease,
+    width      0.3s ease,
+    background 0.3s ease;
 }
 
-.main-nav.mobile-open .nav-hamburger span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.main-nav.mobile-open .nav-hamburger span:nth-child(2) { opacity: 0; }
-.main-nav.mobile-open .nav-hamburger span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+.ham-line-1 { width: 100%; }
+.ham-line-2 { width: 70%; }
+.ham-line-3 { width: 85%; }
 
-/* Mobile menu */
+/* Solid nav: dark hamburger lines */
+.main-nav.nav--solid .ham-line { background: var(--text-main); }
+
+/* Open state */
+.main-nav.mobile-open .ham-line-1 { transform: translateY(6.5px) rotate(45deg); width: 100%; }
+.main-nav.mobile-open .ham-line-2 { opacity: 0; transform: scaleX(0); }
+.main-nav.mobile-open .ham-line-3 { transform: translateY(-6.5px) rotate(-45deg); width: 100%; }
+
+/* === Mobile Menu === */
 .mobile-menu {
   display: none;
   padding: 16px 0 24px;
-  border-top: 1px solid var(--border-subtle);
-  background: rgba(253,251,247,0.99);
+  border-top: 1px solid rgba(212,175,55,0.15);
+  background: rgba(5,6,8,0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.main-nav.nav--solid .mobile-menu {
+  background: rgba(253,251,247,0.98);
+  border-top-color: var(--border-subtle);
 }
 
 .mobile-menu ul { display: flex; flex-direction: column; }
@@ -402,25 +587,28 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 .mobile-nav-link {
   display: block;
   padding: 14px var(--container-pad);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--text-body);
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.8);
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border-subtle);
-  transition: color var(--t-fast), background var(--t-fast);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: color var(--t-fast), background var(--t-fast), padding-left var(--t-fast);
 }
 
-.mobile-nav-link:hover { color: var(--gold-dark); background: var(--gold-subtle); }
+.main-nav.nav--solid .mobile-nav-link { color: var(--text-body); border-bottom-color: var(--border-subtle); }
+.mobile-nav-link:hover { color: var(--gold-light); padding-left: calc(var(--container-pad) + 8px); background: rgba(212,175,55,0.06); }
+.main-nav.nav--solid .mobile-nav-link:hover { color: var(--gold-dark); }
 
 .mobile-nav-cta {
   margin: 20px var(--container-pad) 0;
-  background: var(--gold-gradient);
+  background: var(--gold-gradient) !important;
   color: #050608 !important;
   text-align: center;
   border-radius: var(--r-xs);
   border-bottom: none !important;
   box-shadow: var(--shadow-gold-sm);
+  padding-left: var(--container-pad) !important;
 }
 
 .main-nav.mobile-open .mobile-menu { display: block; }
@@ -1755,4 +1943,47 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
   .scroll-line { animation: none; }
   .eyebrow-dot { animation: none; }
   .partners-track { animation: none; }
+  .nav-link-char { transition: none !important; }
 }
+
+/* --------------------------------------------------------------------------
+   NAV ADDITIONAL — Active state + responsive fixes
+   -------------------------------------------------------------------------- */
+
+/* Active section indicator on nav links */
+.nav-link--active .nav-link-underline {
+  width: 100% !important;
+  opacity: 0.7;
+}
+
+.nav-link--active {
+  color: var(--gold-light) !important;
+}
+
+.main-nav.nav--solid .nav-link--active {
+  color: var(--gold-dark) !important;
+}
+
+/* Show hamburger at mobile */
+@media (max-width: 900px) {
+  .nav-hamburger { display: flex; }
+  .nav-links { display: none; }
+  .btn-nav-primary { display: none; }
+}
+
+@media (min-width: 901px) {
+  .nav-hamburger { display: none; }
+  .nav-links { display: flex; }
+  .btn-nav-primary { display: inline-flex; }
+}
+
+/* Make hero sequence fill 100vh regardless of fixed nav (nav overlays, not pushes) */
+.hero-sequence-section {
+  /* Already 100vh — fixed nav sits on top, no adjustment needed */
+}
+
+/* Progress bar only shows when scrolled */
+.main-nav.nav--transparent .nav-progress-fill { opacity: 0; }
+.main-nav.nav--tinting    .nav-progress-fill { opacity: 0.5; }
+.main-nav.nav--solid      .nav-progress-fill { opacity: 1; }
+

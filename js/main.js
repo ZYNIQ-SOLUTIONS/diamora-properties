@@ -8,12 +8,19 @@
  * - GSAP ScrollTrigger entrance animations for all sections
  */
 
+// Disable browser auto-scroll restoration so the page always starts smoothly at the very top
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Register GSAP plugins immediately
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  window.scrollTo(0, 0);
   initHeroSequence();
   initInteractiveMap();
   initBrandLoader();
@@ -437,21 +444,18 @@ function initNavBehavior() {
      2. GSAP: Nav entrance on page load (stagger logo + links + CTA)
      ---------------------------------------------------------------------- */
   if (typeof gsap !== 'undefined') {
-    const navTl = gsap.timeline({ delay: 4.2 }); // after loader
-
-    navTl
-      .from('.nav-logo', {
-        opacity: 0, x: -24, duration: 0.7, ease: 'power3.out'
-      })
-      .from('.nav-link', {
-        opacity: 0, y: -16, stagger: 0.08, duration: 0.55, ease: 'power3.out'
-      }, '-=0.35')
-      .from('#navCta', {
-        opacity: 0, scale: 0.88, duration: 0.55, ease: 'back.out(1.8)'
-      }, '-=0.3')
-      .from('.nav-hamburger', {
-        opacity: 0, duration: 0.4, ease: 'power2.out'
-      }, '-=0.4');
+    gsap.from('.nav-logo', {
+      opacity: 0, x: -24, duration: 0.7, ease: 'power3.out', delay: 0.1
+    });
+    gsap.from('.nav-link', {
+      opacity: 0, y: -16, stagger: 0.08, duration: 0.55, ease: 'power3.out', delay: 0.2
+    });
+    gsap.from('#navCta', {
+      opacity: 0, scale: 0.88, duration: 0.55, ease: 'back.out(1.8)', delay: 0.3
+    });
+    gsap.from('.nav-hamburger', {
+      opacity: 0, duration: 0.4, ease: 'power2.out', delay: 0.2
+    });
   }
 
   /* -------------------------------------------------------------------------

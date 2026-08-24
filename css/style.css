@@ -2734,7 +2734,7 @@ body.loaded #loader-wrapper {
 .floating-whatsapp-btn:focus-visible { outline: 3px solid #25D366; outline-offset: 3px; }
 
 /* --------------------------------------------------------------------------
-   15. RESPONSIVE
+   15. RESPONSIVE (Mobile-First Luxury Optimization)
    -------------------------------------------------------------------------- */
 @media (max-width: 1200px) {
   .properties-grid { grid-template-columns: 1fr 1fr; }
@@ -2754,56 +2754,138 @@ body.loaded #loader-wrapper {
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
+  .btn-nav-primary { display: none; }
   .pillars-grid { grid-template-columns: 1fr; }
   .pillars-secondary-grid { grid-template-columns: 1fr; }
   .top-bar-right { display: none; }
+  .hero-search-filters { grid-template-columns: 1fr 1fr; }
+  .search-filter-action { grid-column: 1 / -1; }
+  .btn-execute-search { padding: 12px; }
 }
 
 @media (max-width: 768px) {
-  .properties-grid { grid-template-columns: 1fr; }
+  /* Hero Mobile Refinements */
+  .hero-video-section {
+    height: auto;
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-bottom: 24px;
+    justify-content: flex-start;
+    gap: 24px;
+  }
+  .hero-container-layout {
+    gap: 20px;
+    height: auto;
+  }
+  .hero-headline {
+    font-size: clamp(2.2rem, 8.5vw, 3.2rem);
+    line-height: 1.12;
+  }
+  .hero-subtext {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+  .hero-stats {
+    gap: 16px;
+    justify-content: flex-start;
+  }
+  .hero-stat-num {
+    font-size: 1.3rem;
+  }
+  .hero-bottom-search-bar {
+    padding: 14px 16px;
+    border-radius: var(--r-sm);
+  }
+  .hero-search-input-wrap {
+    padding: 10px 14px;
+  }
+  .hero-search-filters {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  /* Property Cards Mobile */
+  .properties-grid { grid-template-columns: 1fr; gap: 20px; }
+  .property-card-image { height: 220px; }
   .property-card--featured .property-card-image { height: 220px; }
+  .property-card-body { padding: 20px 18px; }
+
+  /* Forms & Interactive Overlays */
   .form-row { grid-template-columns: 1fr; }
-  .consult-form-wrap { padding: 28px 20px; }
+  .consult-form-wrap { padding: 24px 16px; }
 
-  .interactive-map-section { height: auto; min-height: 1020px; }
-  .header-panel { top: 20px; left: 16px; right: 16px; max-width: none; padding: 18px 20px; }
-  .map-title { font-size: 1.4rem; }
+  /* Strategic Map Mobile */
+  .interactive-map-frame { height: 620px; min-height: 580px; }
+  .header-panel {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    max-width: none;
+    padding: 14px 16px;
+    background: rgba(3, 4, 6, 0.92);
+  }
+  .map-title { font-size: 1.15rem; }
+  .map-filter-chips {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chip-btn {
+    flex-shrink: 0;
+    font-size: 10px;
+    padding: 5px 11px;
+  }
+  .map-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-top: 10px;
+  }
+  .metric-val { font-size: 12px; }
   .coord-panel { display: none; }
-  .interactive-map-section .leaflet-control-zoom { display: none; }
-  .map-floating-cta { width: calc(100% - 32px); bottom: 20px; }
-  .cta-card { padding: 24px 20px; }
+  .map-floating-cta {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+    margin-top: 16px;
+    padding: 0 var(--container-pad);
+  }
+  .cta-card { padding: 20px 16px; }
   .btn-subscribe { width: 100%; justify-content: center; }
-  .input-group { flex-direction: column; padding: 12px; gap: 10px; }
+  .input-group { flex-direction: column; padding: 10px; gap: 8px; }
 
-  .footer-top-grid { grid-template-columns: 1fr; gap: 36px; }
-  .trust-strip-inner { flex-direction: column; align-items: flex-start; }
-  .footer-bottom-bar { flex-direction: column; align-items: flex-start; }
+  /* Footer Mobile */
+  .footer-top-grid { grid-template-columns: 1fr; gap: 32px; }
+  .trust-strip-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .footer-bottom-bar { flex-direction: column; align-items: flex-start; gap: 14px; }
 
-  .floating-whatsapp-btn .btn-text { display: none; }
-  .floating-whatsapp-btn { padding: 14px; bottom: 20px; right: 20px; border-radius: 50%; }
+  /* Floating WhatsApp Mobile */
+  .floating-whatsapp-btn {
+    padding: 12px 18px;
+    bottom: 20px;
+    right: 16px;
+    font-size: 0.82rem;
+  }
+  .floating-whatsapp-btn svg { width: 18px; height: 18px; }
 
-  .hero-content-overlay { align-items: center; background: rgba(3,4,6,0.75); }
-  .hero-content-inner { text-align: center; display: flex; flex-direction: column; align-items: center; }
-  .hero-subtext { text-align: center; }
-  .hero-stats { justify-content: center; }
-
-  .properties-private-cta { flex-direction: column; gap: 20px; text-align: center; }
-  .private-cta-line { width: 100%; height: 1px; }
-  .private-cta-content { flex-direction: column; }
-  .private-cta-content p { white-space: normal; text-align: center; }
-
-  .partners-trust-row { flex-direction: column; gap: 20px; }
-  .trust-sig-sep { width: 40px; height: 1px; }
+  /* About Us Mobile Frame */
+  .about-grid { grid-template-columns: 1fr; gap: 36px; }
+  .about-visual-frame { height: 360px; }
+  .about-actions { flex-direction: column; width: 100%; gap: 12px; }
+  .btn-about-primary, .btn-about-secondary { width: 100%; justify-content: center; }
 }
 
 @media (max-width: 480px) {
-  .hero-ctas { flex-direction: column; width: 100%; }
+  .hero-ctas { flex-direction: column; width: 100%; gap: 10px; }
   .btn-hero-primary, .btn-hero-secondary { width: 100%; justify-content: center; }
-  .hero-stats { gap: 20px; }
+  .hero-stats { gap: 14px; flex-wrap: wrap; }
   .hero-stat-div { display: none; }
   .top-contact-bar { display: none; }
-  .consult-content { display: none; }
-  .consult-grid { grid-template-columns: 1fr; }
+  .top-bar-inner { font-size: 11px; }
+  .consult-direct-link { font-size: 12.5px; }
 }
 
 /* Motion safe */
@@ -2833,22 +2915,10 @@ body.loaded #loader-wrapper {
   color: var(--gold-dark) !important;
 }
 
-/* Show hamburger at mobile */
-@media (max-width: 900px) {
-  .nav-hamburger { display: flex; }
-  .nav-links { display: none; }
-  .btn-nav-primary { display: none; }
-}
-
 @media (min-width: 901px) {
   .nav-hamburger { display: none; }
   .nav-links { display: flex; }
   .btn-nav-primary { display: inline-flex; }
-}
-
-/* Make hero sequence fill 100vh regardless of fixed nav (nav overlays, not pushes) */
-.hero-sequence-section {
-  /* Already 100vh — fixed nav sits on top, no adjustment needed */
 }
 
 /* Progress bar only shows when scrolled */

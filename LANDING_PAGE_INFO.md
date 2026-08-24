@@ -19,8 +19,7 @@
 | Channel | Details | Direct Link / Action |
 | :--- | :--- | :--- |
 | ✉️ **Email** | `info@diamora.properties` | [Send Email](mailto:info@diamora.properties) |
-| ☎️ **Landline** | `025848478` | [Call Landline](tel:025848478) |
-| 📱 **Mobile / WhatsApp** | `+971 55 126 0772` | [Chat on WhatsApp](https://wa.me/971551260772) |
+| 📱 **Phone / WhatsApp** | `+971 50 676 0668` | [Chat on WhatsApp](https://wa.me/971506760668) / [Call Direct](tel:+971506760668) |
 | 📮 **P.O. Box** | `92813` | — |
 | 🌐 **Social Media** | `@diamoraproperties` | `Instagram` / `LinkedIn` / `Facebook` / `X` |
 
@@ -50,7 +49,7 @@ All logo assets have been organized and stored in `assets/logos/`:
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│  1. Top Bar: Contact Info (Landline, WhatsApp, Email)  │
+│  1. Top Bar: Contact Info (+971506760668, WhatsApp)   │
 ├────────────────────────────────────────────────────────┤
 │  2. Navigation: Logo, Properties, Services, Contact    │
 ├────────────────────────────────────────────────────────┤
@@ -70,7 +69,7 @@ All logo assets have been organized and stored in `assets/logos/`:
 │  7. Interactive Lead Capture / Consultation Booking    │
 ├────────────────────────────────────────────────────────┤
 │  8. Footer & Direct Contact Card                       │
-│     - Landline: 025848478 | WhatsApp: +971551260772    │
+│     - Direct Line / WhatsApp: +971 50 676 0668         │
 │     - Email: info@diamora.properties | P.O. Box: 92813 │
 │     - Social: @diamoraproperties                       │
 └────────────────────────────────────────────────────────┘

@@ -148,7 +148,7 @@ function initInteractiveMap() {
       <div class="popup-tag">Headquarters</div>
       <div class="popup-title">Diamora Properties</div>
       <div class="popup-desc">Sovereign advisory & investment headquarters in Al Markaziyah West, Abu Dhabi.</div>
-      <div class="popup-meta">P.O. Box 92813 · 025 848 478</div>
+      <div class="popup-meta">P.O. Box 92813 · +971 50 676 0668</div>
     </div>
   `);
 
@@ -912,7 +912,7 @@ function initConsultForm() {
       );
 
       setTimeout(() => {
-        window.open(`https://wa.me/971551260772?text=${waMsg}`, '_blank', 'noopener,noreferrer');
+        window.open(`https://wa.me/971506760668?text=${waMsg}`, '_blank', 'noopener,noreferrer');
         form.reset();
         btn.disabled = false;
         btn.style.background = '';

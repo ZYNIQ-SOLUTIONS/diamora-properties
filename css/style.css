@@ -2616,7 +2616,7 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 
 .footer-logo-link { display: inline-block; margin-bottom: 20px; transition: opacity var(--t-fast); }
 .footer-logo-link:hover { opacity: 0.88; }
-.footer-logo-img { height: 56px; width: auto; display: block; }
+.footer-logo-img { height: 72px; width: auto; display: block; }
 
 .footer-brand-tagline { color: var(--footer-text-muted); font-size: 0.9rem; line-height: 1.75; margin-bottom: 24px; max-width: 340px; }
 

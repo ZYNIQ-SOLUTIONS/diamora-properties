@@ -798,24 +798,25 @@ body.loaded #loader-wrapper {
   width: 100%;
   position: relative;
   z-index: 3;
-  margin-top: auto;
-  background: rgba(8, 10, 14, 0.82);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  margin-top: clamp(36px, 5vh, 64px);
+  margin-bottom: clamp(10px, 2vh, 20px);
+  background: rgba(8, 10, 14, 0.85);
+  backdrop-filter: blur(24px) saturate(1.5);
+  -webkit-backdrop-filter: blur(24px) saturate(1.5);
   border: 1.5px solid rgba(212, 175, 55, 0.40);
   border-radius: var(--r-md);
-  padding: clamp(12px, 1.5vh, 18px) clamp(16px, 2vw, 24px);
+  padding: clamp(16px, 2vh, 22px) clamp(18px, 2.5vw, 28px);
   box-shadow: 
-    0 15px 40px rgba(0, 0, 0, 0.6),
-    0 0 30px rgba(212, 175, 55, 0.12);
+    0 20px 50px rgba(0, 0, 0, 0.7),
+    0 0 35px rgba(212, 175, 55, 0.15);
   transition: all var(--t-fast);
 }
 
 .hero-bottom-search-bar:focus-within {
   border-color: var(--gold-primary);
   box-shadow: 
-    0 20px 50px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(212, 175, 55, 0.22);
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    0 0 45px rgba(212, 175, 55, 0.25);
 }
 
 .hero-search-bar-inner {

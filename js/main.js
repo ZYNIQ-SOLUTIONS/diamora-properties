@@ -32,150 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================================================
-   1. HERO DRONE SEQUENCE (Canvas + GSAP ScrollTrigger)
+   1. HERO VIDEO BACKGROUND
    ========================================================================== */
 function initHeroSequence() {
-  const canvas = document.getElementById('hero-drone-canvas');
-  if (!canvas) return;
-  const context = canvas.getContext('2d');
-  if (!context) return;
-
-  const frameCount = 30;
-  const currentFrame = index =>
-    `assets/images/abudhabi_drone_view/frame_${String(index + 1).padStart(3, '0')}.webp`;
-
-  const images = [];
-  const droneSeq = { frame: 0 };
-  let lastValidFrame = 0;
-  let isFirstFrameRendered = false;
-
-  function resizeCanvas() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    canvas.style.width = `${window.innerWidth}px`;
-    canvas.style.height = `${window.innerHeight}px`;
-    render();
-  }
-
-  function render() {
-    const targetIndex = Math.min(Math.max(Math.round(droneSeq.frame), 0), frameCount - 1);
-    let img = images[targetIndex];
-
-    if (!img || !img.complete || img.naturalWidth === 0) {
-      img = images[lastValidFrame] || images[0];
-    }
-
-    if (!img || !img.complete || img.naturalWidth === 0) return;
-    lastValidFrame = targetIndex;
-    isFirstFrameRendered = true;
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    const ratio = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight);
-    const centerShiftX = (canvas.width - img.naturalWidth * ratio) / 2;
-    const centerShiftY = (canvas.height - img.naturalHeight * ratio) / 2;
-
-    context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight,
-      centerShiftX, centerShiftY, img.naturalWidth * ratio, img.naturalHeight * ratio);
-  }
-
-  for (let i = 0; i < frameCount; i++) {
-    const img = new Image();
-    img.src = currentFrame(i);
-    img.onload = () => {
-      if (!isFirstFrameRendered || i === 0) render();
-    };
-    images.push(img);
-  }
-
-  resizeCanvas();
-
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resizeCanvas, 100);
-  });
-
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // 1. Scrub drone frames across full 2400px scroll distance
-    gsap.to(droneSeq, {
-      frame: frameCount - 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero-sequence-section',
-        start: 'top top',
-        end: '+=2400',
-        scrub: 0.5,
-        pin: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: render,
-        onRefresh: render
-      }
-    });
-
-    // 2. Phase 1: Hero title & initial stats fade out smoothly (0 -> 750px)
-    gsap.to('.hero-content-overlay', {
-      opacity: 0,
-      y: -60,
-      ease: 'power1.out',
-      scrollTrigger: {
-        trigger: '.hero-sequence-section',
-        start: 'top top',
-        end: '+=700',
-        scrub: true,
-        invalidateOnRefresh: true
-      }
-    });
-
-    // 3. Phase 2: Live Search & Filter Stage appears inside hero (800px -> 1700px)
-    const searchStage = document.getElementById('heroSearchStage');
-    if (searchStage) {
-      const searchTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.hero-sequence-section',
-          start: 'top+=750 top',
-          end: '+=1100',
-          scrub: true,
-          invalidateOnRefresh: true,
-          onEnter: () => { searchStage.style.pointerEvents = 'auto'; },
-          onLeaveBack: () => { searchStage.style.pointerEvents = 'none'; }
-        }
+  const video = document.querySelector('.hero-bg-video');
+  if (video) {
+    // Ensure smooth continuous autoplay
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Fallback for strict browser autoplay policies
+        document.body.addEventListener('click', () => {
+          video.play();
+        }, { once: true });
       });
-
-      searchTl
-        .fromTo('#heroSearchStage', 
-          { opacity: 0, y: 50, scale: 0.96 },
-          { opacity: 1, y: 0, scale: 1, ease: 'power2.out', duration: 0.4 }
-        )
-        .to('#heroSearchStage', {
-          opacity: 1, y: 0, duration: 0.3
-        })
-        .to('#heroSearchStage', {
-          opacity: 0, y: -40, scale: 0.98, ease: 'power1.in', duration: 0.3
-        });
     }
-
-    // Scroll indicator fades out quickly
-    gsap.to('.scroll-indicator', {
-      opacity: 0,
-      y: 20,
-      ease: 'power1.out',
-      scrollTrigger: {
-        trigger: '.hero-sequence-section',
-        start: 'top top',
-        end: '+=300',
-        scrub: true,
-        invalidateOnRefresh: true
-      }
-    });
   }
 }
-
-window.addEventListener('load', () => {
-  if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-});
 
 /* ==========================================================================
    2. INTERACTIVE CONTEXT MAP (Leaflet)

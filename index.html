@@ -209,14 +209,21 @@
   </header>
 
   <!-- =========================================================================
-       HERO: DRONE SEQUENCE
+       HERO: CINEMATIC VIDEO BACKGROUND & PROPERTY SEARCH
        ========================================================================= -->
-  <section class="hero-sequence-section" id="hero-home" aria-label="Hero — Sovereign Real Estate Advisory">
-    <div class="hero-canvas-container">
-      <canvas id="hero-drone-canvas" aria-hidden="true"></canvas>
+  <section class="hero-video-section" id="hero-home" aria-label="Hero — Sovereign Real Estate Advisory">
+    <!-- Cinematic High-Quality Video Background -->
+    <div class="hero-video-container">
+      <video class="hero-bg-video" autoplay muted loop playsinline preload="auto">
+        <source src="assets/herosection_video.MOV" type="video/mp4">
+        <source src="assets/herosection_video.MOV" type="video/quicktime">
+      </video>
+      <div class="hero-video-overlay" aria-hidden="true"></div>
     </div>
-    <div class="hero-content-overlay">
-      <div class="hero-content-inner">
+
+    <!-- Hero Content -->
+    <div class="container hero-container-layout">
+      <div class="hero-content-wrapper">
         <div class="hero-eyebrow" aria-label="Sovereign Real Estate Advisory">
           <span class="eyebrow-dot" aria-hidden="true"></span>
           Sovereign Real Estate Advisory
@@ -256,86 +263,76 @@
           </div>
         </div>
       </div>
-    </div>
-    <!-- Phase 2 Hero Search & Discovery Bar (Appears on scroll inside hero sequence before properties) -->
-    <div class="hero-search-stage" id="heroSearchStage" aria-label="Quick luxury property search">
-      <div class="hero-search-card">
-        <div class="hero-search-header">
-          <div class="hero-search-tag">
-            <span class="pulse-icon" aria-hidden="true"></span>
-            Curated UAE Portfolio Search
-          </div>
-          <h2 class="hero-search-title">Discover Available Off-Market &amp; Prime Residences</h2>
-          <p class="hero-search-sub">Filter verified residences across Dubai &amp; Abu Dhabi by city, typology, and investment budget.</p>
-        </div>
 
+      <!-- Luxury Search & Filtering Bar positioned exactly at the end of the hero section -->
+      <div class="hero-bottom-search-bar" id="heroSearchStage">
         <form id="heroPropertySearchForm" class="hero-search-form" onsubmit="return false;">
-          <!-- Keyword input -->
-          <div class="hero-search-input-wrap">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="propSearchKeyword" class="hero-search-input" placeholder="Search by development, island, or feature (e.g. Palm, Villa, Penthouse)..." aria-label="Search available properties">
-          </div>
-
-          <div class="hero-search-filters">
-            <!-- Location Filter -->
-            <div class="search-filter-group">
-              <label for="filterLocation" class="search-filter-label">Location</label>
-              <select id="filterLocation" class="search-select">
-                <option value="all">All Emirates &amp; Hubs</option>
-                <option value="Dubai">Dubai</option>
-                <option value="Abu Dhabi">Abu Dhabi</option>
-                <option value="Palm Jumeirah">Palm Jumeirah</option>
-                <option value="Downtown">Downtown Dubai</option>
-                <option value="Saadiyat">Saadiyat Island</option>
-              </select>
+          <div class="hero-search-bar-inner">
+            <!-- Keyword input -->
+            <div class="hero-search-input-wrap">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="propSearchKeyword" class="hero-search-input" placeholder="Search by development, island, or keyword (e.g. Palm, Villa, Penthouse, Saadiyat)..." aria-label="Search available properties">
             </div>
 
-            <!-- Typology Filter -->
-            <div class="search-filter-group">
-              <label for="filterType" class="search-filter-label">Property Type</label>
-              <select id="filterType" class="search-select">
-                <option value="all">All Categories</option>
-                <option value="Penthouse">Sky Penthouses</option>
-                <option value="Villa">Waterfront Villas</option>
-                <option value="Off-Plan">Off-Plan Suites</option>
-                <option value="Mansion">Ultra-Luxury Mansions</option>
-              </select>
-            </div>
+            <div class="hero-search-filters">
+              <!-- Location Filter -->
+              <div class="search-filter-group">
+                <label for="filterLocation" class="search-filter-label">Location</label>
+                <select id="filterLocation" class="search-select">
+                  <option value="all">All Emirates &amp; Hubs</option>
+                  <option value="Dubai">Dubai</option>
+                  <option value="Abu Dhabi">Abu Dhabi</option>
+                  <option value="Palm Jumeirah">Palm Jumeirah</option>
+                  <option value="Downtown">Downtown Dubai</option>
+                  <option value="Saadiyat">Saadiyat Island</option>
+                </select>
+              </div>
 
-            <!-- Price Filter -->
-            <div class="search-filter-group">
-              <label for="filterBudget" class="search-filter-label">Budget Range</label>
-              <select id="filterBudget" class="search-select">
-                <option value="all">Any Investment Range</option>
-                <option value="under20">Under AED 20M</option>
-                <option value="20to40">AED 20M – 40M</option>
-                <option value="above40">AED 40M+</option>
-              </select>
-            </div>
+              <!-- Typology Filter -->
+              <div class="search-filter-group">
+                <label for="filterType" class="search-filter-label">Property Type</label>
+                <select id="filterType" class="search-select">
+                  <option value="all">All Categories</option>
+                  <option value="Penthouse">Sky Penthouses</option>
+                  <option value="Villa">Waterfront Villas</option>
+                  <option value="Off-Plan">Off-Plan Suites</option>
+                  <option value="Mansion">Ultra-Luxury Mansions</option>
+                </select>
+              </div>
 
-            <!-- Action Button -->
-            <div class="search-filter-action">
-              <button type="button" id="btnExecuteSearch" class="btn-execute-search">
-                <span>View Results</span>
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </button>
+              <!-- Price Filter -->
+              <div class="search-filter-group">
+                <label for="filterBudget" class="search-filter-label">Budget Range</label>
+                <select id="filterBudget" class="search-select">
+                  <option value="all">Any Investment Range</option>
+                  <option value="under20">Under AED 20M</option>
+                  <option value="20to40">AED 20M – 40M</option>
+                  <option value="above40">AED 40M+</option>
+                </select>
+              </div>
+
+              <!-- Action Button -->
+              <div class="search-filter-action">
+                <button type="button" id="btnExecuteSearch" class="btn-execute-search">
+                  <span>Explore Results</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Quick tags -->
           <div class="hero-search-quick-tags">
             <span class="quick-tag-label">Popular Searches:</span>
+            <button type="button" class="quick-tag" data-tag="all">All</button>
             <button type="button" class="quick-tag" data-tag="Penthouse">#Penthouses</button>
+            <button type="button" class="quick-tag" data-tag="Villa">#Villas</button>
             <button type="button" class="quick-tag" data-tag="Saadiyat">#SaadiyatBeach</button>
             <button type="button" class="quick-tag" data-tag="Palm">#PalmJumeirah</button>
             <button type="button" class="quick-tag" data-tag="Off-Plan">#OffPlanDeals</button>
           </div>
         </form>
       </div>
-    </div>
-
-    <div class="scroll-indicator" aria-hidden="true">
-      <div class="scroll-line"></div>
     </div>
   </section>
 

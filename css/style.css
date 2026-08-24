@@ -632,51 +632,71 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 /* --------------------------------------------------------------------------
    6. HERO SEQUENCE
    -------------------------------------------------------------------------- */
-.hero-sequence-section {
+/* --------------------------------------------------------------------------
+   6. HERO SECTION WITH CINEMATIC BACKGROUND VIDEO
+   -------------------------------------------------------------------------- */
+.hero-video-section {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 600px;
+  min-height: 100vh;
   background: #030406;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: clamp(120px, 14vh, 160px);
+  padding-bottom: 40px;
 }
 
-.hero-canvas-container {
+.hero-video-container {
   position: absolute;
   inset: 0;
   z-index: 1;
+  overflow: hidden;
 }
 
-#hero-drone-canvas {
+.hero-bg-video {
   width: 100%;
   height: 100%;
-  display: block;
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: brightness(0.82) contrast(1.08);
 }
 
-.hero-content-overlay {
+.hero-video-overlay {
   position: absolute;
   inset: 0;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
   background: linear-gradient(
-    105deg,
-    rgba(3,4,6,0.82) 0%,
-    rgba(3,4,6,0.60) 45%,
-    rgba(3,4,6,0.18) 80%,
-    transparent 100%
-  );
-  padding-inline: var(--container-pad);
-  padding-top: clamp(120px, 15vh, 180px);
-  padding-bottom: 60px;
+    180deg,
+    rgba(3, 4, 6, 0.72) 0%,
+    rgba(3, 4, 6, 0.45) 40%,
+    rgba(3, 4, 6, 0.65) 80%,
+    rgba(3, 4, 6, 0.95) 100%
+  ),
+  radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
-.hero-content-inner {
-  max-width: 720px;
-  pointer-events: auto;
+.hero-container-layout {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: clamp(40px, 6vh, 70px);
+}
+
+.hero-content-wrapper {
+  max-width: 760px;
+  position: relative;
+  z-index: 2;
 }
 
 .hero-eyebrow {
@@ -689,7 +709,7 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: var(--gold-primary);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .eyebrow-dot {
@@ -705,6 +725,37 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 @keyframes dotPulse {
   0%, 100% { box-shadow: 0 0 6px var(--gold-primary); }
   50% { box-shadow: 0 0 18px var(--gold-light); }
+}
+
+/* Hero Bottom Search Bar */
+.hero-bottom-search-bar {
+  width: 100%;
+  position: relative;
+  z-index: 3;
+  margin-top: auto;
+  background: rgba(8, 10, 14, 0.78);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1.5px solid rgba(212, 175, 55, 0.40);
+  border-radius: var(--r-md);
+  padding: 20px 24px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.6),
+    0 0 35px rgba(212, 175, 55, 0.12);
+  transition: all var(--t-fast);
+}
+
+.hero-bottom-search-bar:focus-within {
+  border-color: var(--gold-primary);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.7),
+    0 0 45px rgba(212, 175, 55, 0.22);
+}
+
+.hero-search-bar-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .hero-headline {
@@ -818,98 +869,8 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
 }
 
 /* --------------------------------------------------------------------------
-   HERO SEARCH STAGE (Appears on Scroll inside Hero Pin)
+   HERO SEARCH FORM STYLING
    -------------------------------------------------------------------------- */
-.hero-search-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-inline: var(--container-pad);
-  padding-top: clamp(100px, 14vh, 150px);
-  padding-bottom: 40px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(40px);
-  will-change: transform, opacity;
-}
-
-.hero-search-card {
-  width: 100%;
-  max-width: 980px;
-  background: rgba(5, 6, 8, 0.82);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border: 1.5px solid rgba(212, 175, 55, 0.40);
-  border-radius: var(--r-lg);
-  padding: clamp(28px, 4vw, 44px);
-  box-shadow: 
-    0 25px 65px rgba(0, 0, 0, 0.55),
-    0 0 40px rgba(212, 175, 55, 0.15);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-search-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gold-gradient-h);
-}
-
-.hero-search-header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.hero-search-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--gold-light);
-  background: rgba(212, 175, 55, 0.12);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  padding: 5px 14px;
-  border-radius: var(--r-xs);
-  margin-bottom: 12px;
-}
-
-.pulse-icon {
-  width: 6px;
-  height: 6px;
-  background: var(--gold-primary);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--gold-primary);
-  animation: dotPulse 2s infinite;
-}
-
-.hero-search-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2.6vw, 2.2rem);
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.25;
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-
-.hero-search-sub {
-  font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 620px;
-  margin: 0 auto;
-  line-height: 1.6;
-}
-
 .hero-search-form {
   display: flex;
   flex-direction: column;

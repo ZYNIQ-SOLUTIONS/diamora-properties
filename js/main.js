@@ -1086,31 +1086,39 @@ function initHeroPropertySearch() {
     });
   }
 
-  // Quick Tags
+  // Reset filters (modal & bar buttons)
+  const resetBarBtn = document.getElementById('btnResetFiltersBar');
+  [resetBtn, resetBarBtn].forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        if (locationSelect) locationSelect.value = 'all';
+        if (typeSelect) typeSelect.value = 'all';
+        if (budgetSelect) budgetSelect.value = 'all';
+        quickTags.forEach(t => t.classList.remove('active'));
+        filterProperties(false);
+      });
+    }
+  });
+
+  // Quick tag logic
   quickTags.forEach(tag => {
     tag.addEventListener('click', () => {
       const tagValue = tag.getAttribute('data-tag');
       quickTags.forEach(t => t.classList.remove('active'));
       tag.classList.add('active');
 
-      if (searchInput) {
+      if (tagValue === 'all') {
+        if (searchInput) searchInput.value = '';
+        if (locationSelect) locationSelect.value = 'all';
+        if (typeSelect) typeSelect.value = 'all';
+        if (budgetSelect) budgetSelect.value = 'all';
+      } else if (searchInput) {
         searchInput.value = tagValue;
       }
-      filterProperties(true);
-    });
-  });
-
-  // Reset filters
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      if (searchInput) searchInput.value = '';
-      if (locationSelect) locationSelect.value = 'all';
-      if (typeSelect) typeSelect.value = 'all';
-      if (budgetSelect) budgetSelect.value = 'all';
-      quickTags.forEach(t => t.classList.remove('active'));
       filterProperties(false);
     });
-  }
+  });
 }
 
 /* ==========================================================================

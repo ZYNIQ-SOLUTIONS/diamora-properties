@@ -351,13 +351,80 @@
         </div>
         <div class="section-header-right">
           <p class="section-intro">
-            Hand-selected from Dubai and Abu Dhabi's most prestigious addresses. Each property evaluated for lifestyle, capital appreciation, and rental yield.
+            Hand-selected from Dubai and Abu Dhabi's most prestigious addresses. Filter by city, typology, and budget or explore our full private portfolio.
           </p>
           <a href="#consult" class="btn-text-link">
             View all listings
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
+      </div>
+
+      <!-- Properties Live Search & Filter Bar -->
+      <div class="properties-filter-bar-container">
+        <form id="propertySearchFilterForm" class="property-filter-form" onsubmit="return false;">
+          <!-- Keyword input -->
+          <div class="prop-filter-input-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="propSearchKeyword" class="prop-filter-input" placeholder="Search by development, island, or keyword (e.g. Palm, Villa, Penthouse, Saadiyat)..." aria-label="Search properties">
+          </div>
+
+          <div class="prop-filter-dropdowns">
+            <!-- Location Filter -->
+            <div class="prop-dropdown-group">
+              <label for="filterLocation" class="prop-dropdown-label">Location</label>
+              <select id="filterLocation" class="prop-select">
+                <option value="all">All Emirates &amp; Hubs</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Abu Dhabi">Abu Dhabi</option>
+                <option value="Palm Jumeirah">Palm Jumeirah</option>
+                <option value="Downtown">Downtown Dubai</option>
+                <option value="Saadiyat">Saadiyat Island</option>
+              </select>
+            </div>
+
+            <!-- Typology Filter -->
+            <div class="prop-dropdown-group">
+              <label for="filterType" class="prop-dropdown-label">Property Type</label>
+              <select id="filterType" class="prop-select">
+                <option value="all">All Categories</option>
+                <option value="Penthouse">Sky Penthouses</option>
+                <option value="Villa">Waterfront Villas</option>
+                <option value="Off-Plan">Off-Plan Suites</option>
+              </select>
+            </div>
+
+            <!-- Budget Filter -->
+            <div class="prop-dropdown-group">
+              <label for="filterBudget" class="prop-dropdown-label">Budget Range</label>
+              <select id="filterBudget" class="prop-select">
+                <option value="all">Any Investment Range</option>
+                <option value="under20">Under AED 20M</option>
+                <option value="20to40">AED 20M – 40M</option>
+                <option value="above40">AED 40M+</option>
+              </select>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="prop-filter-action">
+              <button type="button" id="btnResetFiltersBar" class="btn-reset-filters-bar" aria-label="Reset all search filters">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Tag Pills -->
+          <div class="prop-filter-quick-tags">
+            <span class="quick-tag-label">Quick Filter:</span>
+            <button type="button" class="quick-tag" data-tag="all">All</button>
+            <button type="button" class="quick-tag" data-tag="Penthouse">#Penthouses</button>
+            <button type="button" class="quick-tag" data-tag="Villa">#Villas</button>
+            <button type="button" class="quick-tag" data-tag="Saadiyat">#SaadiyatBeach</button>
+            <button type="button" class="quick-tag" data-tag="Palm">#PalmJumeirah</button>
+            <button type="button" class="quick-tag" data-tag="Off-Plan">#OffPlanDeals</button>
+          </div>
+        </form>
       </div>
 
       <div class="properties-grid" id="propertiesGrid">

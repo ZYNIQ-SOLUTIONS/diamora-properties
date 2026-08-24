@@ -1126,6 +1126,189 @@ body.loaded #loader-wrapper { opacity: 0; visibility: hidden; pointer-events: no
   }
 }
 
+/* --------------------------------------------------------------------------
+   PROPERTIES SECTION LIVE SEARCH & FILTER BAR
+   -------------------------------------------------------------------------- */
+.properties-filter-bar-container {
+  background: var(--bg-card);
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  border-radius: var(--r-md);
+  padding: 24px 28px;
+  margin-bottom: 48px;
+  box-shadow: 
+    0 15px 40px rgba(5, 6, 8, 0.05),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.properties-filter-bar-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold-gradient-h);
+}
+
+.property-filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prop-filter-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-deep);
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: var(--r-sm);
+  padding: 12px 18px;
+  transition: all var(--t-fast);
+}
+
+.prop-filter-input-wrap:focus-within {
+  background: #FFFFFF;
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.prop-filter-input-wrap svg {
+  color: var(--gold-dark);
+  flex-shrink: 0;
+}
+
+.prop-filter-input {
+  flex: 1;
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 500;
+  min-width: 0;
+  background: transparent;
+}
+
+.prop-filter-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.prop-filter-dropdowns {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 1.3fr auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.prop-dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--bg-deep);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--r-sm);
+  padding: 8px 14px;
+  transition: border-color var(--t-fast);
+}
+
+.prop-dropdown-group:focus-within {
+  border-color: var(--gold-primary);
+  background: #FFFFFF;
+}
+
+.prop-dropdown-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+.prop-select {
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+}
+
+.prop-select option {
+  background: #FFFFFF;
+  color: #050608;
+  padding: 8px;
+}
+
+.btn-reset-filters-bar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 20px;
+  background: var(--bg-deep);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: var(--r-sm);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: all var(--t-fast);
+  cursor: pointer;
+  height: 100%;
+}
+
+.btn-reset-filters-bar:hover {
+  background: var(--gold-gradient);
+  color: #050608;
+  border-color: transparent;
+  transform: translateY(-1px);
+}
+
+.prop-filter-quick-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.prop-filter-quick-tags .quick-tag {
+  color: var(--text-body);
+  background: var(--bg-deep);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.prop-filter-quick-tags .quick-tag:hover,
+.prop-filter-quick-tags .quick-tag.active {
+  background: var(--gold-gradient);
+  color: #050608;
+  border-color: transparent;
+}
+
+@media (max-width: 900px) {
+  .prop-filter-dropdowns {
+    grid-template-columns: 1fr 1fr;
+  }
+  .prop-filter-action {
+    grid-column: 1 / -1;
+  }
+  .btn-reset-filters-bar {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .prop-filter-dropdowns {
+    grid-template-columns: 1fr;
+  }
+  .properties-filter-bar-container {
+    padding: 18px 14px;
+  }
+}
+
 /* Scroll indicator */
 .scroll-indicator {
   position: absolute;

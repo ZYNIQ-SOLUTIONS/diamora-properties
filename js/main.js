@@ -111,16 +111,16 @@ function initInteractiveMap() {
     fillOpacity: 0.01, dashArray: '4, 10'
   }).addTo(leafletMapInstance);
 
-  // Diamora HQ pin with new golden "D" emblem logo
+  // Diamora HQ pin with sleek small golden "D" emblem logo
   const diamoraSvgPin = `
     <div class="custom-map-pin">
       <div class="marker-shadow-pulse"></div>
       <div class="marker-graphic">
-        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties Headquarters" class="marker-emblem-img" width="88" height="75">
+        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties Headquarters" class="marker-emblem-img" width="44" height="37">
       </div>
       <div class="marker-label">
         <div class="marker-title">DIAMORA</div>
-        <div class="marker-subtitle">PROPERTIES HQ</div>
+        <div class="marker-subtitle">HQ · AL MARKAZIYAH</div>
       </div>
     </div>
   `;
@@ -128,8 +128,8 @@ function initInteractiveMap() {
   const diamoraIcon = L.divIcon({
     className: 'diamora-marker',
     html: diamoraSvgPin,
-    iconSize: [120, 140],
-    iconAnchor: [60, 100]
+    iconSize: [80, 68],
+    iconAnchor: [40, 37]
   });
 
   const hqMarker = L.marker([targetLat, targetLng], { icon: diamoraIcon, zIndexOffset: 1000 }).addTo(leafletMapInstance);

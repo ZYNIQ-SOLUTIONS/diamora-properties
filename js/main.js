@@ -85,13 +85,13 @@ function initInteractiveMap() {
   const targetLat = 24.4820317;
   const targetLng = 54.3496455;
 
-  // Zoomed out to 12 to capture all key Abu Dhabi destinations (Saadiyat, Yas, Grand Mosque, Corniche, Al Maryah)
+  // Center directly on verified Diamora Properties Headquarters in Al Markaziyah West, Abu Dhabi
   leafletMapInstance = L.map('map', {
     zoomControl: false,
     attributionControl: true,
     scrollWheelZoom: false,
     preferCanvas: true
-  }).setView([24.4750, 54.4300], 12);
+  }).setView([targetLat, targetLng], 15);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     subdomains: 'abcd',
@@ -99,47 +99,52 @@ function initInteractiveMap() {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
   }).addTo(leafletMapInstance);
 
-  // Investment perimeter rings
+  // Investment perimeter rings around Diamora HQ
   L.circle([targetLat, targetLng], {
-    radius: 3500,
+    radius: 1200,
     color: '#D4AF37', weight: 1.5, opacity: 0.65,
     fillColor: '#D4AF37', fillOpacity: 0.04, dashArray: '6, 8'
   }).addTo(leafletMapInstance);
 
   L.circle([targetLat, targetLng], {
-    radius: 9000,
+    radius: 3500,
     color: '#8C6A18', weight: 1, opacity: 0.35,
     fillOpacity: 0.01, dashArray: '4, 10'
   }).addTo(leafletMapInstance);
 
-  // Diamora HQ pin with sleek small golden "D" emblem logo
-  const diamoraSvgPin = `
-    <div class="custom-map-pin">
-      <div class="marker-shadow-pulse"></div>
-      <div class="marker-graphic">
-        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties Headquarters" class="marker-emblem-img" width="44" height="37">
+  // Precision compact luxury Diamora HQ pin
+  const diamoraPinHtml = `
+    <div class="custom-map-pin-v2" title="Diamora Properties Headquarters">
+      <div class="map-beacon-pulse"></div>
+      <div class="map-pin-badge">
+        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties" class="map-pin-emblem" width="20" height="17">
       </div>
-      <div class="marker-label">
-        <div class="marker-title">DIAMORA</div>
-        <div class="marker-subtitle">HQ · AL MARKAZIYAH</div>
-      </div>
+      <div class="map-pin-needle"></div>
+      <div class="map-pin-tag">DIAMORA HQ</div>
     </div>
   `;
 
   const diamoraIcon = L.divIcon({
     className: 'diamora-marker',
-    html: diamoraSvgPin,
-    iconSize: [80, 68],
-    iconAnchor: [40, 37]
+    html: diamoraPinHtml,
+    iconSize: [32, 40],
+    iconAnchor: [16, 38],
+    popupAnchor: [0, -38]
   });
 
   const hqMarker = L.marker([targetLat, targetLng], { icon: diamoraIcon, zIndexOffset: 1000 }).addTo(leafletMapInstance);
   hqMarker.bindPopup(`
     <div class="map-popup-card">
-      <div class="popup-tag">Headquarters</div>
+      <div class="popup-tag">Official Headquarters</div>
       <div class="popup-title">Diamora Properties</div>
       <div class="popup-desc">Sovereign advisory & investment headquarters in Al Markaziyah West, Abu Dhabi.</div>
       <div class="popup-meta">P.O. Box 92813 · +971 50 676 0668</div>
+      <div style="margin-top: 10px;">
+        <a href="https://www.google.com/maps/place/diamora+properties/@24.4820317,54.3496455,17z/data=!3m1!4b1!4m6!3m5!1s0x3e5e67bc2d16f469:0x16c34b6fc64a724a!8m2!3d24.4820317!4d54.3496455!16s%2Fg%2F11yxzjc69l" target="_blank" rel="noopener noreferrer" class="map-gmaps-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Open in Google Maps</span>
+        </a>
+      </div>
     </div>
   `);
 

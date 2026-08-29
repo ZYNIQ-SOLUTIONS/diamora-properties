@@ -837,35 +837,63 @@ function initNewsletterForm() {
   const form = document.getElementById('vipNewsletterForm');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = form.querySelector('input[type="email"]');
     const submitBtn = form.querySelector('.btn-subscribe');
     const originalHTML = submitBtn.innerHTML;
 
     if (!input || !input.value) return;
+    const emailVal = input.value.trim();
 
     submitBtn.innerHTML = `<span>Subscribing…</span>`;
     submitBtn.disabled = true;
 
-    setTimeout(() => {
-      submitBtn.innerHTML = `
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <span>Joined VIP List</span>
-      `;
-      submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-      submitBtn.style.color = '#ffffff';
-      input.value = '';
-      input.placeholder = 'Thank you for joining our private network.';
+    const leadData = {
+      type: 'newsletter',
+      email: emailVal,
+      message: 'Subscribed to VIP Off-Market Deals from interactive map.'
+    };
 
-      setTimeout(() => {
-        submitBtn.innerHTML = originalHTML;
-        submitBtn.style.background = '';
-        submitBtn.style.color = '';
-        submitBtn.disabled = false;
-        input.placeholder = 'Enter your email for private listings...';
-      }, 4500);
-    }, 900);
+    // 1. Try sending to Live API
+    try {
+      await fetch('http://localhost:5000/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData)
+      });
+    } catch (err) {
+      console.log('Saved lead to local cache (API offline)');
+    }
+
+    // 2. Cache to LocalStorage for Admin Dashboard
+    try {
+      const storedInq = JSON.parse(localStorage.getItem('diamora_inquiries') || '[]');
+      storedInq.unshift({
+        _id: 'inq-' + Date.now(),
+        ...leadData,
+        status: 'New',
+        createdAt: new Date().toISOString()
+      });
+      localStorage.setItem('diamora_inquiries', JSON.stringify(storedInq));
+    } catch (e) {}
+
+    submitBtn.innerHTML = `
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      <span>Joined VIP List</span>
+    `;
+    submitBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    submitBtn.style.color = '#ffffff';
+    input.value = '';
+    input.placeholder = 'Thank you for joining our private network.';
+
+    setTimeout(() => {
+      submitBtn.innerHTML = originalHTML;
+      submitBtn.style.background = '';
+      submitBtn.style.color = '';
+      submitBtn.disabled = false;
+      input.placeholder = 'Enter your email for private listings...';
+    }, 4500);
   });
 }
 
@@ -876,7 +904,7 @@ function initConsultForm() {
   const form = document.getElementById('consultForm');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -901,31 +929,64 @@ function initConsultForm() {
     btn.disabled = true;
     btnText.textContent = 'Sending request…';
 
-    // Simulate async submission — replace with real endpoint
+    const name = form.querySelector('#cf-name')?.value || '';
+    const phone = form.querySelector('#cf-phone')?.value || '';
+    const email = form.querySelector('#cf-email')?.value || '';
+    const budget = form.querySelector('#cf-budget')?.value || '';
+    const intent = form.querySelector('#cf-intent')?.value || '';
+    const message = form.querySelector('#cf-message')?.value || '';
+
+    const leadData = {
+      type: 'consultation',
+      name,
+      phone,
+      email,
+      budget,
+      intent,
+      message
+    };
+
+    // 1. Try sending to Live API
+    try {
+      await fetch('http://localhost:5000/api/inquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData)
+      });
+    } catch (err) {
+      console.log('Saved lead to local cache (API offline)');
+    }
+
+    // 2. Cache to LocalStorage for Admin Dashboard
+    try {
+      const storedInq = JSON.parse(localStorage.getItem('diamora_inquiries') || '[]');
+      storedInq.unshift({
+        _id: 'inq-' + Date.now(),
+        ...leadData,
+        status: 'New',
+        createdAt: new Date().toISOString()
+      });
+      localStorage.setItem('diamora_inquiries', JSON.stringify(storedInq));
+    } catch (e) {}
+
+    btnText.textContent = 'Request Confirmed!';
+    btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+    btn.style.color = '#ffffff';
+
+    // Build WhatsApp deep link
+    const waMsg = encodeURIComponent(
+      `Hello Diamora Properties! I'd like to book a private consultation.\n\n` +
+      `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nBudget: AED ${budget}\nIntent: ${intent}\nMessage: ${message}`
+    );
+
     setTimeout(() => {
-      btnText.textContent = 'Request Sent!';
-      btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
-      btn.style.color = '#ffffff';
-
-      // Build WhatsApp deep link fallback
-      const name = form.querySelector('#cf-name')?.value || '';
-      const phone = form.querySelector('#cf-phone')?.value || '';
-      const budget = form.querySelector('#cf-budget')?.value || '';
-      const intent = form.querySelector('#cf-intent')?.value || '';
-      const waMsg = encodeURIComponent(
-        `Hello Diamora Properties! I'd like to book a private consultation.\n\n` +
-        `Name: ${name}\nPhone: ${phone}\nBudget: AED ${budget}\nIntent: ${intent}`
-      );
-
-      setTimeout(() => {
-        window.open(`https://wa.me/971506760668?text=${waMsg}`, '_blank', 'noopener,noreferrer');
-        form.reset();
-        btn.disabled = false;
-        btn.style.background = '';
-        btn.style.color = '';
-        btnText.textContent = originalText;
-      }, 1200);
-    }, 900);
+      window.open(`https://wa.me/971506760668?text=${waMsg}`, '_blank', 'noopener,noreferrer');
+      form.reset();
+      btn.disabled = false;
+      btn.style.background = '';
+      btn.style.color = '';
+      btnText.textContent = originalText;
+    }, 1200);
   });
 }
 

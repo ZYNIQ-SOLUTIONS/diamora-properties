@@ -1,0 +1,29 @@
+{
+  "name": "diamora-api",
+  "version": "1.0.0",
+  "description": "Diamora Properties — Backend API Server & Admin System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node seed_data.js",
+    "seed:admin": "node seed_admin.js"
+  },
+  "keywords": [
+    "real-estate",
+    "luxury",
+    "diamora",
+    "api",
+    "mongodb"
+  ],
+  "author": "Diamora Properties",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.9.4"
+  }
+}

@@ -1,0 +1,801 @@
+/**
+ * DIAMORA PROPERTIES — EXECUTIVE ADMIN DASHBOARD JAVASCRIPT
+ * Full-featured luxury admin portal with dual-mode support:
+ * - Live Express/MongoDB API (`http://localhost:5000/api`)
+ * - Smart LocalStorage fallback for instant standalone offline testing
+ */
+
+const API_BASE = 'http://localhost:5000/api';
+
+// Pre-seeded fallback luxury properties for immediate offline testing
+const DEFAULT_SAMPLE_PROPERTIES = [
+  {
+    _id: 'prop-1',
+    title: 'Palm Jumeirah Waterfront Beach Villa',
+    description: 'Ultra-luxury waterfront estate with private beach frontage, infinity pool, sunken firepit lounge, and panoramic skyline views.',
+    price: 48000000,
+    location: 'Palm Jumeirah, Dubai',
+    propertyType: 'Villa',
+    bedrooms: 6,
+    bathrooms: 7,
+    area: 12400,
+    imageUrl: 'assets/properties/palm-villa.jpg',
+    status: 'Available'
+  },
+  {
+    _id: 'prop-2',
+    title: 'Saadiyat Cultural District Townhouse',
+    description: 'Contemporary travertine stone townhouse with private plunge pool courtyard, steps from Louvre Abu Dhabi and pristine beach.',
+    price: 22500000,
+    location: 'Saadiyat Island, Abu Dhabi',
+    propertyType: 'Townhouse',
+    bedrooms: 4,
+    bathrooms: 5,
+    area: 5800,
+    imageUrl: 'assets/properties/saadiyat-townhouse.jpg',
+    status: 'Available'
+  },
+  {
+    _id: 'prop-3',
+    title: 'Dubai Hills Golf & Skyline Mansion',
+    description: 'Striking 3-tier architectural mansion overlooking championship golf greens with unobstructed Downtown Dubai skyline vistas.',
+    price: 36500000,
+    location: 'Dubai Hills Estate, Dubai',
+    propertyType: 'Mansion',
+    bedrooms: 5,
+    bathrooms: 6,
+    area: 9600,
+    imageUrl: 'assets/properties/dubai-hills-mansion.jpg',
+    status: 'Available'
+  },
+  {
+    _id: 'prop-4',
+    title: 'Downtown Burj Crown Sky Penthouse',
+    description: 'Full-floor duplex penthouse crowning an ultra-prime tower with private cantilevered sky pool and 360-degree vistas of Burj Khalifa.',
+    price: 65000000,
+    location: 'Downtown Dubai, Dubai',
+    propertyType: 'Penthouse',
+    bedrooms: 5,
+    bathrooms: 7,
+    area: 14200,
+    imageUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80',
+    status: 'Off-Market'
+  },
+  {
+    _id: 'prop-5',
+    title: 'Al Bateen Royal Waterfront Residence',
+    description: 'Sovereign waterfront villa nestled in the historic royal enclave of Al Bateen with private 90ft yacht berth and landscaped majlis.',
+    price: 42000000,
+    location: 'Al Bateen, Abu Dhabi',
+    propertyType: 'Villa',
+    bedrooms: 6,
+    bathrooms: 8,
+    area: 11500,
+    imageUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80',
+    status: 'Available'
+  },
+  {
+    _id: 'prop-6',
+    title: 'Yas Island Waterfront Signature Suite',
+    description: 'High-yield investment suite directly overlooking Yas Marina circuit with branded concierge services and private access to beach club.',
+    price: 8500000,
+    location: 'Yas Island, Abu Dhabi',
+    propertyType: 'Apartment',
+    bedrooms: 2,
+    bathrooms: 3,
+    area: 2100,
+    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80',
+    status: 'Available'
+  }
+];
+
+// Sample inquiries
+const DEFAULT_SAMPLE_INQUIRIES = [
+  {
+    _id: 'inq-1',
+    type: 'consultation',
+    name: 'Lord Marcus Vance',
+    email: 'm.vance@vanceholdings.co.uk',
+    phone: '+44 7700 900123',
+    budget: 'AED 25M+',
+    intent: 'Investment / ROI',
+    propertyTitle: 'Downtown Burj Crown Sky Penthouse',
+    message: 'Seeking off-plan duplex penthouse in Downtown Dubai with high yield and Golden Visa support.',
+    status: 'New',
+    createdAt: new Date(Date.now() - 3600000 * 4).toISOString()
+  },
+  {
+    _id: 'inq-2',
+    type: 'newsletter',
+    name: 'Sheikh Mansoor Al-Qasimi',
+    email: 'mansoor.q@privategroup.ae',
+    phone: '+971 50 112 3344',
+    budget: 'AED 10M – 25M',
+    intent: 'Personal Residence',
+    propertyTitle: 'Saadiyat Island Townhouse',
+    message: 'Subscribed for private off-market allocations in Abu Dhabi cultural district.',
+    status: 'Qualified',
+    createdAt: new Date(Date.now() - 3600000 * 28).toISOString()
+  },
+  {
+    _id: 'inq-3',
+    type: 'property_inquiry',
+    name: 'Elena Rostova',
+    email: 'e.rostova@genevacap.ch',
+    phone: '+41 22 700 8899',
+    budget: 'AED 25M+',
+    intent: 'Golden Visa',
+    propertyTitle: 'Palm Jumeirah Waterfront Beach Villa',
+    message: 'Interested in acquiring beachfront villa on Palm Jumeirah. Require title deed transfer guidance.',
+    status: 'Contacted',
+    createdAt: new Date(Date.now() - 3600000 * 52).toISOString()
+  }
+];
+
+// State variables
+let properties = [];
+let inquiries = [];
+let isLiveApiConnected = false;
+
+// DOM Elements
+const loginScreen = document.getElementById('login-screen');
+const dashboardScreen = document.getElementById('dashboard-screen');
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+const logoutBtn = document.getElementById('logout-btn');
+const btnAutofill = document.getElementById('btn-autofill-demo');
+
+const propertiesTbody = document.getElementById('properties-tbody');
+const inquiriesTbody = document.getElementById('inquiries-tbody');
+
+const propertyModal = document.getElementById('property-modal');
+const propertyForm = document.getElementById('property-form');
+const btnOpenAddModal = document.getElementById('btn-open-add-modal');
+const btnCloseModal = document.getElementById('btn-close-modal');
+const btnCancelModal = document.getElementById('btn-cancel-modal');
+const modalTitle = document.getElementById('modal-title');
+
+const propSearchInput = document.getElementById('prop-search-input');
+const inqSearchInput = document.getElementById('inq-search-input');
+const btnRefreshInquiries = document.getElementById('btn-refresh-inquiries');
+
+const systemStatusDot = document.getElementById('system-status-dot');
+const systemStatusText = document.getElementById('system-status-text');
+const btnPingApi = document.getElementById('btn-ping-api');
+const pingResult = document.getElementById('ping-result');
+const btnResetData = document.getElementById('btn-reset-data');
+
+// Lifecycle Initialization
+document.addEventListener('DOMContentLoaded', async () => {
+  // Check API connectivity
+  await checkApiHealth();
+
+  // Check auth session
+  const token = localStorage.getItem('diamora_token');
+  if (token) {
+    showDashboard();
+  } else {
+    showLogin();
+  }
+
+  // Setup Event Listeners
+  initEventListeners();
+});
+
+function showLogin() {
+  loginScreen.style.display = 'flex';
+  dashboardScreen.style.display = 'none';
+}
+
+function showDashboard() {
+  loginScreen.style.display = 'none';
+  dashboardScreen.style.display = 'flex';
+  loadDashboardData();
+}
+
+/**
+ * =========================================================================
+ * API & DATA LAYER (Live Express API + LocalStorage Fallback)
+ * =========================================================================
+ */
+async function checkApiHealth() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1200);
+    
+    const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      isLiveApiConnected = true;
+      if (systemStatusDot) systemStatusDot.classList.remove('offline');
+      if (systemStatusText) systemStatusText.textContent = 'Live API Server (Port 5000)';
+      return true;
+    }
+  } catch (err) {
+    isLiveApiConnected = false;
+    if (systemStatusDot) systemStatusDot.classList.add('offline');
+    if (systemStatusText) systemStatusText.textContent = 'Standalone Mode (Local Storage)';
+    return false;
+  }
+}
+
+async function loadDashboardData() {
+  await Promise.all([fetchProperties(), fetchInquiries()]);
+  updateMetricCards();
+}
+
+// Fetch Properties
+async function fetchProperties() {
+  if (isLiveApiConnected) {
+    try {
+      const res = await fetch(`${API_BASE}/properties`);
+      if (res.ok) {
+        properties = await res.json();
+        renderPropertiesTable(properties);
+        return;
+      }
+    } catch (e) {
+      console.warn('API error, falling back to local properties', e);
+    }
+  }
+
+  // LocalStorage Fallback
+  const stored = localStorage.getItem('diamora_properties');
+  if (stored) {
+    properties = JSON.parse(stored);
+  } else {
+    properties = [...DEFAULT_SAMPLE_PROPERTIES];
+    localStorage.setItem('diamora_properties', JSON.stringify(properties));
+  }
+  renderPropertiesTable(properties);
+}
+
+// Fetch Inquiries
+async function fetchInquiries() {
+  const token = localStorage.getItem('diamora_token');
+  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+    try {
+      const res = await fetch(`${API_BASE}/inquiries`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        inquiries = await res.json();
+        renderInquiriesTable(inquiries);
+        return;
+      }
+    } catch (e) {
+      console.warn('API error, falling back to local inquiries', e);
+    }
+  }
+
+  // LocalStorage Fallback
+  const stored = localStorage.getItem('diamora_inquiries');
+  if (stored) {
+    inquiries = JSON.parse(stored);
+  } else {
+    inquiries = [...DEFAULT_SAMPLE_INQUIRIES];
+    localStorage.setItem('diamora_inquiries', JSON.stringify(inquiries));
+  }
+  renderInquiriesTable(inquiries);
+}
+
+/**
+ * =========================================================================
+ * RENDERING FUNCTIONS
+ * =========================================================================
+ */
+function updateMetricCards() {
+  const totalPropsEl = document.getElementById('stat-total-props');
+  const totalValueEl = document.getElementById('stat-total-value');
+  const availablePropsEl = document.getElementById('stat-available-props');
+  const totalLeadsEl = document.getElementById('stat-total-leads');
+  const propCountBadge = document.getElementById('badge-prop-count');
+  const inqCountBadge = document.getElementById('badge-inq-count');
+
+  const totalCount = properties.length;
+  const availableCount = properties.filter(p => p.status === 'Available').length;
+  const grossValue = properties.reduce((acc, p) => acc + (Number(p.price) || 0), 0);
+
+  if (totalPropsEl) totalPropsEl.textContent = totalCount;
+  if (propCountBadge) propCountBadge.textContent = totalCount;
+  if (availablePropsEl) availablePropsEl.textContent = availableCount;
+  if (totalLeadsEl) totalLeadsEl.textContent = inquiries.length;
+  if (inqCountBadge) inqCountBadge.textContent = inquiries.length;
+
+  if (totalValueEl) {
+    if (grossValue >= 1000000) {
+      totalValueEl.textContent = `AED ${(grossValue / 1000000).toFixed(1)}M`;
+    } else {
+      totalValueEl.textContent = `AED ${grossValue.toLocaleString()}`;
+    }
+  }
+}
+
+function renderPropertiesTable(list) {
+  if (!propertiesTbody) return;
+  propertiesTbody.innerHTML = '';
+
+  if (!list || list.length === 0) {
+    propertiesTbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 32px;">
+          No property listings found. Click "Add New Property" to create one.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  list.forEach(prop => {
+    const tr = document.createElement('tr');
+    
+    // Status Badge Styling
+    let badgeClass = 'badge-available';
+    if (prop.status === 'Off-Market' || prop.status === 'Reserved') badgeClass = 'badge-offmarket';
+    if (prop.status === 'Sold') badgeClass = 'badge-sold';
+
+    // Format Image Path for preview inside dashboard/
+    let imgSrc = prop.imageUrl || 'assets/properties/palm-villa.jpg';
+    if (!imgSrc.startsWith('http') && !imgSrc.startsWith('../')) {
+      imgSrc = '../' + imgSrc;
+    }
+
+    tr.innerHTML = `
+      <td>
+        <div class="prop-cell-title">
+          <img src="${imgSrc}" alt="${prop.title}" class="prop-cell-thumb" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=80'">
+          <div>
+            <div class="prop-cell-name">${prop.title}</div>
+            <div class="prop-cell-meta">${prop.area ? Number(prop.area).toLocaleString() + ' sq ft' : ''}</div>
+          </div>
+        </div>
+      </td>
+      <td>${prop.location || 'UAE'}</td>
+      <td><strong>${prop.propertyType || 'Villa'}</strong></td>
+      <td>${prop.bedrooms || 0} Beds · ${prop.bathrooms || 0} Baths</td>
+      <td><span class="gold-text" style="font-weight: 700;">AED ${Number(prop.price).toLocaleString()}</span></td>
+      <td><span class="badge ${badgeClass}">${prop.status || 'Available'}</span></td>
+      <td style="text-align: right;">
+        <div style="display: inline-flex; gap: 8px;">
+          <button type="button" class="btn-edit" onclick="openEditModal('${prop._id}')">Edit</button>
+          <button type="button" class="btn-danger" onclick="deletePropertyItem('${prop._id}')">Delete</button>
+        </div>
+      </td>
+    `;
+    propertiesTbody.appendChild(tr);
+  });
+}
+
+function renderInquiriesTable(list) {
+  if (!inquiriesTbody) return;
+  inquiriesTbody.innerHTML = '';
+
+  if (!list || list.length === 0) {
+    inquiriesTbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 32px;">
+          No client inquiries received yet. Inquiries submitted on the website will appear here.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  list.forEach(inq => {
+    const tr = document.createElement('tr');
+    const dateFormatted = inq.createdAt ? new Date(inq.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent';
+
+    let badgeClass = 'badge-available';
+    if (inq.status === 'New') badgeClass = 'badge-offmarket';
+    if (inq.status === 'Closed') badgeClass = 'badge-sold';
+
+    tr.innerHTML = `
+      <td>
+        <div class="prop-cell-name">${inq.name || 'Private VIP Client'}</div>
+        <div class="prop-cell-meta"><a href="mailto:${inq.email}" style="color: var(--gold-light);">${inq.email}</a> ${inq.phone ? '· ' + inq.phone : ''}</div>
+      </td>
+      <td><span style="text-transform: capitalize; font-weight: 600;">${inq.type || 'Consultation'}</span></td>
+      <td>
+        <div><strong>${inq.budget || 'Any Budget'}</strong></div>
+        <div class="prop-cell-meta">${inq.intent || 'Investment'}</div>
+      </td>
+      <td style="max-width: 240px; font-size: 0.8rem; color: var(--text-muted);">
+        ${inq.message || inq.propertyTitle || 'Direct VIP consultation booking.'}
+      </td>
+      <td>${dateFormatted}</td>
+      <td>
+        <select onchange="updateInquiryStatus('${inq._id}', this.value)" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-subtle); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">
+          <option value="New" ${inq.status === 'New' ? 'selected' : ''}>New</option>
+          <option value="Contacted" ${inq.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+          <option value="Qualified" ${inq.status === 'Qualified' ? 'selected' : ''}>Qualified</option>
+          <option value="Closed" ${inq.status === 'Closed' ? 'selected' : ''}>Closed</option>
+        </select>
+      </td>
+      <td style="text-align: right;">
+        <button type="button" class="btn-danger" onclick="deleteInquiryItem('${inq._id}')">Remove</button>
+      </td>
+    `;
+    inquiriesTbody.appendChild(tr);
+  });
+}
+
+/**
+ * =========================================================================
+ * EVENT LISTENERS & USER ACTIONS
+ * =========================================================================
+ */
+function initEventListeners() {
+  // Login Form
+  if (loginForm) {
+    loginForm.addEventListener('submit', handleLogin);
+  }
+
+  // Quick fill demo credentials
+  if (btnAutofill) {
+    btnAutofill.addEventListener('click', () => {
+      document.getElementById('username').value = 'admin';
+      document.getElementById('password').value = 'password123';
+      if (loginError) loginError.style.display = 'none';
+    });
+  }
+
+  // Logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('diamora_token');
+      showToast('Logged out successfully');
+      showLogin();
+    });
+  }
+
+  // Tab switching
+  const tabButtons = document.querySelectorAll('.dash-tab-btn');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const targetId = btn.getAttribute('data-tab');
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.style.display = pane.id === targetId ? 'block' : 'none';
+      });
+    });
+  });
+
+  // Modal Open / Close
+  if (btnOpenAddModal) {
+    btnOpenAddModal.addEventListener('click', openAddModal);
+  }
+  if (btnCloseModal) {
+    btnCloseModal.addEventListener('click', closeModal);
+  }
+  if (btnCancelModal) {
+    btnCancelModal.addEventListener('click', closeModal);
+  }
+
+  // Property Form Submit (Add / Edit)
+  if (propertyForm) {
+    propertyForm.addEventListener('submit', handlePropertySubmit);
+  }
+
+  // Property Search
+  if (propSearchInput) {
+    propSearchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = properties.filter(p => 
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.location && p.location.toLowerCase().includes(q)) ||
+        (p.propertyType && p.propertyType.toLowerCase().includes(q))
+      );
+      renderPropertiesTable(filtered);
+    });
+  }
+
+  // Inquiries Search
+  if (inqSearchInput) {
+    inqSearchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const filtered = inquiries.filter(inq =>
+        (inq.name && inq.name.toLowerCase().includes(q)) ||
+        (inq.email && inq.email.toLowerCase().includes(q)) ||
+        (inq.message && inq.message.toLowerCase().includes(q))
+      );
+      renderInquiriesTable(filtered);
+    });
+  }
+
+  if (btnRefreshInquiries) {
+    btnRefreshInquiries.addEventListener('click', async () => {
+      await fetchInquiries();
+      showToast('Leads refreshed');
+    });
+  }
+
+  // Ping API
+  if (btnPingApi) {
+    btnPingApi.addEventListener('click', async () => {
+      pingResult.innerHTML = '<span style="color: var(--text-muted);">Pinging http://localhost:5000/api/health...</span>';
+      try {
+        const res = await fetch(`${API_BASE}/health`);
+        const data = await res.json();
+        pingResult.innerHTML = `<span style="color: var(--emerald-accent);">✅ Status: ${data.status} | DB: ${data.database} | Time: ${new Date().toLocaleTimeString()}</span>`;
+        isLiveApiConnected = true;
+        systemStatusDot.classList.remove('offline');
+        systemStatusText.textContent = 'Live API Server (Port 5000)';
+      } catch (err) {
+        pingResult.innerHTML = `<span style="color: #f87171;">⚠️ Cannot connect to backend server. Operating in high-speed local mode.</span>`;
+        isLiveApiConnected = false;
+        systemStatusDot.classList.add('offline');
+        systemStatusText.textContent = 'Standalone Mode (Local Storage)';
+      }
+    });
+  }
+
+  // Reset Sample Data
+  if (btnResetData) {
+    btnResetData.addEventListener('click', () => {
+      if (confirm('Reset local storage to original sample luxury properties and mock leads?')) {
+        localStorage.setItem('diamora_properties', JSON.stringify(DEFAULT_SAMPLE_PROPERTIES));
+        localStorage.setItem('diamora_inquiries', JSON.stringify(DEFAULT_SAMPLE_INQUIRIES));
+        properties = [...DEFAULT_SAMPLE_PROPERTIES];
+        inquiries = [...DEFAULT_SAMPLE_INQUIRIES];
+        renderPropertiesTable(properties);
+        renderInquiriesTable(inquiries);
+        updateMetricCards();
+        showToast('Sample dataset restored successfully');
+      }
+    });
+  }
+}
+
+/**
+ * =========================================================================
+ * AUTHENTICATION (Live API + Standalone Demo)
+ * =========================================================================
+ */
+async function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const submitBtn = document.getElementById('login-submit-btn');
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span>Verifying...</span>';
+
+  // 1. Try Live API Login
+  if (isLiveApiConnected) {
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      
+      if (res.ok && data.token) {
+        localStorage.setItem('diamora_token', data.token);
+        loginError.style.display = 'none';
+        showToast('Welcome to Diamora Executive Portal');
+        showDashboard();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Enter Portal</span>';
+        return;
+      }
+    } catch (err) {
+      console.warn('API authentication error, checking local fallback', err);
+    }
+  }
+
+  // 2. Standalone Demo Credentials Fallback (`admin` / `password123`)
+  if (username === 'admin' && password === 'password123') {
+    localStorage.setItem('diamora_token', 'demo-token-12345');
+    loginError.style.display = 'none';
+    showToast('Signed in via Executive Demo Mode');
+    showDashboard();
+  } else {
+    loginError.textContent = 'Invalid credentials. Please use admin / password123';
+    loginError.style.display = 'block';
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = '<span>Enter Portal</span>';
+}
+
+/**
+ * =========================================================================
+ * PROPERTY CRUD ACTIONS
+ * =========================================================================
+ */
+function openAddModal() {
+  propertyForm.reset();
+  document.getElementById('property-id').value = '';
+  modalTitle.textContent = 'Add New Luxury Property';
+  propertyModal.classList.add('open');
+}
+
+function openEditModal(id) {
+  const prop = properties.find(p => p._id === id);
+  if (!prop) return;
+
+  document.getElementById('property-id').value = prop._id;
+  document.getElementById('title').value = prop.title || '';
+  document.getElementById('propertyType').value = prop.propertyType || 'Villa';
+  document.getElementById('price').value = prop.price || '';
+  document.getElementById('location').value = prop.location || '';
+  document.getElementById('status').value = prop.status || 'Available';
+  document.getElementById('bedrooms').value = prop.bedrooms || '';
+  document.getElementById('bathrooms').value = prop.bathrooms || '';
+  document.getElementById('area').value = prop.area || '';
+  document.getElementById('imageUrl').value = prop.imageUrl || '';
+  document.getElementById('description').value = prop.description || '';
+
+  modalTitle.textContent = 'Edit Property Asset';
+  propertyModal.classList.add('open');
+}
+
+function closeModal() {
+  propertyModal.classList.remove('open');
+}
+
+async function handlePropertySubmit(e) {
+  e.preventDefault();
+  const id = document.getElementById('property-id').value;
+  const propertyData = {
+    title: document.getElementById('title').value.trim(),
+    propertyType: document.getElementById('propertyType').value,
+    price: Number(document.getElementById('price').value),
+    location: document.getElementById('location').value.trim(),
+    status: document.getElementById('status').value,
+    bedrooms: Number(document.getElementById('bedrooms').value),
+    bathrooms: Number(document.getElementById('bathrooms').value),
+    area: Number(document.getElementById('area').value),
+    imageUrl: document.getElementById('imageUrl').value.trim(),
+    description: document.getElementById('description').value.trim()
+  };
+
+  const token = localStorage.getItem('diamora_token');
+
+  // Try API first if live
+  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+    try {
+      const url = id ? `${API_BASE}/properties/${id}` : `${API_BASE}/properties`;
+      const method = id ? 'PUT' : 'POST';
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(propertyData)
+      });
+      if (res.ok) {
+        closeModal();
+        await fetchProperties();
+        updateMetricCards();
+        showToast(id ? 'Property updated successfully' : 'New property added to portfolio');
+        return;
+      }
+    } catch (err) {
+      console.warn('API error during save, saving locally', err);
+    }
+  }
+
+  // LocalStorage Fallback Save
+  if (id) {
+    const idx = properties.findIndex(p => p._id === id);
+    if (idx !== -1) {
+      properties[idx] = { ...properties[idx], ...propertyData };
+    }
+  } else {
+    const newProp = {
+      _id: 'prop-' + Date.now(),
+      ...propertyData
+    };
+    properties.unshift(newProp);
+  }
+
+  localStorage.setItem('diamora_properties', JSON.stringify(properties));
+  closeModal();
+  renderPropertiesTable(properties);
+  updateMetricCards();
+  showToast(id ? 'Property updated locally' : 'New property added to catalog');
+}
+
+window.openEditModal = openEditModal;
+
+window.deletePropertyItem = async function(id) {
+  if (!confirm('Are you sure you want to delete this property from the portfolio?')) return;
+
+  const token = localStorage.getItem('diamora_token');
+  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+    try {
+      const res = await fetch(`${API_BASE}/properties/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        await fetchProperties();
+        updateMetricCards();
+        showToast('Property deleted');
+        return;
+      }
+    } catch (err) {
+      console.warn('API error during delete, deleting locally', err);
+    }
+  }
+
+  // LocalStorage Fallback
+  properties = properties.filter(p => p._id !== id);
+  localStorage.setItem('diamora_properties', JSON.stringify(properties));
+  renderPropertiesTable(properties);
+  updateMetricCards();
+  showToast('Property listing removed');
+};
+
+/**
+ * =========================================================================
+ * INQUIRY MANAGEMENT
+ * =========================================================================
+ */
+window.updateInquiryStatus = async function(id, newStatus) {
+  const token = localStorage.getItem('diamora_token');
+  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+    try {
+      await fetch(`${API_BASE}/inquiries/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+    } catch (e) {
+      console.warn('API error updating inquiry status', e);
+    }
+  }
+
+  // Local state
+  const item = inquiries.find(inq => inq._id === id);
+  if (item) {
+    item.status = newStatus;
+    localStorage.setItem('diamora_inquiries', JSON.stringify(inquiries));
+    showToast(`Lead status updated to "${newStatus}"`);
+  }
+};
+
+window.deleteInquiryItem = async function(id) {
+  if (!confirm('Are you sure you want to remove this lead record?')) return;
+
+  const token = localStorage.getItem('diamora_token');
+  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+    try {
+      await fetch(`${API_BASE}/inquiries/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+    } catch (e) {
+      console.warn('API error deleting inquiry', e);
+    }
+  }
+
+  inquiries = inquiries.filter(inq => inq._id !== id);
+  localStorage.setItem('diamora_inquiries', JSON.stringify(inquiries));
+  renderInquiriesTable(inquiries);
+  updateMetricCards();
+  showToast('Lead record removed');
+};
+
+/**
+ * Toast helper
+ */
+function showToast(message) {
+  const toast = document.getElementById('dash-toast');
+  if (!toast) return;
+
+  toast.textContent = message;
+  toast.style.display = 'block';
+  setTimeout(() => {
+    toast.style.display = 'none';
+  }, 3500);
+}

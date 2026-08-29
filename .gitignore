@@ -18,6 +18,10 @@ Thumbs.db
 
 # Node modules / package artifacts (if npm is used)
 node_modules/
+api/node_modules/
+api/.env
+.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+

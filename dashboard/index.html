@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diamora Properties — Executive Admin Portal</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="../assets/logos/diamora-icon.svg">
+  
+  <!-- Google Fonts: Cinzel & Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Dashboard Stylesheet -->
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. LOGIN SCREEN
+       ========================================================================= -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-logo-wrap">
+        <svg width="70" height="70" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="d-gold" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="#FFF5D1" />
+              <stop offset="50%" stop-color="#D4AF37" />
+              <stop offset="100%" stop-color="#8C6A18" />
+            </linearGradient>
+          </defs>
+          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.85"/>
+          <polygon points="50,0 0,42 0,100 50,55" fill="url(#d-gold)" opacity="0.8"/>
+          <polygon points="50,0 100,42 100,100 50,55" fill="url(#d-gold)"/>
+          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
+          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
+          <line x1="50" y1="45" x2="50" y2="100" stroke="#FFF" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <h2 class="login-title font-serif">DIAMORA <span class="gold-text">ADMIN</span></h2>
+      <p class="login-subtitle">Executive Real Estate Management Portal</p>
+      
+      <div id="login-error" class="alert-error"></div>
+
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Admin Username</label>
+          <input type="text" id="username" class="form-input" placeholder="e.g. admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="login-submit-btn" class="btn-primary" style="margin-top: 10px;">
+          <span>Enter Portal</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </form>
+
+      <div class="login-hint-box">
+        <div><strong>Demo Credentials:</strong></div>
+        <div>Username: <code>admin</code> | Password: <code>password123</code></div>
+        <button type="button" id="btn-autofill-demo" class="btn-quick-fill">Auto-fill Demo Credentials</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. MAIN DASHBOARD SCREEN
+       ========================================================================= -->
+  <div id="dashboard-screen" style="display: none;">
+    
+    <!-- Top Executive Header -->
+    <header class="dash-header">
+      <div class="dash-header-inner">
+        <div class="dash-brand">
+          <img src="../assets/logos/diamora-horizontal.svg" alt="Diamora Properties" class="dash-brand-logo">
+          <span class="dash-brand-badge">Admin Portal</span>
+        </div>
+        
+        <div class="dash-header-actions">
+          <div class="status-indicator">
+            <span class="status-dot" id="system-status-dot"></span>
+            <span id="system-status-text">Live API Connected</span>
+          </div>
+          <a href="../index.html" target="_blank" class="btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span>Live Website</span>
+          </a>
+          <button id="logout-btn" class="btn-logout">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="dash-main">
+      
+      <!-- KPI Metric Cards Grid -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-title">Total Portfolio Listings</div>
+          <div class="stat-card-val" id="stat-total-props">0</div>
+          <div class="stat-card-sub">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            Active Prime & Off-Plan Assets
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-title">Gross Portfolio Value</div>
+          <div class="stat-card-val" id="stat-total-value">AED 0</div>
+          <div class="stat-card-sub">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+            Dubai &amp; Abu Dhabi Prime
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-title">Available Listings</div>
+          <div class="stat-card-val" id="stat-available-props">0</div>
+          <div class="stat-card-sub" style="color: var(--gold-light);">
+            Ready for Buyer Allocation
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-title">VIP Client Inquiries</div>
+          <div class="stat-card-val" id="stat-total-leads">0</div>
+          <div class="stat-card-sub">
+            Consultations &amp; Subscribers
+          </div>
+        </div>
+      </section>
+
+      <!-- Navigation Tabs -->
+      <nav class="dash-tabs" role="tablist">
+        <button type="button" class="dash-tab-btn active" data-tab="tab-properties">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Properties Catalog</span>
+          <span class="tab-badge" id="badge-prop-count">0</span>
+        </button>
+
+        <button type="button" class="dash-tab-btn" data-tab="tab-inquiries">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>VIP Leads &amp; Inquiries</span>
+          <span class="tab-badge" id="badge-inq-count">0</span>
+        </button>
+
+        <button type="button" class="dash-tab-btn" data-tab="tab-settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>System &amp; Database</span>
+        </button>
+      </nav>
+
+      <!-- =====================================================================
+           TAB 1: PROPERTIES CATALOG
+           ===================================================================== -->
+      <section id="tab-properties" class="tab-pane">
+        <div class="control-bar">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="prop-search-input" placeholder="Search by title, location, or typology...">
+          </div>
+          
+          <button type="button" id="btn-open-add-modal" class="btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span>Add New Property</span>
+          </button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="dash-table" id="properties-table">
+              <thead>
+                <tr>
+                  <th>Property Asset</th>
+                  <th>Location</th>
+                  <th>Type</th>
+                  <th>Specs</th>
+                  <th>Starting Price</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="properties-tbody">
+                <!-- Rows injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 2: VIP LEADS & INQUIRIES
+           ===================================================================== -->
+      <section id="tab-inquiries" class="tab-pane" style="display: none;">
+        <div class="control-bar">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="inq-search-input" placeholder="Search leads by name, email, or message...">
+          </div>
+          <button type="button" id="btn-refresh-inquiries" class="btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            <span>Refresh Leads</span>
+          </button>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="dash-table" id="inquiries-table">
+              <thead>
+                <tr>
+                  <th>Lead / Contact</th>
+                  <th>Inquiry Type</th>
+                  <th>Target Budget &amp; Intent</th>
+                  <th>Notes / Message</th>
+                  <th>Received Date</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="inquiries-tbody">
+                <!-- Rows injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB 3: SYSTEM & DATABASE SETTINGS
+           ===================================================================== -->
+      <section id="tab-settings" class="tab-pane" style="display: none;">
+        <div class="table-card" style="padding: 28px;">
+          <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 12px;">Backend API &amp; Data Configuration</h3>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px;">
+            The Diamora Executive Dashboard automatically communicates with the Express/MongoDB backend at <code>http://localhost:5000/api</code> and seamlessly provides high-speed mock data caching when testing standalone.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">API Health Ping</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Verify connectivity with the Express backend server.</p>
+              <button type="button" id="btn-ping-api" class="btn-secondary">Ping API Endpoint</button>
+              <div id="ping-result" style="margin-top: 10px; font-size: 0.78rem; font-family: monospace;"></div>
+            </div>
+
+            <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">Reset / Seed Sample Data</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Restore original luxury UAE properties and mock inquiries.</p>
+              <button type="button" id="btn-reset-data" class="btn-secondary">Reload Default Sample Data</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- =========================================================================
+       3. PROPERTY MODAL (ADD / EDIT)
+       ========================================================================= -->
+  <div id="property-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modal-title" class="font-serif">Add New Property</h3>
+        <button type="button" id="btn-close-modal" class="modal-close-btn">&times;</button>
+      </div>
+
+      <form id="property-form">
+        <input type="hidden" id="property-id">
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="title" class="form-label">Property Title</label>
+          <input type="text" id="title" class="form-input" placeholder="e.g. Palm Jumeirah Waterfront Beach Villa" required>
+        </div>
+
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="propertyType" class="form-label">Typology</label>
+            <select id="propertyType" class="form-select" required>
+              <option value="Villa">Waterfront Villa</option>
+              <option value="Penthouse">Sky Penthouse</option>
+              <option value="Mansion">Ultra-Luxury Mansion</option>
+              <option value="Townhouse">Luxury Townhouse</option>
+              <option value="Apartment">Signature Apartment</option>
+              <option value="Off-Plan">Off-Plan Development</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="price" class="form-label">Price in AED</label>
+            <input type="number" id="price" class="form-input" placeholder="e.g. 48000000" required>
+          </div>
+        </div>
+
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="location" class="form-label">Location / Sub-Market</label>
+            <input type="text" id="location" class="form-input" placeholder="e.g. Palm Jumeirah, Dubai" required>
+          </div>
+
+          <div class="form-group">
+            <label for="status" class="form-label">Listing Status</label>
+            <select id="status" class="form-select">
+              <option value="Available">Available</option>
+              <option value="Off-Market">Off-Market / Private</option>
+              <option value="Sold">Sold / Closed</option>
+              <option value="Reserved">Reserved / Under Offer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-grid-3" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="bedrooms" class="form-label">Bedrooms</label>
+            <input type="number" id="bedrooms" class="form-input" placeholder="e.g. 6" required min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="bathrooms" class="form-label">Bathrooms</label>
+            <input type="number" id="bathrooms" class="form-input" placeholder="e.g. 7" required min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="area" class="form-label">Area (sq ft)</label>
+            <input type="number" id="area" class="form-input" placeholder="e.g. 12400" required min="100">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="imageUrl" class="form-label">Image URL or Asset Path</label>
+          <input type="text" id="imageUrl" class="form-input" placeholder="assets/properties/palm-villa.jpg or https://..." required>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Click a preset image below to auto-fill:</span>
+          <div class="preset-images-strip">
+            <img src="../assets/properties/palm-villa.jpg" alt="Palm Villa" class="preset-thumb" onclick="document.getElementById('imageUrl').value='assets/properties/palm-villa.jpg'">
+            <img src="../assets/properties/saadiyat-townhouse.jpg" alt="Saadiyat Townhouse" class="preset-thumb" onclick="document.getElementById('imageUrl').value='assets/properties/saadiyat-townhouse.jpg'">
+            <img src="../assets/properties/dubai-hills-mansion.jpg" alt="Dubai Hills Mansion" class="preset-thumb" onclick="document.getElementById('imageUrl').value='assets/properties/dubai-hills-mansion.jpg'">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80" alt="Sky Penthouse" class="preset-thumb" onclick="document.getElementById('imageUrl').value='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80'">
+            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Royal Waterfront" class="preset-thumb" onclick="document.getElementById('imageUrl').value='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80'">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 24px;">
+          <label for="description" class="form-label">Executive Description</label>
+          <textarea id="description" class="form-textarea" rows="3" placeholder="Detailed architectural and investment description..." required></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" id="btn-cancel-modal" class="btn-secondary">Cancel</button>
+          <button type="submit" id="save-btn" class="btn-primary">Save Property Asset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="dash-toast" class="toast"></div>
+
+  <!-- Script -->
+  <script src="dashboard.js"></script>
+</body>
+</html>

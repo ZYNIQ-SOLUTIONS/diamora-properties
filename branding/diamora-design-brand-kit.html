@@ -3,35 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diamora Properties — Master Brand Identity System</title>
+<title>Diamora Properties — Visual Identity System & Brand Guidelines</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root {
-    --bg-dark: #050608;
-    --bg-card: #0d1015;
-    --gold-primary: #D4AF37;
-    --gold-light: #FBE6A2;
-    --gold-dark: #8C6A18;
-    --gold-gradient: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
-    --text-main: #E2E8F0;
-    --text-muted: #8E9BAE;
-    --border-subtle: rgba(212, 175, 55, 0.15);
+    --bg-dark: #0D0D0D;
+    --bg-card: #131418;
+    --royal-gold: #D4AF37;
+    --light-gold: #F2D27A;
+    --antique-gold: #B8860B;
+    --bronze: #7A5E2E;
+    --jet-black: #0D0D0D;
+    --gold-gradient: linear-gradient(135deg, #F2D27A 0%, #D4AF37 50%, #7A5E2E 100%);
   }
 
   body {
     background-color: var(--bg-dark);
-    color: var(--text-main);
+    color: #E2E8F0;
     font-family: 'Montserrat', sans-serif;
-    overflow-x: hidden;
-    background-image: 
-      radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 85% 60%, rgba(5, 26, 15, 0.3) 0%, transparent 60%);
   }
 
-  h1, h2, h3, .serif {
+  h1, h2, h3, h4, .serif {
     font-family: 'Cinzel', serif;
   }
 
@@ -39,504 +34,165 @@
     background: var(--gold-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: inline-block;
   }
 
-  .preview-box {
-    background: #030406;
-    background-image: radial-gradient(circle at center, #0a0c12 0%, #030406 100%);
-    position: relative;
-    border-radius: 8px 8px 0 0;
-  }
-  @media (min-width: 768px) {
-      .preview-box {
-          border-radius: 8px 0 0 8px;
-      }
-      .col-preview-box {
-          border-radius: 8px 8px 0 0 !important;
-      }
-  }
-  
-  .preview-box::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-    pointer-events: none;
-    border-radius: inherit;
-  }
-
-  .preview-box.light {
-    background: #ffffff;
-    background-image: linear-gradient(135deg, #fdfdfd 0%, #f0f0f0 100%);
-  }
-  .preview-box.light::after {
-    box-shadow: inset 0 0 40px rgba(0,0,0,0.05);
-  }
-
-  .card-hover-effect {
-    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  }
-  .card-hover-effect:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.15);
-    border-color: rgba(212, 175, 55, 0.4);
-  }
-
-  /* Improved Info Box Styling */
-  .info-box {
-      background: linear-gradient(180deg, #080a0e 0%, #050608 100%);
-      border-radius: 0 0 8px 8px;
-  }
-  @media (min-width: 768px) {
-      .info-box-side {
-          border-radius: 0 8px 8px 0;
-      }
-  }
-
-  .swatch-color { box-shadow: inset 0 -10px 20px rgba(0,0,0,0.2); }
-  
-  .business-card {
-    aspect-ratio: 1.75 / 1;
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    position: relative;
-  }
-  /* Glossy overlay effect for business cards */
-  .business-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
-      pointer-events: none;
-      border-radius: inherit;
-  }
-  
-  .business-card:hover {
-    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
-    box-shadow: 0 35px 65px rgba(0,0,0,0.9), 0 0 30px rgba(212,175,55,0.2) !important;
-  }
-
-  .btn-gold {
-    background: var(--gold-gradient);
-    color: #050608;
+  .brand-card {
+    background: #14151B;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 12px;
     transition: all 0.3s ease;
   }
-  .btn-gold:hover {
-    filter: brightness(1.2);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-    transform: translateY(-2px);
-  }
 
-  #toast {
-    transform: translateY(120px);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  #toast.show {
-    transform: translateY(0);
-    opacity: 1;
+  .brand-card:hover {
+    border-color: var(--royal-gold);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.12);
   }
 </style>
 </head>
-<body class="overflow-x-hidden text-gray-200">
+<body class="p-6 md:p-12">
 
-<div class="max-w-7xl mx-auto px-6 sm:px-12 py-12" id="main-content">
-  
-  <header class="py-20 text-center border-b border-[var(--border-subtle)] relative">
-    <div class="absolute bottom-[-1px] left-1/2 transform -translate-x-1/2 w-64 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent shadow-[0_0_15px_rgba(212,175,55,1)]"></div>
-    <span class="inline-block py-2 px-6 border border-[#8C6A18] rounded text-[10px] tracking-[0.4em] uppercase text-[#FBE6A2] mb-8 bg-[#D4AF37]/5 shadow-[0_0_20px_rgba(212,175,55,0.1)]">Approved Master Brand Kit</span>
-    <h1 class="text-5xl md:text-6xl font-semibold mb-4 tracking-[0.15em] serif text-white drop-shadow-[0_10px_30px_rgba(212,175,55,0.2)]">
-      <span class="gold-text">DIAMORA</span> PROPERTIES
-    </h1>
-    <p class="text-sm md:text-base text-[#8E9BAE] max-w-2xl mx-auto font-light tracking-[0.1em] uppercase">The Sovereign Monolith Identity System</p>
-  </header>
-
-  <section class="py-24 border-b border-[var(--border-subtle)]">
-    <div class="text-center mb-16">
-      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Primary Asset</span>
-      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white">The Master Lockup</h2>
-    </div>
-
-    <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg flex flex-col md:flex-row">
-      <div class="preview-box flex-1 flex items-center justify-center p-12 min-h-[400px]" id="svg-master">
-        <!-- SVG Master: The Sovereign Monolith -->
-        <svg width="400" height="280" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="m-gold1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#FFF5D1" />
-              <stop offset="35%" stop-color="#D4AF37" />
-              <stop offset="80%" stop-color="#8C6A18" />
-              <stop offset="100%" stop-color="#4A370A" />
-            </linearGradient>
-            <linearGradient id="m-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#E5C768" />
-              <stop offset="100%" stop-color="#664D10" />
-            </linearGradient>
-            <linearGradient id="m-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#FFF0BE" />
-              <stop offset="100%" stop-color="#B38F24" />
-            </linearGradient>
-            <filter id="m-glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
-          <g transform="translate(120, 20)">
-            <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
-            <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
-            <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
-            <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
-            <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-            <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-            <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-            <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-            <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
-            <polygon points="46,43 54,43 54,105 46,105" fill="#030406"/>
-            <line x1="50" y1="45" x2="50" y2="102" stroke="url(#m-gold1)" stroke-width="1" filter="url(#m-glow)"/>
-            <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
-            <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
-            <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
-            <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
-            <line x1="0" y1="42" x2="50" y2="55" stroke="#FFF" stroke-width="0.5" opacity="0.3"/>
-            <line x1="100" y1="42" x2="50" y2="55" stroke="#FFF" stroke-width="1" opacity="0.5"/>
-          </g>
-          <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="url(#m-gold1)" letter-spacing="9">DIAMORA</text>
-          <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="400" fill="#A8B5C7" letter-spacing="8">PROPERTIES</text>
-          <path d="M 85 210 Q 170 205 255 210" fill="none" stroke="url(#m-gold1)" stroke-width="0.75" opacity="0.4"/>
-          <circle cx="170" cy="207.5" r="2" fill="#D4AF37" filter="url(#m-glow)"/>
-        </svg>
-      </div>
-      <div class="md:w-[350px] p-10 info-box info-box-side flex flex-col justify-center border-t md:border-t-0 md:border-l border-[var(--border-subtle)]">
-        <h3 class="text-2xl font-semibold mb-3 text-white serif">The Sovereign Monolith</h3>
-        <p class="text-sm text-[#8E9BAE] font-light leading-relaxed mb-8">The flagship primary lockup. A masterpiece of structural geometry combining an emerald-cut diamond with a soaring high-rise silhouette. Use this configuration for main entryways, cover pages, and primary branding.</p>
-        <div class="flex flex-col gap-4">
-          <button class="btn-gold py-3 px-6 rounded text-xs tracking-[0.15em] uppercase font-bold text-center" onclick="copySVG('svg-master')">Copy Master SVG</button>
-          <button class="border border-gray-600 hover:border-[#D4AF37] hover:text-[#D4AF37] py-3 px-6 rounded text-xs tracking-[0.15em] uppercase font-bold text-center transition-colors" onclick="downloadSVG('svg-master', 'Diamora-Primary.svg')">Download Vector</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-24 border-b border-[var(--border-subtle)]">
-    <div class="text-center mb-16">
-      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">System Variations</span>
-      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white">Logo Configurations</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-      
-      <!-- Monogram / Icon -->
-      <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg flex flex-col">
-        <div class="preview-box col-preview-box flex-1 flex items-center justify-center p-12 min-h-[300px]" id="svg-icon">
-          <svg width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g transform="translate(0, 0)">
-              <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
-              <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
-              <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
-              <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
-              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-              <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-              <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-              <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-              <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
-              <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-              <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1" filter="url(#m-glow)"/>
-              <line x1="25" y1="65" x2="25" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
-              <line x1="75" y1="65" x2="75" y2="92" stroke="#FFF" stroke-width="1" opacity="0.4"/>
-              <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
-              <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
-            </g>
-          </svg>
-        </div>
-        <div class="p-8 info-box border-t border-[var(--border-subtle)] flex justify-between items-center">
-          <div>
-            <h3 class="text-xl font-semibold text-white serif mb-1">The Monogram</h3>
-            <p class="text-xs text-[#8E9BAE]">For social media, apps, and favicons.</p>
-          </div>
-          <button class="text-[#D4AF37] hover:text-white transition-colors" onclick="copySVG('svg-icon')" title="Copy SVG">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Horizontal Lockup -->
-      <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg flex flex-col">
-        <div class="preview-box col-preview-box flex-1 flex items-center justify-center p-8 min-h-[300px]" id="svg-horizontal">
-          <svg width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-             <g transform="translate(10, 15) scale(0.7)">
-              <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.8"/>
-              <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
-              <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/> 
-              <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
-              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-              <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-              <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.9"/>
-              <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.5"/>
-              <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.8"/>
-              <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-              <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1" filter="url(#m-glow)"/>
-              <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.6"/>
-              <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
-            </g>
-            <line x1="100" y1="20" x2="100" y2="80" stroke="rgba(212,175,55,0.3)" stroke-width="1.5"/>
-            <text x="125" y="55" text-anchor="start" font-family="'Cinzel', serif" font-size="22" font-weight="700" fill="url(#m-gold1)" letter-spacing="4">DIAMORA</text>
-            <text x="127" y="75" text-anchor="start" font-family="'Montserrat', sans-serif" font-size="8" font-weight="400" fill="#A8B5C7" letter-spacing="4">PROPERTIES</text>
-          </svg>
-        </div>
-        <div class="p-8 info-box border-t border-[var(--border-subtle)] flex justify-between items-center">
-          <div>
-            <h3 class="text-xl font-semibold text-white serif mb-1">Horizontal Lockup</h3>
-            <p class="text-xs text-[#8E9BAE]">For website navbars and digital signatures.</p>
-          </div>
-          <button class="text-[#D4AF37] hover:text-white transition-colors" onclick="copySVG('svg-horizontal')" title="Copy SVG">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Light Mode Master -->
-      <div class="card-hover-effect bg-[#0d1015] border border-[var(--border-subtle)] rounded-lg flex flex-col md:col-span-2">
-        <div class="preview-box col-preview-box light flex-1 flex items-center justify-center p-12 min-h-[350px]" id="svg-light">
-          <!-- Light Mode SVG -->
-          <svg width="340" height="240" viewBox="0 0 340 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="l-gold1" x1="0" y1="0" x2="340" y2="240" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#C59B27" />
-                <stop offset="50%" stop-color="#8C6A18" />
-                <stop offset="100%" stop-color="#4A370A" />
-              </linearGradient>
-              <linearGradient id="l-facetLeft" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#FFFFFF" />
-                <stop offset="100%" stop-color="#E2E8F0" />
-              </linearGradient>
-              <linearGradient id="l-facetRight" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#F8FAFC" />
-                <stop offset="100%" stop-color="#CBD5E1" />
-              </linearGradient>
-              <filter id="l-shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.1"/>
-              </filter>
-            </defs>
-            <g transform="translate(120, 20)" filter="url(#l-shadow)">
-              <polygon points="50,0 0,42 0,100 50,55" fill="url(#l-facetLeft)"/>
-              <polygon points="50,0 100,42 100,100 50,55" fill="url(#l-facetRight)"/>
-              <polygon points="50,0 20,22 50,45 80,22" fill="#FFFFFF"/>
-              <polygon points="20,22 50,45 50,22" fill="#E2E8F0" opacity="0.8"/>
-              <polygon points="80,22 50,45 50,22" fill="#F1F5F9" opacity="0.9"/>
-              <polygon points="48,44 52,44 52,105 48,105" fill="url(#l-gold1)"/>
-              
-              <!-- Dark Outlines for contrast on light -->
-              <path d="M50,0 L0,42 L0,100 L50,55 L100,100 L100,42 Z" fill="none" stroke="url(#l-gold1)" stroke-width="1"/>
-              <path d="M0,42 L50,45 L100,42" fill="none" stroke="url(#l-gold1)" stroke-width="1"/>
-              <path d="M50,0 L20,22 L50,45 L80,22 Z" fill="none" stroke="url(#l-gold1)" stroke-width="1"/>
-              <line x1="50" y1="0" x2="50" y2="45" stroke="url(#l-gold1)" stroke-width="1"/>
-            </g>
-            <text x="170" y="170" text-anchor="middle" font-family="'Cinzel', serif" font-size="28" font-weight="700" fill="#0A0C10" letter-spacing="9">DIAMORA</text>
-            <text x="170" y="195" text-anchor="middle" font-family="'Montserrat', sans-serif" font-size="9" font-weight="600" fill="url(#l-gold1)" letter-spacing="8">PROPERTIES</text>
-            <path d="M 85 210 Q 170 205 255 210" fill="none" stroke="#0A0C10" stroke-width="0.75" opacity="0.2"/>
-            <circle cx="170" cy="207.5" r="2" fill="#8C6A18"/>
-          </svg>
-        </div>
-        <div class="p-8 info-box border-t border-[var(--border-subtle)] flex justify-between items-center">
-          <div>
-            <h3 class="text-xl font-semibold text-white serif mb-1">Light Mode / Platinum Edition</h3>
-            <p class="text-xs text-[#8E9BAE]">For print materials, light brochures, and white backgrounds. Features structural stroke outlines.</p>
-          </div>
-          <button class="text-[#D4AF37] hover:text-white transition-colors" onclick="copySVG('svg-light')" title="Copy SVG">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-24 border-b border-[var(--border-subtle)] grid md:grid-cols-2 gap-16">
+  <div class="max-w-6xl mx-auto space-y-12">
     
-    <!-- Typography -->
-    <div>
-      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Typographic Scale</span>
-      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white mb-10">Brand Fonts</h2>
+    <!-- Top Header -->
+    <header class="text-center space-y-4 pb-8 border-b border-yellow-500/20">
+      <div class="inline-block px-4 py-1.5 rounded-full border border-yellow-500/30 text-xs tracking-widest uppercase text-yellow-300">
+        Official Brand Standards
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-wider serif gold-text">
+        DIAMORA PROPERTIES
+      </h1>
+      <h2 class="text-xl md:text-2xl tracking-widest text-amber-200 serif">
+        BRAND GUIDELINES · VISUAL IDENTITY SYSTEM
+      </h2>
+      <p class="max-w-2xl mx-auto text-sm text-slate-400 leading-relaxed">
+        This guide defines the visual identity of Diamora Properties. Our logo, colors, typography, and layout system work together to reflect our values of elegance, trust, and excellence.
+      </p>
+      <div class="pt-2 text-xs font-semibold tracking-widest text-amber-400">
+        BUILDING TOMORROW'S LANDMARKS
+      </div>
+    </header>
+
+    <!-- Master Guidelines Sheet Embed -->
+    <section class="brand-card p-6 md:p-8 space-y-6">
+      <h3 class="text-xl font-bold tracking-wide serif text-amber-200">
+        Master Visual Identity System Overview
+      </h3>
+      <div class="flex justify-center bg-black/50 p-4 rounded-lg border border-yellow-500/20">
+        <img src="../assets/brand/diamora-brand-guidelines.png" alt="Diamora Properties Brand Guidelines" class="max-h-[800px] w-auto object-contain rounded shadow-2xl">
+      </div>
+    </section>
+
+    <!-- Grid Breakdown -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       
-      <div class="mb-10">
-        <div class="flex justify-between items-end mb-4 border-b border-[var(--border-subtle)] pb-2">
-          <span class="text-xl serif text-white">Cinzel</span>
-          <span class="text-xs text-[#8E9BAE] uppercase tracking-widest">Primary / Headings</span>
+      <!-- 1. Primary & Stacked Logo -->
+      <div class="brand-card p-6 space-y-4">
+        <h3 class="text-lg font-bold serif text-amber-300">1. Primary Logo (Stacked)</h3>
+        <div class="bg-black/60 p-8 rounded-lg flex items-center justify-center min-h-[220px]">
+          <img src="../assets/logos/diamora-brand-emblem-gold.png" alt="Primary Logo" class="max-h-36 object-contain">
         </div>
-        <p class="serif text-4xl text-[#FBE6A2] mb-2 leading-tight">Aa Bb Cc Dd Ee Ff Gg Hh Ii</p>
-        <p class="serif text-sm text-gray-400">0123456789 • !@#$%^&*()</p>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Primary signature lockup for letterheads, executive dossiers, loading sequences, and luxury brand assets.
+        </p>
       </div>
 
-      <div>
-        <div class="flex justify-between items-end mb-4 border-b border-[var(--border-subtle)] pb-2">
-          <span class="text-xl font-sans font-medium text-white">Montserrat</span>
-          <span class="text-xs text-[#8E9BAE] uppercase tracking-widest">Secondary / Body</span>
-        </div>
-        <p class="font-sans font-light text-2xl text-gray-300 mb-2 leading-tight">Aa Bb Cc Dd Ee Ff Gg Hh Ii</p>
-        <p class="font-sans font-light text-sm text-gray-400 leading-relaxed">The quick brown fox jumps over the lazy dog. Designed for ultimate legibility in dense financial portfolios and luxury property listings.</p>
-      </div>
-    </div>
-
-    <!-- Colors -->
-    <div>
-      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Materiality</span>
-      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white mb-10">Color Palette</h2>
-      
-      <div class="grid grid-cols-2 gap-4">
-        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
-          <div class="swatch-color h-24" style="background: #050608;"></div>
-          <div class="p-4">
-            <div class="font-semibold text-sm text-white serif">Obsidian Core</div>
-            <div class="text-[10px] text-[#D4AF37] font-mono mt-1">#050608</div>
+      <!-- 2. Alternative Versions -->
+      <div class="brand-card p-6 space-y-4">
+        <h3 class="text-lg font-bold serif text-amber-300">2. Alternative Versions</h3>
+        <div class="space-y-4">
+          <div class="bg-black/60 p-4 rounded-lg flex items-center justify-center">
+            <img src="../assets/logos/diamora-navbar-gold.png" alt="Horizontal Logo" class="max-h-12 object-contain">
+          </div>
+          <div class="bg-black/60 p-4 rounded-lg flex items-center justify-center">
+            <img src="../assets/logos/diamora-map-emblem.png" alt="Symbol Only Logo" class="max-h-16 object-contain">
           </div>
         </div>
-        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
-          <div class="swatch-color h-24" style="background: linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);"></div>
-          <div class="p-4">
-            <div class="font-semibold text-sm text-white serif">Imperial Gold</div>
-            <div class="text-[10px] text-gray-400 font-mono mt-1">Gradient</div>
-          </div>
-        </div>
-        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
-          <div class="swatch-color h-24" style="background: #FDFBF7;"></div>
-          <div class="p-4 bg-white">
-            <div class="font-semibold text-sm text-black serif">Diamond Alabaster</div>
-            <div class="text-[10px] text-gray-500 font-mono mt-1">#FDFBF7</div>
-          </div>
-        </div>
-        <div class="swatch bg-[#0d1015] border border-[var(--border-subtle)] rounded overflow-hidden">
-          <div class="swatch-color h-24" style="background: #8E9BAE;"></div>
-          <div class="p-4">
-            <div class="font-semibold text-sm text-white serif">Platinum Slate</div>
-            <div class="text-[10px] text-[#D4AF37] font-mono mt-1">#8E9BAE</div>
-          </div>
+        <div class="flex justify-between text-xs text-slate-400">
+          <span>Horizontal: Navigation Bars &amp; Headers</span>
+          <span>Symbol Only: Map Pins &amp; Icons</span>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="py-24 border-b border-[var(--border-subtle)]">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-12">
-      <div>
-        <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">UI / UX Motion</span>
-        <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white">Digital Loader</h2>
-      </div>
-      <button onclick="replayLoader()" class="mt-4 md:mt-0 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#D4AF37] hover:text-white transition-colors">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
-        Replay Animation
-      </button>
-    </div>
-    
-    <div class="bg-[#080a0e] border border-[var(--border-subtle)] p-8 rounded-lg flex items-center gap-8">
-      <div class="text-sm text-[#8E9BAE] font-light leading-relaxed flex-1">
-        This custom SVG path animation is provided for use in app splash screens and website pre-loaders. It builds the architectural lines of the monolith before flashing the golden facets. The animation is pure CSS and highly performant.
-      </div>
-    </div>
-  </section>
-
-  <section class="py-24">
-    <div class="text-center mb-16">
-      <span class="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] block mb-3">Brand Application</span>
-      <h2 class="text-4xl font-normal tracking-[0.08em] serif text-white">Stationery Executions</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <!-- Business Card Front -->
-      <div class="business-card bg-gradient-to-br from-[#161a22] to-[#0a0c10] border border-[rgba(212,175,55,0.2)] rounded-lg p-10 flex flex-col justify-between shadow-[0_25px_50px_rgba(0,0,0,0.6)]">
-        <div class="flex justify-between items-start z-10">
+      <!-- 3. Color Palette -->
+      <div class="brand-card p-6 space-y-4">
+        <h3 class="text-lg font-bold serif text-amber-300">3. Official Color Palette</h3>
+        <div class="grid grid-cols-5 gap-2 text-center text-xs">
           <div>
-            <div class="serif text-2xl font-bold text-[#D4AF37] tracking-[0.2em]">DIAMORA</div>
-            <div class="text-[8px] text-[#8E9BAE] tracking-[0.4em] mt-1 font-sans">PROPERTIES</div>
+            <div class="h-16 rounded mb-2 border border-white/10" style="background: #D4AF37;"></div>
+            <div class="font-bold text-slate-200">Royal Gold</div>
+            <div class="text-[10px] text-amber-400 font-mono">#D4AF37</div>
           </div>
-          <!-- Foil stamp hint -->
-          <svg width="40" height="40" viewBox="0 0 100 100" fill="none" style="filter: drop-shadow(0 2px 5px rgba(212,175,55,0.3));">
-             <polygon points="50,5 95,50 50,95 5,50" stroke="#D4AF37" stroke-width="4"/>
-             <polygon points="50,20 75,50 50,80 25,50" fill="url(#m-gold1)" opacity="0.4"/>
-             <line x1="50" y1="5" x2="50" y2="95" stroke="#D4AF37" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div class="z-10 mt-12">
-          <div class="text-lg font-semibold text-white tracking-[0.1em] mb-1">ALEXANDER VANE</div>
-          <div class="text-[9px] text-[#D4AF37] tracking-[0.3em] uppercase mb-5 border-b border-[rgba(212,175,55,0.3)] pb-2 inline-block">Managing Partner</div>
-          <div class="text-[9px] text-[#8E9BAE] leading-loose tracking-[0.1em] font-light font-sans">
-            <div class="flex gap-3"><span class="text-[#D4AF37]">T:</span> +971 4 800 DIAMORA</div>
-            <div class="flex gap-3"><span class="text-[#D4AF37]">E:</span> a.vane@diamoraproperties.com</div>
-            <div class="flex gap-3"><span class="text-[#D4AF37]">W:</span> diamoraproperties.com</div>
+          <div>
+            <div class="h-16 rounded mb-2 border border-white/10" style="background: #F2D27A;"></div>
+            <div class="font-bold text-slate-200">Light Gold</div>
+            <div class="text-[10px] text-amber-400 font-mono">#F2D27A</div>
+          </div>
+          <div>
+            <div class="h-16 rounded mb-2 border border-white/10" style="background: #B8860B;"></div>
+            <div class="font-bold text-slate-200">Antique Gold</div>
+            <div class="text-[10px] text-amber-400 font-mono">#B8860B</div>
+          </div>
+          <div>
+            <div class="h-16 rounded mb-2 border border-white/10" style="background: #7A5E2E;"></div>
+            <div class="font-bold text-slate-200">Bronze</div>
+            <div class="text-[10px] text-amber-400 font-mono">#7A5E2E</div>
+          </div>
+          <div>
+            <div class="h-16 rounded mb-2 border border-white/10" style="background: #0D0D0D;"></div>
+            <div class="font-bold text-slate-200">Jet Black</div>
+            <div class="text-[10px] text-amber-400 font-mono">#0D0D0D</div>
           </div>
         </div>
       </div>
 
-      <!-- Business Card Back -->
-      <div class="business-card bg-[#050608] border border-[rgba(212,175,55,0.1)] rounded-lg flex items-center justify-center relative shadow-[0_25px_50px_rgba(0,0,0,0.8)]">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_70%)] rounded-lg pointer-events-none"></div>
-        <div class="text-center z-10 flex flex-col items-center">
-          <svg width="60" height="60" viewBox="0 0 100 100" fill="none" class="mb-5 drop-shadow-[0_5px_15px_rgba(212,175,55,0.2)]">
-            <polygon points="50,5 95,50 50,95 5,50" stroke="#D4AF37" stroke-width="3"/>
-            <polygon points="50,15 80,50 50,85 20,50" fill="url(#m-gold1)" opacity="0.15"/>
-            <polygon points="50,15 80,50 50,50" fill="#D4AF37" opacity="0.3"/>
-            <line x1="50" y1="5" x2="50" y2="95" stroke="#D4AF37" stroke-width="1.5"/>
-            <line x1="5" y1="50" x2="95" y2="50" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
-          </svg>
-          <div class="serif text-xl font-bold text-[#D4AF37] tracking-[0.4em]">DIAMORA</div>
-          <div class="text-[7px] text-[#8E9BAE] tracking-[0.5em] mt-2 font-sans">DUBAI • LONDON • MONACO</div>
+      <!-- 4. Typography -->
+      <div class="brand-card p-6 space-y-4">
+        <h3 class="text-lg font-bold serif text-amber-300">4. Typography Hierarchy</h3>
+        <div class="space-y-4 text-sm">
+          <div class="p-3 bg-black/40 rounded border border-white/5">
+            <div class="text-xs text-amber-400 uppercase tracking-wider font-semibold">Primary Display (Headlines)</div>
+            <div class="text-xl serif font-bold text-white tracking-widest mt-1">TRAJAN PRO / CINZEL</div>
+            <div class="text-xs text-slate-400 font-mono mt-1">ABCDEFGHIJKLMNOPQRSTUVWXYZ · 1234567890</div>
+          </div>
+          <div class="p-3 bg-black/40 rounded border border-white/5">
+            <div class="text-xs text-amber-400 uppercase tracking-wider font-semibold">Secondary Text (Body Copy)</div>
+            <div class="text-base font-medium text-white mt-1">Montserrat</div>
+            <div class="text-xs text-slate-400 font-mono mt-1">abcdefghijklmnopqrstuvwxyz · 1234567890</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Usage Notes & Minimum Size -->
+    <div class="brand-card p-6 md:p-8 space-y-6">
+      <h3 class="text-lg font-bold serif text-amber-300">5. Minimum Sizes &amp; Usage Rules</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+        <div class="space-y-2">
+          <div class="font-semibold text-slate-200">Minimum Size Requirements:</div>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1">
+            <li><strong>Digital:</strong> Minimum width 120px for stacked logo</li>
+            <li><strong>Print:</strong> Minimum width 20mm for stationery</li>
+            <li><strong>Clear Space:</strong> Minimum margin equal to diamond facet height (X)</li>
+          </ul>
+        </div>
+        <div class="space-y-2">
+          <div class="font-semibold text-slate-200">Mandatory Rules:</div>
+          <ul class="list-disc list-inside text-xs text-slate-400 space-y-1">
+            <li>Always use official high-resolution PNG/WebP files</li>
+            <li>Do not alter aspect ratio or colors</li>
+            <li>Ensure high contrast against dark and light canvases</li>
+          </ul>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Footer -->
-  <footer class="py-12 text-center text-[#8E9BAE] text-[10px] tracking-[0.2em] uppercase border-t border-[var(--border-subtle)] mt-12">
-    <p>© 2026 Diamora Properties. Masterpiece Vector Assets & Identity System.</p>
-  </footer>
+    <!-- Footer -->
+    <footer class="text-center text-xs text-slate-500 py-6 border-t border-yellow-500/10">
+      &copy; 2026 Diamora Properties. Created By ZYNIQ Studio. All rights reserved.
+    </footer>
 
-</div>
-
-<div id="toast" class="fixed bottom-10 right-10 bg-[#0d1015] border border-[#D4AF37] text-white px-6 py-4 rounded shadow-[0_15px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(212,175,55,0.2)] flex items-center gap-3 z-[1000]">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-  <span id="toast-msg">SVG code copied!</span>
-</div>
-
-<script>
-  // Toast & Copy Functions
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    const toastMsg = document.getElementById('toast-msg');
-    toastMsg.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 3000);
-  }
-
-  function copySVG(containerId) {
-    const container = document.getElementById(containerId);
-    const svg = container.querySelector('svg');
-    if (!svg) return;
-    const svgString = new XMLSerializer().serializeToString(svg);
-    navigator.clipboard.writeText(svgString).then(() => {
-      showToast("SVG Code copied to clipboard!");
-    }).catch(err => {
-      showToast("Unable to copy SVG automatically.");
-    });
-  }
-
-  function downloadSVG(containerId, filename) {
-    const container = document.getElementById(containerId);
-    const svg = container.querySelector('svg');
-    if (!svg) return;
-    const svgString = new XMLSerializer().serializeToString(svg);
-    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename || 'diamora-logo.svg';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    showToast(filename + " downloaded!");
-  }
-</script>
+  </div>
 
 </body>
 </html>

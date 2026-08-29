@@ -76,8 +76,8 @@ function initInteractiveMap() {
   try {
     delete L.Icon.Default.prototype._getIconUrl;
     L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'assets/logos/diamora-icon.svg',
-      iconUrl: 'assets/logos/diamora-icon.svg',
+      iconRetinaUrl: 'assets/logos/diamora-map-emblem.png',
+      iconUrl: 'assets/logos/diamora-map-emblem.png',
       shadowUrl: ''
     });
   } catch (e) {}

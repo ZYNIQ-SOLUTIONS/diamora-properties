@@ -21,30 +21,33 @@
   --text-muted:        #7A8499;   /* Muted labels */
   --text-gold:         #8C6A18;   /* High-contrast gold text */
 
-  /* === Footer Dark Theme === */
-  --footer-bg:         #070910;
-  --footer-card:       #0D1015;
-  --footer-card-hover: #13171F;
+  /* === Official Brand Theme — Jet Black & Royal Gold === */
+  --jet-black:         #0D0D0D;
+  --footer-bg:         #0D0D0D;
+  --footer-card:       #131418;
+  --footer-card-hover: #191B22;
   --footer-text-main:  #E2E8F0;
   --footer-text-muted: #8E9BAE;
-  --footer-border:     rgba(255, 255, 255, 0.06);
+  --footer-border:     rgba(212, 175, 55, 0.15);
 
-  /* === Imperial Gold System === */
-  --gold-primary:      #D4AF37;
-  --gold-light:        #FBE6A2;
+  /* === Official Brand Palette: Royal Gold, Light Gold, Antique Gold, Bronze === */
+  --gold-primary:      #D4AF37;   /* Royal Gold */
+  --gold-light:        #F2D27A;   /* Light Gold */
+  --gold-antique:      #B8860B;   /* Antique Gold */
+  --gold-bronze:       #7A5E2E;   /* Bronze */
   --gold-dark:         #8C6A18;
-  --gold-gradient:     linear-gradient(135deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
-  --gold-gradient-h:   linear-gradient(90deg, #FFF0BE 0%, #D4AF37 50%, #765811 100%);
+  --gold-gradient:     linear-gradient(135deg, #F2D27A 0%, #D4AF37 50%, #7A5E2E 100%);
+  --gold-gradient-h:   linear-gradient(90deg, #F2D27A 0%, #D4AF37 50%, #7A5E2E 100%);
   --gold-subtle:       rgba(212, 175, 55, 0.08);
-  --gold-glow:         rgba(212, 175, 55, 0.25);
+  --gold-glow:         rgba(212, 175, 55, 0.28);
 
   /* === Borders === */
   --border-color:      rgba(212, 175, 55, 0.28);
   --border-subtle:     rgba(0, 0, 0, 0.07);
   --border-gold:       rgba(212, 175, 55, 0.65);
 
-  /* === Typography === */
-  --font-serif:        'Cinzel', serif;
+  /* === Typography — Trajan Pro Display & Montserrat Body === */
+  --font-serif:        'Trajan Pro', 'Cinzel', serif;
   --font-editorial:    'Cormorant Garamond', serif;
   --font-sans:         'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
 

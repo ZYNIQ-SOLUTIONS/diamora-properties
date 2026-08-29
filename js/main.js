@@ -111,27 +111,13 @@ function initInteractiveMap() {
     fillOpacity: 0.01, dashArray: '4, 10'
   }).addTo(leafletMapInstance);
 
-  // Diamora HQ pin
+  // Diamora HQ pin with new golden "D" emblem logo
   const diamoraSvgPin = `
     <div class="custom-map-pin">
       <div class="marker-shadow-pulse"></div>
-      <svg class="marker-graphic" width="104" height="104" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <polygon points="50,10 90,40 50,45 10,40" fill="#0A0C10" opacity="0.85"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="url(#m-facetLeft)"/>
-          <polygon points="50,0 0,42 0,100 50,55" fill="#000" opacity="0.3"/>
-          <polygon points="50,0 100,42 100,100 50,55" fill="url(#m-facetRight)"/>
-          <polygon points="50,0 20,22 50,45 80,22" fill="#FFFBEA"/>
-          <polygon points="50,0 20,22 50,22" fill="#FFF0BE" opacity="0.7"/>
-          <polygon points="50,0 80,22 50,22" fill="#FFFFFF" opacity="0.95"/>
-          <polygon points="20,22 50,45 50,22" fill="#D4AF37" opacity="0.55"/>
-          <polygon points="80,22 50,45 50,22" fill="#FBE6A2" opacity="0.85"/>
-          <polygon points="46,43 54,43 54,100 46,100" fill="#030406"/>
-          <line x1="50" y1="45" x2="50" y2="100" stroke="url(#m-gold1)" stroke-width="1.5" filter="url(#m-glow)"/>
-          <line x1="50" y1="0" x2="0" y2="42" stroke="#FFF" stroke-width="2" opacity="0.7"/>
-          <line x1="50" y1="0" x2="100" y2="42" stroke="#FFF" stroke-width="2" opacity="0.85"/>
-        </g>
-      </svg>
+      <div class="marker-graphic">
+        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties Headquarters" class="marker-emblem-img" width="88" height="75">
+      </div>
       <div class="marker-label">
         <div class="marker-title">DIAMORA</div>
         <div class="marker-subtitle">PROPERTIES HQ</div>
@@ -142,8 +128,8 @@ function initInteractiveMap() {
   const diamoraIcon = L.divIcon({
     className: 'diamora-marker',
     html: diamoraSvgPin,
-    iconSize: [120, 150],
-    iconAnchor: [60, 125]
+    iconSize: [120, 140],
+    iconAnchor: [60, 100]
   });
 
   const hqMarker = L.marker([targetLat, targetLng], { icon: diamoraIcon, zIndexOffset: 1000 }).addTo(leafletMapInstance);

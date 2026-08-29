@@ -2535,8 +2535,8 @@ body.loaded #loader-wrapper {
 
 .custom-map-pin-v2 {
   position: relative;
-  width: 32px;
-  height: 40px;
+  width: 14px;
+  height: 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2548,44 +2548,44 @@ body.loaded #loader-wrapper {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 14px;
-  height: 14px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.45);
-  border: 1.5px solid var(--gold-primary);
-  animation: beaconWave 2.2s infinite ease-out;
+  background: rgba(212, 175, 55, 0.5);
+  border: 1px solid var(--gold-primary);
+  animation: beaconWave 2s infinite ease-out;
   pointer-events: none;
   z-index: 1;
 }
 
 @keyframes beaconWave {
-  0% { transform: translateX(-50%) scale(0.6); opacity: 1; }
+  0% { transform: translateX(-50%) scale(0.5); opacity: 1; }
   100% { transform: translateX(-50%) scale(2.8); opacity: 0; }
 }
 
 .map-pin-badge {
-  width: 30px;
-  height: 30px;
+  width: 12px;
+  height: 12px;
   background: linear-gradient(145deg, #0D0D0D, #1A1D24);
-  border: 1.5px solid var(--gold-primary);
+  border: 1px solid var(--gold-primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(212, 175, 55, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), 0 0 6px rgba(212, 175, 55, 0.5);
   position: relative;
   z-index: 2;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .custom-map-pin-v2:hover .map-pin-badge {
-  transform: scale(1.12);
+  transform: scale(1.4);
   border-color: var(--gold-light);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7), 0 0 16px rgba(212, 175, 55, 0.7);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7), 0 0 12px rgba(212, 175, 55, 0.8);
 }
 
 .map-pin-emblem {
-  width: 18px;
+  width: 8px;
   height: auto;
   display: block;
 }
@@ -2593,9 +2593,9 @@ body.loaded #loader-wrapper {
 .map-pin-needle {
   width: 0;
   height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 7px solid var(--gold-primary);
+  border-left: 2.5px solid transparent;
+  border-right: 2.5px solid transparent;
+  border-top: 4px solid var(--gold-primary);
   margin-top: -1px;
   position: relative;
   z-index: 2;
@@ -2603,18 +2603,18 @@ body.loaded #loader-wrapper {
 
 .map-pin-tag {
   position: absolute;
-  top: -16px;
+  top: -14px;
   white-space: nowrap;
   font-family: var(--font-serif);
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   color: #050608;
   background: rgba(253, 251, 247, 0.96);
-  border: 1px solid var(--gold-primary);
-  padding: 1px 5px;
-  border-radius: 3px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 0.8px solid var(--gold-primary);
+  padding: 0.5px 4px;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
   pointer-events: none;
 }
 

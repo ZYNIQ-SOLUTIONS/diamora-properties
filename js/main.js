@@ -112,12 +112,12 @@ function initInteractiveMap() {
     fillOpacity: 0.01, dashArray: '4, 10'
   }).addTo(leafletMapInstance);
 
-  // Precision compact luxury Diamora HQ pin
+  // Precision micro luxury Diamora HQ pin (5x smaller)
   const diamoraPinHtml = `
     <div class="custom-map-pin-v2" title="Diamora Properties Headquarters">
       <div class="map-beacon-pulse"></div>
       <div class="map-pin-badge">
-        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties" class="map-pin-emblem" width="20" height="17">
+        <img src="assets/logos/diamora-map-emblem.png" alt="Diamora Properties" class="map-pin-emblem" width="8" height="7">
       </div>
       <div class="map-pin-needle"></div>
       <div class="map-pin-tag">DIAMORA HQ</div>
@@ -127,9 +127,9 @@ function initInteractiveMap() {
   const diamoraIcon = L.divIcon({
     className: 'diamora-marker',
     html: diamoraPinHtml,
-    iconSize: [32, 40],
-    iconAnchor: [16, 38],
-    popupAnchor: [0, -38]
+    iconSize: [14, 18],
+    iconAnchor: [7, 16],
+    popupAnchor: [0, -18]
   });
 
   const hqMarker = L.marker([targetLat, targetLng], { icon: diamoraIcon, zIndexOffset: 1000 }).addTo(leafletMapInstance);

@@ -466,18 +466,10 @@ body.loaded #loader-wrapper {
   z-index: 2;
 }
 
-/* === Logo: white over hero, gold when nav solidifies === */
-.nav-logo { display: block; flex-shrink: 0; transition: opacity var(--t-fast); }
-.nav-logo:hover { opacity: 0.85; }
-.nav-logo-img { height: 48px; width: auto; display: block; }
-
-/* Show white logo on dark transparent nav */
-.nav-logo-light { display: none; }
-.nav-logo-dark  { display: block; }
-
-/* When nav is solid/light, show gold logo */
-.main-nav.nav--solid .nav-logo-light { display: block; }
-.main-nav.nav--solid .nav-logo-dark  { display: none; }
+/* === Navbar Brand Logo === */
+.nav-logo { display: flex; align-items: center; flex-shrink: 0; transition: opacity var(--t-fast); }
+.nav-logo:hover { opacity: 0.88; }
+.nav-logo-img { height: 38px; width: auto; max-width: 220px; object-fit: contain; display: block; filter: contrast(1.05); }
 
 /* === Nav links === */
 .nav-links {

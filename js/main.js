@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initNewsletterForm();
   initConsultForm();
+  initCookieBanner();
 });
 
 window.addEventListener('load', () => {
@@ -1244,3 +1245,54 @@ function playArchitecturalDrawing() {
     });
   }
 }
+
+/* ==========================================================================
+   COOKIE CONSENT PROMPT
+   ========================================================================== */
+function initCookieBanner() {
+  try {
+    const existingConsent = localStorage.getItem('diamora_cookie_consent');
+    if (existingConsent) return; // User already configured
+
+    const banner = document.createElement('div');
+    banner.className = 'diamora-cookie-banner';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-label', 'Cookie Consent Notice');
+    banner.innerHTML = `
+      <div class="cookie-banner-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="4"/></svg>
+        <span>Privacy &amp; Cookie Consent</span>
+      </div>
+      <p class="cookie-banner-text">
+        We use essential and privacy-first telemetry tokens to deliver our ultra-luxury advisory experience in compliance with the UAE Data Protection Law. Review our <a href="privacy.html">Privacy Policy</a> and <a href="cookies.html">Cookie Settings</a>.
+      </p>
+      <div class="cookie-banner-actions">
+        <button type="button" class="btn-cookie-accept" id="btnBannerAcceptAll">Accept All</button>
+        <a href="cookies.html" class="btn-cookie-manage">Manage Preferences</a>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+    setTimeout(() => {
+      banner.style.display = 'flex';
+    }, 1500);
+
+    const acceptBtn = banner.querySelector('#btnBannerAcceptAll');
+    if (acceptBtn) {
+      acceptBtn.addEventListener('click', () => {
+        const consent = {
+          essential: true,
+          analytics: true,
+          marketing: true,
+          timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('diamora_cookie_consent', JSON.stringify(consent));
+        banner.style.opacity = '0';
+        banner.style.transform = 'translateY(20px)';
+        banner.style.transition = 'all 0.3s ease';
+        setTimeout(() => banner.remove(), 350);
+      });
+    }
+  } catch (e) {}
+}
+

@@ -332,8 +332,73 @@
        ========================================================================= -->
   <main class="container" style="padding: 40px 20px;">
     
-    <!-- Filter Control Bar -->
-    <div class="prop-filter-bar">
+    <!-- Unified Luxury Search & Filtering Bar -->
+    <div class="hero-bottom-search-bar" id="catalogSearchStage" style="margin-top: 0; margin-bottom: 24px; background: rgba(13, 16, 21, 0.95);">
+      <form id="catalogPropertySearchForm" class="hero-search-form" onsubmit="return false;">
+        <div class="hero-search-bar-inner">
+          <!-- Keyword input -->
+          <div class="hero-search-input-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="propSearchKeyword" class="hero-search-input" placeholder="Search by development, island, or keyword (e.g. Palm, Villa, Penthouse, Saadiyat)..." aria-label="Search available properties">
+          </div>
+
+          <div class="hero-search-filters">
+            <!-- Location Filter -->
+            <div class="search-filter-group">
+              <label for="filterLocation" class="search-filter-label">Location</label>
+              <select id="filterLocation" class="search-select">
+                <option value="all">All Emirates &amp; Hubs</option>
+                <option value="Dubai">Dubai</option>
+                <option value="Abu Dhabi">Abu Dhabi</option>
+                <option value="Palm Jumeirah">Palm Jumeirah</option>
+                <option value="Downtown">Downtown Dubai</option>
+                <option value="Saadiyat">Saadiyat Island</option>
+                <option value="Al Bateen">Al Bateen</option>
+                <option value="Yas Island">Yas Island</option>
+              </select>
+            </div>
+
+            <!-- Typology Filter -->
+            <div class="search-filter-group">
+              <label for="filterType" class="search-filter-label">Property Type</label>
+              <select id="filterType" class="search-select">
+                <option value="all">All Categories</option>
+                <option value="Penthouse">Sky Penthouses</option>
+                <option value="Villa">Waterfront Villas</option>
+                <option value="Mansion">Ultra-Luxury Mansions</option>
+                <option value="Townhouse">Townhouses</option>
+                <option value="Apartment">Apartments</option>
+              </select>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="search-filter-group">
+              <label for="filterBudget" class="search-filter-label">Budget Range</label>
+              <select id="filterBudget" class="search-select">
+                <option value="all">Any Investment Range</option>
+                <option value="under20">Under AED 20M</option>
+                <option value="20to40">AED 20M – 40M</option>
+                <option value="above40">AED 40M+</option>
+              </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="search-filter-action" style="display: flex; gap: 8px;">
+              <button type="button" id="btnExecuteSearch" class="btn-execute-search" style="flex: 1;">
+                <span>Filter</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+              <button type="button" id="btnResetFilters" class="btn-reset-filters" title="Reset All Filters" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(212,175,55,0.3); color: #FFF; border-radius: var(--r-sm); padding: 0 14px; cursor: pointer; transition: all 0.2s;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Quick Typology Filter Chips & Counter -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 30px;">
       <div class="prop-filter-chips">
         <button type="button" class="filter-chip active" data-type="all">All Residences</button>
         <button type="button" class="filter-chip" data-type="Villa">Waterfront Villas</button>
@@ -342,10 +407,8 @@
         <button type="button" class="filter-chip" data-type="Townhouse">Townhouses</button>
         <button type="button" class="filter-chip" data-type="Apartment">Apartments</button>
       </div>
-
-      <div class="prop-search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="catalogSearch" placeholder="Search by name, island, or keyword...">
+      <div id="catalogResultsCount" style="font-size: 0.85rem; color: #718096; font-weight: 500; font-family: 'Montserrat', sans-serif;">
+        Showing <strong id="countNum" style="color: #D4AF37;">0</strong> Residences
       </div>
     </div>
 
@@ -556,16 +619,14 @@
     ];
 
     let allProperties = [];
-    let currentFilter = 'all';
 
     document.addEventListener('DOMContentLoaded', async () => {
       await fetchPortfolio();
-      setupFilters();
+      initFiltersFromUrl();
+      bindFilterEvents();
     });
 
     async function fetchPortfolio() {
-      const grid = document.getElementById('catalogGrid');
-      
       // 1. Try Live API
       try {
         const res = await fetch('http://localhost:5000/api/properties');
@@ -573,7 +634,6 @@
           const data = await res.json();
           if (data && data.length > 0) {
             allProperties = data;
-            renderCatalog(allProperties);
             return;
           }
         }
@@ -584,11 +644,176 @@
       // 2. Try LocalStorage
       const local = localStorage.getItem('diamora_properties');
       if (local) {
-        allProperties = JSON.parse(local);
+        try {
+          allProperties = JSON.parse(local);
+        } catch(e) {
+          allProperties = DEFAULT_CATALOG;
+        }
       } else {
         allProperties = DEFAULT_CATALOG;
       }
-      renderCatalog(allProperties);
+    }
+
+    function initFiltersFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const q = urlParams.get('q') || '';
+      const location = urlParams.get('location') || 'all';
+      const type = urlParams.get('type') || 'all';
+      const budget = urlParams.get('budget') || 'all';
+
+      const searchInput = document.getElementById('propSearchKeyword');
+      const locationSelect = document.getElementById('filterLocation');
+      const typeSelect = document.getElementById('filterType');
+      const budgetSelect = document.getElementById('filterBudget');
+
+      if (searchInput && q) searchInput.value = q;
+      if (locationSelect && location) locationSelect.value = location;
+      if (typeSelect && type) typeSelect.value = type;
+      if (budgetSelect && budget) budgetSelect.value = budget;
+
+      // Sync Quick Tag Chips
+      const chips = document.querySelectorAll('.filter-chip');
+      chips.forEach(chip => {
+        const chipType = chip.getAttribute('data-type');
+        if (chipType.toLowerCase() === type.toLowerCase()) {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+        }
+      });
+
+      applyFilters(false);
+    }
+
+    function bindFilterEvents() {
+      const searchInput = document.getElementById('propSearchKeyword');
+      const locationSelect = document.getElementById('filterLocation');
+      const typeSelect = document.getElementById('filterType');
+      const budgetSelect = document.getElementById('filterBudget');
+      const searchBtn = document.getElementById('btnExecuteSearch');
+      const resetBtn = document.getElementById('btnResetFilters');
+      const chips = document.querySelectorAll('.filter-chip');
+      const searchForm = document.getElementById('catalogPropertySearchForm');
+
+      if (searchInput) searchInput.addEventListener('input', () => applyFilters(true));
+      if (locationSelect) locationSelect.addEventListener('change', () => applyFilters(true));
+      if (typeSelect) {
+        typeSelect.addEventListener('change', () => {
+          syncChipWithType(typeSelect.value);
+          applyFilters(true);
+        });
+      }
+      if (budgetSelect) budgetSelect.addEventListener('change', () => applyFilters(true));
+
+      if (searchBtn) {
+        searchBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          applyFilters(true);
+        });
+      }
+
+      if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          applyFilters(true);
+        });
+      }
+
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          const chipType = chip.getAttribute('data-type');
+          if (typeSelect) typeSelect.value = chipType;
+          applyFilters(true);
+        });
+      });
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          if (locationSelect) locationSelect.value = 'all';
+          if (typeSelect) typeSelect.value = 'all';
+          if (budgetSelect) budgetSelect.value = 'all';
+          chips.forEach(c => c.classList.remove('active'));
+          const allChip = document.querySelector('.filter-chip[data-type="all"]');
+          if (allChip) allChip.classList.add('active');
+          applyFilters(true);
+        });
+      }
+    }
+
+    function syncChipWithType(typeVal) {
+      const chips = document.querySelectorAll('.filter-chip');
+      chips.forEach(c => c.classList.remove('active'));
+      let found = false;
+      chips.forEach(chip => {
+        if (chip.getAttribute('data-type').toLowerCase() === typeVal.toLowerCase()) {
+          chip.classList.add('active');
+          found = true;
+        }
+      });
+      if (!found) {
+        const allChip = document.querySelector('.filter-chip[data-type="all"]');
+        if (allChip) allChip.classList.add('active');
+      }
+    }
+
+    function applyFilters(updateUrl = false) {
+      const searchInput = document.getElementById('propSearchKeyword');
+      const locationSelect = document.getElementById('filterLocation');
+      const typeSelect = document.getElementById('filterType');
+      const budgetSelect = document.getElementById('filterBudget');
+      const countEl = document.getElementById('countNum');
+
+      const qVal = (searchInput ? searchInput.value : '').trim().toLowerCase();
+      const locVal = locationSelect ? locationSelect.value : 'all';
+      const typeVal = typeSelect ? typeSelect.value : 'all';
+      const budgetVal = budgetSelect ? budgetSelect.value : 'all';
+
+      let filtered = allProperties.filter(prop => {
+        // 1. Keyword match
+        if (qVal) {
+          const matchTitle = (prop.title || '').toLowerCase().includes(qVal);
+          const matchLoc = (prop.location || '').toLowerCase().includes(qVal);
+          const matchDesc = (prop.description || '').toLowerCase().includes(qVal);
+          const matchType = (prop.propertyType || '').toLowerCase().includes(qVal);
+          if (!matchTitle && !matchLoc && !matchDesc && !matchType) return false;
+        }
+
+        // 2. Location match
+        if (locVal !== 'all') {
+          const propLoc = (prop.location || '').toLowerCase();
+          if (!propLoc.includes(locVal.toLowerCase())) return false;
+        }
+
+        // 3. Typology match
+        if (typeVal !== 'all') {
+          const propType = (prop.propertyType || '').toLowerCase();
+          if (!propType.includes(typeVal.toLowerCase())) return false;
+        }
+
+        // 4. Budget match
+        const price = Number(prop.price) || 0;
+        if (budgetVal === 'under20' && price >= 20000000) return false;
+        if (budgetVal === '20to40' && (price < 20000000 || price > 40000000)) return false;
+        if (budgetVal === 'above40' && price <= 40000000) return false;
+
+        return true;
+      });
+
+      if (countEl) countEl.textContent = filtered.length;
+      renderCatalog(filtered);
+
+      if (updateUrl) {
+        const params = new URLSearchParams();
+        if (qVal) params.set('q', searchInput.value.trim());
+        if (locVal !== 'all') params.set('location', locVal);
+        if (typeVal !== 'all') params.set('type', typeVal);
+        if (budgetVal !== 'all') params.set('budget', budgetVal);
+
+        const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+        window.history.replaceState({}, '', newUrl);
+      }
     }
 
     function renderCatalog(list) {
@@ -597,9 +822,10 @@
 
       if (!list || list.length === 0) {
         grid.innerHTML = `
-          <div style="grid-column: 1 / -1; text-align: center; padding: 60px; color: #718096; font-family: Montserrat;">
-            <h3>No matching luxury residences found</h3>
-            <p style="margin-top: 8px;">Try selecting another category or resetting the search filter.</p>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(212,175,55,0.25); border-radius: 12px; font-family: Montserrat;">
+            <div style="font-family: Cinzel; font-size: 1.3rem; color: #FFF5D1; font-weight: 700; margin-bottom: 8px;">No Matching Luxury Residences Found</div>
+            <p style="color: #A0AEC0; font-size: 0.9rem; max-width: 480px; margin: 0 auto 20px;">We could not find properties matching your exact criteria. Try broadening your search or resetting filters.</p>
+            <button type="button" onclick="document.getElementById('btnResetFilters').click()" style="padding: 10px 22px; background: var(--gold-gradient); color: #0D0D0D; border: none; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.05em;">Reset All Filters</button>
           </div>
         `;
         return;
@@ -615,7 +841,7 @@
         card.innerHTML = `
           <div class="catalog-img-wrap">
             <span class="catalog-badge">${prop.status || 'Available'}</span>
-            <img src="${prop.imageUrl}" alt="${prop.title}" class="catalog-img" onerror="this.src='assets/properties/palm-villa.jpg'">
+            <img src="${prop.imageUrl}" alt="${prop.title}" class="catalog-img" onerror="this.src='assets/properties/palm-villa.jpg'" loading="lazy">
           </div>
           <div class="catalog-body">
             <div class="catalog-loc">
@@ -643,43 +869,6 @@
         `;
         grid.appendChild(card);
       });
-    }
-
-    function setupFilters() {
-      const chips = document.querySelectorAll('.filter-chip');
-      const searchInput = document.getElementById('catalogSearch');
-
-      chips.forEach(chip => {
-        chip.addEventListener('click', () => {
-          chips.forEach(c => c.classList.remove('active'));
-          chip.classList.add('active');
-          currentFilter = chip.getAttribute('data-type');
-          applyFilters();
-        });
-      });
-
-      if (searchInput) {
-        searchInput.addEventListener('input', applyFilters);
-      }
-    }
-
-    function applyFilters() {
-      const searchVal = document.getElementById('catalogSearch').value.toLowerCase().trim();
-      let filtered = allProperties;
-
-      if (currentFilter !== 'all') {
-        filtered = filtered.filter(p => p.propertyType === currentFilter);
-      }
-
-      if (searchVal) {
-        filtered = filtered.filter(p => 
-          (p.title && p.title.toLowerCase().includes(searchVal)) ||
-          (p.location && p.location.toLowerCase().includes(searchVal)) ||
-          (p.description && p.description.toLowerCase().includes(searchVal))
-        );
-      }
-
-      renderCatalog(filtered);
     }
   </script>
 </body>

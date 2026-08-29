@@ -982,7 +982,7 @@ function initConsultForm() {
 }
 
 /* ==========================================================================
-   9. HERO LIVE PROPERTY SEARCH & FILTER
+   9. HERO LIVE PROPERTY SEARCH & FILTER FORWARDING
    ========================================================================== */
 function initHeroPropertySearch() {
   const searchInput    = document.getElementById('propSearchKeyword');
@@ -990,145 +990,60 @@ function initHeroPropertySearch() {
   const typeSelect     = document.getElementById('filterType');
   const budgetSelect   = document.getElementById('filterBudget');
   const searchBtn      = document.getElementById('btnExecuteSearch');
+  const searchForm     = document.getElementById('heroPropertySearchForm');
   const quickTags      = document.querySelectorAll('.quick-tag');
-  const resetBtn       = document.getElementById('btnResetFilters');
-  const propCards      = document.querySelectorAll('.property-card');
-  const noResults      = document.getElementById('noPropResults');
-  const propertiesSec  = document.getElementById('properties');
 
-  if (!propCards.length) return;
-
-  function filterProperties(scrollToSection = false) {
-    const keywordVal  = (searchInput ? searchInput.value : '').trim().toLowerCase();
+  function executeSearchAndForward() {
+    const keywordVal  = (searchInput ? searchInput.value : '').trim();
     const locationVal = locationSelect ? locationSelect.value : 'all';
     const typeVal     = typeSelect ? typeSelect.value : 'all';
     const budgetVal   = budgetSelect ? budgetSelect.value : 'all';
 
-    let matchCount = 0;
+    const params = new URLSearchParams();
+    if (keywordVal) params.set('q', keywordVal);
+    if (locationVal && locationVal !== 'all') params.set('location', locationVal);
+    if (typeVal && typeVal !== 'all') params.set('type', typeVal);
+    if (budgetVal && budgetVal !== 'all') params.set('budget', budgetVal);
 
-    propCards.forEach(card => {
-      const cardLoc      = (card.getAttribute('data-location') || '').toLowerCase();
-      const cardType     = (card.getAttribute('data-type') || '').toLowerCase();
-      const cardPrice    = parseInt(card.getAttribute('data-price') || '0', 10);
-      const cardKeywords = (card.getAttribute('data-keywords') || '').toLowerCase();
-
-      // 1. Match Keyword
-      let matchKeyword = true;
-      if (keywordVal) {
-        matchKeyword = cardKeywords.includes(keywordVal) || cardLoc.includes(keywordVal) || cardType.includes(keywordVal);
-      }
-
-      // 2. Match Location
-      let matchLocation = true;
-      if (locationVal !== 'all') {
-        matchLocation = cardLoc.includes(locationVal.toLowerCase());
-      }
-
-      // 3. Match Typology
-      let matchType = true;
-      if (typeVal !== 'all') {
-        matchType = cardType.includes(typeVal.toLowerCase());
-      }
-
-      // 4. Match Budget
-      let matchBudget = true;
-      if (budgetVal === 'under20') {
-        matchBudget = cardPrice < 20000000;
-      } else if (budgetVal === '20to40') {
-        matchBudget = cardPrice >= 20000000 && cardPrice <= 40000000;
-      } else if (budgetVal === 'above40') {
-        matchBudget = cardPrice > 40000000;
-      }
-
-      const isMatch = matchKeyword && matchLocation && matchType && matchBudget;
-
-      if (isMatch) {
-        card.style.display = '';
-        matchCount++;
-      } else {
-        card.style.display = 'none';
-      }
-    });
-
-    // Toggle No Results placeholder
-    if (noResults) {
-      noResults.style.display = matchCount === 0 ? 'flex' : 'none';
-    }
-
-    // Animate matching cards with Anime.js
-    if (typeof anime !== 'undefined') {
-      const visibleCards = Array.from(propCards).filter(c => c.style.display !== 'none');
-      if (visibleCards.length > 0) {
-        anime({
-          targets: visibleCards,
-          opacity: [0, 1],
-          translateY: [20, 0],
-          delay: anime.stagger(80),
-          duration: 450,
-          easing: 'easeOutQuad'
-        });
-      }
-    }
-
-    // Smooth scroll down to property section when button is clicked
-    if (scrollToSection && propertiesSec) {
-      propertiesSec.scrollIntoView({ behavior: 'smooth' });
-    }
+    const targetUrl = `properties.html${params.toString() ? '?' + params.toString() : ''}`;
+    window.location.href = targetUrl;
   }
 
-  // Bind input and select change events for real-time reactivity
-  if (searchInput) {
-    searchInput.addEventListener('input', () => filterProperties(false));
-  }
-  if (locationSelect) {
-    locationSelect.addEventListener('change', () => filterProperties(false));
-  }
-  if (typeSelect) {
-    typeSelect.addEventListener('change', () => filterProperties(false));
-  }
-  if (budgetSelect) {
-    budgetSelect.addEventListener('change', () => filterProperties(false));
-  }
-
-  // Execute Search button click (scrolls down to results)
+  // 1. Search button click
   if (searchBtn) {
     searchBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      filterProperties(true);
+      executeSearchAndForward();
     });
   }
 
-  // Reset filters (modal & bar buttons)
-  const resetBarBtn = document.getElementById('btnResetFiltersBar');
-  [resetBtn, resetBarBtn].forEach(btn => {
-    if (btn) {
-      btn.addEventListener('click', () => {
-        if (searchInput) searchInput.value = '';
-        if (locationSelect) locationSelect.value = 'all';
-        if (typeSelect) typeSelect.value = 'all';
-        if (budgetSelect) budgetSelect.value = 'all';
-        quickTags.forEach(t => t.classList.remove('active'));
-        filterProperties(false);
-      });
-    }
-  });
+  // 2. Form submission / Enter key press
+  if (searchForm) {
+    searchForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      executeSearchAndForward();
+    });
+  }
 
-  // Quick tag logic
-  quickTags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      const tagValue = tag.getAttribute('data-tag');
-      quickTags.forEach(t => t.classList.remove('active'));
-      tag.classList.add('active');
-
-      if (tagValue === 'all') {
-        if (searchInput) searchInput.value = '';
-        if (locationSelect) locationSelect.value = 'all';
-        if (typeSelect) typeSelect.value = 'all';
-        if (budgetSelect) budgetSelect.value = 'all';
-      } else if (searchInput) {
-        searchInput.value = tagValue;
+  if (searchInput) {
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        executeSearchAndForward();
       }
-      filterProperties(false);
+    });
+  }
+
+  // 3. Quick Tag filters
+  quickTags.forEach(tag => {
+    tag.addEventListener('click', (e) => {
+      e.preventDefault();
+      const tagValue = tag.getAttribute('data-tag') || tag.getAttribute('data-type') || '';
+      const params = new URLSearchParams();
+      if (tagValue && tagValue !== 'all') {
+        params.set('q', tagValue);
+      }
+      window.location.href = `properties.html${params.toString() ? '?' + params.toString() : ''}`;
     });
   });
 }

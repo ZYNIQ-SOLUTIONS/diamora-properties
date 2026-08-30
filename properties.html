@@ -7,13 +7,25 @@
   
   <!-- Meta & SEO -->
   <meta name="description" content="Discover Diamora Properties' curated portfolio of luxury villas, sky penthouses, and high-yield off-plan developments across Dubai and Abu Dhabi.">
+  <meta name="keywords" content="Diamora Properties, UAE Luxury Portfolio, Waterfront Villas Dubai, Abu Dhabi Penthouses, Palm Jumeirah Estates">
   <meta name="author" content="Diamora Properties">
-  
-  <!-- Favicons -->
+  <meta name="theme-color" content="#0D0D0D">
+  <link rel="canonical" href="https://diamora.properties/properties.html">
+
+  <!-- OpenGraph / Social Sharing -->
+  <meta property="og:title" content="Signature Portfolio | Diamora Properties UAE">
+  <meta property="og:description" content="Explore curated waterfront estates, sky penthouses, and high-yield off-plan allocations across Dubai and Abu Dhabi.">
+  <meta property="og:image" content="assets/logos/logo-gold.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://diamora.properties/properties.html">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicons & Manifest -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/logos/favicon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/logos/logo-square.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
   
   <!-- Google Fonts: Cinzel & Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -626,19 +638,34 @@
       bindFilterEvents();
     });
 
+    function getDiamoraApiEndpoint() {
+      const custom = localStorage.getItem('diamora_api_endpoint');
+      if (custom && custom.trim()) return custom.trim().replace(/\/+$/, '');
+      if (window.location.protocol === 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        return ''; // Secure static standalone mode
+      }
+      return 'http://localhost:5000/api';
+    }
+
     async function fetchPortfolio() {
-      // 1. Try Live API
-      try {
-        const res = await fetch('http://localhost:5000/api/properties');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.length > 0) {
-            allProperties = data;
-            return;
+      // 1. Try Live API if configured or on localhost
+      const apiBase = getDiamoraApiEndpoint();
+      if (apiBase) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 1800);
+          const res = await fetch(`${apiBase}/properties`, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (res.ok) {
+            const data = await res.json();
+            if (data && data.length > 0) {
+              allProperties = data;
+              return;
+            }
           }
+        } catch (e) {
+          console.log('API not active, using cached luxury catalog');
         }
-      } catch (e) {
-        console.log('API not active, using cached luxury catalog');
       }
 
       // 2. Try LocalStorage

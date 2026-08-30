@@ -1,11 +1,31 @@
 /**
  * DIAMORA PROPERTIES — EXECUTIVE ADMIN DASHBOARD JAVASCRIPT
  * Full-featured luxury admin portal with dual-mode support:
- * - Live Express/MongoDB API (`http://localhost:5000/api`)
+ * - Live Express/MongoDB API (Custom endpoint or `http://localhost:5000/api`)
  * - Smart LocalStorage fallback for instant standalone offline testing
  */
 
-const API_BASE = 'http://localhost:5000/api';
+function getApiBase() {
+  const custom = localStorage.getItem('diamora_api_endpoint');
+  if (custom && custom.trim()) return custom.trim().replace(/\/+$/, '');
+  if (window.location.protocol === 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return ''; // Prevent Mixed Content error if no backend configured
+  }
+  return 'http://localhost:5000/api';
+}
+
+let API_BASE = getApiBase();
+
+// Security helper: Escape HTML to prevent XSS
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 // Pre-seeded fallback luxury properties for immediate offline testing
 const DEFAULT_SAMPLE_PROPERTIES = [
@@ -157,16 +177,26 @@ const modalTitle = document.getElementById('modal-title');
 
 const propSearchInput = document.getElementById('prop-search-input');
 const inqSearchInput = document.getElementById('inq-search-input');
+const inqStatusFilter = document.getElementById('inq-status-filter');
 const btnRefreshInquiries = document.getElementById('btn-refresh-inquiries');
+const btnExportProperties = document.getElementById('btn-export-properties');
+const btnExportInquiries = document.getElementById('btn-export-inquiries');
 
 const systemStatusDot = document.getElementById('system-status-dot');
 const systemStatusText = document.getElementById('system-status-text');
 const btnPingApi = document.getElementById('btn-ping-api');
 const pingResult = document.getElementById('ping-result');
 const btnResetData = document.getElementById('btn-reset-data');
+const customApiInput = document.getElementById('custom-api-endpoint');
+const btnSaveApiEndpoint = document.getElementById('btn-save-api-endpoint');
 
 // Lifecycle Initialization
 document.addEventListener('DOMContentLoaded', async () => {
+  // Populate custom endpoint input if set
+  if (customApiInput) {
+    customApiInput.value = localStorage.getItem('diamora_api_endpoint') || '';
+  }
+
   // Check API connectivity
   await checkApiHealth();
 
@@ -199,9 +229,17 @@ function showDashboard() {
  * =========================================================================
  */
 async function checkApiHealth() {
+  API_BASE = getApiBase();
+  if (!API_BASE) {
+    isLiveApiConnected = false;
+    if (systemStatusDot) systemStatusDot.classList.add('offline');
+    if (systemStatusText) systemStatusText.textContent = 'Standalone Mode (Local Storage)';
+    return false;
+  }
+
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1200);
+    const timeoutId = setTimeout(() => controller.abort(), 1500);
     
     const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
     clearTimeout(timeoutId);
@@ -209,7 +247,7 @@ async function checkApiHealth() {
     if (res.ok) {
       isLiveApiConnected = true;
       if (systemStatusDot) systemStatusDot.classList.remove('offline');
-      if (systemStatusText) systemStatusText.textContent = 'Live API Server (Port 5000)';
+      if (systemStatusText) systemStatusText.textContent = `Connected: ${API_BASE}`;
       return true;
     }
   } catch (err) {
@@ -341,25 +379,31 @@ function renderPropertiesTable(list) {
       imgSrc = '../' + imgSrc;
     }
 
+    const safeTitle = escapeHtml(prop.title || '');
+    const safeLoc = escapeHtml(prop.location || 'UAE');
+    const safeType = escapeHtml(prop.propertyType || 'Villa');
+    const safeStatus = escapeHtml(prop.status || 'Available');
+    const safeId = escapeHtml(prop._id || '');
+
     tr.innerHTML = `
       <td>
         <div class="prop-cell-title">
-          <img src="${imgSrc}" alt="${prop.title}" class="prop-cell-thumb" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=80'">
+          <img src="${imgSrc}" alt="${safeTitle}" class="prop-cell-thumb" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=80'">
           <div>
-            <div class="prop-cell-name">${prop.title}</div>
+            <div class="prop-cell-name">${safeTitle}</div>
             <div class="prop-cell-meta">${prop.area ? Number(prop.area).toLocaleString() + ' sq ft' : ''}</div>
           </div>
         </div>
       </td>
-      <td>${prop.location || 'UAE'}</td>
-      <td><strong>${prop.propertyType || 'Villa'}</strong></td>
+      <td>${safeLoc}</td>
+      <td><strong>${safeType}</strong></td>
       <td>${prop.bedrooms || 0} Beds · ${prop.bathrooms || 0} Baths</td>
-      <td><span class="gold-text" style="font-weight: 700;">AED ${Number(prop.price).toLocaleString()}</span></td>
-      <td><span class="badge ${badgeClass}">${prop.status || 'Available'}</span></td>
+      <td><span class="gold-text" style="font-weight: 700;">AED ${Number(prop.price || 0).toLocaleString()}</span></td>
+      <td><span class="badge ${badgeClass}">${safeStatus}</span></td>
       <td style="text-align: right;">
         <div style="display: inline-flex; gap: 8px;">
-          <button type="button" class="btn-edit" onclick="openEditModal('${prop._id}')">Edit</button>
-          <button type="button" class="btn-danger" onclick="deletePropertyItem('${prop._id}')">Delete</button>
+          <button type="button" class="btn-edit" onclick="openEditModal('${safeId}')">Edit</button>
+          <button type="button" class="btn-danger" onclick="deletePropertyItem('${safeId}')">Delete</button>
         </div>
       </td>
     `;
@@ -375,7 +419,7 @@ function renderInquiriesTable(list) {
     inquiriesTbody.innerHTML = `
       <tr>
         <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 32px;">
-          No client inquiries received yet. Inquiries submitted on the website will appear here.
+          No client inquiries matching criteria.
         </td>
       </tr>
     `;
@@ -386,38 +430,125 @@ function renderInquiriesTable(list) {
     const tr = document.createElement('tr');
     const dateFormatted = inq.createdAt ? new Date(inq.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Recent';
 
-    let badgeClass = 'badge-available';
-    if (inq.status === 'New') badgeClass = 'badge-offmarket';
-    if (inq.status === 'Closed') badgeClass = 'badge-sold';
+    const safeName = escapeHtml(inq.name || 'Private VIP Client');
+    const safeEmail = escapeHtml(inq.email || '');
+    const safePhone = escapeHtml(inq.phone || '');
+    const safeType = escapeHtml(inq.type || 'Consultation');
+    const safeBudget = escapeHtml(inq.budget || 'Any Budget');
+    const safeIntent = escapeHtml(inq.intent || 'Investment');
+    const safeMsg = escapeHtml(inq.message || inq.propertyTitle || 'Direct VIP consultation booking.');
+    const safeStatus = escapeHtml(inq.status || 'New');
+    const safeId = escapeHtml(inq._id || '');
 
     tr.innerHTML = `
       <td>
-        <div class="prop-cell-name">${inq.name || 'Private VIP Client'}</div>
-        <div class="prop-cell-meta"><a href="mailto:${inq.email}" style="color: var(--gold-light);">${inq.email}</a> ${inq.phone ? '· ' + inq.phone : ''}</div>
+        <div class="prop-cell-name">${safeName}</div>
+        <div class="prop-cell-meta"><a href="mailto:${safeEmail}" style="color: var(--gold-light);">${safeEmail}</a> ${safePhone ? '· ' + safePhone : ''}</div>
       </td>
-      <td><span style="text-transform: capitalize; font-weight: 600;">${inq.type || 'Consultation'}</span></td>
+      <td><span style="text-transform: capitalize; font-weight: 600;">${safeType}</span></td>
       <td>
-        <div><strong>${inq.budget || 'Any Budget'}</strong></div>
-        <div class="prop-cell-meta">${inq.intent || 'Investment'}</div>
+        <div><strong>${safeBudget}</strong></div>
+        <div class="prop-cell-meta">${safeIntent}</div>
       </td>
       <td style="max-width: 240px; font-size: 0.8rem; color: var(--text-muted);">
-        ${inq.message || inq.propertyTitle || 'Direct VIP consultation booking.'}
+        ${safeMsg}
       </td>
       <td>${dateFormatted}</td>
       <td>
-        <select onchange="updateInquiryStatus('${inq._id}', this.value)" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-subtle); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">
-          <option value="New" ${inq.status === 'New' ? 'selected' : ''}>New</option>
-          <option value="Contacted" ${inq.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
-          <option value="Qualified" ${inq.status === 'Qualified' ? 'selected' : ''}>Qualified</option>
-          <option value="Closed" ${inq.status === 'Closed' ? 'selected' : ''}>Closed</option>
+        <select onchange="updateInquiryStatus('${safeId}', this.value)" style="background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-subtle); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">
+          <option value="New" ${safeStatus === 'New' ? 'selected' : ''}>New</option>
+          <option value="Contacted" ${safeStatus === 'Contacted' ? 'selected' : ''}>Contacted</option>
+          <option value="Qualified" ${safeStatus === 'Qualified' ? 'selected' : ''}>Qualified</option>
+          <option value="Closed" ${safeStatus === 'Closed' ? 'selected' : ''}>Closed</option>
         </select>
       </td>
       <td style="text-align: right;">
-        <button type="button" class="btn-danger" onclick="deleteInquiryItem('${inq._id}')">Remove</button>
+        <button type="button" class="btn-danger" onclick="deleteInquiryItem('${safeId}')">Remove</button>
       </td>
     `;
     inquiriesTbody.appendChild(tr);
   });
+}
+
+function filterInquiries() {
+  const q = inqSearchInput ? inqSearchInput.value.toLowerCase().trim() : '';
+  const status = inqStatusFilter ? inqStatusFilter.value : 'all';
+
+  const filtered = inquiries.filter(inq => {
+    const matchStatus = status === 'all' || inq.status === status;
+    const matchQuery = !q || (
+      (inq.name && inq.name.toLowerCase().includes(q)) ||
+      (inq.email && inq.email.toLowerCase().includes(q)) ||
+      (inq.phone && inq.phone.toLowerCase().includes(q)) ||
+      (inq.message && inq.message.toLowerCase().includes(q)) ||
+      (inq.type && inq.type.toLowerCase().includes(q))
+    );
+    return matchStatus && matchQuery;
+  });
+
+  renderInquiriesTable(filtered);
+}
+
+// CSV Export Helpers
+function downloadCSV(filename, csvContent) {
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.setAttribute('href', url);
+  link.setAttribute('download', filename);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function exportPropertiesToCSV() {
+  if (!properties.length) {
+    showToast('No properties to export');
+    return;
+  }
+  const headers = ['ID', 'Title', 'Location', 'Property Type', 'Price (AED)', 'Bedrooms', 'Bathrooms', 'Area (sq ft)', 'Status', 'Image URL', 'Description'];
+  const rows = properties.map(p => [
+    p._id || '',
+    `"${(p.title || '').replace(/"/g, '""')}"`,
+    `"${(p.location || '').replace(/"/g, '""')}"`,
+    `"${(p.propertyType || '').replace(/"/g, '""')}"`,
+    p.price || 0,
+    p.bedrooms || 0,
+    p.bathrooms || 0,
+    p.area || 0,
+    `"${(p.status || 'Available').replace(/"/g, '""')}"`,
+    `"${(p.imageUrl || '').replace(/"/g, '""')}"`,
+    `"${(p.description || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  downloadCSV(`diamora-portfolio-${new Date().toISOString().split('T')[0]}.csv`, csv);
+  showToast('Portfolio CSV exported successfully');
+}
+
+function exportInquiriesToCSV() {
+  if (!inquiries.length) {
+    showToast('No inquiries to export');
+    return;
+  }
+  const headers = ['ID', 'Date', 'Type', 'Client Name', 'Email', 'Phone', 'Target Budget', 'Intent', 'Status', 'Message'];
+  const rows = inquiries.map(inq => [
+    inq._id || '',
+    inq.createdAt || '',
+    `"${(inq.type || 'Consultation').replace(/"/g, '""')}"`,
+    `"${(inq.name || '').replace(/"/g, '""')}"`,
+    `"${(inq.email || '').replace(/"/g, '""')}"`,
+    `"${(inq.phone || '').replace(/"/g, '""')}"`,
+    `"${(inq.budget || '').replace(/"/g, '""')}"`,
+    `"${(inq.intent || '').replace(/"/g, '""')}"`,
+    `"${(inq.status || 'New').replace(/"/g, '""')}"`,
+    `"${(inq.message || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+  downloadCSV(`diamora-vip-leads-${new Date().toISOString().split('T')[0]}.csv`, csv);
+  showToast('VIP Leads CSV exported successfully');
 }
 
 /**
@@ -492,17 +623,12 @@ function initEventListeners() {
     });
   }
 
-  // Inquiries Search
+  // Inquiries Search & Filter
   if (inqSearchInput) {
-    inqSearchInput.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      const filtered = inquiries.filter(inq =>
-        (inq.name && inq.name.toLowerCase().includes(q)) ||
-        (inq.email && inq.email.toLowerCase().includes(q)) ||
-        (inq.message && inq.message.toLowerCase().includes(q))
-      );
-      renderInquiriesTable(filtered);
-    });
+    inqSearchInput.addEventListener('input', filterInquiries);
+  }
+  if (inqStatusFilter) {
+    inqStatusFilter.addEventListener('change', filterInquiries);
   }
 
   if (btnRefreshInquiries) {
@@ -512,22 +638,46 @@ function initEventListeners() {
     });
   }
 
+  // CSV Export Buttons
+  if (btnExportProperties) {
+    btnExportProperties.addEventListener('click', exportPropertiesToCSV);
+  }
+  if (btnExportInquiries) {
+    btnExportInquiries.addEventListener('click', exportInquiriesToCSV);
+  }
+
+  // Custom API Endpoint Save
+  if (btnSaveApiEndpoint) {
+    btnSaveApiEndpoint.addEventListener('click', async () => {
+      const val = customApiInput ? customApiInput.value.trim() : '';
+      if (val) {
+        localStorage.setItem('diamora_api_endpoint', val);
+        showToast('Saved custom API endpoint');
+      } else {
+        localStorage.removeItem('diamora_api_endpoint');
+        showToast('Reset to default API endpoint');
+      }
+      await checkApiHealth();
+    });
+  }
+
   // Ping API
   if (btnPingApi) {
     btnPingApi.addEventListener('click', async () => {
-      pingResult.innerHTML = '<span style="color: var(--text-muted);">Pinging http://localhost:5000/api/health...</span>';
+      const targetApi = getApiBase() || 'http://localhost:5000/api';
+      pingResult.innerHTML = `<span style="color: var(--text-muted);">Pinging ${escapeHtml(targetApi)}/health...</span>`;
       try {
-        const res = await fetch(`${API_BASE}/health`);
+        const res = await fetch(`${targetApi}/health`);
         const data = await res.json();
-        pingResult.innerHTML = `<span style="color: var(--emerald-accent);">✅ Status: ${data.status} | DB: ${data.database} | Time: ${new Date().toLocaleTimeString()}</span>`;
+        pingResult.innerHTML = `<span style="color: var(--emerald-accent);">✅ Status: ${escapeHtml(data.status)} | DB: ${escapeHtml(data.database)} | Time: ${new Date().toLocaleTimeString()}</span>`;
         isLiveApiConnected = true;
-        systemStatusDot.classList.remove('offline');
-        systemStatusText.textContent = 'Live API Server (Port 5000)';
+        if (systemStatusDot) systemStatusDot.classList.remove('offline');
+        if (systemStatusText) systemStatusText.textContent = `Connected: ${targetApi}`;
       } catch (err) {
-        pingResult.innerHTML = `<span style="color: #f87171;">⚠️ Cannot connect to backend server. Operating in high-speed local mode.</span>`;
+        pingResult.innerHTML = `<span style="color: #f87171;">⚠️ Cannot connect to backend server (${escapeHtml(targetApi)}). Operating in local storage mode.</span>`;
         isLiveApiConnected = false;
-        systemStatusDot.classList.add('offline');
-        systemStatusText.textContent = 'Standalone Mode (Local Storage)';
+        if (systemStatusDot) systemStatusDot.classList.add('offline');
+        if (systemStatusText) systemStatusText.textContent = 'Standalone Mode (Local Storage)';
       }
     });
   }

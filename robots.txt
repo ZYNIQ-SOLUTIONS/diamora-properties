@@ -1,5 +1,6 @@
-# robots.txt for Diamora Properties
 User-agent: *
 Allow: /
+Disallow: /dashboard/
+Disallow: /api/
 
 Sitemap: https://diamora.properties/sitemap.xml

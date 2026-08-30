@@ -19,6 +19,15 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+function getDiamoraApiEndpoint() {
+  const custom = localStorage.getItem('diamora_api_endpoint');
+  if (custom && custom.trim()) return custom.trim().replace(/\/+$/, '');
+  if (window.location.protocol === 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return ''; // Secure static standalone mode
+  }
+  return 'http://localhost:5000/api';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   window.scrollTo(0, 0);
   initHeroSequence();
@@ -847,14 +856,21 @@ function initNewsletterForm() {
     };
 
     // 1. Try sending to Live API
-    try {
-      await fetch('http://localhost:5000/api/inquiries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leadData)
-      });
-    } catch (err) {
-      console.log('Saved lead to local cache (API offline)');
+    const apiBase = getDiamoraApiEndpoint();
+    if (apiBase) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        await fetch(`${apiBase}/inquiries`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(leadData),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+      } catch (err) {
+        console.log('Saved lead to local cache (API offline or unreachable)');
+      }
     }
 
     // 2. Cache to LocalStorage for Admin Dashboard
@@ -938,14 +954,20 @@ function initConsultForm() {
     };
 
     // 1. Try sending to Live API
-    try {
-      await fetch('http://localhost:5000/api/inquiries', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(leadData)
-      });
-    } catch (err) {
-      console.log('Saved lead to local cache (API offline)');
+    if (apiBase) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        await fetch(`${apiBase}/inquiries`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(leadData),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+      } catch (err) {
+        console.log('Saved lead to local cache (API offline or unreachable)');
+      }
     }
 
     // 2. Cache to LocalStorage for Admin Dashboard

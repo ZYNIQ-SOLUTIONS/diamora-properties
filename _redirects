@@ -1,0 +1,13 @@
+# Diamora Properties — Production Clean URL Redirects & Rewrites
+
+# Clean URLs
+/properties         /properties.html        200
+/dashboard          /dashboard/index.html   200
+/dashboard/         /dashboard/index.html   200
+/privacy            /privacy.html           200
+/terms              /terms.html             200
+/aml                /aml.html               200
+/cookies            /cookies.html           200
+
+# 404 Fallback
+/*                  /404.html               404

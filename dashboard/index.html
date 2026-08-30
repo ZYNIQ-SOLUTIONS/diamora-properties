@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Diamora Properties — Executive Admin Portal</title>
   
-  <!-- Favicon -->
+  <meta name="theme-color" content="#0D0D0D">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Favicon & Manifest -->
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/logos/favicon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="../assets/logos/logo-square.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.json">
   
   <!-- Google Fonts: Cinzel & Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -153,10 +157,16 @@
             <input type="text" id="prop-search-input" placeholder="Search by title, location, or typology...">
           </div>
           
-          <button type="button" id="btn-open-add-modal" class="btn-primary">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            <span>Add New Property</span>
-          </button>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button type="button" id="btn-export-properties" class="btn-secondary" title="Export Portfolio to CSV">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Export CSV</span>
+            </button>
+            <button type="button" id="btn-open-add-modal" class="btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add New Property</span>
+            </button>
+          </div>
         </div>
 
         <div class="table-card">
@@ -190,10 +200,24 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input type="text" id="inq-search-input" placeholder="Search leads by name, email, or message...">
           </div>
-          <button type="button" id="btn-refresh-inquiries" class="btn-secondary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-            <span>Refresh Leads</span>
-          </button>
+          
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <select id="inq-status-filter" class="form-select" style="padding: 7px 12px; font-size: 0.82rem; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-gold); border-radius: var(--radius-xs);">
+              <option value="all">All Statuses</option>
+              <option value="New">New Leads</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Qualified">Qualified VIP</option>
+              <option value="Closed">Closed</option>
+            </select>
+            <button type="button" id="btn-export-inquiries" class="btn-secondary" title="Export Inquiries to CSV">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Export CSV</span>
+            </button>
+            <button type="button" id="btn-refresh-inquiries" class="btn-secondary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              <span>Refresh Leads</span>
+            </button>
+          </div>
         </div>
 
         <div class="table-card">
@@ -225,21 +249,25 @@
         <div class="table-card" style="padding: 28px;">
           <h3 class="font-serif" style="font-size: 1.25rem; margin-bottom: 12px;">Backend API &amp; Data Configuration</h3>
           <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px;">
-            The Diamora Executive Dashboard automatically communicates with the Express/MongoDB backend at <code>http://localhost:5000/api</code> and seamlessly provides high-speed mock data caching when testing standalone.
+            The Diamora Executive Dashboard automatically communicates with your production or local Express API endpoint and seamlessly provides high-speed mock data caching when testing standalone.
           </p>
 
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
             <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
-              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">API Health Ping</h4>
-              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Verify connectivity with the Express backend server.</p>
-              <button type="button" id="btn-ping-api" class="btn-secondary">Ping API Endpoint</button>
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">Production Backend Endpoint</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Configure custom API URL for cloud deployment (e.g. Render / Railway / AWS):</p>
+              <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                <input type="text" id="custom-api-endpoint" class="form-input" style="font-size: 0.82rem;" placeholder="https://api.yourdomain.com/api">
+                <button type="button" id="btn-save-api-endpoint" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem; white-space: nowrap;">Save</button>
+              </div>
+              <button type="button" id="btn-ping-api" class="btn-secondary" style="width: 100%;">Test Connection</button>
               <div id="ping-result" style="margin-top: 10px; font-size: 0.78rem; font-family: monospace;"></div>
             </div>
 
             <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
               <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">Reset / Seed Sample Data</h4>
-              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Restore original luxury UAE properties and mock inquiries.</p>
-              <button type="button" id="btn-reset-data" class="btn-secondary">Reload Default Sample Data</button>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Restore original luxury UAE properties and mock inquiries into local storage cache.</p>
+              <button type="button" id="btn-reset-data" class="btn-secondary" style="width: 100%;">Reload Default Sample Data</button>
             </div>
           </div>
         </div>

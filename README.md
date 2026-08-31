@@ -27,7 +27,43 @@ An ultra-luxury, high-performance real estate landing page and executive managem
 
 ---
 
-## 📋 System Requirements
+## 🐳 1-Click Production Docker Deployment
+
+Diamora Properties is fully containerized with high-performance Nginx, Node.js 20 API, and a persistent MongoDB database service.
+
+### Quickstart with Docker Compose
+
+```bash
+# 1. Clone repository
+git clone https://github.com/ZYNIQ-SOLUTIONS/diamora-properties.git
+cd diamora-properties
+
+# 2. Build and launch all production containers
+./deploy.sh up
+# or: docker compose up -d --build
+```
+
+Access the deployed platform:
+- **Main Website**: [http://localhost/](http://localhost/)
+- **Signature Properties Portfolio**: [http://localhost/properties](http://localhost/properties)
+- **Executive Admin Portal**: [http://localhost/dashboard/](http://localhost/dashboard/) *(Default Admin: `admin` / `password123`)*
+- **API Health Check**: [http://localhost/api/health](http://localhost/api/health)
+
+### Management CLI Commands (`./deploy.sh`)
+
+| Command | Action |
+| :--- | :--- |
+| `./deploy.sh up` | Build and start all production containers in background |
+| `./deploy.sh down` | Stop containers preserving persistent MongoDB volume |
+| `./deploy.sh restart` | Restart all running containers |
+| `./deploy.sh logs` | Stream live logs from all containers (or `./deploy.sh logs api`) |
+| `./deploy.sh status` | Display health status of `web`, `api`, and `mongodb` containers |
+| `./deploy.sh seed` | Run database seeding for luxury properties and admin user |
+| `./deploy.sh backup` | Create a timestamped MongoDB archive dump in `./backups/` |
+
+---
+
+## 📋 System Requirements (Non-Docker Local Development)
 
 | Requirement | Recommended Version | Purpose |
 | :--- | :--- | :--- |

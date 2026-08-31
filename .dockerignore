@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+api/node_modules
+api
+design-plans
+branding/output
+*.log
+README.md
+LANDING_PAGE_INFO.md

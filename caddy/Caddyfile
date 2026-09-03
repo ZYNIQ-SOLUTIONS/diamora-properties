@@ -2,8 +2,23 @@
     email {$ACME_EMAIL:info@diamora.properties}
 }
 
-# Production site configuration (supports server IP or domain with automated SSL)
-{$DOMAIN:http://157.180.26.64} {
+# 1. Direct Server IP & HTTP Gateway
+http://157.180.26.64, http://localhost {
+    encode zstd gzip
+
+    reverse_proxy web:80
+
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+}
+
+# 2. Production Domain(s) - Automated Public SSL/TLS via Let's Encrypt / ZeroSSL
+{$DOMAIN:diamora.properties} {
     encode zstd gzip
 
     reverse_proxy web:80

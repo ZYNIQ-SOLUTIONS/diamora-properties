@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /dashboard/
-Disallow: /api/
+Disallow: /backups/
+Disallow: /*?*
+Allow: /blog.html
+Allow: /blog-post.html
 
 Sitemap: https://diamora.properties/sitemap.xml

@@ -43,6 +43,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/properties', require('./routes/properties'));
 app.use('/api/inquiries', require('./routes/inquiries'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/blog', require('./routes/blog'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Diamora Properties API running on port ${PORT}`));

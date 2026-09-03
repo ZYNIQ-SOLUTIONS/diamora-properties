@@ -1,0 +1,220 @@
+/* 
+ * DIAMORA PROPERTIES — BLOG STYLES
+ * High-end luxury blog aesthetics based on the brand kit.
+ */
+
+:root {
+  --blog-gold: #D4AF37;
+  --blog-gold-light: #F2D27A;
+  --blog-bg: #0D0D0D;
+  --blog-card-bg: #14151B;
+  --blog-border: rgba(212, 175, 55, 0.2);
+  --blog-text: #E2E8F0;
+  --blog-muted: #94A3B8;
+}
+
+body.blog-page {
+  background-color: var(--blog-bg);
+  color: var(--blog-text);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.blog-hero {
+  padding: 120px 20px 60px;
+  text-align: center;
+  background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+}
+
+.blog-hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #F2D27A 0%, #D4AF37 50%, #7A5E2E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.blog-hero p {
+  color: var(--blog-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.blog-filters {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.blog-filter-btn {
+  background: transparent;
+  border: 1px solid var(--blog-border);
+  color: var(--blog-text);
+  padding: 8px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s;
+}
+
+.blog-filter-btn:hover, .blog-filter-btn.active {
+  background: var(--blog-gold);
+  color: #000;
+  border-color: var(--blog-gold);
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+}
+
+.blog-card {
+  background: var(--blog-card-bg);
+  border: 1px solid var(--blog-border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+  border-color: var(--blog-gold);
+}
+
+.blog-card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--blog-border);
+}
+
+.blog-card-content {
+  padding: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-card-category {
+  color: var(--blog-gold);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.blog-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: #FFF;
+}
+
+.blog-card-excerpt {
+  color: var(--blog-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.blog-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--blog-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 16px;
+}
+
+/* SINGLE POST PAGE */
+.post-header {
+  max-width: 800px;
+  margin: 120px auto 40px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.post-category {
+  color: var(--blog-gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.post-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #FFF;
+}
+
+.post-meta {
+  color: var(--blog-muted);
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.post-hero-img {
+  width: 100%;
+  max-width: 1000px;
+  height: 500px;
+  object-fit: cover;
+  margin: 0 auto 40px;
+  display: block;
+  border-radius: 8px;
+}
+
+.post-content {
+  max-width: 700px;
+  margin: 0 auto 80px;
+  padding: 0 20px;
+  line-height: 1.8;
+  font-size: 1.05rem;
+  color: #cbd5e1;
+}
+
+.post-content h2, .post-content h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--blog-gold-light);
+  margin: 40px 0 20px;
+}
+
+.post-content p {
+  margin-bottom: 24px;
+}
+
+.post-content blockquote {
+  border-left: 2px solid var(--blog-gold);
+  padding-left: 20px;
+  margin: 30px 0;
+  font-style: italic;
+  color: #FFF;
+}
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--blog-gold);
+  z-index: 1000;
+  width: 0%;
+  transition: width 0.1s;
+}

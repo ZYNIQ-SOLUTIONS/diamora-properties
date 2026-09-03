@@ -2,36 +2,11 @@
     email {$ACME_EMAIL:info@diamora.properties}
 }
 
-# 1. Direct Server IP & HTTP Gateway
-:80, 157.180.26.64 {
+# Production site configuration (supports server IP or domain with automated SSL)
+{$DOMAIN:http://157.180.26.64} {
     encode zstd gzip
 
-    reverse_proxy web:80 {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto {scheme}
-    }
-
-    header {
-        X-Content-Type-Options "nosniff"
-        X-Frame-Options "SAMEORIGIN"
-        X-XSS-Protection "1; mode=block"
-        Referrer-Policy "strict-origin-when-cross-origin"
-        -Server
-    }
-}
-
-# 2. Production Domain(s) - Automatic SSL/TLS Certificate Provisioning & Renewal
-{$DOMAIN:diamora.properties} {
-    encode zstd gzip
-
-    reverse_proxy web:80 {
-        header_up Host {host}
-        header_up X-Real-IP {remote_host}
-        header_up X-Forwarded-For {remote_host}
-        header_up X-Forwarded-Proto {scheme}
-    }
+    reverse_proxy web:80
 
     header {
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"

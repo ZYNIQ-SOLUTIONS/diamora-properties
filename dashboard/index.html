@@ -373,16 +373,77 @@
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom: 16px;">
-          <label for="imageUrl" class="form-label">Image URL or Asset Path</label>
-          <input type="text" id="imageUrl" class="form-input" placeholder="assets/properties/palm-villa.jpg or https://..." required>
-          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Click a preset image below to auto-fill:</span>
-          <div class="preset-images-strip">
-            <img src="../assets/properties/palm-villa.jpg" alt="Palm Villa" class="preset-thumb" onclick="document.getElementById('imageUrl').value='assets/properties/palm-villa.jpg'">
-            <img src="../assets/properties/saadiyat-townhouse.jpg" alt="Saadiyat Townhouse" class="preset-thumb" onclick="document.getElementById('imageUrl').value='assets/properties/saadiyat-townhouse.jpg'">
-            <img src="../assets/properties/dubai-hills-mansion.jpg" alt="Dubai Hills Mansion" class="preset-thumb" onclick="document.getElementById('imageUrl').value='assets/properties/dubai-hills-mansion.jpg'">
-            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80" alt="Sky Penthouse" class="preset-thumb" onclick="document.getElementById('imageUrl').value='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80'">
-            <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Royal Waterfront" class="preset-thumb" onclick="document.getElementById('imageUrl').value='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80'">
+        <!-- Media Uploads (Image & Video) -->
+        <div class="media-upload-section">
+          <!-- 1. Featured Image Upload -->
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>Featured Property Image</span>
+              <span style="font-size: 0.7rem; color: var(--gold-light);">JPG, PNG, WEBP</span>
+            </label>
+            
+            <input type="file" id="imageFileInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display: none;">
+            
+            <div id="imageDropzone" class="upload-dropzone">
+              <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+              <div class="dropzone-title">Drag &amp; Drop Image or Browse</div>
+              <div class="dropzone-hint">Upload high-res photography (up to 25MB)</div>
+            </div>
+
+            <div id="imageUploadProgress" class="upload-progress-wrapper">
+              <div id="imageProgressFill" class="upload-progress-fill"></div>
+            </div>
+
+            <div id="imagePreviewContainer" class="media-preview-container" style="display: none;">
+              <img id="imagePreviewImg" src="" alt="Property Preview">
+              <button type="button" id="btnRemoveImage" class="btn-remove-media" title="Remove Image">&times;</button>
+            </div>
+
+            <input type="text" id="imageUrl" class="form-input" style="margin-top: 8px; font-size: 0.8rem;" placeholder="Upload above or enter image path / URL" required>
+            
+            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; display: block;">Quick Presets:</span>
+            <div class="preset-images-strip">
+              <img src="../assets/properties/palm-villa.jpg" alt="Palm Villa" class="preset-thumb" onclick="selectPresetImage('assets/properties/palm-villa.jpg')">
+              <img src="../assets/properties/saadiyat-townhouse.jpg" alt="Saadiyat Townhouse" class="preset-thumb" onclick="selectPresetImage('assets/properties/saadiyat-townhouse.jpg')">
+              <img src="../assets/properties/dubai-hills-mansion.jpg" alt="Dubai Hills Mansion" class="preset-thumb" onclick="selectPresetImage('assets/properties/dubai-hills-mansion.jpg')">
+              <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80" alt="Sky Penthouse" class="preset-thumb" onclick="selectPresetImage('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80')">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80" alt="Royal Waterfront" class="preset-thumb" onclick="selectPresetImage('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80')">
+            </div>
+          </div>
+
+          <!-- 2. Video Tour Upload -->
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>Property Video Tour (Optional)</span>
+              <span style="font-size: 0.7rem; color: var(--gold-light);">MP4, WEBM, MOV (Up to 100MB)</span>
+            </label>
+            
+            <input type="file" id="videoFileInput" accept="video/mp4,video/webm,video/quicktime,video/x-m4v" style="display: none;">
+            
+            <div id="videoDropzone" class="upload-dropzone">
+              <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+              <div class="dropzone-title">Drag &amp; Drop Video or Browse</div>
+              <div class="dropzone-hint">Upload 4K / HD property walkthrough</div>
+            </div>
+
+            <div id="videoUploadProgress" class="upload-progress-wrapper">
+              <div id="videoProgressFill" class="upload-progress-fill"></div>
+            </div>
+
+            <div id="videoPreviewContainer" class="media-preview-container" style="display: none;">
+              <video id="videoPreviewPlayer" controls playsinline preload="metadata"></video>
+              <button type="button" id="btnRemoveVideo" class="btn-remove-media" title="Remove Video">&times;</button>
+            </div>
+
+            <input type="text" id="videoUrl" class="form-input" style="margin-top: 8px; font-size: 0.8rem;" placeholder="Upload above or enter video URL (e.g. /uploads/... or https://...)">
+            <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; display: block;">Video will appear on portfolio card and detail modal.</span>
           </div>
         </div>
 

@@ -10,7 +10,9 @@ const propertySchema = new mongoose.Schema({
   bathrooms: { type: Number, required: true },
   area: { type: Number, required: true }, // in sq ft or sqm
   imageUrl: { type: String, required: true },
-  status: { type: String, default: 'Available' } // 'Available', 'Sold', 'Rented'
+  videoUrl: { type: String, default: '' },
+  gallery: [{ type: String }],
+  status: { type: String, default: 'Available' } // 'Available', 'Sold', 'Rented', 'Reserved', 'Off-Market'
 }, { timestamps: true });
 
 module.exports = mongoose.model('Property', propertySchema);

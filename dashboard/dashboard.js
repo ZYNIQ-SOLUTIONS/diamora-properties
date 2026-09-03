@@ -334,7 +334,7 @@ function renderPropertiesTable(list) {
 
     // Format Image Path for preview inside dashboard/
     let imgSrc = prop.imageUrl || 'assets/properties/palm-villa.jpg';
-    if (!imgSrc.startsWith('http') && !imgSrc.startsWith('../')) {
+    if (!imgSrc.startsWith('http') && !imgSrc.startsWith('/') && !imgSrc.startsWith('../')) {
       imgSrc = '../' + imgSrc;
     }
 
@@ -343,13 +343,14 @@ function renderPropertiesTable(list) {
     const safeType = escapeHtml(prop.propertyType || 'Villa');
     const safeStatus = escapeHtml(prop.status || 'Available');
     const safeId = escapeHtml(prop._id || '');
+    const videoBadge = prop.videoUrl && prop.videoUrl.trim() ? '<span class="badge-video-tour" title="Includes Walkthrough Video Tour">🎥 Video</span>' : '';
 
     tr.innerHTML = `
       <td>
         <div class="prop-cell-title">
           <img src="${imgSrc}" alt="${safeTitle}" class="prop-cell-thumb" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&q=80'">
           <div>
-            <div class="prop-cell-name">${safeTitle}</div>
+            <div class="prop-cell-name">${safeTitle} ${videoBadge}</div>
             <div class="prop-cell-meta">${prop.area ? Number(prop.area).toLocaleString() + ' sq ft' : ''}</div>
           </div>
         </div>
@@ -559,6 +560,9 @@ function initEventListeners() {
   if (propertyForm) {
     propertyForm.addEventListener('submit', handlePropertySubmit);
   }
+
+  // Initialize Media Upload Dropzones (Images & Videos)
+  initMediaUploadListeners();
 
   // Property Search
   if (propSearchInput) {
@@ -786,6 +790,191 @@ async function handleLogin(e) {
   submitBtn.innerHTML = '<span>Enter Portal</span>';
 }
 
+// Preset image selection
+window.selectPresetImage = function(url) {
+  const imgInput = document.getElementById('imageUrl');
+  if (imgInput) imgInput.value = url;
+  updateImagePreview(url);
+};
+
+function updateImagePreview(url) {
+  const container = document.getElementById('imagePreviewContainer');
+  const img = document.getElementById('imagePreviewImg');
+  if (!container || !img) return;
+  if (url && url.trim()) {
+    let src = url.trim();
+    if (!src.startsWith('http') && !src.startsWith('/') && !src.startsWith('../')) {
+      src = '../' + src;
+    }
+    img.src = src;
+    container.style.display = 'block';
+  } else {
+    img.src = '';
+    container.style.display = 'none';
+  }
+}
+
+function updateVideoPreview(url) {
+  const container = document.getElementById('videoPreviewContainer');
+  const video = document.getElementById('videoPreviewPlayer');
+  if (!container || !video) return;
+  if (url && url.trim()) {
+    video.src = url.trim();
+    container.style.display = 'block';
+  } else {
+    video.src = '';
+    container.style.display = 'none';
+  }
+}
+
+async function handleFileUpload(file, mediaType) {
+  if (!file) return;
+
+  const isVideo = mediaType === 'video' || file.type.startsWith('video/');
+  const progressWrapper = document.getElementById(isVideo ? 'videoUploadProgress' : 'imageUploadProgress');
+  const progressFill = document.getElementById(isVideo ? 'videoProgressFill' : 'imageProgressFill');
+
+  if (progressWrapper) progressWrapper.style.display = 'block';
+  if (progressFill) progressFill.style.width = '30%';
+
+  const token = localStorage.getItem('diamora_token');
+  if (!token) {
+    showToast('Session expired. Please log in again.');
+    if (progressWrapper) progressWrapper.style.display = 'none';
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    if (progressFill) progressFill.style.width = '60%';
+    const res = await fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (progressFill) progressFill.style.width = '90%';
+    const data = await res.json();
+
+    if (res.ok && data.url) {
+      if (progressFill) progressFill.style.width = '100%';
+      if (isVideo) {
+        document.getElementById('videoUrl').value = data.url;
+        updateVideoPreview(data.url);
+        showToast('Property video uploaded successfully');
+      } else {
+        document.getElementById('imageUrl').value = data.url;
+        updateImagePreview(data.url);
+        showToast('Property image uploaded successfully');
+      }
+    } else {
+      showToast(data.message || 'Media upload failed');
+    }
+  } catch (err) {
+    console.error('Media upload error:', err);
+    showToast('Failed to upload media. Check server connection.');
+  } finally {
+    setTimeout(() => {
+      if (progressWrapper) progressWrapper.style.display = 'none';
+      if (progressFill) progressFill.style.width = '0%';
+    }, 600);
+  }
+}
+
+function initMediaUploadListeners() {
+  // Image Upload
+  const imageDropzone = document.getElementById('imageDropzone');
+  const imageFileInput = document.getElementById('imageFileInput');
+  const imageUrlInput = document.getElementById('imageUrl');
+  const btnRemoveImage = document.getElementById('btnRemoveImage');
+
+  if (imageDropzone && imageFileInput) {
+    imageDropzone.addEventListener('click', () => imageFileInput.click());
+    
+    imageDropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      imageDropzone.classList.add('dragover');
+    });
+
+    imageDropzone.addEventListener('dragleave', () => {
+      imageDropzone.classList.remove('dragover');
+    });
+
+    imageDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      imageDropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFileUpload(e.dataTransfer.files[0], 'image');
+      }
+    });
+
+    imageFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleFileUpload(e.target.files[0], 'image');
+      }
+    });
+  }
+
+  if (imageUrlInput) {
+    imageUrlInput.addEventListener('input', (e) => updateImagePreview(e.target.value));
+  }
+
+  if (btnRemoveImage) {
+    btnRemoveImage.addEventListener('click', () => {
+      if (imageUrlInput) imageUrlInput.value = '';
+      updateImagePreview('');
+    });
+  }
+
+  // Video Upload
+  const videoDropzone = document.getElementById('videoDropzone');
+  const videoFileInput = document.getElementById('videoFileInput');
+  const videoUrlInput = document.getElementById('videoUrl');
+  const btnRemoveVideo = document.getElementById('btnRemoveVideo');
+
+  if (videoDropzone && videoFileInput) {
+    videoDropzone.addEventListener('click', () => videoFileInput.click());
+
+    videoDropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      videoDropzone.classList.add('dragover');
+    });
+
+    videoDropzone.addEventListener('dragleave', () => {
+      videoDropzone.classList.remove('dragover');
+    });
+
+    videoDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      videoDropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFileUpload(e.dataTransfer.files[0], 'video');
+      }
+    });
+
+    videoFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleFileUpload(e.target.files[0], 'video');
+      }
+    });
+  }
+
+  if (videoUrlInput) {
+    videoUrlInput.addEventListener('input', (e) => updateVideoPreview(e.target.value));
+  }
+
+  if (btnRemoveVideo) {
+    btnRemoveVideo.addEventListener('click', () => {
+      if (videoUrlInput) videoUrlInput.value = '';
+      updateVideoPreview('');
+    });
+  }
+}
+
 /**
  * =========================================================================
  * PROPERTY CRUD ACTIONS
@@ -794,6 +983,9 @@ async function handleLogin(e) {
 function openAddModal() {
   propertyForm.reset();
   document.getElementById('property-id').value = '';
+  if (document.getElementById('videoUrl')) document.getElementById('videoUrl').value = '';
+  updateImagePreview('');
+  updateVideoPreview('');
   modalTitle.textContent = 'Add New Luxury Property';
   propertyModal.classList.add('open');
 }
@@ -812,7 +1004,13 @@ function openEditModal(id) {
   document.getElementById('bathrooms').value = prop.bathrooms || '';
   document.getElementById('area').value = prop.area || '';
   document.getElementById('imageUrl').value = prop.imageUrl || '';
+  if (document.getElementById('videoUrl')) {
+    document.getElementById('videoUrl').value = prop.videoUrl || '';
+  }
   document.getElementById('description').value = prop.description || '';
+
+  updateImagePreview(prop.imageUrl || '');
+  updateVideoPreview(prop.videoUrl || '');
 
   modalTitle.textContent = 'Edit Property Asset';
   propertyModal.classList.add('open');
@@ -835,6 +1033,7 @@ async function handlePropertySubmit(e) {
     bathrooms: Number(document.getElementById('bathrooms').value),
     area: Number(document.getElementById('area').value),
     imageUrl: document.getElementById('imageUrl').value.trim(),
+    videoUrl: document.getElementById('videoUrl') ? document.getElementById('videoUrl').value.trim() : '',
     description: document.getElementById('description').value.trim()
   };
 

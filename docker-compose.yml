@@ -34,6 +34,8 @@ services:
       MONGO_URI: ${MONGO_URI:-mongodb://mongodb:27017/diamora}
       JWT_SECRET: ${JWT_SECRET:-diamora_super_secret_jwt_key_prod_2026}
       AUTO_SEED: ${AUTO_SEED:-true}
+    volumes:
+      - uploads_data:/app/uploads
     depends_on:
       mongodb:
         condition: service_healthy
@@ -55,6 +57,8 @@ services:
       dockerfile: Dockerfile
     container_name: diamora_web
     restart: always
+    volumes:
+      - uploads_data:/usr/share/nginx/html/uploads
     depends_on:
       api:
         condition: service_healthy
@@ -103,6 +107,8 @@ services:
 volumes:
   mongodb_data:
     name: diamora_mongodb_data
+  uploads_data:
+    name: diamora_uploads_data
   caddy_data:
     name: diamora_caddy_data
   caddy_config:

@@ -115,7 +115,7 @@ const blogPostSchema = new mongoose.Schema({
 });
 
 // Auto-generate slug from title before saving
-blogPostSchema.pre('validate', async function(next) {
+blogPostSchema.pre('validate', async function() {
   if (this.isNew || this.isModified('title')) {
     if (!this.slug) {
       let baseSlug = generateSlug(this.title);
@@ -150,8 +150,6 @@ blogPostSchema.pre('validate', async function(next) {
   if (!this.seoDescription && this.excerpt) {
     this.seoDescription = this.excerpt.substring(0, 160);
   }
-
-  next();
 });
 
 // Index for full-text search

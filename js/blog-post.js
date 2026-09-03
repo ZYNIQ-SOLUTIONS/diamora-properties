@@ -54,7 +54,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const rawContent = post.content || '';
     if (window.marked && typeof window.marked.parse === 'function') {
-      document.getElementById('post-content').innerHTML = window.marked.parse(rawContent);
+      try {
+        document.getElementById('post-content').innerHTML = window.marked.parse(rawContent, { gfm: true, breaks: true });
+      } catch (err) {
+        document.getElementById('post-content').innerHTML = rawContent;
+      }
     } else {
       document.getElementById('post-content').innerHTML = rawContent;
     }

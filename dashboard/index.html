@@ -609,7 +609,7 @@
         <!-- Markdown Editor for Blog Content -->
         <div class="form-group" style="margin-bottom: 16px;">
           <div class="md-editor-header">
-            <label class="form-label" style="margin-bottom: 0;">Article Content (Markdown)</label>
+            <label class="form-label" style="margin-bottom: 0;">Article Content (Markdown, Plain Text, or HTML)</label>
             <div class="md-mode-switch">
               <button type="button" class="md-mode-btn active" id="btn-md-write" onclick="switchMdMode('write')">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
@@ -642,10 +642,12 @@
             </div>
 
             <!-- Textarea for Writing -->
-            <textarea id="blog-content" class="form-textarea md-textarea" rows="12" placeholder="Write your editorial content here using simple Markdown...
+            <textarea id="blog-content" class="form-textarea md-textarea" rows="12" placeholder="Write in Markdown, plain text, or paste custom HTML tags...
 
-## Market Analysis Overview
+## 1. Market Analysis Overview
 Dubai's luxury real estate sector continues to demonstrate solid capital appreciation.
+
+<p>You can also use custom <strong>HTML tags</strong>, styling, or tables directly.</p>
 
 ### Key Highlights
 - Ultra-high-net-worth investor influx
@@ -656,7 +658,7 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
             <!-- Live Rendered Preview -->
             <div id="blog-preview-pane" class="md-preview-pane" style="display: none;"></div>
           </div>
-          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; display: block;">Supports Markdown formatting (bold, headings, bullet lists, quotes, images). Click 'Live Preview' to inspect article rendering before saving.</span>
+          <span style="font-size: 0.72rem; color: var(--text-muted); margin-top: 6px; display: block;">Accepts Markdown, plain text, and custom HTML4/5 tags (headings, bold, lists, quotes, tables, divs). Click 'Live Preview' to inspect before saving.</span>
         </div>
 
         <div class="form-group" style="margin-bottom: 16px;">

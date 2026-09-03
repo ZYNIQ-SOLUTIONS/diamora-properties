@@ -1578,12 +1578,16 @@ function switchMdMode(mode) {
   if (!textarea || !previewPane) return;
 
   if (mode === 'preview') {
-    const rawMarkdown = textarea.value || '';
+    const rawContent = textarea.value || '';
     let renderedHtml = '';
     if (window.marked && typeof window.marked.parse === 'function') {
-      renderedHtml = window.marked.parse(rawMarkdown);
+      try {
+        renderedHtml = window.marked.parse(rawContent, { gfm: true, breaks: true });
+      } catch (err) {
+        renderedHtml = rawContent;
+      }
     } else {
-      renderedHtml = rawMarkdown.replace(/\n/g, '<br>');
+      renderedHtml = rawContent.replace(/\n/g, '<br>');
     }
 
     previewPane.innerHTML = renderedHtml || '<p style="color: var(--text-muted); font-style: italic;">No content written yet. Switch back to Write mode to draft your article.</p>';

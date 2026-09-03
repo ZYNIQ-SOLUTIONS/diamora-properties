@@ -52,7 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
     img.src = post.coverImage || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';
     img.alt = post.title;
 
-    document.getElementById('post-content').innerHTML = post.content || '';
+    const rawContent = post.content || '';
+    if (window.marked && typeof window.marked.parse === 'function') {
+      document.getElementById('post-content').innerHTML = window.marked.parse(rawContent);
+    } else {
+      document.getElementById('post-content').innerHTML = rawContent;
+    }
 
     // Scroll progress bar
     const progressBar = document.getElementById('reading-progress');

@@ -1503,6 +1503,7 @@ function openBlogModal(id = null) {
     document.getElementById('blog-id').value = '';
     updateBlogImagePreview('');
   }
+  switchMdMode('write');
   blogModal.style.display = 'flex';
 }
 
@@ -1567,6 +1568,113 @@ async function deleteBlogPost(id) {
   }
 }
 
-// Expose modal and delete handlers to global window
+function switchMdMode(mode) {
+  const textarea = document.getElementById('blog-content');
+  const previewPane = document.getElementById('blog-preview-pane');
+  const toolbar = document.getElementById('md-toolbar');
+  const btnWrite = document.getElementById('btn-md-write');
+  const btnPreview = document.getElementById('btn-md-preview');
+
+  if (!textarea || !previewPane) return;
+
+  if (mode === 'preview') {
+    const rawMarkdown = textarea.value || '';
+    let renderedHtml = '';
+    if (window.marked && typeof window.marked.parse === 'function') {
+      renderedHtml = window.marked.parse(rawMarkdown);
+    } else {
+      renderedHtml = rawMarkdown.replace(/\n/g, '<br>');
+    }
+
+    previewPane.innerHTML = renderedHtml || '<p style="color: var(--text-muted); font-style: italic;">No content written yet. Switch back to Write mode to draft your article.</p>';
+    textarea.style.display = 'none';
+    previewPane.style.display = 'block';
+    if (toolbar) toolbar.style.opacity = '0.35';
+    if (toolbar) toolbar.style.pointerEvents = 'none';
+    if (btnPreview) btnPreview.classList.add('active');
+    if (btnWrite) btnWrite.classList.remove('active');
+  } else {
+    textarea.style.display = 'block';
+    previewPane.style.display = 'none';
+    if (toolbar) toolbar.style.opacity = '1';
+    if (toolbar) toolbar.style.pointerEvents = 'auto';
+    if (btnWrite) btnWrite.classList.add('active');
+    if (btnPreview) btnPreview.classList.remove('active');
+    textarea.focus();
+  }
+}
+
+function insertMarkdown(syntax) {
+  const textarea = document.getElementById('blog-content');
+  if (!textarea) return;
+
+  // Make sure we are in write mode
+  switchMdMode('write');
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const val = textarea.value;
+  const selectedText = val.substring(start, end);
+
+  let replacement = '';
+  let cursorOffset = 0;
+
+  switch (syntax) {
+    case 'h2':
+      replacement = `\n## ${selectedText || 'Section Heading'}\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'h3':
+      replacement = `\n### ${selectedText || 'Subsection Title'}\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'bold':
+      replacement = `**${selectedText || 'bold text'}**`;
+      cursorOffset = selectedText ? replacement.length : 2;
+      break;
+    case 'italic':
+      replacement = `*${selectedText || 'italic text'}*`;
+      cursorOffset = selectedText ? replacement.length : 1;
+      break;
+    case 'quote':
+      replacement = `\n> ${selectedText || 'Editorial quote or key takeaway'}\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'ul':
+      replacement = `\n- ${selectedText || 'Key investment pillar'}\n- Second strategic advantage\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'ol':
+      replacement = `\n1. ${selectedText || 'Prime location overview'}\n2. Capital appreciation forecast\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'code':
+      replacement = `\n\`\`\`\n${selectedText || '// Market data or financial metric'}\n\`\`\`\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'link':
+      replacement = selectedText ? `[${selectedText}](https://example.com)` : `[Link Description](https://example.com)`;
+      cursorOffset = replacement.length - 1;
+      break;
+    case 'image':
+      replacement = `\n![${selectedText || 'Luxury Property Image'}](https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80)\n`;
+      cursorOffset = replacement.length;
+      break;
+    case 'hr':
+      replacement = `\n\n---\n\n`;
+      cursorOffset = replacement.length;
+      break;
+    default:
+      return;
+  }
+
+  textarea.value = val.substring(0, start) + replacement + val.substring(end);
+  textarea.focus();
+  textarea.setSelectionRange(start + cursorOffset, start + cursorOffset);
+}
+
+// Expose modal, delete, and editor handlers to global window
 window.openBlogModal = openBlogModal;
 window.deleteBlogPost = deleteBlogPost;
+window.switchMdMode = switchMdMode;
+window.insertMarkdown = insertMarkdown;

@@ -11,7 +11,7 @@ RUN rm -rf /etc/nginx/conf.d/default.conf /usr/share/nginx/html/*
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copy static assets and HTML files
-COPY index.html properties.html privacy.html terms.html aml.html cookies.html 404.html favicon.ico manifest.json robots.txt sitemap.xml /usr/share/nginx/html/
+COPY index.html properties.html blog.html blog-post.html privacy.html terms.html aml.html cookies.html 404.html favicon.ico manifest.json robots.txt sitemap.xml /usr/share/nginx/html/
 COPY css/ /usr/share/nginx/html/css/
 COPY js/ /usr/share/nginx/html/js/
 COPY assets/ /usr/share/nginx/html/assets/

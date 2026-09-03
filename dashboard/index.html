@@ -269,6 +269,38 @@
               <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;">Restore original luxury UAE properties and mock inquiries into local storage cache.</p>
               <button type="button" id="btn-reset-data" class="btn-secondary" style="width: 100%;">Reload Default Sample Data</button>
             </div>
+
+            <!-- Create New Admin Card -->
+            <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">Create New Administrator</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Provision a new admin account with full property &amp; lead access:</p>
+              <form id="form-create-admin">
+                <div style="margin-bottom: 8px;">
+                  <input type="text" id="new-admin-username" class="form-input" style="font-size: 0.82rem;" placeholder="Username (e.g. manager)" required>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <input type="password" id="new-admin-password" class="form-input" style="font-size: 0.82rem;" placeholder="Password (min 6 characters)" required minlength="6">
+                </div>
+                <button type="submit" id="btn-create-admin" class="btn-primary" style="width: 100%;">Create Admin User</button>
+                <div id="create-admin-result" style="margin-top: 10px; font-size: 0.78rem;"></div>
+              </form>
+            </div>
+
+            <!-- Change Password Card -->
+            <div style="background: var(--bg-card); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <h4 style="font-size: 0.92rem; margin-bottom: 8px; color: var(--gold-light);">Change Password</h4>
+              <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">Update credentials for the currently logged-in account:</p>
+              <form id="form-change-password">
+                <div style="margin-bottom: 8px;">
+                  <input type="password" id="current-password" class="form-input" style="font-size: 0.82rem;" placeholder="Current Password" required>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <input type="password" id="new-password" class="form-input" style="font-size: 0.82rem;" placeholder="New Password (min 6 characters)" required minlength="6">
+                </div>
+                <button type="submit" id="btn-change-password" class="btn-secondary" style="width: 100%;">Update Password</button>
+                <div id="change-password-result" style="margin-top: 10px; font-size: 0.78rem;"></div>
+              </form>
+            </div>
           </div>
         </div>
       </section>

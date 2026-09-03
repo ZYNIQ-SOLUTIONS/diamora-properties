@@ -22,8 +22,8 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
 function getDiamoraApiEndpoint() {
   const custom = localStorage.getItem('diamora_api_endpoint');
   if (custom && custom.trim()) return custom.trim().replace(/\/+$/, '');
-  if (window.location.protocol === 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return ''; // Secure static standalone mode
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return window.location.origin + '/api';
   }
   return 'http://localhost:5000/api';
 }

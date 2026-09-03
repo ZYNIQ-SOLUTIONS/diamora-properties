@@ -66,6 +66,17 @@ case "$1" in
     docker compose exec api node seed_data.js
     ;;
 
+  create-admin)
+    print_banner
+    if [ -z "$2" ] || [ -z "$3" ]; then
+      echo -e "${RED}❌ Error: Username and password are required.${NC}"
+      echo "Usage: ./deploy.sh create-admin <username> <password>"
+      exit 1
+    fi
+    echo -e "${GREEN}👤 Creating/updating admin user: $2...${NC}"
+    docker compose exec api node create_admin.js "$2" "$3"
+    ;;
+
   backup)
     print_banner
     BACKUP_DIR="./backups"
@@ -81,13 +92,14 @@ case "$1" in
     echo "Usage: ./deploy.sh [command]"
     echo ""
     echo "Commands:"
-    echo "  up        Build and start all production containers in background"
-    echo "  down      Stop containers (preserves persistent MongoDB volume)"
-    echo "  restart   Restart all running containers"
-    echo "  logs      Follow live container logs (e.g. ./deploy.sh logs api)"
-    echo "  status    Show status and health of all containers"
-    echo "  seed      Execute database initial seeding"
-    echo "  backup    Create a timestamped MongoDB archive backup"
+    echo "  up             Build and start all production containers in background"
+    echo "  down           Stop containers (preserves persistent MongoDB volume)"
+    echo "  restart        Restart all running containers"
+    echo "  logs           Follow live container logs (e.g. ./deploy.sh logs api)"
+    echo "  status         Show status and health of all containers"
+    echo "  seed           Execute database initial seeding"
+    echo "  create-admin   Create/update an admin account (./deploy.sh create-admin user pass)"
+    echo "  backup         Create a timestamped MongoDB archive backup"
     echo ""
     ;;
 esac

@@ -8,8 +8,8 @@
 function getApiBase() {
   const custom = localStorage.getItem('diamora_api_endpoint');
   if (custom && custom.trim()) return custom.trim().replace(/\/+$/, '');
-  if (window.location.protocol === 'https:' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return ''; // Prevent Mixed Content error if no backend configured
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return window.location.origin + '/api';
   }
   return 'http://localhost:5000/api';
 }
@@ -682,18 +682,100 @@ function initEventListeners() {
     });
   }
 
-  // Reset Sample Data
-  if (btnResetData) {
-    btnResetData.addEventListener('click', () => {
-      if (confirm('Reset local storage to original sample luxury properties and mock leads?')) {
-        localStorage.setItem('diamora_properties', JSON.stringify(DEFAULT_SAMPLE_PROPERTIES));
-        localStorage.setItem('diamora_inquiries', JSON.stringify(DEFAULT_SAMPLE_INQUIRIES));
-        properties = [...DEFAULT_SAMPLE_PROPERTIES];
-        inquiries = [...DEFAULT_SAMPLE_INQUIRIES];
-        renderPropertiesTable(properties);
-        renderInquiriesTable(inquiries);
-        updateMetricCards();
-        showToast('Sample dataset restored successfully');
+  // Create New Admin Form
+  const formCreateAdmin = document.getElementById('form-create-admin');
+  if (formCreateAdmin) {
+    formCreateAdmin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usernameInput = document.getElementById('new-admin-username');
+      const passwordInput = document.getElementById('new-admin-password');
+      const resultDiv = document.getElementById('create-admin-result');
+      const btn = document.getElementById('btn-create-admin');
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      const token = localStorage.getItem('diamora_token');
+
+      if (!token) {
+        resultDiv.innerHTML = '<span style="color: #f87171;">⚠️ Session expired. Please log in again.</span>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Creating...';
+      resultDiv.innerHTML = '';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/create-admin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          resultDiv.innerHTML = `<span style="color: var(--emerald-accent);">✅ ${escapeHtml(data.message)}</span>`;
+          formCreateAdmin.reset();
+          showToast(`Admin "${username}" created`);
+        } else {
+          resultDiv.innerHTML = `<span style="color: #f87171;">⚠️ ${escapeHtml(data.message || 'Failed to create admin')}</span>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = `<span style="color: #f87171;">⚠️ Error connecting to server</span>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Create Admin User';
+      }
+    });
+  }
+
+  // Change Password Form
+  const formChangePassword = document.getElementById('form-change-password');
+  if (formChangePassword) {
+    formChangePassword.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const currentPassInput = document.getElementById('current-password');
+      const newPassInput = document.getElementById('new-password');
+      const resultDiv = document.getElementById('change-password-result');
+      const btn = document.getElementById('btn-change-password');
+
+      const currentPassword = currentPassInput.value.trim();
+      const newPassword = newPassInput.value.trim();
+      const token = localStorage.getItem('diamora_token');
+
+      if (!token) {
+        resultDiv.innerHTML = '<span style="color: #f87171;">⚠️ Session expired. Please log in again.</span>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Updating...';
+      resultDiv.innerHTML = '';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/change-password`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          resultDiv.innerHTML = `<span style="color: var(--emerald-accent);">✅ ${escapeHtml(data.message)}</span>`;
+          formChangePassword.reset();
+          showToast('Password updated successfully');
+        } else {
+          resultDiv.innerHTML = `<span style="color: #f87171;">⚠️ ${escapeHtml(data.message || 'Failed to update password')}</span>`;
+        }
+      } catch (err) {
+        resultDiv.innerHTML = `<span style="color: #f87171;">⚠️ Error connecting to server</span>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Update Password';
       }
     });
   }

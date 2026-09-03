@@ -414,6 +414,7 @@
       <ul class="nav-links" style="display: flex; gap: 28px; list-style: none;">
         <li><a href="index.html" class="nav-link" style="color: #FDFBF7;">Home</a></li>
         <li><a href="properties.html" class="nav-link active" style="color: #D4AF37; font-weight: 600;">Portfolio</a></li>
+        <li><a href="blog.html" class="nav-link" style="color: #FDFBF7;">Blog</a></li>
         <li><a href="index.html#about" class="nav-link" style="color: #FDFBF7;">About</a></li>
         <li><a href="index.html#location-map" class="nav-link" style="color: #FDFBF7;">Locations</a></li>
         <li><a href="index.html#why-diamora" class="nav-link" style="color: #FDFBF7;">Advisory</a></li>
@@ -424,7 +425,25 @@
           <span>Book Consultation</span>
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
+        <button class="nav-hamburger" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="ham-line ham-line-1"></span>
+          <span class="ham-line ham-line-2"></span>
+          <span class="ham-line ham-line-3"></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+      <ul role="list">
+        <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+        <li><a href="properties.html" class="mobile-nav-link active">Portfolio</a></li>
+        <li><a href="blog.html" class="mobile-nav-link">Blog &amp; Insights</a></li>
+        <li><a href="index.html#about" class="mobile-nav-link">About Us</a></li>
+        <li><a href="index.html#location-map" class="mobile-nav-link">Locations</a></li>
+        <li><a href="index.html#why-diamora" class="mobile-nav-link">Advisory</a></li>
+        <li><a href="index.html#consult" class="mobile-nav-link mobile-nav-cta">Book a Consultation</a></li>
+      </ul>
     </div>
   </header>
 
@@ -578,6 +597,7 @@
           <ul class="footer-nav-list" role="list">
             <li><a href="properties.html" class="footer-nav-link">Signature Portfolio</a></li>
             <li><a href="index.html#properties" class="footer-nav-link">Featured Residences</a></li>
+            <li><a href="blog.html" class="footer-nav-link">Market Insights &amp; Blog</a></li>
             <li><a href="index.html#about" class="footer-nav-link">About Diamora Properties</a></li>
             <li><a href="index.html#why-diamora" class="footer-nav-link">UAE Golden Visa Advisory</a></li>
             <li><a href="index.html#location-map" class="footer-nav-link">Strategic Location Map</a></li>
@@ -1033,6 +1053,26 @@
       }
       if (modal) modal.classList.remove('open');
     };
+
+    // Mobile Navigation Toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (navToggle && mobileMenu) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+        navToggle.classList.toggle('active', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('open');
+          navToggle.classList.remove('active');
+          navToggle.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    }
   </script>
 
   <!-- Video Tour Modal -->

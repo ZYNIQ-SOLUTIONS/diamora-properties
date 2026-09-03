@@ -34,6 +34,7 @@ services:
       MONGO_URI: ${MONGO_URI:-mongodb://mongodb:27017/diamora}
       JWT_SECRET: ${JWT_SECRET:-diamora_super_secret_jwt_key_prod_2026}
       AUTO_SEED: ${AUTO_SEED:-true}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
     volumes:
       - uploads_data:/app/uploads
     depends_on:

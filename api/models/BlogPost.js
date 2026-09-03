@@ -82,13 +82,13 @@ const blogPostSchema = new mongoose.Schema({
   seoTitle: {
     type: String,
     trim: true,
-    maxlength: 70,
+    maxlength: 120,
     default: ''
   },
   seoDescription: {
     type: String,
     trim: true,
-    maxlength: 160,
+    maxlength: 200,
     default: ''
   },
   seoKeywords: {
@@ -145,10 +145,11 @@ blogPostSchema.pre('validate', async function() {
 
   // Default SEO fields from post data
   if (!this.seoTitle && this.title) {
-    this.seoTitle = `${this.title} | Diamora Properties`;
+    const full = `${this.title} | Diamora Properties`;
+    this.seoTitle = full.length > 120 ? full.substring(0, 117) + '...' : full;
   }
   if (!this.seoDescription && this.excerpt) {
-    this.seoDescription = this.excerpt.substring(0, 160);
+    this.seoDescription = this.excerpt.substring(0, 200);
   }
 });
 

@@ -40,7 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update DOM
     document.getElementById('post-category').textContent = post.category;
-    document.getElementById('post-title').textContent = post.title;
+    const titleEl = document.getElementById('post-title');
+    titleEl.textContent = post.title;
+    titleEl.setAttribute('dir', 'auto');
     
     const date = new Date(post.publishedAt || post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     document.getElementById('post-date').textContent = date;
@@ -52,16 +54,31 @@ document.addEventListener('DOMContentLoaded', () => {
     img.src = post.coverImage || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';
     img.alt = post.title;
 
-    const rawContent = post.content || '';
+    const postContentEl = document.getElementById('post-content');
+    postContentEl.setAttribute('dir', 'auto');
+    postContentEl.innerHTML = renderDiamoraArticleContent(post.content || '');
+
+  function renderDiamoraArticleContent(raw) {
+    if (!raw || !raw.trim()) return '';
+    const trimmed = raw.trim();
+
+    // If content contains standard HTML block tags, render as direct clean HTML
+    const hasHtmlTags = /<\/?(div|p|h[1-6]|ul|ol|li|table|tr|td|th|article|section|blockquote|header|footer|span|strong|b|em|i|img)[\s>]/i.test(trimmed);
+    if (hasHtmlTags) {
+      return trimmed;
+    }
+
+    // Otherwise render as Markdown
     if (window.marked && typeof window.marked.parse === 'function') {
       try {
-        document.getElementById('post-content').innerHTML = window.marked.parse(rawContent, { gfm: true, breaks: true });
+        return window.marked.parse(trimmed, { gfm: true, breaks: true });
       } catch (err) {
-        document.getElementById('post-content').innerHTML = rawContent;
+        return trimmed.replace(/\n/g, '<br>');
       }
-    } else {
-      document.getElementById('post-content').innerHTML = rawContent;
     }
+
+    return trimmed.replace(/\n/g, '<br>');
+  }
 
     // Scroll progress bar
     const progressBar = document.getElementById('reading-progress');

@@ -1568,6 +1568,28 @@ async function deleteBlogPost(id) {
   }
 }
 
+function renderDiamoraArticleContent(raw) {
+  if (!raw || !raw.trim()) return '';
+  const trimmed = raw.trim();
+
+  // If content contains standard HTML block/inline tags, render as direct clean HTML
+  const hasHtmlTags = /<\/?(div|p|h[1-6]|ul|ol|li|table|tr|td|th|article|section|blockquote|header|footer|span|strong|b|em|i|img)[\s>]/i.test(trimmed);
+  if (hasHtmlTags) {
+    return trimmed;
+  }
+
+  // Otherwise render as Markdown
+  if (window.marked && typeof window.marked.parse === 'function') {
+    try {
+      return window.marked.parse(trimmed, { gfm: true, breaks: true });
+    } catch (err) {
+      return trimmed.replace(/\n/g, '<br>');
+    }
+  }
+
+  return trimmed.replace(/\n/g, '<br>');
+}
+
 function switchMdMode(mode) {
   const textarea = document.getElementById('blog-content');
   const previewPane = document.getElementById('blog-preview-pane');
@@ -1579,17 +1601,9 @@ function switchMdMode(mode) {
 
   if (mode === 'preview') {
     const rawContent = textarea.value || '';
-    let renderedHtml = '';
-    if (window.marked && typeof window.marked.parse === 'function') {
-      try {
-        renderedHtml = window.marked.parse(rawContent, { gfm: true, breaks: true });
-      } catch (err) {
-        renderedHtml = rawContent;
-      }
-    } else {
-      renderedHtml = rawContent.replace(/\n/g, '<br>');
-    }
+    const renderedHtml = renderDiamoraArticleContent(rawContent);
 
+    previewPane.setAttribute('dir', 'auto');
     previewPane.innerHTML = renderedHtml || '<p style="color: var(--text-muted); font-style: italic;">No content written yet. Switch back to Write mode to draft your article.</p>';
     textarea.style.display = 'none';
     previewPane.style.display = 'block';

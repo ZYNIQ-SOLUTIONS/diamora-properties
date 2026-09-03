@@ -208,6 +208,41 @@ body.blog-page {
   color: #FFF;
 }
 
+.post-content[dir="rtl"] blockquote,
+.post-content[dir="auto"]:dir(rtl) blockquote {
+  border-left: none;
+  border-right: 2px solid var(--blog-gold);
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+.post-content ul, .post-content ol {
+  margin: 16px 0 24px 24px;
+}
+
+.post-content[dir="rtl"] ul, 
+.post-content[dir="rtl"] ol,
+.post-content[dir="auto"]:dir(rtl) ul,
+.post-content[dir="auto"]:dir(rtl) ol {
+  margin: 16px 24px 24px 0;
+}
+
+.post-content li {
+  margin-bottom: 10px;
+}
+
+.post-content strong, .post-content b {
+  color: #FFF;
+}
+
+.post-content[dir="rtl"],
+.post-title[dir="rtl"],
+.post-content[dir="auto"]:dir(rtl),
+.post-title[dir="auto"]:dir(rtl) {
+  text-align: right;
+  direction: rtl;
+}
+
 .reading-progress {
   position: fixed;
   top: 0;

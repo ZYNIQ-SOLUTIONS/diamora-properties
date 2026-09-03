@@ -6,12 +6,14 @@ const mongoose = require('mongoose');
  */
 
 function generateSlug(title) {
-  return title
+  if (!title) return `post-${Date.now()}`;
+  let clean = title
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s-]/g, '')
+    .replace(/[^\p{L}\p{N}\s-]/gu, '')
     .replace(/[\s_-]+/g, '-')
     .replace(/^-+|-+$/g, '');
+  return clean || `post-${Date.now()}`;
 }
 
 const blogPostSchema = new mongoose.Schema({

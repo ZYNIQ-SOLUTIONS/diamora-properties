@@ -1291,11 +1291,14 @@ if (blogForm) blogForm.addEventListener('submit', handleBlogSubmit);
 async function fetchBlogPosts() {
   if (isLiveApiConnected) {
     try {
-      const res = await fetch(`${API_BASE}/blog?limit=100`);
+      const token = localStorage.getItem('diamora_token');
+      const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+      const res = await fetch(`${API_BASE}/blog?limit=100`, { headers });
       if (res.ok) {
         const data = await res.json();
         blogPosts = data.posts || [];
         renderBlogTable(blogPosts);
+        updateMetricCards();
         return;
       }
     } catch (e) {
@@ -1310,6 +1313,7 @@ async function fetchBlogPosts() {
     blogPosts = [];
   }
   renderBlogTable(blogPosts);
+  updateMetricCards();
 }
 
 function renderBlogTable(list) {
@@ -1323,13 +1327,14 @@ function renderBlogTable(list) {
     const tr = document.createElement('tr');
     let badgeClass = post.status === 'published' ? 'badge-available' : 'badge-offmarket';
     const dateFormatted = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Draft';
+    const postSlug = post.slug || post._id;
     tr.innerHTML = `
       <td>
         <div class="prop-cell-title">
-          <img src="${post.coverImage || 'https://via.placeholder.com/150'}" alt="Cover" class="prop-cell-thumb" onerror="this.src='https://via.placeholder.com/150'">
+          <img src="${post.coverImage || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=150&q=80'}" alt="Cover" class="prop-cell-thumb" onerror="this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=150&q=80'">
           <div>
             <div class="prop-cell-name">${escapeHtml(post.title)}</div>
-            <div class="prop-cell-meta">${dateFormatted}</div>
+            <div class="prop-cell-meta">${dateFormatted} • ${post.author || 'Diamora Properties'}</div>
           </div>
         </div>
       </td>
@@ -1337,7 +1342,8 @@ function renderBlogTable(list) {
       <td><span class="badge ${badgeClass}">${escapeHtml(post.status)}</span></td>
       <td>${post.readTime || 1} min</td>
       <td>${post.views || 0}</td>
-      <td style="text-align: right;">
+      <td style="text-align: right; white-space: nowrap;">
+        <a href="/blog-post.html?slug=${encodeURIComponent(postSlug)}" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="font-size: 0.75rem; padding: 5px 9px; text-decoration: none; display: inline-block; margin-right: 4px; border-radius: var(--radius-xs);">View</a>
         <button type="button" class="btn-edit" onclick="openBlogModal('${post._id}')">Edit</button>
         <button type="button" class="btn-danger" onclick="deleteBlogPost('${post._id}')">Delete</button>
       </td>
@@ -1409,13 +1415,13 @@ async function handleBlogSubmit(e) {
       body: JSON.stringify(data)
     });
     if (res.ok) {
-      showToast('Blog post saved');
+      showToast('Blog post saved successfully');
       closeBlogModal();
       fetchBlogPosts();
       updateMetricCards();
     } else {
       const err = await res.json();
-      showToast('Error: ' + err.message);
+      showToast('Error: ' + (err.message || 'Failed to save post'));
     }
   } catch (error) {
     showToast('Failed to save blog post');
@@ -1423,7 +1429,7 @@ async function handleBlogSubmit(e) {
 }
 
 async function deleteBlogPost(id) {
-  if (!confirm('Delete this blog post?')) return;
+  if (!confirm('Are you sure you want to delete this blog post?')) return;
   const token = localStorage.getItem('diamora_token');
   try {
     const res = await fetch(`${API_BASE}/blog/${id}`, {
@@ -1439,3 +1445,7 @@ async function deleteBlogPost(id) {
     showToast('Delete failed');
   }
 }
+
+// Expose modal and delete handlers to global window
+window.openBlogModal = openBlogModal;
+window.deleteBlogPost = deleteBlogPost;

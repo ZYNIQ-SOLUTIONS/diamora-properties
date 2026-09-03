@@ -2,18 +2,37 @@ const express = require('express');
 const router = express.Router();
 const BlogPost = require('../models/BlogPost');
 const auth = require('../middleware/auth');
+const jwt = require('jsonwebtoken');
 
-// GET /api/blog - List posts (Public, supports pagination, filtering, searching)
+// Helper: Extract user from token if present (does not block unauthenticated)
+function getUserFromToken(req) {
+  const token = req.header('Authorization');
+  if (!token) return null;
+  try {
+    const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET || 'secret');
+    return decoded.user || null;
+  } catch (err) {
+    return null;
+  }
+}
+
+// GET /api/blog - List posts (Public visitors see published; admins see all or filtered)
 router.get('/', async (req, res) => {
   try {
+    const user = getUserFromToken(req);
     const { status, category, tag, search, featured, page = 1, limit = 10 } = req.query;
     
     // Build query
     const query = {};
-    if (status) query.status = status;
-    else if (!req.user) query.status = 'published'; // Public visitors only see published
 
-    if (category) query.category = category;
+    if (status && status !== 'all') {
+      query.status = status;
+    } else if (!user && status !== 'all') {
+      // Public visitors only see published posts
+      query.status = 'published';
+    }
+
+    if (category && category !== 'all') query.category = category;
     if (tag) query.tags = { $in: [tag] };
     if (featured === 'true') query.featured = true;
 
@@ -80,10 +99,22 @@ router.get('/tags', async (req, res) => {
   }
 });
 
-// GET /api/blog/:slug - Get single post by slug (Public)
+// GET /api/blog/:slug - Get single post by slug or ID (Public / Admin preview)
 router.get('/:slug', async (req, res) => {
   try {
-    const post = await BlogPost.findOne({ slug: req.params.slug });
+    const user = getUserFromToken(req);
+    const identifier = req.params.slug;
+
+    const query = identifier.match(/^[0-9a-fA-F]{24}$/)
+      ? { $or: [{ slug: identifier }, { _id: identifier }] }
+      : { slug: identifier };
+
+    // If not admin, require status to be published
+    if (!user) {
+      query.status = 'published';
+    }
+
+    const post = await BlogPost.findOne(query);
     if (!post) {
       return res.status(404).json({ message: 'Blog post not found' });
     }

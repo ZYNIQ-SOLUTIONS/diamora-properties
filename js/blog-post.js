@@ -13,13 +13,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchPost() {
     try {
-      const res = await fetch(`${API_BASE}/blog/${slug}`);
+      const token = localStorage.getItem('diamora_token');
+      const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+      const res = await fetch(`${API_BASE}/blog/${encodeURIComponent(slug)}`, { headers });
       if (!res.ok) throw new Error('Post not found');
       const post = await res.json();
       renderPost(post);
     } catch (err) {
       console.error(err);
-      document.getElementById('post-container').innerHTML = '<p style="text-align:center;padding:100px;">Article not found. <a href="/blog.html">Return to Blog</a></p>';
+      document.getElementById('post-container').innerHTML = `
+        <div style="text-align:center; padding:120px 20px; max-width:600px; margin:0 auto;">
+          <p style="font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--blog-gold); margin-bottom: 12px;">Article Not Found</p>
+          <p style="color: var(--blog-muted); margin-bottom: 24px;">The requested market briefing may have been relocated or updated.</p>
+          <a href="blog.html" style="color: var(--blog-gold); text-decoration: none; border: 1px solid var(--blog-gold); padding: 10px 24px; border-radius: 30px; display: inline-block;">Return to Market Insights</a>
+        </div>
+      `;
     }
   }
 
@@ -37,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const date = new Date(post.publishedAt || post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     document.getElementById('post-date').textContent = date;
     document.getElementById('post-read-time').textContent = `${post.readTime} min read`;
+    const authorEl = document.getElementById('post-author');
+    if (authorEl) authorEl.textContent = post.author || 'Diamora Properties';
     
     const img = document.getElementById('post-hero-img');
     img.src = post.coverImage || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';

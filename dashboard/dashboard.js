@@ -171,7 +171,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   initEventListeners();
 });
 
+let dashboardLivePollTimer = null;
+
 function showLogin() {
+  if (dashboardLivePollTimer) clearInterval(dashboardLivePollTimer);
   loginScreen.style.display = 'flex';
   dashboardScreen.style.display = 'none';
 }
@@ -180,6 +183,16 @@ function showDashboard() {
   loginScreen.style.display = 'none';
   dashboardScreen.style.display = 'flex';
   loadDashboardData();
+
+  // Real-Time Lead Polling (Every 6 seconds)
+  if (dashboardLivePollTimer) clearInterval(dashboardLivePollTimer);
+  dashboardLivePollTimer = setInterval(async () => {
+    const token = localStorage.getItem('diamora_token');
+    if (token && isLiveApiConnected) {
+      await fetchInquiries();
+      updateMetricCards();
+    }
+  }, 6000);
 }
 
 /**

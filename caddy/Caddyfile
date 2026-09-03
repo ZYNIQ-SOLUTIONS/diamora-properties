@@ -1,13 +1,11 @@
 {
     email {$ACME_EMAIL:info@diamora.properties}
-    # Auto-HTTPS enabled
 }
 
-# Domain & IP configuration (supports domain names or server IP)
-{$DOMAIN:157.180.26.64} {
+# 1. Direct Server IP & HTTP Gateway
+:80, 157.180.26.64 {
     encode zstd gzip
 
-    # Reverse proxy to the web Nginx container
     reverse_proxy web:80 {
         header_up Host {host}
         header_up X-Real-IP {remote_host}
@@ -15,7 +13,26 @@
         header_up X-Forwarded-Proto {scheme}
     }
 
-    # Security and caching headers
+    header {
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        X-XSS-Protection "1; mode=block"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+}
+
+# 2. Production Domain(s) - Automatic SSL/TLS Certificate Provisioning & Renewal
+{$DOMAIN:diamora.properties} {
+    encode zstd gzip
+
+    reverse_proxy web:80 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
     header {
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
         X-Content-Type-Options "nosniff"

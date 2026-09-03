@@ -13,11 +13,13 @@ done
 echo "API is online."
 
 # 1. Login to get token
-LOGIN_RES=$(curl -s -X POST $API_URL/auth/login -H "Content-Type: application/json" -d '{"username":"admin","password":"password123"}')
+TEST_USER="${TEST_ADMIN_USER:-manager}"
+TEST_PASS="${TEST_ADMIN_PASS:-DiamoraPass2026!}"
+LOGIN_RES=$(curl -s -X POST $API_URL/auth/login -H "Content-Type: application/json" -d "{\"username\":\"$TEST_USER\",\"password\":\"$TEST_PASS\"}")
 TOKEN=$(echo $LOGIN_RES | grep -o '"token":"[^"]*' | grep -o '[^"]*$')
 
 if [ -z "$TOKEN" ]; then
-  echo "FAIL: Could not authenticate. (Is seed_admin.js run?)"
+  echo "FAIL: Could not authenticate."
   exit 1
 fi
 echo "✅ Authenticated successfully"

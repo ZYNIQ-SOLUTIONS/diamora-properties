@@ -217,15 +217,10 @@ const seedData = async () => {
     await mongoose.connect(mongoURI);
     console.log(`Connected to MongoDB at ${mongoURI}`);
 
-    // 1. Seed Admin User (if none exists)
+    // 1. Check Admin User
     const userCount = await User.countDocuments();
     if (userCount === 0) {
-      const admin = new User({
-        username: 'admin',
-        password: 'password123'
-      });
-      await admin.save();
-      console.log('✅ Default admin user initialized (username="admin")');
+      console.log('ℹ️ No admin accounts found. Create one securely using: docker exec -it diamora_api node create_admin.js <user> <pass>');
     } else {
       console.log(`ℹ️ Admin accounts already exist (${userCount} users)`);
     }

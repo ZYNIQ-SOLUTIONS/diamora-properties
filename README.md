@@ -46,7 +46,7 @@ cd diamora-properties
 Access the deployed platform:
 - **Main Website**: [http://localhost/](http://localhost/)
 - **Signature Properties Portfolio**: [http://localhost/properties](http://localhost/properties)
-- **Executive Admin Portal**: [http://localhost/dashboard/](http://localhost/dashboard/) *(Default Admin: `admin` / `password123`)*
+- **Executive Admin Portal**: [http://localhost/dashboard/](http://localhost/dashboard/)
 - **API Health Check**: [http://localhost/api/health](http://localhost/api/health)
 
 ### Management CLI Commands (`./deploy.sh`)
@@ -138,16 +138,17 @@ Once your local server is running (e.g., at `http://localhost:3000` or `http://l
 | **2. Search & Filters** | `/index.html#heroSearchStage` | Test filtering properties by typology (Villas, Penthouses, Mansions), location, and keyword search. |
 | **3. Lead Submissions** | `/index.html#vipNewsletterForm` | Enter an email in the VIP card or submit the consultation form at `/index.html#consult`. Verify success state. |
 | **4. Signature Portfolio** | `/properties.html` | Verify full catalog rendering, filter chips, search bar, and WhatsApp inquiry buttons. |
-| **5. Admin Portal Login** | `/dashboard/index.html` | Click **"Auto-fill Demo Credentials"** or enter `admin` / `password123`. |
-| **6. Dashboard Management** | `/dashboard/index.html` | • **Properties Tab**: Add a new property, edit existing, or delete.<br>• **VIP Leads Tab**: View submissions from the landing page and update lead statuses.<br>• **Settings Tab**: Ping API health or reset to default luxury dataset. |
+| **5. Admin Portal Login** | `/dashboard/index.html` | Enter authorized administrator credentials. |
+| **6. Dashboard Management** | `/dashboard/index.html` | • **Properties Tab**: Add a new property, edit existing, or delete.<br>• **VIP Leads Tab**: View submissions from the landing page and update lead statuses.<br>• **Settings Tab**: Ping API health or configure live settings. |
 
 ---
 
-## 🔐 Admin Portal Credentials
+## 🔐 Admin Portal Management
 
-- **URL**: `http://localhost:3000/dashboard/` (or `http://localhost:8080/dashboard/`)
-- **Username**: `admin`
-- **Password**: `password123`
+To create or update administrator credentials, use the secure CLI utility:
+```bash
+docker exec -it diamora_api node create_admin.js <username> <password>
+```
 
 ---
 

@@ -79,64 +79,32 @@ const sampleProperties = [
   }
 ];
 
-const sampleInquiries = [
-  {
-    type: "consultation",
-    name: "Lord Marcus Vance",
-    email: "m.vance@vanceholdings.co.uk",
-    phone: "+44 7700 900123",
-    budget: "25M+",
-    intent: "investment",
-    message: "Seeking off-plan duplex penthouse in Downtown Dubai or Palm Jumeirah with high rental yield.",
-    status: "New"
-  },
-  {
-    type: "newsletter",
-    name: "Sheikh Mansoor Al-Qasimi",
-    email: "mansoor.q@privategroup.ae",
-    phone: "+971 50 112 3344",
-    budget: "10-25M",
-    intent: "lifestyle",
-    message: "Subscribed for private off-market allocations in Abu Dhabi cultural district.",
-    status: "Qualified"
-  }
-];
-
 const seedData = async () => {
   try {
     const mongoURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/diamora';
     await mongoose.connect(mongoURI);
     console.log(`Connected to MongoDB at ${mongoURI}`);
 
-    // 1. Seed Admin User
-    let admin = await User.findOne({ username: 'admin' });
-    if (!admin) {
-      admin = new User({
+    // 1. Seed Admin User (if none exists)
+    const userCount = await User.countDocuments();
+    if (userCount === 0) {
+      const admin = new User({
         username: 'admin',
         password: 'password123'
       });
       await admin.save();
-      console.log('✅ Admin user created: username="admin", password="password123"');
+      console.log('✅ Default admin user initialized (username="admin")');
     } else {
-      console.log('ℹ️ Admin user already exists');
+      console.log(`ℹ️ Admin accounts already exist (${userCount} users)`);
     }
 
-    // 2. Seed Properties
+    // 2. Seed Portfolio Properties (if none exists)
     const propCount = await Property.countDocuments();
     if (propCount === 0) {
       await Property.insertMany(sampleProperties);
-      console.log(`✅ Seeded ${sampleProperties.length} luxury properties`);
+      console.log(`✅ Seeded ${sampleProperties.length} luxury portfolio properties`);
     } else {
       console.log(`ℹ️ Properties already exist (${propCount} listings)`);
-    }
-
-    // 3. Seed Inquiries
-    const inqCount = await Inquiry.countDocuments();
-    if (inqCount === 0) {
-      await Inquiry.insertMany(sampleInquiries);
-      console.log(`✅ Seeded ${sampleInquiries.length} sample VIP leads & inquiries`);
-    } else {
-      console.log(`ℹ️ Inquiries already exist (${inqCount} leads)`);
     }
 
     console.log('\n🌟 Diamora Database Seeding Complete!');

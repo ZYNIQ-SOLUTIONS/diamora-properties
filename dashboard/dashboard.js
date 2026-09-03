@@ -109,48 +109,8 @@ const DEFAULT_SAMPLE_PROPERTIES = [
   }
 ];
 
-// Sample inquiries
-const DEFAULT_SAMPLE_INQUIRIES = [
-  {
-    _id: 'inq-1',
-    type: 'consultation',
-    name: 'Lord Marcus Vance',
-    email: 'm.vance@vanceholdings.co.uk',
-    phone: '+44 7700 900123',
-    budget: 'AED 25M+',
-    intent: 'Investment / ROI',
-    propertyTitle: 'Downtown Burj Crown Sky Penthouse',
-    message: 'Seeking off-plan duplex penthouse in Downtown Dubai with high yield and Golden Visa support.',
-    status: 'New',
-    createdAt: new Date(Date.now() - 3600000 * 4).toISOString()
-  },
-  {
-    _id: 'inq-2',
-    type: 'newsletter',
-    name: 'Sheikh Mansoor Al-Qasimi',
-    email: 'mansoor.q@privategroup.ae',
-    phone: '+971 50 112 3344',
-    budget: 'AED 10M – 25M',
-    intent: 'Personal Residence',
-    propertyTitle: 'Saadiyat Island Townhouse',
-    message: 'Subscribed for private off-market allocations in Abu Dhabi cultural district.',
-    status: 'Qualified',
-    createdAt: new Date(Date.now() - 3600000 * 28).toISOString()
-  },
-  {
-    _id: 'inq-3',
-    type: 'property_inquiry',
-    name: 'Elena Rostova',
-    email: 'e.rostova@genevacap.ch',
-    phone: '+41 22 700 8899',
-    budget: 'AED 25M+',
-    intent: 'Golden Visa',
-    propertyTitle: 'Palm Jumeirah Waterfront Beach Villa',
-    message: 'Interested in acquiring beachfront villa on Palm Jumeirah. Require title deed transfer guidance.',
-    status: 'Contacted',
-    createdAt: new Date(Date.now() - 3600000 * 52).toISOString()
-  }
-];
+// Empty initial inquiries
+const DEFAULT_SAMPLE_INQUIRIES = [];
 
 // State variables
 let properties = [];
@@ -163,7 +123,6 @@ const dashboardScreen = document.getElementById('dashboard-screen');
 const loginForm = document.getElementById('login-form');
 const loginError = document.getElementById('login-error');
 const logoutBtn = document.getElementById('logout-btn');
-const btnAutofill = document.getElementById('btn-autofill-demo');
 
 const propertiesTbody = document.getElementById('properties-tbody');
 const inquiriesTbody = document.getElementById('inquiries-tbody');
@@ -292,7 +251,7 @@ async function fetchProperties() {
 // Fetch Inquiries
 async function fetchInquiries() {
   const token = localStorage.getItem('diamora_token');
-  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+  if (isLiveApiConnected && token) {
     try {
       const res = await fetch(`${API_BASE}/inquiries`, {
         headers: { 'Authorization': `Bearer ${token}` }
@@ -562,15 +521,6 @@ function initEventListeners() {
     loginForm.addEventListener('submit', handleLogin);
   }
 
-  // Quick fill demo credentials
-  if (btnAutofill) {
-    btnAutofill.addEventListener('click', () => {
-      document.getElementById('username').value = 'admin';
-      document.getElementById('password').value = 'password123';
-      if (loginError) loginError.style.display = 'none';
-    });
-  }
-
   // Logout
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
@@ -779,11 +729,22 @@ function initEventListeners() {
       }
     });
   }
+
+  // Sync & Clear Local Cache
+  if (btnResetData) {
+    btnResetData.addEventListener('click', async () => {
+      localStorage.removeItem('diamora_properties');
+      localStorage.removeItem('diamora_inquiries');
+      showToast('Syncing with live database...');
+      await loadDashboardData();
+      showToast('Dashboard synchronized with database');
+    });
+  }
 }
 
 /**
  * =========================================================================
- * AUTHENTICATION (Live API + Standalone Demo)
+ * AUTHENTICATION (Live API)
  * =========================================================================
  */
 async function handleLogin(e) {
@@ -795,38 +756,29 @@ async function handleLogin(e) {
   submitBtn.disabled = true;
   submitBtn.innerHTML = '<span>Verifying...</span>';
 
-  // 1. Try Live API Login
-  if (isLiveApiConnected) {
-    try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-      });
-      const data = await res.json();
-      
-      if (res.ok && data.token) {
-        localStorage.setItem('diamora_token', data.token);
-        loginError.style.display = 'none';
-        showToast('Welcome to Diamora Executive Portal');
-        showDashboard();
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Enter Portal</span>';
-        return;
-      }
-    } catch (err) {
-      console.warn('API authentication error, checking local fallback', err);
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+    
+    if (res.ok && data.token) {
+      localStorage.setItem('diamora_token', data.token);
+      loginError.style.display = 'none';
+      showToast('Welcome to Diamora Executive Portal');
+      showDashboard();
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Enter Portal</span>';
+      return;
+    } else {
+      loginError.textContent = data.message || 'Invalid username or password.';
+      loginError.style.display = 'block';
     }
-  }
-
-  // 2. Standalone Demo Credentials Fallback (`admin` / `password123`)
-  if (username === 'admin' && password === 'password123') {
-    localStorage.setItem('diamora_token', 'demo-token-12345');
-    loginError.style.display = 'none';
-    showToast('Signed in via Executive Demo Mode');
-    showDashboard();
-  } else {
-    loginError.textContent = 'Invalid credentials. Please use admin / password123';
+  } catch (err) {
+    console.error('API authentication error', err);
+    loginError.textContent = 'Unable to connect to authentication server. Please check your connection.';
     loginError.style.display = 'block';
   }
 
@@ -889,7 +841,7 @@ async function handlePropertySubmit(e) {
   const token = localStorage.getItem('diamora_token');
 
   // Try API first if live
-  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+  if (isLiveApiConnected && token) {
     try {
       const url = id ? `${API_BASE}/properties/${id}` : `${API_BASE}/properties`;
       const method = id ? 'PUT' : 'POST';
@@ -940,7 +892,7 @@ window.deletePropertyItem = async function(id) {
   if (!confirm('Are you sure you want to delete this property from the portfolio?')) return;
 
   const token = localStorage.getItem('diamora_token');
-  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+  if (isLiveApiConnected && token) {
     try {
       const res = await fetch(`${API_BASE}/properties/${id}`, {
         method: 'DELETE',
@@ -972,7 +924,7 @@ window.deletePropertyItem = async function(id) {
  */
 window.updateInquiryStatus = async function(id, newStatus) {
   const token = localStorage.getItem('diamora_token');
-  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+  if (isLiveApiConnected && token) {
     try {
       await fetch(`${API_BASE}/inquiries/${id}`, {
         method: 'PUT',
@@ -1000,7 +952,7 @@ window.deleteInquiryItem = async function(id) {
   if (!confirm('Are you sure you want to remove this lead record?')) return;
 
   const token = localStorage.getItem('diamora_token');
-  if (isLiveApiConnected && token && token !== 'demo-token-12345') {
+  if (isLiveApiConnected && token) {
     try {
       await fetch(`${API_BASE}/inquiries/${id}`, {
         method: 'DELETE',

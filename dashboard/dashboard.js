@@ -902,6 +902,81 @@ function updateVideoPreview(url) {
   }
 }
 
+function updateBlogImagePreview(url) {
+  const container = document.getElementById('blogImagePreviewContainer');
+  const img = document.getElementById('blogImagePreviewImg');
+  if (!container || !img) return;
+  if (url && url.trim()) {
+    let src = url.trim();
+    if (!src.startsWith('http') && !src.startsWith('/') && !src.startsWith('../')) {
+      src = '../' + src;
+    }
+    img.src = src;
+    container.style.display = 'block';
+  } else {
+    img.src = '';
+    container.style.display = 'none';
+  }
+}
+
+async function handleBlogImageUpload(file) {
+  if (!file) return;
+
+  const progressWrapper = document.getElementById('blogImageUploadProgress');
+  const progressFill = document.getElementById('blogImageProgressFill');
+
+  if (progressWrapper) progressWrapper.style.display = 'block';
+  if (progressFill) progressFill.style.width = '20%';
+
+  const token = localStorage.getItem('diamora_token');
+  if (!token) {
+    showToast('Session expired. Please log in again.');
+    if (progressWrapper) progressWrapper.style.display = 'none';
+    return;
+  }
+
+  let payloadFile = file;
+  if (file.type.startsWith('image/')) {
+    if (progressFill) progressFill.style.width = '40%';
+    payloadFile = await smartCompressImage(file);
+  }
+
+  const formData = new FormData();
+  formData.append('file', payloadFile);
+
+  try {
+    if (progressFill) progressFill.style.width = '70%';
+    const res = await fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    if (progressFill) progressFill.style.width = '90%';
+    const data = await res.json();
+
+    if (res.ok && data.url) {
+      if (progressFill) progressFill.style.width = '100%';
+      const blogCoverInput = document.getElementById('blog-cover');
+      if (blogCoverInput) blogCoverInput.value = data.url;
+      updateBlogImagePreview(data.url);
+      showToast('Blog cover uploaded successfully');
+    } else {
+      showToast(data.message || 'Image upload failed');
+    }
+  } catch (err) {
+    console.error('Blog image upload error:', err);
+    showToast('Failed to upload blog image. Check server connection.');
+  } finally {
+    setTimeout(() => {
+      if (progressWrapper) progressWrapper.style.display = 'none';
+      if (progressFill) progressFill.style.width = '0%';
+    }, 600);
+  }
+}
+
 async function handleFileUpload(file, mediaType) {
   if (!file) return;
 
@@ -1053,6 +1128,50 @@ function initMediaUploadListeners() {
     btnRemoveVideo.addEventListener('click', () => {
       if (videoUrlInput) videoUrlInput.value = '';
       updateVideoPreview('');
+    });
+  }
+
+  // Blog Image Upload
+  const blogImageDropzone = document.getElementById('blogImageDropzone');
+  const blogImageFileInput = document.getElementById('blogImageFileInput');
+  const blogCoverInput = document.getElementById('blog-cover');
+  const btnRemoveBlogImage = document.getElementById('btnRemoveBlogImage');
+
+  if (blogImageDropzone && blogImageFileInput) {
+    blogImageDropzone.addEventListener('click', () => blogImageFileInput.click());
+
+    blogImageDropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      blogImageDropzone.classList.add('dragover');
+    });
+
+    blogImageDropzone.addEventListener('dragleave', () => {
+      blogImageDropzone.classList.remove('dragover');
+    });
+
+    blogImageDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      blogImageDropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleBlogImageUpload(e.dataTransfer.files[0]);
+      }
+    });
+
+    blogImageFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleBlogImageUpload(e.target.files[0]);
+      }
+    });
+  }
+
+  if (blogCoverInput) {
+    blogCoverInput.addEventListener('input', (e) => updateBlogImagePreview(e.target.value));
+  }
+
+  if (btnRemoveBlogImage) {
+    btnRemoveBlogImage.addEventListener('click', () => {
+      if (blogCoverInput) blogCoverInput.value = '';
+      updateBlogImagePreview('');
     });
   }
 }
@@ -1377,10 +1496,12 @@ function openBlogModal(id = null) {
       document.getElementById('blog-cover').value = post.coverImage || '';
       document.getElementById('blog-content').value = post.content || '';
       document.getElementById('blog-featured').checked = post.featured;
+      updateBlogImagePreview(post.coverImage || '');
     }
   } else {
     blogModalTitle.textContent = 'Add New Blog Post';
     document.getElementById('blog-id').value = '';
+    updateBlogImagePreview('');
   }
   blogModal.style.display = 'flex';
 }

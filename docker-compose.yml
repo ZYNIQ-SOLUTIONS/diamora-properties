@@ -47,7 +47,7 @@ services:
       start_period: 10s
 
   # ---------------------------------------------------------------------------
-  # 3. High-Performance Nginx Web Server & Reverse Proxy
+  # 3. High-Performance Nginx Web Server (Internal Gateway)
   # ---------------------------------------------------------------------------
   web:
     build:
@@ -55,8 +55,6 @@ services:
       dockerfile: Dockerfile
     container_name: diamora_web
     restart: always
-    ports:
-      - "${WEB_PORT:-80}:80"
     depends_on:
       api:
         condition: service_healthy
@@ -69,12 +67,46 @@ services:
       retries: 3
       start_period: 5s
 
+  # ---------------------------------------------------------------------------
+  # 4. Caddy Edge Reverse Proxy & Automatic SSL/TLS Manager
+  # ---------------------------------------------------------------------------
+  caddy:
+    image: caddy:2.9-alpine
+    container_name: diamora_caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:-157.180.26.64}
+      ACME_EMAIL: ${ACME_EMAIL:-info@diamora.properties}
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web:
+        condition: service_healthy
+    networks:
+      - diamora_network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
 # -----------------------------------------------------------------------------
 # Persistent Volumes & Networks
 # -----------------------------------------------------------------------------
 volumes:
   mongodb_data:
     name: diamora_mongodb_data
+  caddy_data:
+    name: diamora_caddy_data
+  caddy_config:
+    name: diamora_caddy_config
 
 networks:
   diamora_network:

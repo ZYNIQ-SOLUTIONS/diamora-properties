@@ -64,49 +64,72 @@ router.post('/', async (req, res) => {
 
     const history = messages.slice(0, -1);
     const latestMessage = messages[messages.length - 1];
+    const candidateModels = ['gemini-3.5-flash-lite', 'gemini-3.6-flash', 'gemini-3.7-flash'];
 
-    const activeChat = ai.chats.create({
-      model: 'gemini-2.5-flash',
-      config: {
-        systemInstruction: getSystemInstruction(propertiesText),
-        tools: [{ functionDeclarations: [submitLeadTool] }],
-        temperature: 0.7,
-      },
-      history: history
-    });
+    let response = null;
+    let lastError = null;
 
-    let response = await activeChat.sendMessage({ message: latestMessage.parts[0].text });
-
-    // Check if the model decided to call a function
-    if (response.functionCalls && response.functionCalls.length > 0) {
-      const call = response.functionCalls[0];
-      if (call.name === 'submitLead') {
-        const { name, email, phone, notes } = call.args;
-        
-        // Save the lead to the database
-        const newInquiry = new Inquiry({
-          type: 'property_inquiry', // changed from ai_bot as it is not in the enum
-          name: name || '',
-          email: email,
-          phone: phone || '',
-          message: notes || 'Lead captured by AI Bot',
-          status: 'New'
+    for (const modelName of candidateModels) {
+      try {
+        const activeChat = ai.chats.create({
+          model: modelName,
+          config: {
+            systemInstruction: getSystemInstruction(propertiesText),
+            tools: [{ functionDeclarations: [submitLeadTool] }],
+            temperature: 0.7,
+          },
+          history: history
         });
-        await newInquiry.save();
 
-        // Send the function response back to the model so it can formulate a final reply
-        response = await activeChat.sendMessage({
-            message: [{
+        response = await activeChat.sendMessage({ message: latestMessage.parts[0].text });
+
+        // Check if the model decided to call a function
+        if (response.functionCalls && response.functionCalls.length > 0) {
+          const call = response.functionCalls[0];
+          if (call.name === 'submitLead') {
+            const { name, email, phone, notes } = call.args;
+            
+            // Save the lead to the database
+            const newInquiry = new Inquiry({
+              type: 'property_inquiry',
+              name: name || '',
+              email: email,
+              phone: phone || '',
+              message: notes || 'Lead captured by AI Bot',
+              status: 'New'
+            });
+            await newInquiry.save();
+
+            // Send the function response back to the model
+            response = await activeChat.sendMessage({
+              message: [{
                 functionResponse: {
-                    name: 'submitLead',
-                    response: { success: true, message: 'Lead saved successfully.' }
+                  name: 'submitLead',
+                  response: { success: true, message: 'Lead saved successfully.' }
                 }
-            }]
-        });
+              }]
+            });
+          }
+        }
+
+        if (response && response.text) {
+          return res.json({ text: response.text });
+        }
+      } catch (err) {
+        lastError = err;
+        console.warn(`Model ${modelName} encountered an error, falling back to next candidate:`, err.message || err);
       }
     }
 
-    res.json({ text: response.text });
+    if (response && response.text) {
+      return res.json({ text: response.text });
+    }
+
+    console.error('All AI Chat candidate models failed. Last error:', lastError);
+    // Graceful fallback response so the user always receives helpful guidance
+    return res.json({
+      text: "Thank you for reaching out to Diamora Properties. Our consultants are currently assisting other high-value investors. Please contact us directly via WhatsApp at +971 50 676 0668 or email info@diamora.properties, and we will prepare a bespoke portfolio for you immediately."
+    });
 
   } catch (err) {
     console.error('AI Chat Error:', err);

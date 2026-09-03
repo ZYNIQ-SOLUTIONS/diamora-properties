@@ -62,6 +62,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const scrolled = (winScroll / height) * 100;
       if (progressBar) progressBar.style.width = scrolled + '%';
     });
+
+    // Back to top button
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   }
 
   fetchPost();

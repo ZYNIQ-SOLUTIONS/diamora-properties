@@ -104,6 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Back to top button
+  const backToTopBtn = document.getElementById('backToTopBtn');
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   // Init
   fetchPosts();
 });

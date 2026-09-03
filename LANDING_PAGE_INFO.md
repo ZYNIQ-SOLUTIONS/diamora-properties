@@ -19,7 +19,8 @@
 | Channel | Details | Direct Link / Action |
 | :--- | :--- | :--- |
 | ✉️ **Email** | `info@diamora.properties` | [Send Email](mailto:info@diamora.properties) |
-| 📱 **Phone / WhatsApp** | `+971 50 676 0668` | [Chat on WhatsApp](https://wa.me/971506760668) / [Call Direct](tel:+971506760668) |
+| ☎️ **Direct Landline** | `02 584 8478` | [Call Direct](tel:+97125848478) |
+| 📱 **Mobile / WhatsApp** | `+971 50 676 0668` | [Chat on WhatsApp](https://wa.me/971506760668) |
 | 📮 **P.O. Box** | `92813` | — |
 | 🌐 **Social Media** | `@diamoraproperties` | `Instagram` / `LinkedIn` / `Facebook` / `X` |
 

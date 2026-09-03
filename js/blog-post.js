@@ -51,8 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (authorEl) authorEl.textContent = post.author || 'Diamora Properties';
     
     const img = document.getElementById('post-hero-img');
-    img.src = post.coverImage || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';
-    img.alt = post.title;
+    if (img) {
+      if (post.coverImage && post.coverImage.trim() !== '') {
+        img.src = post.coverImage;
+        img.alt = post.title || 'Diamora Luxury Article';
+        img.style.display = 'block';
+        img.onerror = function() {
+          this.src = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';
+        };
+      } else {
+        img.style.display = 'none';
+      }
+    }
 
     const postContentEl = document.getElementById('post-content');
     postContentEl.setAttribute('dir', 'auto');

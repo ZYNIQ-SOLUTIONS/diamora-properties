@@ -243,6 +243,16 @@ body.blog-page {
   direction: rtl;
 }
 
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 28px auto;
+  display: block;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+}
+
 .reading-progress {
   position: fixed;
   top: 0;

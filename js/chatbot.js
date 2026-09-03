@@ -6,24 +6,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatbotHTML = `
     <div class="chatbot-container" id="chatbotContainer">
       <div class="chatbot-teaser" id="chatbotTeaser" role="button" aria-label="Open AI Assistant">
+        <span class="chatbot-teaser-badge">AI 24/7</span>
         <span class="chatbot-wave-hand">👋</span>
-        <span>Need advice? Ask Diamora AI</span>
+        <span>Ask Diamora Private AI</span>
       </div>
 
-      <button class="chatbot-button" id="chatbotToggle" aria-label="Open Diamora Real Estate AI Assistant">
-        <span class="chatbot-icon-chat" id="chatbotIconChat">
-          <span class="chatbot-btn-wave">👋</span>
-        </span>
-        <span class="chatbot-icon-close" id="chatbotIconClose" style="display: none;">&times;</span>
-      </button>
+      <div class="chatbot-btn-wrapper">
+        <div class="chatbot-beacon-ring"></div>
+        <div class="chatbot-beacon-ring ring-2"></div>
+        <button class="chatbot-button" id="chatbotToggle" aria-label="Open Diamora Real Estate AI Assistant">
+          <span class="chatbot-icon-chat" id="chatbotIconChat">
+            <span class="chatbot-btn-wave">👋</span>
+            <span class="chatbot-icon-sparkle">✨</span>
+          </span>
+          <span class="chatbot-icon-close" id="chatbotIconClose" style="display: none;">&times;</span>
+        </button>
+      </div>
       
       <div class="chatbot-window" id="chatbotWindow">
         <div class="chatbot-header">
           <div class="chatbot-header-title">
-            <div class="chatbot-status-dot"></div>
+            <div class="chatbot-avatar">D</div>
             <div>
-              <h3>Diamora AI Consultant</h3>
-              <div class="chatbot-header-sub">UAE Prime Real Estate Advisory</div>
+              <h3>Diamora AI Concierge</h3>
+              <div class="chatbot-header-sub">
+                <span class="chatbot-status-dot"></span>
+                <span>Active • Private UAE Advisory</span>
+              </div>
             </div>
           </div>
           <button class="chatbot-close" id="chatbotClose" aria-label="Close Chat">&times;</button>
@@ -31,8 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         <div class="chatbot-messages" id="chatbotMessages">
           <div class="chat-message bot">
-            Welcome to <strong>Diamora Properties</strong>. I am your private AI real estate consultant. How can I assist you with UAE luxury residences, golden visas, or off-plan allocations today?
+            Welcome to <strong>Diamora Properties</strong>. I am your private AI real estate consultant. How can I assist you with UAE ultra-luxury residences, Golden Visas, or off-plan allocations today?
           </div>
+
+          <div class="chatbot-suggestions" id="chatbotSuggestions">
+            <button type="button" class="chat-chip" data-prompt="Show me prime Palm Jumeirah & waterfront properties">💎 Palm Jumeirah</button>
+            <button type="button" class="chat-chip" data-prompt="How do I qualify for the UAE 10-Year Golden Visa via real estate?">🇦🇪 10-Yr Golden Visa</button>
+            <button type="button" class="chat-chip" data-prompt="What are the highest-yielding off-plan projects right now?">📈 High-Yield Off-Plan</button>
+            <button type="button" class="chat-chip" data-prompt="I want to speak directly with a licensed Diamora private advisor">📞 Human Advisor</button>
+          </div>
+
           <div class="typing-indicator" id="typingIndicator">
             <div class="typing-dot"></div>
             <div class="typing-dot"></div>
@@ -41,9 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         
         <form class="chatbot-input-container" id="chatbotForm">
-          <input type="text" id="chatbotInput" placeholder="Ask about Dubai & Abu Dhabi prime assets..." autocomplete="off" required>
+          <input type="text" id="chatbotInput" placeholder="Type your inquiry or select an option above..." autocomplete="off" required>
           <button type="submit" id="chatbotSubmit" aria-label="Send message">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
           </button>
         </form>
       </div>
@@ -63,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const messagesContainer = document.getElementById('chatbotMessages');
   const typingIndicator = document.getElementById('typingIndicator');
   const submitBtn = document.getElementById('chatbotSubmit');
+  const suggestionsContainer = document.getElementById('chatbotSuggestions');
 
   let chatHistory = [];
 
@@ -80,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeChat = () => {
     chatWindow.classList.remove('open');
     if (teaser) teaser.style.display = 'flex';
-    if (iconChat) iconChat.style.display = 'block';
+    if (iconChat) iconChat.style.display = 'flex';
     if (iconClose) iconClose.style.display = 'none';
   };
 
@@ -95,6 +113,19 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleBtn.addEventListener('click', toggleChat);
   if (teaser) teaser.addEventListener('click', openChat);
   closeBtn.addEventListener('click', closeChat);
+
+  // Quick Chips Click Listener
+  if (suggestionsContainer) {
+    suggestionsContainer.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chat-chip');
+      if (!chip) return;
+      const prompt = chip.getAttribute('data-prompt');
+      if (prompt) {
+        chatInput.value = prompt;
+        chatForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+      }
+    });
+  }
 
   // Convert markdown to clean safe HTML for bot replies
   const formatMarkdown = (text) => {
@@ -146,6 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const text = chatInput.value.trim();
     if (!text) return;
 
+    // Hide suggestions once user engages
+    if (suggestionsContainer) {
+      suggestionsContainer.style.display = 'none';
+    }
+
     // Add user message to UI
     appendMessage(text, 'user');
     chatInput.value = '';
@@ -192,3 +228,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+

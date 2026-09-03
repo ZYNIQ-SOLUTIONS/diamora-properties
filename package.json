@@ -16,5 +16,8 @@
     "diamora"
   ],
   "author": "Diamora Properties",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "logrocket": "^12.3.0"
+  }
 }

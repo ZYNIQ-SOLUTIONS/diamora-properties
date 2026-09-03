@@ -771,6 +771,11 @@ async function handleLogin(e) {
     if (res.ok && data.token) {
       localStorage.setItem('diamora_token', data.token);
       loginError.style.display = 'none';
+      if (window.LogRocket) {
+        try {
+          window.LogRocket.identify(username, { name: username, role: 'Executive Admin' });
+        } catch (e) {}
+      }
       showToast('Welcome to Diamora Executive Portal');
       showDashboard();
       submitBtn.disabled = false;
@@ -788,6 +793,57 @@ async function handleLogin(e) {
 
   submitBtn.disabled = false;
   submitBtn.innerHTML = '<span>Enter Portal</span>';
+}
+
+// Client-Side Smart Image Compressor (Sub-Second High-Res WebP Optimizer)
+async function smartCompressImage(file) {
+  if (!file || !file.type.startsWith('image/') || file.type === 'image/gif' || file.size < 800 * 1024) {
+    return file;
+  }
+
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        const maxDim = 2400; // Ultra-sharp 4K display ceiling
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          if (blob && blob.size < file.size) {
+            const cleanName = file.name.replace(/\.[^/.]+$/, "") + '.webp';
+            const compressedFile = new File([blob], cleanName, { type: 'image/webp' });
+            resolve(compressedFile);
+          } else {
+            resolve(file);
+          }
+        }, 'image/webp', 0.88);
+      };
+      img.onerror = () => resolve(file);
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve(file);
+    reader.readAsDataURL(file);
+  });
 }
 
 // Preset image selection
@@ -835,7 +891,7 @@ async function handleFileUpload(file, mediaType) {
   const progressFill = document.getElementById(isVideo ? 'videoProgressFill' : 'imageProgressFill');
 
   if (progressWrapper) progressWrapper.style.display = 'block';
-  if (progressFill) progressFill.style.width = '30%';
+  if (progressFill) progressFill.style.width = '20%';
 
   const token = localStorage.getItem('diamora_token');
   if (!token) {
@@ -844,11 +900,18 @@ async function handleFileUpload(file, mediaType) {
     return;
   }
 
+  // Optimize and compress images before dispatching across network
+  let payloadFile = file;
+  if (!isVideo && file.type.startsWith('image/')) {
+    if (progressFill) progressFill.style.width = '40%';
+    payloadFile = await smartCompressImage(file);
+  }
+
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', payloadFile);
 
   try {
-    if (progressFill) progressFill.style.width = '60%';
+    if (progressFill) progressFill.style.width = '70%';
     const res = await fetch(`${API_BASE}/upload`, {
       method: 'POST',
       headers: {

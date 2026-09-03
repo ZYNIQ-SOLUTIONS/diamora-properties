@@ -934,14 +934,14 @@ function initConsultForm() {
 
     const originalText = btnText.textContent;
     btn.disabled = true;
-    btnText.textContent = 'Sending request…';
+    btnText.textContent = 'Transmitting VIP Request…';
 
-    const name = form.querySelector('#cf-name')?.value || '';
-    const phone = form.querySelector('#cf-phone')?.value || '';
-    const email = form.querySelector('#cf-email')?.value || '';
+    const name = form.querySelector('#cf-name')?.value.trim() || '';
+    const phone = form.querySelector('#cf-phone')?.value.trim() || '';
+    const email = form.querySelector('#cf-email')?.value.trim() || '';
     const budget = form.querySelector('#cf-budget')?.value || '';
     const intent = form.querySelector('#cf-intent')?.value || '';
-    const message = form.querySelector('#cf-message')?.value || '';
+    const message = form.querySelector('#cf-message')?.value.trim() || '';
 
     const leadData = {
       type: 'consultation',
@@ -950,14 +950,16 @@ function initConsultForm() {
       email,
       budget,
       intent,
-      message
+      message,
+      status: 'New'
     };
 
-    // 1. Try sending to Live API
+    // 1. Send to Live Diamora API & MongoDB
+    const apiBase = getDiamoraApiEndpoint();
     if (apiBase) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
         await fetch(`${apiBase}/inquiries`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -966,30 +968,42 @@ function initConsultForm() {
         });
         clearTimeout(timeoutId);
       } catch (err) {
-        console.log('Saved lead to local cache (API offline or unreachable)');
+        console.log('Lead sync notice:', err.message);
       }
     }
 
-    // 2. Cache to LocalStorage for Admin Dashboard
+    // 2. Track with LogRocket if initialized
+    if (window.LogRocket) {
+      try {
+        window.LogRocket.track('Consultation Reserved', {
+          name,
+          email,
+          phone,
+          budget,
+          intent
+        });
+      } catch (e) {}
+    }
+
+    // 3. Cache to LocalStorage for offline fallback
     try {
       const storedInq = JSON.parse(localStorage.getItem('diamora_inquiries') || '[]');
       storedInq.unshift({
         _id: 'inq-' + Date.now(),
         ...leadData,
-        status: 'New',
         createdAt: new Date().toISOString()
       });
       localStorage.setItem('diamora_inquiries', JSON.stringify(storedInq));
     } catch (e) {}
 
-    btnText.textContent = 'Request Confirmed!';
+    btnText.textContent = 'Consultation Reserved!';
     btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
     btn.style.color = '#ffffff';
 
-    // Build WhatsApp deep link
+    // Build WhatsApp direct confirmation
     const waMsg = encodeURIComponent(
-      `Hello Diamora Properties! I'd like to book a private consultation.\n\n` +
-      `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nBudget: AED ${budget}\nIntent: ${intent}\nMessage: ${message}`
+      `Hello Diamora Properties! I have just reserved a private consultation.\n\n` +
+      `Name: ${name}\nPhone: ${phone}\nEmail: ${email}\nBudget: AED ${budget}\nIntent: ${intent}\nDetails: ${message}`
     );
 
     setTimeout(() => {

@@ -1,0 +1,699 @@
+/* ==========================================================================
+   DIAMORA PROPERTIES — MOBILE RESPONSIVENESS v1.0
+   Modern premium mobile experience — additive overrides only
+   Breakpoints: 900 → 768 → 600 → 480 → 380
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. GLOBAL TOUCH & PERFORMANCE IMPROVEMENTS
+   -------------------------------------------------------------------------- */
+
+/* Prevent 300ms tap delay on all interactive elements */
+a, button, [role="button"], input, select, textarea,
+.quick-tag, .chip-btn, .mobile-nav-link, .blog-filter-btn,
+.property-card, .pillar-card, .social-btn {
+  touch-action: manipulation;
+}
+
+/* Smooth momentum scrolling for overflow containers */
+.mobile-menu ul,
+.map-filter-chips,
+.blog-filters,
+.hero-search-quick-tags {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* GPU-accelerated transforms for animated elements */
+.property-card,
+.pillar-card,
+.blog-card,
+.floating-whatsapp-btn,
+.chatbot-button {
+  will-change: transform;
+}
+
+/* --------------------------------------------------------------------------
+   2. ≤ 900px — TABLET
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  /* Ensure private CTA wraps gracefully on tablet */
+  .properties-private-cta {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .private-cta-line { display: none; }
+  .private-cta-content {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .private-cta-content p { white-space: normal; }
+}
+
+/* --------------------------------------------------------------------------
+   3. ≤ 768px — MOBILE LANDSCAPE & LARGE PHONES (main mobile breakpoint)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+  /* ── 3.1 Navigation ── */
+  .main-nav { top: 0; }
+
+  /* Top bar: hide entirely on real mobile — already hidden at 480px, but
+     the in-between range (481–768px) still shows a half-visible bar */
+  .top-contact-bar { display: none; }
+
+  /* Nav logo: slightly smaller so search bar has room */
+  .nav-logo-img { height: 32px; }
+
+  /* Hamburger: larger tap target */
+  .nav-hamburger {
+    padding: 10px 8px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile menu: smooth slide-down with better styling */
+  .mobile-menu {
+    padding: 8px 0 env(safe-area-inset-bottom, 16px);
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  /* Mobile nav links: taller tap targets, better spacing */
+  .mobile-nav-link {
+    padding: 16px var(--container-pad);
+    font-size: 12.5px;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .main-nav.nav--solid .mobile-nav-link {
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+
+  /* Mobile menu CTA: prominent gold button */
+  .mobile-nav-cta {
+    margin: 16px var(--container-pad) 8px;
+    padding: 16px var(--container-pad) !important;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-sm) !important;
+    font-size: 13px !important;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── 3.2 Hero Section ── */
+  .hero-video-section {
+    min-height: 100svh;
+    min-height: 100dvh;
+    padding-top: calc(70px + env(safe-area-inset-top, 0px));
+  }
+
+  /* Headline: more aggressive clamping on small phones */
+  .hero-headline {
+    font-size: clamp(1.9rem, 7.5vw, 2.9rem);
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+  }
+
+  .hero-subtext {
+    font-size: clamp(0.84rem, 3.5vw, 0.95rem);
+    max-width: 100%;
+  }
+
+  /* Hero CTAs: full-width stack, large tap targets */
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    min-height: 52px;
+    font-size: 13px;
+    padding: 15px 20px;
+  }
+
+  /* Quick tags: horizontal scroll on mobile */
+  .hero-search-quick-tags {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 8px;
+  }
+  .hero-search-quick-tags::-webkit-scrollbar { display: none; }
+  .quick-tag { flex-shrink: 0; min-height: 32px; display: flex; align-items: center; }
+
+  /* Hero stat cards: minimum tap size */
+  .hero-stat {
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  /* ── 3.3 Section Shared ── */
+  .section { padding-block: clamp(52px, 8vw, 80px); }
+  .section-header { margin-bottom: 36px; }
+
+  /* ── 3.4 Properties Section ── */
+  /* Private CTA: mobile-friendly layout */
+  .properties-private-cta {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+  .private-cta-line { display: none; }
+  .private-cta-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .private-cta-content p {
+    white-space: normal;
+    text-align: center;
+  }
+
+  /* Property card tap target */
+  .btn-prop-inquiry {
+    min-height: 44px;
+    padding: 11px 18px;
+    font-size: 11.5px;
+  }
+
+  /* Property specs: allow wrapping */
+  .property-specs {
+    flex-wrap: wrap;
+    gap: 6px;
+    row-gap: 4px;
+  }
+
+  /* Property footer: prevent price overflow */
+  .property-footer {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Property filter bar */
+  .properties-filter-bar-container {
+    margin-bottom: 28px;
+  }
+
+  /* ── 3.5 Pillars Section ── */
+  .pillar-card {
+    padding: 28px 22px;
+  }
+
+  .pillar-number {
+    font-size: 2.5rem;
+    top: 20px;
+    right: 20px;
+  }
+
+  .pillar-icon { margin-bottom: 18px; }
+
+  .pillar-title { font-size: 1.1rem; margin-bottom: 10px; }
+
+  .pillar-desc { font-size: 0.87rem; margin-bottom: 20px; }
+
+  .pillar-metric-val { font-size: 1.65rem; }
+
+  /* Secondary pillars: full-width on mobile */
+  .pillars-secondary-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  .pillar-sec-item {
+    padding: 18px;
+    gap: 14px;
+  }
+
+  /* ── 3.6 About Section ── */
+  .about-title {
+    font-size: clamp(1.8rem, 6vw, 2.8rem);
+  }
+
+  .about-intro-p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 24px;
+  }
+
+  .about-visual-frame {
+    height: 290px;
+    padding: 20px;
+  }
+
+  .btn-about-primary,
+  .btn-about-secondary {
+    min-height: 52px;
+    padding: 15px 24px;
+    font-size: 12.5px;
+  }
+
+  /* ── 3.7 Consultation / Form Section ── */
+  .consult-form-wrap {
+    padding: 24px 18px;
+    border-radius: var(--r-md);
+  }
+
+  .consult-form { gap: 16px; }
+
+  .form-input {
+    padding: 14px 14px;
+    font-size: 16px; /* prevent iOS zoom */
+    min-height: 52px;
+  }
+
+  .form-textarea { min-height: 90px; }
+
+  .btn-submit-consult,
+  .btn-form-submit {
+    min-height: 52px;
+    font-size: 14px;
+    padding: 15px 28px;
+  }
+
+  .consult-desc {
+    font-size: 0.92rem;
+    max-width: 100%;
+  }
+
+  .consult-direct {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  /* ── 3.8 Map Section ── */
+  .interactive-map-frame,
+  .interactive-map-section {
+    height: 480px;
+    min-height: 420px;
+    max-height: 520px;
+  }
+
+  /* Map header panel: full-width floating panel */
+  .header-panel {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    max-width: calc(100% - 16px);
+    padding: 14px 16px;
+  }
+
+  .map-title { font-size: 1rem; }
+
+  .map-filter-chips {
+    margin-top: 8px;
+    gap: 6px;
+  }
+
+  .chip-btn {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    font-size: 10.5px;
+    padding: 6px 12px;
+  }
+
+  /* Map metrics: compact */
+  .map-metrics-grid {
+    gap: 4px;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+
+  /* Map CTA */
+  .map-floating-cta {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    transform: none;
+    width: 100%;
+    padding: 0;
+    margin-top: 0;
+  }
+
+  .cta-card { padding: 24px 20px; }
+
+  .cta-title { font-size: clamp(1.1rem, 4vw, 1.5rem); }
+
+  /* Newsletter: stack */
+  .input-group {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: var(--r-sm);
+  }
+
+  .input-group input {
+    font-size: 16px; /* prevent iOS zoom */
+    padding: 4px 0;
+  }
+
+  .btn-subscribe {
+    min-height: 48px;
+    justify-content: center;
+    border-radius: var(--r-xs);
+  }
+
+  /* ── 3.9 Footer ── */
+  /* Logo: smaller on mobile */
+  .footer-logo-img { height: 72px; max-width: 120px; }
+
+  /* Footer bottom bar: centered on mobile */
+  .footer-bottom-bar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .footer-copy { text-align: center; }
+
+  .footer-legal-links {
+    justify-content: center;
+    gap: 12px;
+  }
+
+  /* Trust strip */
+  .trust-strip-inner {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .trust-badge-group {
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .trust-locations-tag { text-align: center; }
+
+  /* Social links: larger tap area */
+  .social-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* ── 3.10 Floating Buttons ── */
+  /* WhatsApp: move up to avoid chatbot overlap */
+  .floating-whatsapp-btn {
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
+    padding: 11px 16px;
+    font-size: 0.8rem;
+    gap: 8px;
+    border-radius: 30px;
+  }
+
+  /* ── 3.11 Section Headers ── */
+  .section-header--split {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .section-header-right {
+    justify-content: flex-start;
+  }
+
+  /* ── 3.12 Cookie Banner ── */
+  .diamora-cookie-banner {
+    border-radius: var(--r-sm);
+    font-size: 0.88rem;
+  }
+
+  .btn-cookie-accept,
+  .btn-cookie-manage {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. ≤ 600px — STANDARD PHONES
+   -------------------------------------------------------------------------- */
+@media (max-width: 600px) {
+
+  /* ── 4.1 Hero ── */
+  .hero-bottom-search-bar {
+    padding: 14px 14px;
+    border-radius: var(--r-sm);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    margin-left: calc(-1 * var(--container-pad));
+    margin-right: calc(-1 * var(--container-pad));
+    width: calc(100% + 2 * var(--container-pad));
+  }
+
+  /* Remove the side borders for a full-bleed search bar on small screens */
+  .hero-bottom-search-bar {
+    border-left: none !important;
+    border-right: none !important;
+    border-radius: 0 !important;
+  }
+
+  /* ── 4.2 Properties ── */
+  .property-card-image { height: 200px; }
+  .property-card--featured .property-card-image { height: 200px; }
+  .property-card-body { padding: 16px 14px; }
+
+  .property-name { font-size: 1.05rem; }
+
+  /* ── 4.3 Pillars ── */
+  .pillar-card { padding: 22px 18px; }
+
+  .pillars-grid { gap: 14px; }
+
+  /* ── 4.4 About ── */
+  .about-visual-frame { height: 240px; padding: 14px; }
+
+  .about-stats-grid { gap: 12px; }
+
+  .about-stat-box { padding: 14px 16px; }
+
+  .about-stat-num { font-size: 1.65rem; }
+
+  /* ── 4.5 Partners Marquee ── */
+  .partner-item { padding: 0 28px; }
+  .partner-wordmark { font-size: 1.2rem; }
+  .partners-track-wrap { padding-block: 22px; }
+
+  /* ── 4.6 Map ── */
+  .interactive-map-frame,
+  .interactive-map-section {
+    height: 420px;
+    min-height: 380px;
+  }
+
+  .map-badge { display: none; }
+  .map-desc { display: none; }
+  .map-metrics-grid { display: none; }
+
+  .cta-card { padding: 20px 16px; }
+
+  /* ── 4.7 Footer ── */
+  .footer-top-grid { gap: 24px; }
+
+  .footer-col-title { font-size: 1rem; margin-bottom: 18px; }
+
+  .contact-item { padding: 10px 12px; }
+
+  .footer-brand-tagline { font-size: 0.88rem; }
+
+  /* ── 4.8 Back to Top ── */
+  .back-to-top-btn { min-height: 40px; font-size: 10px; }
+}
+
+/* --------------------------------------------------------------------------
+   5. ≤ 480px — SMALL PHONES (iPhone SE, Galaxy A-series)
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+
+  :root {
+    --container-pad: 16px;
+  }
+
+  /* ── 5.1 Global text adjustments ── */
+  .section-title { font-size: clamp(1.55rem, 7.5vw, 1.9rem); }
+
+  .section-tag { font-size: 9px; letter-spacing: 0.28em; }
+
+  /* ── 5.2 Hero ── */
+  .hero-headline { font-size: clamp(1.75rem, 7.8vw, 2.1rem); }
+
+  .hero-subtext { font-size: 0.84rem; line-height: 1.55; }
+
+  .hero-eyebrow { font-size: 9.5px; }
+
+  .hero-stat-num { font-size: 1.15rem; }
+
+  .hero-stat-label { font-size: 0.68rem; }
+
+  /* Hero stats: single column */
+  .hero-stats { grid-template-columns: 1fr; gap: 8px; }
+
+  /* ── 5.3 Properties ── */
+  .property-card-image { height: 185px; }
+
+  .property-name { font-size: 1rem; }
+
+  .property-desc { font-size: 0.82rem; }
+
+  .price-val { font-size: 0.92rem; }
+
+  /* ── 5.4 Pillars ── */
+  .pillar-card { padding: 20px 16px; }
+
+  .pillar-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .pillar-title { font-size: 1rem; }
+
+  .pillar-metric-val { font-size: 1.5rem; }
+
+  /* ── 5.5 About ── */
+  .about-title { font-size: clamp(1.6rem, 7vw, 2.2rem); }
+
+  .about-visual-frame { height: 220px; }
+
+  /* ── 5.6 Form ── */
+  .consult-form-wrap { padding: 20px 14px; }
+
+  /* ── 5.7 Footer ── */
+  .footer-logo-img { height: 60px; }
+
+  .footer-top-grid { gap: 20px; }
+
+  .social-links { gap: 8px; }
+
+  /* ── 5.8 Back to top ── */
+  .back-to-top-btn { display: none; } /* Clean footer on tiny screens */
+
+  /* ── 5.9 Cookie banner ── */
+  .diamora-cookie-banner {
+    left: 8px;
+    right: 8px;
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .cookie-banner-title { font-size: 0.88rem; }
+  .cookie-banner-text { font-size: 0.78rem; }
+}
+
+/* --------------------------------------------------------------------------
+   6. ≤ 380px — VERY SMALL PHONES (iPhone SE gen1, Galaxy A01)
+   -------------------------------------------------------------------------- */
+@media (max-width: 380px) {
+
+  :root {
+    --container-pad: 12px;
+  }
+
+  .hero-headline { font-size: 1.65rem; line-height: 1.1; }
+
+  .hero-stats { grid-template-columns: 1fr; gap: 7px; }
+
+  .hero-stat-num { font-size: 1.1rem; }
+
+  .section-title { font-size: 1.5rem; }
+
+  .pillar-card { padding: 16px 14px; }
+
+  .property-card-body { padding: 14px 12px; }
+
+  .property-card-image { height: 170px; }
+
+  .about-visual-frame { height: 190px; }
+
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    font-size: 12px;
+    padding: 14px 16px;
+  }
+
+  /* Nav: prevent logo overlap */
+  .nav-logo-img { height: 28px; max-width: 160px; }
+
+  .nav-inner { height: 60px; gap: 12px; }
+}
+
+/* --------------------------------------------------------------------------
+   7. SAFE AREA INSETS (iPhone X+ notch, Android curved screens)
+   -------------------------------------------------------------------------- */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  @media (max-width: 768px) {
+    .main-footer { padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px)); }
+
+    .floating-whatsapp-btn {
+      bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. HIGH DPI / RETINA REFINEMENTS
+   -------------------------------------------------------------------------- */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper borders on retina */
+  .property-card,
+  .pillar-card,
+  .consult-form-wrap,
+  .blog-card {
+    border-width: 0.5px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. REDUCED MOTION (accessibility)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .property-card:hover,
+  .pillar-card:hover,
+  .blog-card:hover {
+    transform: none !important;
+  }
+  .partners-track { animation: none !important; }
+  .chatbot-button .chatbot-btn-wave { animation: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   10. ORIENTATION — LANDSCAPE MOBILE
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hero-video-section {
+    min-height: 100vh;
+    padding-top: calc(60px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  .hero-headline { font-size: clamp(1.7rem, 4.5vw, 2.5rem); }
+
+  .hero-stats {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .hero-stat-div { display: none; }
+
+  /* Map: shorter in landscape */
+  .interactive-map-frame,
+  .interactive-map-section {
+    height: 60vh;
+    min-height: 340px;
+  }
+}

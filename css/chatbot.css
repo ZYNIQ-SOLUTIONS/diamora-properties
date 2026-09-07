@@ -613,27 +613,98 @@
    ========================================================================== */
 
 @media (max-width: 768px) {
+  /* Container: sits above WhatsApp button */
   .chatbot-container {
-    bottom: 84px;
-    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    right: calc(16px + env(safe-area-inset-right, 0px));
   }
+
+  /* Teaser tooltip: hide on mobile to save space */
   .chatbot-teaser {
     display: none;
   }
+
+  /* Trigger button: slightly smaller but still accessible */
   .chatbot-button {
-    width: 54px;
-    height: 54px;
+    width: 56px;
+    height: 56px;
   }
+
   .chatbot-btn-wave {
-    font-size: 1.35rem;
+    font-size: 1.4rem;
   }
+
+  /* Chat window: full-width, fills available vertical space */
   .chatbot-window {
-    bottom: 70px;
-    right: 0;
+    /* Anchor from bottom of button */
+    bottom: 72px;
+    /* Centre on screen with 16px margins */
+    right: calc(-1 * (50vw - 28px - 16px));
+    left: 16px;
     width: calc(100vw - 32px);
-    height: 500px;
-    max-height: calc(100vh - 110px);
+    /* Use dynamic viewport height for correct sizing with browser chrome */
+    height: calc(100dvh - 110px);
+    max-height: min(580px, calc(100dvh - 110px));
     border-radius: 16px;
+    /* Override any right-positioning from desktop */
+    right: 0;
+  }
+
+  /* Header: slightly more compact */
+  .chatbot-header {
+    padding: 14px 16px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* Messages area: dynamic height */
+  .chatbot-messages {
+    padding: 12px 14px;
+  }
+
+  /* Input area: comfortable typing experience */
+  .chatbot-input-area {
+    padding: 10px 12px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
+  }
+
+  .chatbot-input {
+    font-size: 16px; /* Prevent iOS auto-zoom on focus */
+    padding: 10px 14px;
+  }
+
+  /* Message bubbles: full width */
+  .chatbot-message.bot { max-width: 90%; }
+  .chatbot-message.user { max-width: 85%; }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .chatbot-container {
+    right: calc(10px + env(safe-area-inset-right, 0px));
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .chatbot-button {
+    width: 50px;
+    height: 50px;
+  }
+
+  .chatbot-window {
+    left: 10px;
+    right: 0;
+    width: calc(100vw - 20px);
+    height: calc(100dvh - 80px);
+    max-height: min(520px, calc(100dvh - 80px));
+    bottom: 64px;
+  }
+}
+
+/* Landscape mode: shorter window */
+@media (max-width: 900px) and (orientation: landscape) {
+  .chatbot-window {
+    height: calc(100dvh - 80px);
+    max-height: min(380px, calc(100dvh - 80px));
+    bottom: 70px;
   }
 }
 

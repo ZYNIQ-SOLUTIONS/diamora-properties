@@ -50,20 +50,39 @@ window.addEventListener('load', () => {
    ========================================================================== */
 function initHeroSequence() {
   const video = document.querySelector('.hero-bg-video');
-  if (video) {
-    // Ensure smooth continuous autoplay
-    video.muted = true;
-    video.playsInline = true;
-    video.loop = true;
+  if (!video) return;
+
+  // Enforce browser-compatible muted playback attributes
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.loop = true;
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
+
+  const startPlayback = () => {
     const playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
-        // Fallback for strict browser autoplay policies
-        document.body.addEventListener('click', () => {
-          video.play();
-        }, { once: true });
+        // Fallback: start playback on first touch, scroll, pointerdown, or click
+        const resumeOnInteraction = () => {
+          video.play().catch(() => {});
+        };
+        window.addEventListener('touchstart', resumeOnInteraction, { passive: true, once: true });
+        window.addEventListener('scroll', resumeOnInteraction, { passive: true, once: true });
+        window.addEventListener('pointerdown', resumeOnInteraction, { passive: true, once: true });
+        window.addEventListener('click', resumeOnInteraction, { passive: true, once: true });
       });
     }
+  };
+
+  if (video.readyState >= 2) {
+    startPlayback();
+  } else {
+    video.addEventListener('loadedmetadata', startPlayback, { once: true });
+    video.addEventListener('canplay', startPlayback, { once: true });
+    startPlayback();
   }
 }
 

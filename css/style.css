@@ -697,6 +697,7 @@ body.loaded #loader-wrapper {
   inset: 0;
   z-index: 1;
   overflow: hidden;
+  background: #030406 url('../assets/hero/hero-poster.jpg') center/cover no-repeat;
 }
 
 .hero-bg-video {
@@ -709,6 +710,8 @@ body.loaded #loader-wrapper {
   left: 50%;
   transform: translate(-50%, -50%);
   filter: brightness(0.82) contrast(1.08);
+  background: transparent;
+  transition: opacity 0.5s ease;
 }
 
 .hero-video-overlay {

@@ -233,7 +233,7 @@ async function checkApiHealth() {
 }
 
 async function loadDashboardData() {
-  await Promise.all([fetchProperties(), fetchInquiries(), fetchBlogPosts()]);
+  await Promise.all([fetchProperties(), fetchInquiries(), fetchBlogPosts(), loadAiChatSettings()]);
   updateMetricCards();
 }
 
@@ -561,6 +561,10 @@ function initEventListeners() {
       document.querySelectorAll('.tab-pane').forEach(pane => {
         pane.style.display = pane.id === targetId ? 'block' : 'none';
       });
+
+      if (targetId === 'tab-ai-chat') {
+        loadAiChatSettings();
+      }
     });
   });
 
@@ -761,6 +765,33 @@ function initEventListeners() {
       showToast('Syncing with live database...');
       await loadDashboardData();
       showToast('Dashboard synchronized with database');
+    });
+  }
+
+  // AI Concierge System Prompt & Settings Listeners
+  const formAiSettings = document.getElementById('form-ai-settings');
+  if (formAiSettings) {
+    formAiSettings.addEventListener('submit', handleAiSettingsSubmit);
+  }
+
+  const btnRestoreAi = document.getElementById('btn-restore-ai-prompt');
+  if (btnRestoreAi) {
+    btnRestoreAi.addEventListener('click', restoreDefaultAiPrompt);
+  }
+
+  const aiTempSlider = document.getElementById('ai-temperature');
+  const aiTempDisplay = document.getElementById('ai-temp-display');
+  if (aiTempSlider && aiTempDisplay) {
+    aiTempSlider.addEventListener('input', () => {
+      aiTempDisplay.textContent = parseFloat(aiTempSlider.value).toFixed(2);
+    });
+  }
+
+  const aiPromptTextarea = document.getElementById('ai-system-prompt');
+  const aiCharCounter = document.getElementById('ai-prompt-char-count');
+  if (aiPromptTextarea && aiCharCounter) {
+    aiPromptTextarea.addEventListener('input', () => {
+      aiCharCounter.textContent = `${aiPromptTextarea.value.length} characters`;
     });
   }
 }
@@ -1696,3 +1727,118 @@ window.openBlogModal = openBlogModal;
 window.deleteBlogPost = deleteBlogPost;
 window.switchMdMode = switchMdMode;
 window.insertMarkdown = insertMarkdown;
+
+/**
+ * =========================================================================
+ * AI CONCIERGE SETTINGS & SYSTEM PROMPT PERSONALIZATION
+ * =========================================================================
+ */
+let defaultAiPromptTemplate = '';
+
+async function loadAiChatSettings() {
+  const promptInput = document.getElementById('ai-system-prompt');
+  const tempInput = document.getElementById('ai-temperature');
+  const tempDisplay = document.getElementById('ai-temp-display');
+  const updatedByDisplay = document.getElementById('ai-last-updated');
+  const charCount = document.getElementById('ai-prompt-char-count');
+
+  if (!promptInput) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/chat/settings`, {
+      headers: getAuthHeaders()
+    });
+    if (!res.ok) throw new Error('Failed to load AI prompt settings');
+    const data = await res.json();
+    
+    defaultAiPromptTemplate = data.defaultPrompt || '';
+    const currentPrompt = data.setting?.systemPrompt || defaultAiPromptTemplate;
+    const currentTemp = typeof data.setting?.temperature === 'number' ? data.setting.temperature : 0.7;
+    
+    promptInput.value = currentPrompt;
+    if (tempInput) tempInput.value = currentTemp;
+    if (tempDisplay) tempDisplay.textContent = currentTemp.toFixed(2);
+    if (charCount) charCount.textContent = `${currentPrompt.length} characters`;
+    if (updatedByDisplay) {
+      const dateStr = data.setting?.updatedAt ? new Date(data.setting.updatedAt).toLocaleString() : 'System Default';
+      updatedByDisplay.textContent = `${data.setting?.updatedBy || 'admin'} (${dateStr})`;
+    }
+  } catch (err) {
+    console.error('Error loading AI chat settings:', err);
+  }
+}
+
+async function handleAiSettingsSubmit(e) {
+  e.preventDefault();
+  const promptInput = document.getElementById('ai-system-prompt');
+  const tempInput = document.getElementById('ai-temperature');
+  const resultDiv = document.getElementById('ai-settings-result');
+  const saveBtn = document.getElementById('btn-save-ai-settings');
+
+  if (!promptInput) return;
+
+  const systemPrompt = promptInput.value.trim();
+  if (!systemPrompt) {
+    alert('System prompt cannot be empty.');
+    return;
+  }
+
+  const temperature = parseFloat(tempInput ? tempInput.value : 0.7);
+
+  try {
+    if (saveBtn) saveBtn.disabled = true;
+    if (resultDiv) {
+      resultDiv.style.color = 'var(--gold)';
+      resultDiv.textContent = 'Saving AI persona and guidelines...';
+    }
+
+    const res = await fetch(`${API_BASE}/chat/settings`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ systemPrompt, temperature })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to save AI settings');
+
+    if (resultDiv) {
+      resultDiv.style.color = '#25D366';
+      resultDiv.textContent = '✅ AI Concierge prompt and settings saved successfully!';
+      setTimeout(() => {
+        if (resultDiv && resultDiv.textContent.includes('saved successfully')) {
+          resultDiv.textContent = '';
+        }
+      }, 4000);
+    }
+
+    const updatedByDisplay = document.getElementById('ai-last-updated');
+    if (updatedByDisplay && data.setting) {
+      const dateStr = data.setting.updatedAt ? new Date(data.setting.updatedAt).toLocaleString() : 'Just now';
+      updatedByDisplay.textContent = `${data.setting.updatedBy || 'admin'} (${dateStr})`;
+    }
+
+    showToast('AI Concierge settings updated successfully!', 'success');
+  } catch (err) {
+    console.error('Save AI settings error:', err);
+    if (resultDiv) {
+      resultDiv.style.color = 'var(--danger)';
+      resultDiv.textContent = `❌ ${err.message}`;
+    }
+  } finally {
+    if (saveBtn) saveBtn.disabled = false;
+  }
+}
+
+function restoreDefaultAiPrompt() {
+  if (confirm('Restore the default high-converting Diamora luxury consultant prompt? Any unsaved edits will be replaced.')) {
+    const promptInput = document.getElementById('ai-system-prompt');
+    const charCount = document.getElementById('ai-prompt-char-count');
+    if (promptInput && defaultAiPromptTemplate) {
+      promptInput.value = defaultAiPromptTemplate;
+      if (charCount) charCount.textContent = `${defaultAiPromptTemplate.length} characters`;
+    }
+  }
+}
+
+window.loadAiChatSettings = loadAiChatSettings;
+

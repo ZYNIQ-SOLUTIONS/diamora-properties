@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Prevent duplicate injection
   if (document.querySelector('.chatbot-container')) return;
 
+  const STORAGE_HISTORY_KEY = 'diamora_chat_history_v2';
+  const STORAGE_MSGS_KEY = 'diamora_chat_rendered_v2';
+  const STORAGE_OPEN_KEY = 'diamora_chat_is_open_v2';
+
+  const DEFAULT_WELCOME_MSG = 'Welcome to <strong>Diamora Properties</strong>. I am your private AI real estate consultant. How can I assist you with UAE ultra-luxury residences, Golden Visas, or off-plan allocations today?';
+
   // Inject HTML structure
   const chatbotHTML = `
     <div class="chatbot-container" id="chatbotContainer">
@@ -35,14 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
             </div>
           </div>
-          <button class="chatbot-close" id="chatbotClose" aria-label="Close Chat">&times;</button>
+          <div class="chatbot-header-actions">
+            <button type="button" class="chatbot-header-btn" id="chatbotReset" title="Start New Conversation / Reset Chat" aria-label="Start New Conversation">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+            <button type="button" class="chatbot-close" id="chatbotClose" aria-label="Close Chat">&times;</button>
+          </div>
         </div>
         
         <div class="chatbot-messages" id="chatbotMessages">
-          <div class="chat-message bot">
-            Welcome to <strong>Diamora Properties</strong>. I am your private AI real estate consultant. How can I assist you with UAE ultra-luxury residences, Golden Visas, or off-plan allocations today?
-          </div>
-
           <div class="chatbot-suggestions" id="chatbotSuggestions">
             <button type="button" class="chat-chip" data-prompt="Show me prime Palm Jumeirah & waterfront properties">💎 Palm Jumeirah</button>
             <button type="button" class="chat-chip" data-prompt="How do I qualify for the UAE 10-Year Golden Visa via real estate?">🇦🇪 10-Yr Golden Visa</button>
@@ -74,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const iconClose = document.getElementById('chatbotIconClose');
   const teaser = document.getElementById('chatbotTeaser');
   const closeBtn = document.getElementById('chatbotClose');
+  const resetBtn = document.getElementById('chatbotReset');
   const chatWindow = document.getElementById('chatbotWindow');
   const chatForm = document.getElementById('chatbotForm');
   const chatInput = document.getElementById('chatbotInput');
@@ -83,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const suggestionsContainer = document.getElementById('chatbotSuggestions');
 
   let chatHistory = [];
+  let renderedMessages = [];
 
   // Toggle chat window & update icons
   const openChat = () => {
@@ -90,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (teaser) teaser.style.display = 'none';
     if (iconChat) iconChat.style.display = 'none';
     if (iconClose) iconClose.style.display = 'block';
+    sessionStorage.setItem(STORAGE_OPEN_KEY, 'true');
     setTimeout(() => {
       if (window.innerWidth > 768) chatInput.focus();
     }, 150);
@@ -100,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (teaser) teaser.style.display = 'flex';
     if (iconChat) iconChat.style.display = 'flex';
     if (iconClose) iconClose.style.display = 'none';
+    sessionStorage.setItem(STORAGE_OPEN_KEY, 'false');
   };
 
   const toggleChat = () => {
@@ -147,8 +158,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return html;
   };
 
-  // Add message to UI
-  const appendMessage = (text, sender) => {
+  // Add message to UI and optionally persist
+  const appendMessage = (text, sender, persist = true) => {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('chat-message', sender);
     if (sender === 'bot') {
@@ -156,8 +167,24 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       msgDiv.textContent = text;
     }
-    messagesContainer.insertBefore(msgDiv, typingIndicator);
+    
+    // Insert before suggestions or typing indicator
+    if (suggestionsContainer && suggestionsContainer.parentNode === messagesContainer) {
+      messagesContainer.insertBefore(msgDiv, suggestionsContainer);
+    } else {
+      messagesContainer.insertBefore(msgDiv, typingIndicator);
+    }
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    if (persist) {
+      renderedMessages.push({ text, sender, time: Date.now() });
+      try {
+        sessionStorage.setItem(STORAGE_MSGS_KEY, JSON.stringify(renderedMessages));
+        sessionStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(chatHistory));
+      } catch (err) {
+        console.warn('Could not persist chat session:', err);
+      }
+    }
   };
 
   // Set typing indicator
@@ -169,6 +196,80 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   };
+
+  // Reset conversation handler
+  const resetConversation = () => {
+    if (renderedMessages.length > 1 && !confirm('Start a fresh conversation? Current chat history will be cleared.')) {
+      return;
+    }
+
+    try {
+      sessionStorage.removeItem(STORAGE_MSGS_KEY);
+      sessionStorage.removeItem(STORAGE_HISTORY_KEY);
+    } catch (e) {}
+
+    chatHistory = [];
+    renderedMessages = [];
+
+    // Remove all message divs
+    const oldMessages = messagesContainer.querySelectorAll('.chat-message');
+    oldMessages.forEach(el => el.remove());
+
+    // Show initial welcome message
+    appendMessage(DEFAULT_WELCOME_MSG, 'bot', true);
+
+    // Re-display suggestion chips
+    if (suggestionsContainer) {
+      suggestionsContainer.style.display = 'flex';
+    }
+  };
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetConversation);
+  }
+
+  // Restore conversation from sessionStorage
+  const initSessionChat = () => {
+    try {
+      const storedMsgs = sessionStorage.getItem(STORAGE_MSGS_KEY);
+      const storedHistory = sessionStorage.getItem(STORAGE_HISTORY_KEY);
+      const wasOpen = sessionStorage.getItem(STORAGE_OPEN_KEY);
+
+      if (storedMsgs) {
+        const parsedMsgs = JSON.parse(storedMsgs);
+        if (Array.isArray(parsedMsgs) && parsedMsgs.length > 0) {
+          renderedMessages = parsedMsgs;
+          if (storedHistory) {
+            chatHistory = JSON.parse(storedHistory) || [];
+          }
+
+          // Render restored messages
+          parsedMsgs.forEach(msg => {
+            appendMessage(msg.text, msg.sender, false);
+          });
+
+          // If user already chatted, hide initial suggestions
+          const hasUserMsg = parsedMsgs.some(m => m.sender === 'user');
+          if (hasUserMsg && suggestionsContainer) {
+            suggestionsContainer.style.display = 'none';
+          }
+
+          if (wasOpen === 'true') {
+            openChat();
+          }
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Error rehydrating chat from sessionStorage:', err);
+    }
+
+    // Default first-time view
+    appendMessage(DEFAULT_WELCOME_MSG, 'bot', true);
+  };
+
+  // Initialize session
+  initSessionChat();
 
   // Handle form submission
   chatForm.addEventListener('submit', async (e) => {
@@ -182,18 +283,25 @@ document.addEventListener('DOMContentLoaded', () => {
       suggestionsContainer.style.display = 'none';
     }
 
-    // Add user message to UI
-    appendMessage(text, 'user');
-    chatInput.value = '';
-    
     // Add to history
     chatHistory.push({
       role: 'user',
       parts: [{ text }]
     });
 
+    // Add user message to UI
+    appendMessage(text, 'user');
+    chatInput.value = '';
+
     setTyping(true);
     submitBtn.disabled = true;
+
+    // Capture dynamic client page context
+    const pageContext = {
+      pageUrl: window.location.href,
+      pagePath: window.location.pathname + window.location.search,
+      pageTitle: document.title || 'Diamora Properties'
+    };
 
     try {
       const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -202,17 +310,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: chatHistory })
+        body: JSON.stringify({
+          messages: chatHistory,
+          context: pageContext
+        })
       });
 
       const data = await response.json();
       
       if (response.ok && data.text) {
-        appendMessage(data.text, 'bot');
         chatHistory.push({
           role: 'model',
           parts: [{ text: data.text }]
         });
+        appendMessage(data.text, 'bot');
       } else {
         appendMessage(data.error || 'Thank you for reaching out. Please connect directly with our advisory team on WhatsApp at +971 50 676 0668.', 'bot');
       }
@@ -228,4 +339,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-

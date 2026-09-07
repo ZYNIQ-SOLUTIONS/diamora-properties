@@ -99,6 +99,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (teaser) teaser.style.display = 'none';
     if (iconChat) iconChat.style.display = 'none';
     if (iconClose) iconClose.style.display = 'block';
+    
+    // Smoothly hide WhatsApp button on mobile to avoid overlap
+    const waBtn = document.querySelector('.floating-whatsapp-btn');
+    if (waBtn && window.innerWidth <= 768) {
+      waBtn.style.opacity = '0';
+      waBtn.style.pointerEvents = 'none';
+      waBtn.style.transform = 'translateY(16px)';
+      waBtn.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+    }
+
     sessionStorage.setItem(STORAGE_OPEN_KEY, 'true');
     setTimeout(() => {
       if (window.innerWidth > 768) chatInput.focus();
@@ -110,6 +120,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (teaser) teaser.style.display = 'flex';
     if (iconChat) iconChat.style.display = 'flex';
     if (iconClose) iconClose.style.display = 'none';
+
+    // Restore WhatsApp button
+    const waBtn = document.querySelector('.floating-whatsapp-btn');
+    if (waBtn) {
+      waBtn.style.opacity = '';
+      waBtn.style.pointerEvents = '';
+      waBtn.style.transform = '';
+    }
+
     sessionStorage.setItem(STORAGE_OPEN_KEY, 'false');
   };
 
@@ -124,6 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
   toggleBtn.addEventListener('click', toggleChat);
   if (teaser) teaser.addEventListener('click', openChat);
   closeBtn.addEventListener('click', closeChat);
+
+  // Tap outside to close chat on mobile & desktop
+  document.addEventListener('pointerdown', (e) => {
+    if (!chatWindow.classList.contains('open')) return;
+    if (chatbotContainer && chatbotContainer.contains(e.target)) return;
+    closeChat();
+  });
+
+  // ESC key to close chat
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && chatWindow.classList.contains('open')) {
+      closeChat();
+    }
+  });
 
   // Quick Chips Click Listener
   if (suggestionsContainer) {

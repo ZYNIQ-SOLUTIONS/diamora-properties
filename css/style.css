@@ -2784,9 +2784,29 @@ body.loaded #loader-wrapper {
 .back-to-top-btn:focus-visible { outline: 2px solid var(--gold-primary); outline-offset: 2px; }
 
 /* --------------------------------------------------------------------------
-   14. FLOATING WHATSAPP BUTTON
+   14. FLOATING WHATSAPP BUTTON (Left-Aligned, Always Visible)
    -------------------------------------------------------------------------- */
-.floating-whatsapp-btn { position: fixed; bottom: 30px; right: 30px; display: flex; align-items: center; gap: 10px; padding: 13px 22px 13px 18px; background: #25D366; color: #ffffff; border-radius: var(--r-full); font-weight: 700; font-size: 0.88rem; box-shadow: 0 8px 24px rgba(37,211,102,0.38); z-index: 9998; transition: transform var(--t-base), box-shadow var(--t-base); }
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  right: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px 13px 16px;
+  background: #25D366;
+  color: #ffffff;
+  border-radius: var(--r-full);
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: 0 8px 24px rgba(37,211,102,0.38);
+  z-index: 9998;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transition: transform var(--t-base), box-shadow var(--t-base);
+}
 .floating-whatsapp-btn svg { width: 22px; height: 22px; fill: currentColor; }
 .floating-whatsapp-btn:hover { transform: translateY(-4px) scale(1.03); box-shadow: 0 12px 30px rgba(37,211,102,0.55); color: #ffffff; }
 .floating-whatsapp-btn:focus-visible { outline: 3px solid #25D366; outline-offset: 3px; }
@@ -2975,13 +2995,17 @@ body.loaded #loader-wrapper {
   .trust-strip-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
   .footer-bottom-bar { flex-direction: column; align-items: flex-start; gap: 14px; }
 
-  /* Floating WhatsApp Mobile */
+  /* Floating WhatsApp Mobile (Left Side, Always Visible) */
   .floating-whatsapp-btn {
     padding: 11px 16px;
-    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-    right: calc(14px + env(safe-area-inset-right, 0px));
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    left: calc(16px + env(safe-area-inset-left, 0px));
+    right: auto;
     font-size: 0.8rem;
-    z-index: 1050;
+    z-index: 9998;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
   .floating-whatsapp-btn svg { width: 18px; height: 18px; }
 

@@ -5,8 +5,8 @@
 
 .chatbot-container {
   position: fixed;
-  bottom: 96px;
-  right: 30px;
+  bottom: 24px;
+  right: 24px;
   z-index: 9999;
   font-family: 'Montserrat', sans-serif;
   display: flex;
@@ -243,7 +243,7 @@
 
 .chatbot-window {
   position: absolute;
-  bottom: 80px;
+  bottom: 74px;
   right: 0;
   width: 395px;
   max-width: calc(100vw - 32px);

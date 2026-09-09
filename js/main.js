@@ -762,15 +762,15 @@ function initPageAnimations() {
     });
   }
 
-  // WhatsApp button entrance
+  // WhatsApp button entrance (always showing, no scrollTrigger hiding)
   if (document.querySelector('.floating-whatsapp-btn')) {
     gsap.from('.floating-whatsapp-btn', {
-      scale: 0.7, opacity: 0, duration: 0.6, ease: 'back.out(1.5)',
-      scrollTrigger: {
-        trigger: '.interactive-map-section-wrapper',
-        start: 'top 80%',
-        toggleActions: 'play reverse play reverse'
-      }
+      scale: 0.8,
+      opacity: 0,
+      duration: 0.5,
+      delay: 0.4,
+      ease: 'back.out(1.4)',
+      clearProps: 'opacity,transform,scale'
     });
   }
 

@@ -99,15 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (teaser) teaser.style.display = 'none';
     if (iconChat) iconChat.style.display = 'none';
     if (iconClose) iconClose.style.display = 'block';
-    
-    // Smoothly hide WhatsApp button on mobile to avoid overlap
-    const waBtn = document.querySelector('.floating-whatsapp-btn');
-    if (waBtn && window.innerWidth <= 768) {
-      waBtn.style.opacity = '0';
-      waBtn.style.pointerEvents = 'none';
-      waBtn.style.transform = 'translateY(16px)';
-      waBtn.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
-    }
 
     sessionStorage.setItem(STORAGE_OPEN_KEY, 'true');
     setTimeout(() => {
@@ -120,14 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (teaser) teaser.style.display = 'flex';
     if (iconChat) iconChat.style.display = 'flex';
     if (iconClose) iconClose.style.display = 'none';
-
-    // Restore WhatsApp button
-    const waBtn = document.querySelector('.floating-whatsapp-btn');
-    if (waBtn) {
-      waBtn.style.opacity = '';
-      waBtn.style.pointerEvents = '';
-      waBtn.style.transform = '';
-    }
 
     sessionStorage.setItem(STORAGE_OPEN_KEY, 'false');
   };

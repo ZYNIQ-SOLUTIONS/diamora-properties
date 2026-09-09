@@ -296,7 +296,7 @@ let currentProject = null;
 let leafletProjectMap = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  initMobileNav();
+  // Mobile nav is globally handled by main.js
   initStickyNav();
   initModals();
 
@@ -306,17 +306,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadProjectDetail(slug);
   initInquiryForm();
 });
-
-function initMobileNav() {
-  const toggle = document.getElementById('navToggle');
-  const menu = document.getElementById('mobileMenu');
-  if (toggle && menu) {
-    toggle.addEventListener('click', () => {
-      const open = menu.classList.toggle('active');
-      toggle.setAttribute('aria-expanded', open);
-    });
-  }
-}
 
 function initStickyNav() {
   const stickyNav = document.getElementById('pdetailStickyNav');

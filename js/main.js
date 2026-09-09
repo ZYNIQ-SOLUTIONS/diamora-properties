@@ -29,7 +29,9 @@ function getDiamoraApiEndpoint() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.scrollTo(0, 0);
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+  }
   initHeroSequence();
   initHeroPropertySearch();
   initInteractiveMap();
@@ -43,7 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('load', () => {
-  window.scrollTo(0, 0);
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+  }
 });
 
 /* ==========================================================================
@@ -612,13 +616,15 @@ function initNavBehavior() {
 
     function setActiveNav(id) {
       document.querySelectorAll('.nav-link').forEach(l => {
-        l.classList.toggle('nav-link--active', l.getAttribute('href') === id);
+        const href = l.getAttribute('href');
+        l.classList.toggle('nav-link--active', href === id || href === 'index.html' + id);
       });
     }
 
     function clearActiveNav(id) {
       document.querySelectorAll('.nav-link').forEach(l => {
-        if (l.getAttribute('href') === id) l.classList.remove('nav-link--active');
+        const href = l.getAttribute('href');
+        if (href === id || href === 'index.html' + id) l.classList.remove('nav-link--active');
       });
     }
   }

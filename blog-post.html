@@ -31,17 +31,134 @@
 
   <div id="reading-progress" class="reading-progress"></div>
 
-  <!-- Minimal Nav Header -->
-  <header style="padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.2); max-width: 1280px; margin: 0 auto; flex-wrap: wrap; gap: 14px;">
-    <a href="index.html">
-      <img src="assets/logos/diamora-navbar-gold.png" alt="Diamora Properties" height="32" onerror="this.src='https://via.placeholder.com/150x40?text=DIAMORA'">
-    </a>
-    <nav style="display: flex; gap: 24px; font-size: 0.88rem; align-items: center;">
-      <a href="index.html" style="color: #FDFBF7; text-decoration: none;">Home</a>
-      <a href="properties.html" style="color: #FDFBF7; text-decoration: none;">Portfolio</a>
-      <a href="blog.html" style="color: var(--blog-gold, #D4AF37); text-decoration: none; font-weight: 600;">Blog</a>
-      <a href="index.html#consult" style="color: #FDFBF7; text-decoration: none;">Book Consultation</a>
-    </nav>
+  <!-- =========================================================================
+       NAVIGATION BAR (Canonical luxury header across all pages)
+       ========================================================================= -->
+  <header class="main-nav" id="main-nav" role="banner">
+    <!-- Top Contact Strip -->
+    <div class="top-contact-bar" id="top-bar">
+      <div class="container top-bar-inner">
+        <div class="top-bar-left">
+          <a href="tel:+97125848478" class="top-bar-link">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            02 584 8478
+          </a>
+          <span class="top-bar-sep" aria-hidden="true">·</span>
+          <a href="https://wa.me/971506760668" target="_blank" rel="noopener noreferrer" class="top-bar-link top-bar-link--gold">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.97.53 1.947.818 2.8.818h.005c3.179 0 5.766-2.587 5.767-5.767.001-3.182-2.583-5.768-5.776-5.768zm3.364 8.167c-.141.398-.711.758-1.009.79-.283.03-.647.143-2.18-.466-1.921-.762-3.136-2.697-3.23-2.824-.094-.127-.775-1.031-.775-1.967 0-.936.491-1.397.666-1.587.175-.19.381-.238.508-.238.127 0 .254.002.365.007.119.006.278-.045.436.333.159.381.54 1.317.587 1.413.048.095.079.206.016.333-.063.127-.095.206-.19.317-.095.111-.202.249-.289.334-.098.095-.2.198-.086.393.114.195.508.837 1.089 1.354.749.667 1.38.873 1.577.968.197.095.312.079.428-.048.117-.127.492-.571.624-.768.132-.197.264-.165.444-.099.18.066 1.144.54 1.34.636.196.096.327.143.375.223.048.079.048.46-.093.858z"/></svg>
+            WhatsApp
+          </a>
+          <span class="top-bar-sep" aria-hidden="true">·</span>
+          <a href="mailto:info@diamora.properties" class="top-bar-link">info@diamora.properties</a>
+        </div>
+        <div class="top-bar-right">
+          <span class="top-bar-tag">Licensed Real Estate Advisory · UAE</span>
+          <span class="top-bar-sep" aria-hidden="true">·</span>
+          <span class="top-bar-tag">Abu Dhabi &amp; Dubai</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll progress bar -->
+    <div class="nav-progress-bar" id="navProgressBar" aria-hidden="true">
+      <div class="nav-progress-fill" id="navProgressFill"></div>
+    </div>
+
+    <!-- Floating gold accent line -->
+    <div class="nav-line-accent" aria-hidden="true"></div>
+
+    <div class="container nav-inner">
+      <!-- Official Horizontal Gold Logo in Navbar -->
+      <a href="index.html" class="nav-logo" aria-label="Diamora Properties — Home">
+        <img src="assets/logos/diamora-navbar-gold.png" alt="Diamora Properties" class="nav-logo-img" width="210" height="38" loading="eager">
+      </a>
+
+      <!-- Desktop nav links with char-split spans -->
+      <ul class="nav-links" role="list">
+        <li>
+          <a href="projects.html" class="nav-link" data-label="Projects">
+            <span class="nav-link-text">
+              <span class="nav-link-char">P</span><span class="nav-link-char">r</span><span class="nav-link-char">o</span><span class="nav-link-char">j</span><span class="nav-link-char">e</span><span class="nav-link-char">c</span><span class="nav-link-char">t</span><span class="nav-link-char">s</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
+          <a href="properties.html" class="nav-link" data-label="Portfolio">
+            <span class="nav-link-text">
+              <span class="nav-link-char">P</span><span class="nav-link-char">o</span><span class="nav-link-char">r</span><span class="nav-link-char">t</span><span class="nav-link-char">f</span><span class="nav-link-char">o</span><span class="nav-link-char">l</span><span class="nav-link-char">i</span><span class="nav-link-char">o</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#properties" class="nav-link" data-label="Properties">
+            <span class="nav-link-text">
+              <span class="nav-link-char">P</span><span class="nav-link-char">r</span><span class="nav-link-char">o</span><span class="nav-link-char">p</span><span class="nav-link-char">e</span><span class="nav-link-char">r</span><span class="nav-link-char">t</span><span class="nav-link-char">i</span><span class="nav-link-char">e</span><span class="nav-link-char">s</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#about" class="nav-link" data-label="About">
+            <span class="nav-link-text">
+              <span class="nav-link-char">A</span><span class="nav-link-char">b</span><span class="nav-link-char">o</span><span class="nav-link-char">u</span><span class="nav-link-char">t</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#location-map" class="nav-link" data-label="Locations">
+            <span class="nav-link-text">
+              <span class="nav-link-char">L</span><span class="nav-link-char">o</span><span class="nav-link-char">c</span><span class="nav-link-char">a</span><span class="nav-link-char">t</span><span class="nav-link-char">i</span><span class="nav-link-char">o</span><span class="nav-link-char">n</span><span class="nav-link-char">s</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html#why-diamora" class="nav-link" data-label="Advisory">
+            <span class="nav-link-text">
+              <span class="nav-link-char">A</span><span class="nav-link-char">d</span><span class="nav-link-char">v</span><span class="nav-link-char">i</span><span class="nav-link-char">s</span><span class="nav-link-char">o</span><span class="nav-link-char">r</span><span class="nav-link-char">y</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
+          <a href="blog.html" class="nav-link nav-link--active" data-label="Blog">
+            <span class="nav-link-text">
+              <span class="nav-link-char">B</span><span class="nav-link-char">l</span><span class="nav-link-char">o</span><span class="nav-link-char">g</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="index.html#consult" class="btn-nav-primary" id="navCta">
+          <span class="btn-nav-primary-text">Book a Consultation</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <button class="nav-hamburger" id="navToggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span class="ham-line ham-line-1"></span>
+          <span class="ham-line ham-line-2"></span>
+          <span class="ham-line ham-line-3"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
+      <ul role="list">
+        <li><a href="projects.html" class="mobile-nav-link" style="color: #D4AF37; font-weight: 600;">Off-Plan Projects</a></li>
+        <li><a href="properties.html" class="mobile-nav-link">Portfolio</a></li>
+        <li><a href="index.html#properties" class="mobile-nav-link">Properties</a></li>
+        <li><a href="blog.html" class="mobile-nav-link" style="color: #D4AF37;">Blog &amp; Insights</a></li>
+        <li><a href="index.html#about" class="mobile-nav-link">About Us</a></li>
+        <li><a href="index.html#location-map" class="mobile-nav-link">Locations</a></li>
+        <li><a href="index.html#why-diamora" class="mobile-nav-link">Advisory</a></li>
+        <li><a href="index.html#consult" class="mobile-nav-link mobile-nav-cta">Book a Consultation</a></li>
+      </ul>
+    </div>
   </header>
 
   <div id="post-container">
@@ -79,7 +196,7 @@
   </div>
 
   <!-- =========================================================================
-       FOOTER (Matching Landing Page 100%)
+       FOOTER (Canonical 4-Column Luxury Footer across all pages)
        ========================================================================= -->
   <footer class="main-footer" role="contentinfo">
     <div class="container">
@@ -87,7 +204,7 @@
       <div class="footer-top-grid">
 
         <div class="footer-col footer-brand">
-          <a href="index.html" class="footer-logo-link" aria-label="Diamora Properties — Return to top">
+          <a href="index.html" class="footer-logo-link" aria-label="Diamora Properties — Home">
             <img src="assets/logos/diamora-footer-gold.png" alt="Diamora Properties" class="footer-logo-img" width="140" height="140" loading="lazy">
           </a>
           <p class="footer-brand-tagline">
@@ -118,6 +235,7 @@
         <div class="footer-col">
           <h3 class="footer-col-title">Advisory &amp; Portfolios</h3>
           <ul class="footer-nav-list" role="list">
+            <li><a href="projects.html" class="footer-nav-link" style="color: #D4AF37;">Off-Plan Developments</a></li>
             <li><a href="properties.html" class="footer-nav-link">Signature Portfolio</a></li>
             <li><a href="index.html#properties" class="footer-nav-link">Featured Residences</a></li>
             <li><a href="blog.html" class="footer-nav-link">Market Insights &amp; Blog</a></li>
@@ -142,7 +260,7 @@
           <h3 class="footer-col-title">Official Inquiries</h3>
           <div class="footer-contact-cards">
             <a href="tel:+97125848478" class="contact-item">
-              <div class="contact-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+              <div class="contact-icon-box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
               <div class="contact-content"><span class="contact-label">Direct Landline</span><span class="contact-val">02 584 8478</span></div>
             </a>
             <a href="https://wa.me/971506760668" target="_blank" rel="noopener noreferrer" class="contact-item">
@@ -208,8 +326,16 @@
     <span class="btn-text">WhatsApp Us</span>
   </a>
 
+  <!-- GSAP Core & ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Anime.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+
+  <!-- Main JS for Navigation, Scroll progress, Hamburger, Back-to-Top -->
+  <script src="js/main.js?v=4.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="js/blog-post.js?v=3.1"></script>
-  <script src="js/chatbot.js?v=3.3" defer></script>
+  <script src="js/chatbot.js?v=4.0" defer></script>
 </body>
 </html>

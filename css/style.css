@@ -3149,6 +3149,10 @@ body.loaded #loader-wrapper {
   color: var(--gold-light) !important;
 }
 
+.nav-link--active .nav-link-underline {
+  width: 100% !important;
+}
+
 .main-nav.nav--solid .nav-link--active {
   color: var(--gold-dark) !important;
 }
@@ -3500,11 +3504,79 @@ body.projects-body {
   color: #FDFBF7;
 }
 
-body.projects-body .main-nav {
-  background: rgba(9, 11, 15, 0.90);
+body.projects-body .main-nav,
+body.project-detail-body .main-nav,
+body.blog-page .main-nav,
+body.legal-page .main-nav,
+body.error-page .main-nav {
+  background: rgba(9, 11, 15, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+body.projects-body .main-nav.nav--solid,
+body.project-detail-body .main-nav.nav--solid,
+body.blog-page .main-nav.nav--solid,
+body.legal-page .main-nav.nav--solid,
+body.error-page .main-nav.nav--solid {
+  background: rgba(9, 11, 15, 0.96) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+body.projects-body .main-nav.nav--solid .nav-link,
+body.project-detail-body .main-nav.nav--solid .nav-link,
+body.blog-page .main-nav.nav--solid .nav-link,
+body.legal-page .main-nav.nav--solid .nav-link,
+body.error-page .main-nav.nav--solid .nav-link {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+body.projects-body .main-nav.nav--solid .nav-link:hover,
+body.project-detail-body .main-nav.nav--solid .nav-link:hover,
+body.blog-page .main-nav.nav--solid .nav-link:hover,
+body.legal-page .main-nav.nav--solid .nav-link:hover,
+body.error-page .main-nav.nav--solid .nav-link:hover {
+  color: #FFFFFF !important;
+}
+
+body.projects-body .main-nav.nav--solid .nav-link--active,
+body.project-detail-body .main-nav.nav--solid .nav-link--active,
+body.blog-page .main-nav.nav--solid .nav-link--active,
+body.legal-page .main-nav.nav--solid .nav-link--active,
+body.error-page .main-nav.nav--solid .nav-link--active {
+  color: var(--gold-light) !important;
+}
+
+body.projects-body .main-nav.nav--solid .top-bar-link,
+body.project-detail-body .main-nav.nav--solid .top-bar-link,
+body.blog-page .main-nav.nav--solid .top-bar-link,
+body.legal-page .main-nav.nav--solid .top-bar-link,
+body.error-page .main-nav.nav--solid .top-bar-link,
+body.projects-body .main-nav.nav--solid .top-bar-tag,
+body.project-detail-body .main-nav.nav--solid .top-bar-tag,
+body.blog-page .main-nav.nav--solid .top-bar-tag,
+body.legal-page .main-nav.nav--solid .top-bar-tag,
+body.error-page .main-nav.nav--solid .top-bar-tag {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+body.projects-body .main-nav.nav--solid .top-bar-link--gold,
+body.project-detail-body .main-nav.nav--solid .top-bar-link--gold,
+body.blog-page .main-nav.nav--solid .top-bar-link--gold,
+body.legal-page .main-nav.nav--solid .top-bar-link--gold,
+body.error-page .main-nav.nav--solid .top-bar-link--gold {
+  color: var(--gold-light) !important;
+}
+
+body.projects-body .main-nav.nav--solid .ham-line,
+body.project-detail-body .main-nav.nav--solid .ham-line,
+body.blog-page .main-nav.nav--solid .ham-line,
+body.legal-page .main-nav.nav--solid .ham-line,
+body.error-page .main-nav.nav--solid .ham-line {
+  background: var(--gold-light) !important;
 }
 
 .prop-hero {

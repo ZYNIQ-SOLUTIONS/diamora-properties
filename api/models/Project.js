@@ -183,11 +183,10 @@ const projectSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 // Auto-generate slug before saving if not supplied or changed
-projectSchema.pre('save', function (next) {
+projectSchema.pre('save', function () {
   if (!this.slug || this.isModified('title')) {
     this.slug = generateSlug(this.title);
   }
-  next();
 });
 
 // Full-text search index for projects

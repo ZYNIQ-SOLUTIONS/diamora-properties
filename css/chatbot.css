@@ -539,7 +539,7 @@
 }
 
 /* Send Button */
-.chatbot-input-container button {
+.chatbot-input-container button:not(.chatbot-voice-btn) {
   background: linear-gradient(135deg, #F2D27A 0%, #D4AF37 50%, #B89628 100%);
   color: #0A0B0E;
   border: none;
@@ -555,21 +555,138 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.chatbot-input-container button:hover {
+.chatbot-input-container button:not(.chatbot-voice-btn):hover {
   transform: scale(1.08);
   box-shadow: 0 6px 20px rgba(242, 210, 122, 0.55);
 }
 
-.chatbot-input-container button:active {
+.chatbot-input-container button:not(.chatbot-voice-btn):active {
   transform: scale(0.95);
 }
 
-.chatbot-input-container button:disabled {
+.chatbot-input-container button:not(.chatbot-voice-btn):disabled {
   background: #252833;
   color: #555B6E;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+/* ==========================================================================
+   VOICE BUTTON — Mic / Voice Mode Control
+   ========================================================================== */
+
+@keyframes voice-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  60% {
+    transform: scale(1.55);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
+}
+
+@keyframes voice-speaking-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4), 0 4px 14px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.0), 0 4px 20px rgba(242, 210, 122, 0.7);
+  }
+}
+
+@keyframes avatar-speaking-pulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(242, 210, 122, 0.9), 0 0 40px rgba(212, 175, 55, 0.5);
+  }
+}
+
+.chatbot-voice-btn {
+  position: relative;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1.5px solid rgba(212, 175, 55, 0.45);
+  color: #D4AF37;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.chatbot-voice-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #F2D27A;
+  color: #F2D27A;
+  transform: scale(1.06);
+}
+
+.chatbot-voice-btn:active {
+  transform: scale(0.95);
+}
+
+/* Listening state — pulsing red ring */
+.chatbot-voice-btn.listening {
+  background: rgba(220, 38, 38, 0.15);
+  border-color: #EF4444;
+  color: #EF4444;
+  animation: voice-speaking-glow 1s infinite ease-in-out;
+}
+
+.chatbot-voice-btn.listening::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #EF4444;
+  animation: voice-pulse-ring 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  pointer-events: none;
+}
+
+.chatbot-voice-btn.listening::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #EF4444;
+  animation: voice-pulse-ring 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  animation-delay: 0.6s;
+  pointer-events: none;
+}
+
+/* Processing state — gold pulse */
+.chatbot-voice-btn.processing {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #D4AF37;
+  color: #F2D27A;
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* Speaking state — gold glow */
+.chatbot-voice-btn.speaking {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #F2D27A;
+  color: #F2D27A;
+  animation: voice-speaking-glow 1.2s ease-in-out infinite;
+}
+
+/* Avatar speaking pulse animation */
+.chatbot-avatar.speaking {
+  animation: avatar-speaking-pulse 1.2s ease-in-out infinite;
 }
 
 /* ==========================================================================
@@ -769,11 +886,20 @@
     border-radius: 22px !important;
   }
 
-  .chatbot-input-container button {
+  .chatbot-input-container button:not(.chatbot-voice-btn) {
     width: 44px !important;
     height: 44px !important;
     min-width: 44px !important;
     min-height: 44px !important;
+    flex-shrink: 0;
+    touch-action: manipulation;
+  }
+
+  .chatbot-voice-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
     flex-shrink: 0;
     touch-action: manipulation;
   }

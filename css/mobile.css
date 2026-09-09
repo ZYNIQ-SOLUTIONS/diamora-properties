@@ -826,5 +826,26 @@ a, button, [role="button"], input, select, textarea,
   .pdetail-connectivity-grid {
     grid-template-columns: 1fr;
   }
+
+  .project-breadcrumbs {
+    margin-top: 60px !important;
+    padding: 10px 0 !important;
+  }
+
+  .prop-hero {
+    padding: 100px 0 35px !important;
+  }
+
+  .pdetail-hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .pdetail-hero-actions .btn-primary,
+  .pdetail-hero-actions .btn-secondary,
+  .pdetail-hero-actions .btn-whatsapp {
+    width: 100%;
+    justify-content: center;
+  }
 }
 

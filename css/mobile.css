@@ -697,3 +697,127 @@ a, button, [role="button"], input, select, textarea,
     min-height: 340px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   11. OFF-PLAN PROJECTS & DETAIL PAGE RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .pdetail-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .pdetail-sidebar-col {
+    order: 2;
+  }
+
+  .pdetail-inquiry-card {
+    position: relative;
+    top: 0;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .offplan-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .offplan-card-media {
+    height: 220px;
+  }
+
+  .pdetail-hero {
+    padding: 110px 0 40px;
+    min-height: 400px;
+  }
+
+  .pdetail-title {
+    font-size: clamp(1.8rem, 6vw, 2.4rem);
+  }
+
+  .pdetail-ribbon {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .pdetail-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .pdetail-hero-actions .btn-primary,
+  .pdetail-hero-actions .btn-secondary,
+  .pdetail-hero-actions .btn-whatsapp {
+    width: 100%;
+    justify-content: center;
+    min-height: 46px;
+  }
+
+  .pdetail-sticky-nav.is-sticky {
+    top: 55px;
+  }
+
+  .pdetail-units-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdetail-milestones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdetail-amenities-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .pdetail-connectivity-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .offplan-vip-banner {
+    padding: 24px 20px !important;
+  }
+
+  .offplan-vip-banner a {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .offplan-meta-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 8px 6px;
+  }
+
+  .meta-lbl {
+    font-size: 0.62rem;
+  }
+
+  .meta-val {
+    font-size: 0.78rem;
+  }
+
+  .pdetail-ribbon {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .pdetail-amenities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdetail-connectivity-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

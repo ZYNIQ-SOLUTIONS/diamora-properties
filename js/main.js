@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initNewsletterForm();
   initConsultForm();
+  initFeaturedProjects();
   initCookieBanner();
 });
 
@@ -1269,4 +1270,95 @@ function initCookieBanner() {
     }
   } catch (e) {}
 }
+
+/* ==========================================================================
+   OFF-PLAN PROJECTS HOMEPAGE HYDRATION
+   ========================================================================== */
+async function initFeaturedProjects() {
+  const container = document.getElementById('offplanProjectsGrid');
+  if (!container) return;
+
+  try {
+    const apiBase = getDiamoraApiEndpoint();
+    const res = await fetch(`${apiBase}/projects?featured=true`);
+    if (!res.ok) return;
+
+    const projects = await res.json();
+    if (!Array.isArray(projects) || projects.length === 0) return;
+
+    container.innerHTML = projects.slice(0, 6).map(proj => {
+      const slug = proj.slug || proj._id;
+      const title = escapeHtmlMain(proj.title || '');
+      const dev = escapeHtmlMain(proj.developer || 'Master Developer');
+      const loc = escapeHtmlMain(proj.location || `${proj.city || 'UAE'}`);
+      const tagline = escapeHtmlMain(proj.tagline || (proj.description ? proj.description.substring(0, 90) + '...' : ''));
+      const status = escapeHtmlMain(proj.status || 'New Launch');
+      const handover = escapeHtmlMain(proj.handoverDate || 'TBA');
+      const paymentPlan = escapeHtmlMain(proj.paymentPlan || 'Milestone Plan');
+      const price = Number(proj.startingPrice || 0);
+      const priceStr = price >= 1000000 ? `AED ${(price / 1000000).toFixed(1)}M` : `AED ${price.toLocaleString()}`;
+
+      let imgSrc = proj.heroImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85';
+      if (!imgSrc.startsWith('http') && !imgSrc.startsWith('/')) {
+        imgSrc = '/' + imgSrc;
+      }
+
+      return `
+        <article class="offplan-card" aria-label="${title}">
+          <div class="offplan-card-media">
+            <img src="${imgSrc}" alt="${title}" class="offplan-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80'">
+            <div class="offplan-card-overlay"></div>
+            <div class="offplan-card-top">
+              <div class="offplan-dev-badge">
+                <span class="offplan-dev-name">${dev}</span>
+              </div>
+              <span class="offplan-status-pill">${status}</span>
+            </div>
+          </div>
+          <div class="offplan-card-body">
+            <div class="offplan-location">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>${loc}</span>
+            </div>
+            <h3 class="offplan-title">${title}</h3>
+            <p class="offplan-tagline">${tagline}</p>
+            <div class="offplan-meta-grid">
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Starting Price</span>
+                <span class="meta-val gold-text">${priceStr}</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Handover</span>
+                <span class="meta-val">${handover}</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Payment Plan</span>
+                <span class="meta-val">${paymentPlan}</span>
+              </div>
+            </div>
+            <div class="offplan-card-footer">
+              <a href="project-detail.html?slug=${encodeURIComponent(slug)}" class="btn-offplan-explore">
+                <span>Explore Project</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  } catch (err) {
+    console.debug('Using pre-rendered off-plan cards', err);
+  }
+}
+
+function escapeHtmlMain(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 

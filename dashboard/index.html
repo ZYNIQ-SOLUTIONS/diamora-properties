@@ -146,6 +146,12 @@
           <span class="tab-badge" id="badge-prop-count">0</span>
         </button>
 
+        <button type="button" class="dash-tab-btn" data-tab="tab-projects">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          <span>Off-Plan Projects</span>
+          <span class="tab-badge" id="badge-projects-count">0</span>
+        </button>
+
         <button type="button" class="dash-tab-btn" data-tab="tab-blog">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
           <span>Blog Management</span>
@@ -206,6 +212,63 @@
                 </tr>
               </thead>
               <tbody id="properties-tbody">
+                <!-- Rows injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================================
+           TAB: OFF-PLAN PROJECTS CATALOG
+           ===================================================================== -->
+      <section id="tab-projects" class="tab-pane" style="display: none;">
+        <div class="control-bar">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="project-search-input" placeholder="Search projects by title, developer, or location...">
+          </div>
+          
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+            <select id="project-city-filter" class="form-select" style="padding: 7px 12px; font-size: 0.82rem; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-gold); border-radius: var(--radius-xs);">
+              <option value="all">All Emirates</option>
+              <option value="Dubai">Dubai</option>
+              <option value="Abu Dhabi">Abu Dhabi</option>
+              <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+              <option value="Sharjah">Sharjah</option>
+            </select>
+
+            <select id="project-status-filter" class="form-select" style="padding: 7px 12px; font-size: 0.82rem; background: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-gold); border-radius: var(--radius-xs);">
+              <option value="all">All Statuses</option>
+              <option value="New Launch">New Launch</option>
+              <option value="Under Construction">Under Construction</option>
+              <option value="Handover Soon">Handover Soon</option>
+              <option value="Sold Out">Sold Out</option>
+            </select>
+
+            <button type="button" id="btn-open-add-project-modal" class="btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Add New Project</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="dash-table" id="projects-table">
+              <thead>
+                <tr>
+                  <th>Project Asset &amp; Developer</th>
+                  <th>Emirate / Location</th>
+                  <th>Starting Price</th>
+                  <th>Handover</th>
+                  <th>Payment Plan</th>
+                  <th>Status</th>
+                  <th>Featured</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="projects-tbody">
                 <!-- Rows injected via JS -->
               </tbody>
             </table>
@@ -759,6 +822,191 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
         <div style="display: flex; justify-content: flex-end; gap: 12px;">
           <button type="button" id="btn-cancel-blog-modal" class="btn-secondary">Cancel</button>
           <button type="submit" id="blog-save-btn" class="btn-primary">Save Post</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       5. OFF-PLAN PROJECT MODAL (ADD / EDIT)
+       ========================================================================= -->
+  <div id="project-modal" class="modal-backdrop" style="display: none;">
+    <div class="modal-content" style="max-width: 920px;">
+      <div class="modal-header">
+        <h3 id="project-modal-title" class="font-serif">Add New Off-Plan Project</h3>
+        <button type="button" id="btn-close-project-modal" class="modal-close-btn">&times;</button>
+      </div>
+
+      <form id="project-form">
+        <input type="hidden" id="project-id">
+
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-title" class="form-label">Project Title *</label>
+            <input type="text" id="project-title" class="form-input" placeholder="e.g. Sobha City Abu Dhabi" required>
+          </div>
+
+          <div class="form-group">
+            <label for="project-developer" class="form-label">Developer *</label>
+            <input type="text" id="project-developer" class="form-input" placeholder="e.g. Sobha Realty, Binghatti, Aldar" required>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="project-tagline" class="form-label">Marketing Tagline / Subtitle</label>
+          <input type="text" id="project-tagline" class="form-input" placeholder="e.g. Luxury Apartments, Villas & Townhouses by Sobha Realty">
+        </div>
+
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-city" class="form-label">Emirate / Region *</label>
+            <select id="project-city" class="form-select" required>
+              <option value="Dubai">Dubai</option>
+              <option value="Abu Dhabi">Abu Dhabi</option>
+              <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+              <option value="Sharjah">Sharjah</option>
+              <option value="International">International</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="project-location" class="form-label">District / Location *</label>
+            <input type="text" id="project-location" class="form-input" placeholder="e.g. Al Shamkha, Abu Dhabi" required>
+          </div>
+        </div>
+
+        <div class="modal-grid-3" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-price" class="form-label">Starting Price in AED *</label>
+            <input type="number" id="project-price" class="form-input" placeholder="e.g. 1500000" required min="100000">
+          </div>
+
+          <div class="form-group">
+            <label for="project-handover" class="form-label">Handover Date *</label>
+            <input type="text" id="project-handover" class="form-input" placeholder="e.g. Q4 2027" required>
+          </div>
+
+          <div class="form-group">
+            <label for="project-payment-plan" class="form-label">Payment Plan *</label>
+            <input type="text" id="project-payment-plan" class="form-input" placeholder="e.g. 60/40 or 70/30" required>
+          </div>
+        </div>
+
+        <div class="modal-grid-3" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-down-payment" class="form-label">Down Payment</label>
+            <input type="text" id="project-down-payment" class="form-input" placeholder="e.g. 10% or 20%">
+          </div>
+
+          <div class="form-group">
+            <label for="project-bedrooms" class="form-label">Bedrooms / Typology</label>
+            <input type="text" id="project-bedrooms" class="form-input" placeholder="e.g. 1 - 4 Bedrooms">
+          </div>
+
+          <div class="form-group">
+            <label for="project-status" class="form-label">Project Status</label>
+            <select id="project-status" class="form-select">
+              <option value="New Launch">New Launch</option>
+              <option value="Under Construction">Under Construction</option>
+              <option value="Handover Soon">Handover Soon</option>
+              <option value="Sold Out">Sold Out</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="project-property-types" class="form-label">Property Typologies (comma-separated)</label>
+          <input type="text" id="project-property-types" class="form-input" placeholder="e.g. Apartments, Villas, Penthouses, Townhouses">
+        </div>
+
+        <!-- Media: Hero Image & Developer Logo Uploads -->
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <!-- 1. Hero Image -->
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between;">
+              <span>Hero / Cover Architectural Render *</span>
+              <span style="font-size: 0.7rem; color: var(--gold-light);">JPG, PNG, WEBP</span>
+            </label>
+            <input type="file" id="projectHeroFileInput" accept="image/jpeg,image/png,image/webp" style="display: none;">
+            <div id="projectHeroDropzone" class="upload-dropzone" style="padding: 16px; min-height: 100px;">
+              <div class="dropzone-title" style="font-size: 0.85rem;">Click or Drag Hero Render</div>
+              <div class="dropzone-hint" style="font-size: 0.72rem;">High-resolution hero photography</div>
+            </div>
+            <div id="projectHeroPreviewContainer" class="media-preview-container" style="display: none; margin-top: 8px;">
+              <img id="projectHeroPreviewImg" class="media-preview-thumb" src="" alt="Hero Preview" style="height: 120px; width: 100%; object-fit: cover; border-radius: var(--radius-xs);">
+              <button type="button" id="btnRemoveProjectHero" class="media-remove-btn" title="Remove">&times;</button>
+            </div>
+            <input type="hidden" id="project-hero-image" required>
+          </div>
+
+          <!-- 2. Developer Logo -->
+          <div class="form-group">
+            <label class="form-label" style="display: flex; justify-content: space-between;">
+              <span>Developer Logo / Project Badge</span>
+              <span style="font-size: 0.7rem; color: var(--gold-light);">PNG with transparent background</span>
+            </label>
+            <input type="file" id="projectLogoFileInput" accept="image/jpeg,image/png,image/webp,image/svg+xml" style="display: none;">
+            <div id="projectLogoDropzone" class="upload-dropzone" style="padding: 16px; min-height: 100px;">
+              <div class="dropzone-title" style="font-size: 0.85rem;">Click or Drag Developer Logo</div>
+              <div class="dropzone-hint" style="font-size: 0.72rem;">Brand emblem badge for card overlay</div>
+            </div>
+            <div id="projectLogoPreviewContainer" class="media-preview-container" style="display: none; margin-top: 8px;">
+              <img id="projectLogoPreviewImg" class="media-preview-thumb" src="" alt="Logo Preview" style="height: 80px; width: auto; max-width: 140px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 8px; border-radius: var(--radius-xs);">
+              <button type="button" id="btnRemoveProjectLogo" class="media-remove-btn" title="Remove">&times;</button>
+            </div>
+            <input type="hidden" id="project-developer-logo">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="project-description" class="form-label">Detailed Project Description &amp; Master Plan Narrative *</label>
+          <textarea id="project-description" class="form-input form-textarea" rows="4" placeholder="Comprehensive project narrative, master development layout, architecture, luxury finishes, and lifestyle benefits..." required></textarea>
+        </div>
+
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-highlights" class="form-label">Key Highlights (one per line)</label>
+            <textarea id="project-highlights" class="form-input form-textarea" rows="3" placeholder="Swimmable crystal lagoon&#10;Private beach club&#10;Direct access to Downtown Dubai"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="project-amenities" class="form-label">Luxury Amenities (comma-separated)</label>
+            <textarea id="project-amenities" class="form-input form-textarea" rows="3" placeholder="Infinity Pool, Private Beach, Valet Service, Wellness Spa, Kids Club, Concierge 24/7"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="project-gallery" class="form-label">Photo Gallery Image URLs (one per line)</label>
+          <textarea id="project-gallery" class="form-input form-textarea" rows="2" placeholder="https://images.unsplash.com/...&#10;https://images.unsplash.com/..."></textarea>
+        </div>
+
+        <div class="modal-grid-3" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-brochure" class="form-label">Brochure PDF Link</label>
+            <input type="url" id="project-brochure" class="form-input" placeholder="https://.../brochure.pdf">
+          </div>
+
+          <div class="form-group">
+            <label for="project-lat" class="form-label">Latitude (Map)</label>
+            <input type="number" step="any" id="project-lat" class="form-input" placeholder="25.2048">
+          </div>
+
+          <div class="form-group">
+            <label for="project-lng" class="form-label">Longitude (Map)</label>
+            <input type="number" step="any" id="project-lng" class="form-input" placeholder="55.2708">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label class="form-label" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="checkbox" id="project-featured" style="accent-color: var(--gold-primary); width: 18px; height: 18px;">
+            <span><strong>Feature on Landing Page</strong> (Showcase in the Latest Off-Plan Projects carousel)</span>
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px;">
+          <button type="button" id="btn-cancel-project-modal" class="btn-secondary">Cancel</button>
+          <button type="submit" id="project-save-btn" class="btn-primary">Save Off-Plan Project</button>
         </div>
       </form>
     </div>

@@ -1,6 +1,8 @@
 # Diamora Properties — Production Clean URL Redirects & Rewrites
 
 # Clean URLs
+/projects           /projects.html          200
+/project-detail     /project-detail.html    200
 /properties         /properties.html        200
 /dashboard          /dashboard/index.html   200
 /dashboard/         /dashboard/index.html   200

@@ -134,6 +134,14 @@
       <!-- Desktop nav links with char-split spans -->
       <ul class="nav-links" role="list">
         <li>
+          <a href="projects.html" class="nav-link" data-label="Projects">
+            <span class="nav-link-text">
+              <span class="nav-link-char">P</span><span class="nav-link-char">r</span><span class="nav-link-char">o</span><span class="nav-link-char">j</span><span class="nav-link-char">e</span><span class="nav-link-char">c</span><span class="nav-link-char">t</span><span class="nav-link-char">s</span>
+            </span>
+            <span class="nav-link-underline"></span>
+          </a>
+        </li>
+        <li>
           <a href="properties.html" class="nav-link" data-label="Portfolio">
             <span class="nav-link-text">
               <span class="nav-link-char">P</span><span class="nav-link-char">o</span><span class="nav-link-char">r</span><span class="nav-link-char">t</span><span class="nav-link-char">f</span><span class="nav-link-char">o</span><span class="nav-link-char">l</span><span class="nav-link-char">i</span><span class="nav-link-char">o</span>
@@ -199,6 +207,7 @@
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
       <ul role="list">
+        <li><a href="projects.html" class="mobile-nav-link" style="color: #D4AF37; font-weight: 600;">Off-Plan Projects</a></li>
         <li><a href="properties.html" class="mobile-nav-link">Portfolio</a></li>
         <li><a href="#properties" class="mobile-nav-link">Properties</a></li>
         <li><a href="blog.html" class="mobile-nav-link">Blog &amp; Insights</a></li>
@@ -331,6 +340,165 @@
             <button type="button" class="quick-tag" data-tag="Off-Plan">#OffPlanDeals</button>
           </div>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       OFF-PLAN PROJECTS (Direct Benchmark from herorealestate.ae)
+       ========================================================================= -->
+  <section class="section offplan-section" id="off-plan-projects" aria-labelledby="offplan-heading">
+    <div class="container">
+      <div class="section-header section-header--split">
+        <div class="section-header-left">
+          <div class="section-tag">Direct Master Developer Allocations</div>
+          <h2 class="section-title" id="offplan-heading">Latest Off-Plan<br>Projects</h2>
+        </div>
+        <div class="section-header-right">
+          <p class="section-intro">
+            Exclusive off-plan investment allocations across premier UAE communities. Benchmark developer pricing, high capital growth, and flexible milestone payment plans.
+          </p>
+          <a href="projects.html" class="btn-text-link">
+            Explore All Projects
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Off-Plan Projects Grid Container (Hydrated via /api/projects or local fallback) -->
+      <div class="offplan-grid" id="offplanProjectsGrid">
+        <!-- Project 1: Sobha City Abu Dhabi -->
+        <article class="offplan-card" aria-label="Sobha City Abu Dhabi">
+          <div class="offplan-card-media">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=85" alt="Sobha City Abu Dhabi" class="offplan-card-img" loading="lazy">
+            <div class="offplan-card-overlay"></div>
+            <div class="offplan-card-top">
+              <div class="offplan-dev-badge">
+                <span class="offplan-dev-name">Sobha Realty</span>
+              </div>
+              <span class="offplan-status-pill">New Launch</span>
+            </div>
+          </div>
+          <div class="offplan-card-body">
+            <div class="offplan-location">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Al Shamkha, Abu Dhabi</span>
+            </div>
+            <h3 class="offplan-title">Sobha City Abu Dhabi</h3>
+            <p class="offplan-tagline">Luxury Apartments, Villas &amp; Townhouses with crystal lagoons.</p>
+            <div class="offplan-meta-grid">
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Starting Price</span>
+                <span class="meta-val gold-text">AED 1.5M</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Handover</span>
+                <span class="meta-val">Q4 2027</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Payment Plan</span>
+                <span class="meta-val">60/40</span>
+              </div>
+            </div>
+            <div class="offplan-card-footer">
+              <a href="project-detail.html?slug=sobha-city-abu-dhabi" class="btn-offplan-explore">
+                <span>Explore Project</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Tilal Binghatti Dubai -->
+        <article class="offplan-card" aria-label="Tilal Binghatti Dubai">
+          <div class="offplan-card-media">
+            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85" alt="Tilal Binghatti Dubai" class="offplan-card-img" loading="lazy">
+            <div class="offplan-card-overlay"></div>
+            <div class="offplan-card-top">
+              <div class="offplan-dev-badge">
+                <span class="offplan-dev-name">Binghatti</span>
+              </div>
+              <span class="offplan-status-pill">Under Construction</span>
+            </div>
+          </div>
+          <div class="offplan-card-body">
+            <div class="offplan-location">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Al Jaddaf Waterfront, Dubai</span>
+            </div>
+            <h3 class="offplan-title">Tilal Binghatti Dubai</h3>
+            <p class="offplan-tagline">Futuristic architectural suites overlooking Dubai Creek &amp; Burj Khalifa.</p>
+            <div class="offplan-meta-grid">
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Starting Price</span>
+                <span class="meta-val gold-text">AED 1.1M</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Handover</span>
+                <span class="meta-val">Q2 2026</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Payment Plan</span>
+                <span class="meta-val">70/30</span>
+              </div>
+            </div>
+            <div class="offplan-card-footer">
+              <a href="project-detail.html?slug=tilal-binghatti-dubai" class="btn-offplan-explore">
+                <span>Explore Project</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: Manchester City Yas Residences -->
+        <article class="offplan-card" aria-label="Manchester City Yas Residences">
+          <div class="offplan-card-media">
+            <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=85" alt="Manchester City Yas Residences" class="offplan-card-img" loading="lazy">
+            <div class="offplan-card-overlay"></div>
+            <div class="offplan-card-top">
+              <div class="offplan-dev-badge">
+                <span class="offplan-dev-name">Aldar</span>
+              </div>
+              <span class="offplan-status-pill">New Launch</span>
+            </div>
+          </div>
+          <div class="offplan-card-body">
+            <div class="offplan-location">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Yas Island, Abu Dhabi</span>
+            </div>
+            <h3 class="offplan-title">Manchester City Yas Residences</h3>
+            <p class="offplan-tagline">World-first official Manchester City branded residences by Aldar.</p>
+            <div class="offplan-meta-grid">
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Starting Price</span>
+                <span class="meta-val gold-text">AED 1.95M</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Handover</span>
+                <span class="meta-val">Q1 2028</span>
+              </div>
+              <div class="offplan-meta-item">
+                <span class="meta-lbl">Payment Plan</span>
+                <span class="meta-val">65/35</span>
+              </div>
+            </div>
+            <div class="offplan-card-footer">
+              <a href="project-detail.html?slug=manchester-city-yas-residences" class="btn-offplan-explore">
+                <span>Explore Project</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="offplan-view-all-wrap" style="text-align: center; margin-top: 48px;">
+        <a href="projects.html" class="btn-primary" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 34px; font-size: 0.92rem; text-decoration: none;">
+          <span>Explore All UAE Off-Plan Developments</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
       </div>
     </div>
   </section>
@@ -1049,6 +1217,7 @@
         <div class="footer-col">
           <h3 class="footer-col-title">Advisory &amp; Portfolios</h3>
           <ul class="footer-nav-list" role="list">
+            <li><a href="projects.html" class="footer-nav-link" style="color: #D4AF37;">Off-Plan Developments</a></li>
             <li><a href="properties.html" class="footer-nav-link">Signature Portfolio</a></li>
             <li><a href="#properties" class="footer-nav-link">Featured Residences</a></li>
             <li><a href="blog.html" class="footer-nav-link">Market Insights &amp; Blog</a></li>

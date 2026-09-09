@@ -112,8 +112,119 @@ const DEFAULT_SAMPLE_PROPERTIES = [
 // Empty initial inquiries
 const DEFAULT_SAMPLE_INQUIRIES = [];
 
+// Fallback sample off-plan projects for immediate standalone testing
+const DEFAULT_SAMPLE_PROJECTS = [
+  {
+    _id: 'proj-1',
+    title: 'Sobha City Abu Dhabi',
+    slug: 'sobha-city-abu-dhabi',
+    tagline: 'Luxury Apartments, Villas & Townhouses by Sobha Realty',
+    developer: 'Sobha Realty',
+    developerLogo: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&h=200&fit=crop&q=80',
+    location: 'Al Shamkha, Abu Dhabi',
+    city: 'Abu Dhabi',
+    startingPrice: 1500000,
+    currency: 'AED',
+    handoverDate: 'Q4 2027',
+    paymentPlan: '60/40 Flexible Milestone Plan',
+    downPayment: '10%',
+    propertyTypes: ['Apartments', 'Villas', 'Townhouses'],
+    bedrooms: '1 to 5 Bedrooms',
+    status: 'New Launch',
+    isFeatured: true,
+    heroImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80'
+    ],
+    description: 'Sobha City Abu Dhabi is an ambitious master-planned residential community by Sobha Realty, spanning over millions of square feet with lush greenery, crystal lagoons, and state-of-the-art architecture. Freehold ownership for all nationalities with 10-Year UAE Golden Visa eligibility.',
+    highlights: [
+      'Prime location in Al Shamkha with direct highway access',
+      'Swimmable crystal lagoons spanning over 250,000 sq.ft',
+      'Extensive green corridors and integrated wellness parks',
+      '10-Year UAE Golden Visa eligibility'
+    ],
+    amenities: ['Crystal Swimmable Lagoon', 'Private Beach Club', 'Fitness Center', 'Infinity Lap Pools', 'Luxury Spa', '24/7 Concierge'],
+    brochureUrl: '',
+    coordinates: { lat: 24.3644, lng: 54.7072 }
+  },
+  {
+    _id: 'proj-2',
+    title: 'Tilal Binghatti Dubai',
+    slug: 'tilal-binghatti-dubai',
+    tagline: 'Futuristic Architectural Masterpiece in Al Jaddaf',
+    developer: 'Binghatti Developers',
+    developerLogo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop&q=80',
+    location: 'Al Jaddaf Waterfront, Dubai',
+    city: 'Dubai',
+    startingPrice: 1100000,
+    currency: 'AED',
+    handoverDate: 'Q2 2026',
+    paymentPlan: '70/30 Easy Installment Plan',
+    downPayment: '20%',
+    propertyTypes: ['Luxury Suites', 'Penthouses'],
+    bedrooms: '1 to 3 Bedrooms',
+    status: 'Under Construction',
+    isFeatured: true,
+    heroImage: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80'
+    ],
+    description: 'Tilal Binghatti represents avant-garde sculptural living overlooking the Dubai Creek and the iconic skyline. Designed with geometric weaves and gold accents.',
+    highlights: [
+      'Unobstructed Dubai Creek & Burj Khalifa vistas',
+      'Smart-home automation integrated in all residences',
+      'Minutes from DIFC, Downtown Dubai & DXB Airport'
+    ],
+    amenities: ['Skyline Infinity Pool', 'Jacuzzi & Sun Loungers', 'High-Tech Gymnasium', 'Paddle Tennis Court', 'Smart Home Concierge'],
+    brochureUrl: '',
+    coordinates: { lat: 25.2154, lng: 55.3289 }
+  },
+  {
+    _id: 'proj-3',
+    title: 'Manchester City Yas Residences',
+    slug: 'manchester-city-yas-residences',
+    tagline: 'World-First Official Manchester City Branded Living',
+    developer: 'Aldar Properties',
+    developerLogo: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&h=200&fit=crop&q=80',
+    location: 'Yas Island, Abu Dhabi',
+    city: 'Abu Dhabi',
+    startingPrice: 1950000,
+    currency: 'AED',
+    handoverDate: 'Q1 2028',
+    paymentPlan: '65/35 Milestone Plan',
+    downPayment: '10%',
+    propertyTypes: ['Branded Apartments', 'Duplexes'],
+    bedrooms: '1 to 4 Bedrooms',
+    status: 'New Launch',
+    isFeatured: true,
+    heroImage: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1600&q=85',
+    gallery: [
+      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80'
+    ],
+    description: 'The worlds first residential development officially curated in partnership with Manchester City Football Club and Aldar Properties on Yas Island.',
+    highlights: [
+      'Exclusive Yas Island location walking distance to Yas Marina & Theme Parks',
+      'Official MCFC training academy pitch & sports performance clinic',
+      'High-yield rental potential with world-renowned sports brand equity'
+    ],
+    amenities: ['MCFC Performance Center', 'Rooftop Sports Bar & Lounge', 'Resort Pool Deck', 'E-Gaming Arena', 'Private Cinema'],
+    brochureUrl: '',
+    coordinates: { lat: 24.4984, lng: 54.6055 }
+  }
+];
+
+function getAuthHeaders() {
+  const token = localStorage.getItem('diamora_token');
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+}
+
 // State variables
 let properties = [];
+let projects = [];
 let blogPosts = [];
 let inquiries = [];
 let isLiveApiConnected = false;
@@ -126,6 +237,7 @@ const loginError = document.getElementById('login-error');
 const logoutBtn = document.getElementById('logout-btn');
 
 const propertiesTbody = document.getElementById('properties-tbody');
+const projectsTbody = document.getElementById('projects-tbody');
 const inquiriesTbody = document.getElementById('inquiries-tbody');
 
 const propertyModal = document.getElementById('property-modal');
@@ -135,7 +247,17 @@ const btnCloseModal = document.getElementById('btn-close-modal');
 const btnCancelModal = document.getElementById('btn-cancel-modal');
 const modalTitle = document.getElementById('modal-title');
 
+const projectModal = document.getElementById('project-modal');
+const projectForm = document.getElementById('project-form');
+const btnOpenAddProjectModal = document.getElementById('btn-open-add-project-modal');
+const btnCloseProjectModal = document.getElementById('btn-close-project-modal');
+const btnCancelProjectModal = document.getElementById('btn-cancel-project-modal');
+const projectModalTitle = document.getElementById('project-modal-title');
+
 const propSearchInput = document.getElementById('prop-search-input');
+const projectSearchInput = document.getElementById('project-search-input');
+const projectCityFilter = document.getElementById('project-city-filter');
+const projectStatusFilter = document.getElementById('project-status-filter');
 const inqSearchInput = document.getElementById('inq-search-input');
 const inqStatusFilter = document.getElementById('inq-status-filter');
 const btnRefreshInquiries = document.getElementById('btn-refresh-inquiries');
@@ -233,7 +355,7 @@ async function checkApiHealth() {
 }
 
 async function loadDashboardData() {
-  await Promise.all([fetchProperties(), fetchInquiries(), fetchBlogPosts(), loadAiChatSettings()]);
+  await Promise.all([fetchProperties(), fetchProjects(), fetchInquiries(), fetchBlogPosts(), loadAiChatSettings()]);
   updateMetricCards();
 }
 
@@ -316,6 +438,8 @@ function updateMetricCards() {
   if (inqCountBadge) inqCountBadge.textContent = inquiries.length;
   const badgeBlogCount = document.getElementById('badge-blog-count');
   if (badgeBlogCount) badgeBlogCount.textContent = blogPosts.length;
+  const badgeProjectsCount = document.getElementById('badge-projects-count');
+  if (badgeProjectsCount) badgeProjectsCount.textContent = projects.length;
   const statTotalBlogs = document.getElementById('stat-total-blogs');
   if (statTotalBlogs) statTotalBlogs.textContent = blogPosts.filter(p => p.status === 'published').length;
 
@@ -762,11 +886,40 @@ function initEventListeners() {
     btnResetData.addEventListener('click', async () => {
       localStorage.removeItem('diamora_properties');
       localStorage.removeItem('diamora_inquiries');
+      localStorage.removeItem('diamora_projects');
       showToast('Syncing with live database...');
       await loadDashboardData();
       showToast('Dashboard synchronized with database');
     });
   }
+
+  // Off-Plan Project Modal & Form Listeners
+  if (btnOpenAddProjectModal) {
+    btnOpenAddProjectModal.addEventListener('click', openAddProjectModal);
+  }
+  if (btnCloseProjectModal) {
+    btnCloseProjectModal.addEventListener('click', closeProjectModal);
+  }
+  if (btnCancelProjectModal) {
+    btnCancelProjectModal.addEventListener('click', closeProjectModal);
+  }
+  if (projectForm) {
+    projectForm.addEventListener('submit', handleProjectSubmit);
+  }
+
+  // Off-Plan Project Search & Filters
+  if (projectSearchInput) {
+    projectSearchInput.addEventListener('input', filterProjects);
+  }
+  if (projectCityFilter) {
+    projectCityFilter.addEventListener('change', filterProjects);
+  }
+  if (projectStatusFilter) {
+    projectStatusFilter.addEventListener('change', filterProjects);
+  }
+
+  // Initialize Project Media Uploads
+  initProjectMediaUploadListeners();
 
   // AI Concierge System Prompt & Settings Listeners
   const formAiSettings = document.getElementById('form-ai-settings');
@@ -1841,4 +1994,502 @@ function restoreDefaultAiPrompt() {
 }
 
 window.loadAiChatSettings = loadAiChatSettings;
+
+/**
+ * =========================================================================
+ * OFF-PLAN PROJECTS MANAGEMENT
+ * =========================================================================
+ */
+
+// Fetch Projects
+async function fetchProjects() {
+  if (isLiveApiConnected) {
+    try {
+      const res = await fetch(`${API_BASE}/projects`);
+      if (res.ok) {
+        projects = await res.json();
+        renderProjectsTable(projects);
+        return;
+      }
+    } catch (e) {
+      console.warn('API error, falling back to local projects', e);
+    }
+  }
+
+  // LocalStorage Fallback
+  const stored = localStorage.getItem('diamora_projects');
+  if (stored) {
+    projects = JSON.parse(stored);
+  } else {
+    projects = [...DEFAULT_SAMPLE_PROJECTS];
+    localStorage.setItem('diamora_projects', JSON.stringify(projects));
+  }
+  renderProjectsTable(projects);
+}
+
+function renderProjectsTable(list) {
+  if (!projectsTbody) return;
+  projectsTbody.innerHTML = '';
+
+  if (!list || list.length === 0) {
+    projectsTbody.innerHTML = `
+      <tr>
+        <td colspan="8" style="text-align: center; color: var(--text-muted); padding: 32px;">
+          No off-plan projects found. Click "Add New Project" to create one.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  list.forEach(proj => {
+    const tr = document.createElement('tr');
+
+    let badgeClass = 'badge-available';
+    if (proj.status === 'New Launch') badgeClass = 'badge-available';
+    else if (proj.status === 'Under Construction') badgeClass = 'badge-offmarket';
+    else if (proj.status === 'Handover Soon') badgeClass = 'badge-available';
+    else if (proj.status === 'Sold Out') badgeClass = 'badge-sold';
+
+    let imgSrc = proj.heroImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=80';
+    if (!imgSrc.startsWith('http') && !imgSrc.startsWith('/') && !imgSrc.startsWith('../')) {
+      imgSrc = '../' + imgSrc;
+    }
+
+    const safeTitle = escapeHtml(proj.title || '');
+    const safeDev = escapeHtml(proj.developer || 'Master Developer');
+    const safeCity = escapeHtml(proj.city || 'UAE');
+    const safeLoc = escapeHtml(proj.location || '');
+    const safeStatus = escapeHtml(proj.status || 'New Launch');
+    const safeHandover = escapeHtml(proj.handoverDate || 'TBA');
+    const safePayment = escapeHtml(proj.paymentPlan || 'Milestone Plan');
+    const safeId = escapeHtml(proj._id || '');
+    const isFeatured = !!proj.isFeatured;
+    const priceFormatted = Number(proj.startingPrice || 0).toLocaleString();
+
+    tr.innerHTML = `
+      <td>
+        <div class="prop-cell-title">
+          <img src="${imgSrc}" alt="${safeTitle}" class="prop-cell-thumb" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=300&q=80'">
+          <div>
+            <div class="prop-cell-name">
+              ${safeTitle}
+            </div>
+            <div class="prop-cell-meta" style="color: var(--gold); font-weight: 600;">
+              ${safeDev}
+            </div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <strong>${safeCity}</strong>
+        <div class="prop-cell-meta">${safeLoc}</div>
+      </td>
+      <td><span class="gold-text" style="font-weight: 700;">AED ${priceFormatted}</span></td>
+      <td><strong>${safeHandover}</strong></td>
+      <td><span style="font-size: 0.8rem; background: rgba(212,175,55,0.1); color: var(--gold-light); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(212,175,55,0.2);">${safePayment}</span></td>
+      <td><span class="badge ${badgeClass}">${safeStatus}</span></td>
+      <td>
+        <button type="button" class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem; border-color: ${isFeatured ? 'var(--gold)' : 'var(--border-subtle)'}; color: ${isFeatured ? 'var(--gold)' : 'var(--text-muted)'};" onclick="toggleProjectFeatured('${safeId}', ${isFeatured})" title="Toggle Featured on Landing Page">
+          ${isFeatured ? '★ Featured' : '☆ Standard'}
+        </button>
+      </td>
+      <td style="text-align: right;">
+        <div style="display: inline-flex; gap: 8px;">
+          <a href="../project-detail.html?slug=${encodeURIComponent(proj.slug || safeId)}" target="_blank" class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem; text-decoration: none;" title="View Live Page">View</a>
+          <button type="button" class="btn-edit" onclick="openEditProjectModal('${safeId}')">Edit</button>
+          <button type="button" class="btn-danger" onclick="deleteProjectItem('${safeId}')">Delete</button>
+        </div>
+      </td>
+    `;
+    projectsTbody.appendChild(tr);
+  });
+}
+
+function filterProjects() {
+  const q = projectSearchInput ? projectSearchInput.value.toLowerCase().trim() : '';
+  const city = projectCityFilter ? projectCityFilter.value : 'all';
+  const status = projectStatusFilter ? projectStatusFilter.value : 'all';
+
+  const filtered = projects.filter(p => {
+    const matchCity = city === 'all' || p.city === city;
+    const matchStatus = status === 'all' || p.status === status;
+    const matchQuery = !q || (
+      (p.title && p.title.toLowerCase().includes(q)) ||
+      (p.developer && p.developer.toLowerCase().includes(q)) ||
+      (p.location && p.location.toLowerCase().includes(q)) ||
+      (p.city && p.city.toLowerCase().includes(q))
+    );
+    return matchCity && matchStatus && matchQuery;
+  });
+
+  renderProjectsTable(filtered);
+}
+
+function openAddProjectModal() {
+  if (!projectForm) return;
+  projectForm.reset();
+  document.getElementById('project-id').value = '';
+  document.getElementById('project-hero-image').value = '';
+  document.getElementById('project-developer-logo').value = '';
+  updateProjectHeroPreview('');
+  updateProjectLogoPreview('');
+  if (projectModalTitle) projectModalTitle.textContent = 'Add New Off-Plan Project';
+  if (projectModal) projectModal.classList.add('open');
+}
+
+function openEditProjectModal(id) {
+  const proj = projects.find(p => p._id === id || p.slug === id);
+  if (!proj || !projectForm) return;
+
+  document.getElementById('project-id').value = proj._id || '';
+  document.getElementById('project-title').value = proj.title || '';
+  document.getElementById('project-developer').value = proj.developer || '';
+  document.getElementById('project-tagline').value = proj.tagline || '';
+  document.getElementById('project-city').value = proj.city || 'Dubai';
+  document.getElementById('project-location').value = proj.location || '';
+  document.getElementById('project-price').value = proj.startingPrice || '';
+  document.getElementById('project-handover').value = proj.handoverDate || '';
+  document.getElementById('project-payment-plan').value = proj.paymentPlan || '';
+  document.getElementById('project-down-payment').value = proj.downPayment || '';
+  document.getElementById('project-bedrooms').value = proj.bedrooms || '';
+  document.getElementById('project-status').value = proj.status || 'New Launch';
+  document.getElementById('project-property-types').value = Array.isArray(proj.propertyTypes) ? proj.propertyTypes.join(', ') : (proj.propertyTypes || '');
+  document.getElementById('project-hero-image').value = proj.heroImage || '';
+  document.getElementById('project-developer-logo').value = proj.developerLogo || '';
+  document.getElementById('project-description').value = proj.description || '';
+  document.getElementById('project-highlights').value = Array.isArray(proj.highlights) ? proj.highlights.join('\n') : (proj.highlights || '');
+  document.getElementById('project-amenities').value = Array.isArray(proj.amenities) ? proj.amenities.join(', ') : (proj.amenities || '');
+  document.getElementById('project-gallery').value = Array.isArray(proj.gallery) ? proj.gallery.join('\n') : (proj.gallery || '');
+  document.getElementById('project-brochure').value = proj.brochureUrl || '';
+  document.getElementById('project-lat').value = proj.coordinates?.lat || '';
+  document.getElementById('project-lng').value = proj.coordinates?.lng || '';
+  document.getElementById('project-featured').checked = !!proj.isFeatured;
+
+  updateProjectHeroPreview(proj.heroImage || '');
+  updateProjectLogoPreview(proj.developerLogo || '');
+
+  if (projectModalTitle) projectModalTitle.textContent = 'Edit Off-Plan Project';
+  if (projectModal) projectModal.classList.add('open');
+}
+
+function closeProjectModal() {
+  if (projectModal) projectModal.classList.remove('open');
+}
+
+function updateProjectHeroPreview(url) {
+  const container = document.getElementById('projectHeroPreviewContainer');
+  const img = document.getElementById('projectHeroPreviewImg');
+  if (!container || !img) return;
+
+  if (url && url.trim()) {
+    let src = url.trim();
+    if (!src.startsWith('http') && !src.startsWith('/') && !src.startsWith('../')) {
+      src = '../' + src;
+    }
+    img.src = src;
+    container.style.display = 'block';
+  } else {
+    img.src = '';
+    container.style.display = 'none';
+  }
+}
+
+function updateProjectLogoPreview(url) {
+  const container = document.getElementById('projectLogoPreviewContainer');
+  const img = document.getElementById('projectLogoPreviewImg');
+  if (!container || !img) return;
+
+  if (url && url.trim()) {
+    let src = url.trim();
+    if (!src.startsWith('http') && !src.startsWith('/') && !src.startsWith('../')) {
+      src = '../' + src;
+    }
+    img.src = src;
+    container.style.display = 'block';
+  } else {
+    img.src = '';
+    container.style.display = 'none';
+  }
+}
+
+async function handleProjectFileUpload(file, fieldType) {
+  if (!file) return;
+
+  const token = localStorage.getItem('diamora_token');
+  if (!token) {
+    showToast('Session expired. Please log in again.');
+    return;
+  }
+
+  let payloadFile = file;
+  if (file.type.startsWith('image/')) {
+    payloadFile = await smartCompressImage(file);
+  }
+
+  const formData = new FormData();
+  formData.append('file', payloadFile);
+
+  try {
+    showToast(`Uploading ${fieldType === 'hero' ? 'hero image' : 'developer logo'}...`);
+    const res = await fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    const data = await res.json();
+    if (res.ok && data.url) {
+      if (fieldType === 'hero') {
+        document.getElementById('project-hero-image').value = data.url;
+        updateProjectHeroPreview(data.url);
+        showToast('Hero architectural render uploaded successfully');
+      } else {
+        document.getElementById('project-developer-logo').value = data.url;
+        updateProjectLogoPreview(data.url);
+        showToast('Developer logo uploaded successfully');
+      }
+    } else {
+      showToast(data.message || 'Upload failed');
+    }
+  } catch (err) {
+    console.error('Project file upload error:', err);
+    showToast('Failed to upload file. Check connection.');
+  }
+}
+
+function initProjectMediaUploadListeners() {
+  // Hero Dropzone
+  const heroDropzone = document.getElementById('projectHeroDropzone');
+  const heroFileInput = document.getElementById('projectHeroFileInput');
+  const btnRemoveHero = document.getElementById('btnRemoveProjectHero');
+
+  if (heroDropzone && heroFileInput) {
+    heroDropzone.addEventListener('click', () => heroFileInput.click());
+    heroDropzone.addEventListener('dragover', (e) => { e.preventDefault(); heroDropzone.classList.add('dragover'); });
+    heroDropzone.addEventListener('dragleave', () => heroDropzone.classList.remove('dragover'));
+    heroDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      heroDropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleProjectFileUpload(e.dataTransfer.files[0], 'hero');
+      }
+    });
+    heroFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleProjectFileUpload(e.target.files[0], 'hero');
+      }
+    });
+  }
+
+  if (btnRemoveHero) {
+    btnRemoveHero.addEventListener('click', () => {
+      document.getElementById('project-hero-image').value = '';
+      updateProjectHeroPreview('');
+    });
+  }
+
+  // Developer Logo Dropzone
+  const logoDropzone = document.getElementById('projectLogoDropzone');
+  const logoFileInput = document.getElementById('projectLogoFileInput');
+  const btnRemoveLogo = document.getElementById('btnRemoveProjectLogo');
+
+  if (logoDropzone && logoFileInput) {
+    logoDropzone.addEventListener('click', () => logoFileInput.click());
+    logoDropzone.addEventListener('dragover', (e) => { e.preventDefault(); logoDropzone.classList.add('dragover'); });
+    logoDropzone.addEventListener('dragleave', () => logoDropzone.classList.remove('dragover'));
+    logoDropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      logoDropzone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleProjectFileUpload(e.dataTransfer.files[0], 'logo');
+      }
+    });
+    logoFileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleProjectFileUpload(e.target.files[0], 'logo');
+      }
+    });
+  }
+
+  if (btnRemoveLogo) {
+    btnRemoveLogo.addEventListener('click', () => {
+      document.getElementById('project-developer-logo').value = '';
+      updateProjectLogoPreview('');
+    });
+  }
+}
+
+async function handleProjectSubmit(e) {
+  e.preventDefault();
+  const id = document.getElementById('project-id').value;
+
+  const rawPropertyTypes = document.getElementById('project-property-types').value;
+  const propertyTypes = rawPropertyTypes ? rawPropertyTypes.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+  const rawHighlights = document.getElementById('project-highlights').value;
+  const highlights = rawHighlights ? rawHighlights.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+  const rawAmenities = document.getElementById('project-amenities').value;
+  const amenities = rawAmenities ? rawAmenities.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+  const rawGallery = document.getElementById('project-gallery').value;
+  const gallery = rawGallery ? rawGallery.split('\n').map(s => s.trim()).filter(Boolean) : [];
+
+  const latVal = parseFloat(document.getElementById('project-lat').value);
+  const lngVal = parseFloat(document.getElementById('project-lng').value);
+
+  const heroImg = document.getElementById('project-hero-image').value.trim();
+  if (!heroImg) {
+    alert('Please upload or provide a Hero Architectural Render for the project.');
+    return;
+  }
+
+  const projectData = {
+    title: document.getElementById('project-title').value.trim(),
+    developer: document.getElementById('project-developer').value.trim(),
+    tagline: document.getElementById('project-tagline').value.trim(),
+    city: document.getElementById('project-city').value,
+    location: document.getElementById('project-location').value.trim(),
+    startingPrice: Number(document.getElementById('project-price').value),
+    handoverDate: document.getElementById('project-handover').value.trim(),
+    paymentPlan: document.getElementById('project-payment-plan').value.trim(),
+    downPayment: document.getElementById('project-down-payment').value.trim(),
+    bedrooms: document.getElementById('project-bedrooms').value.trim(),
+    status: document.getElementById('project-status').value,
+    propertyTypes,
+    heroImage: heroImg,
+    developerLogo: document.getElementById('project-developer-logo').value.trim(),
+    description: document.getElementById('project-description').value.trim(),
+    highlights,
+    amenities,
+    gallery,
+    brochureUrl: document.getElementById('project-brochure').value.trim(),
+    coordinates: (!isNaN(latVal) && !isNaN(lngVal)) ? { lat: latVal, lng: lngVal } : undefined,
+    isFeatured: document.getElementById('project-featured').checked
+  };
+
+  const token = localStorage.getItem('diamora_token');
+
+  // Try API first
+  if (isLiveApiConnected && token) {
+    try {
+      const url = id ? `${API_BASE}/projects/${id}` : `${API_BASE}/projects`;
+      const method = id ? 'PUT' : 'POST';
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(projectData)
+      });
+      if (res.ok) {
+        closeProjectModal();
+        await fetchProjects();
+        updateMetricCards();
+        showToast(id ? 'Off-plan project updated successfully' : 'New off-plan project published');
+        return;
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        showToast(errJson.error || 'Failed to save project');
+      }
+    } catch (err) {
+      console.warn('API error during project save, saving locally', err);
+    }
+  }
+
+  // LocalStorage Fallback
+  if (id) {
+    const idx = projects.findIndex(p => p._id === id);
+    if (idx !== -1) {
+      projects[idx] = { ...projects[idx], ...projectData };
+    }
+  } else {
+    const slug = projectData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    const newProj = {
+      _id: 'proj-' + Date.now(),
+      slug,
+      ...projectData
+    };
+    projects.unshift(newProj);
+  }
+
+  localStorage.setItem('diamora_projects', JSON.stringify(projects));
+  closeProjectModal();
+  renderProjectsTable(projects);
+  updateMetricCards();
+  showToast(id ? 'Project updated locally' : 'New project added to local catalog');
+}
+
+async function deleteProjectItem(id) {
+  if (!confirm('Are you sure you want to delete this off-plan project?')) return;
+
+  const token = localStorage.getItem('diamora_token');
+  if (isLiveApiConnected && token) {
+    try {
+      const res = await fetch(`${API_BASE}/projects/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        await fetchProjects();
+        updateMetricCards();
+        showToast('Project deleted successfully');
+        return;
+      }
+    } catch (err) {
+      console.warn('API delete error, removing locally', err);
+    }
+  }
+
+  projects = projects.filter(p => p._id !== id && p.slug !== id);
+  localStorage.setItem('diamora_projects', JSON.stringify(projects));
+  renderProjectsTable(projects);
+  updateMetricCards();
+  showToast('Project removed locally');
+}
+
+async function toggleProjectFeatured(id, currentVal) {
+  const newVal = !currentVal;
+  const token = localStorage.getItem('diamora_token');
+
+  if (isLiveApiConnected && token) {
+    try {
+      const res = await fetch(`${API_BASE}/projects/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ isFeatured: newVal })
+      });
+      if (res.ok) {
+        await fetchProjects();
+        showToast(newVal ? 'Project featured on landing page' : 'Project removed from featured');
+        return;
+      }
+    } catch (e) {
+      console.warn('API error toggling featured', e);
+    }
+  }
+
+  const idx = projects.findIndex(p => p._id === id || p.slug === id);
+  if (idx !== -1) {
+    projects[idx].isFeatured = newVal;
+    localStorage.setItem('diamora_projects', JSON.stringify(projects));
+    renderProjectsTable(projects);
+    showToast(newVal ? 'Featured status updated' : 'Featured status removed');
+  }
+}
+
+// Global window exposure
+window.openAddProjectModal = openAddProjectModal;
+window.openEditProjectModal = openEditProjectModal;
+window.closeProjectModal = closeProjectModal;
+window.deleteProjectItem = deleteProjectItem;
+window.toggleProjectFeatured = toggleProjectFeatured;
+
 

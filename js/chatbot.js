@@ -111,10 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // VOICE MODE STATE MACHINE
   // States: 'idle' | 'listening' | 'processing' | 'speaking'
   // ============================================================
-  let voiceState = 'idle';
+  let voiceState = 'idle'; // idle, listening, processing, speaking
   let recognition = null;
   let currentUtterance = null;
-  let voiceAutoRestart = false;
+  let currentAudioObj = null;
+  let voiceAutoRestart = false; // set to true if we want continuous listening
 
   const setVoiceState = (state) => {
     voiceState = state;
@@ -208,21 +209,53 @@ document.addEventListener('DOMContentLoaded', () => {
       .trim();
   };
 
-  const speakResponse = (text) => {
-    if (!hasSpeechSynthesis) return;
-
-    // Cancel any in-progress speech
-    window.speechSynthesis.cancel();
+  const speakResponse = (text, audioBase64 = null) => {
+    stopSpeaking();
 
     const cleanText = stripMarkdownForSpeech(text);
     if (!cleanText) return;
 
     setVoiceState('speaking');
 
+    if (audioBase64) {
+      try {
+        const audio = new Audio("data:audio/wav;base64," + audioBase64);
+        currentAudioObj = audio;
+        audio.onended = () => {
+          currentAudioObj = null;
+          setVoiceState('idle');
+          if (voiceAutoRestart) {
+            setTimeout(() => {
+              if (voiceState === 'idle' && chatWindow.classList.contains('open')) {
+                startListening();
+              }
+            }, 500);
+          }
+        };
+        audio.play().catch(e => {
+          console.warn("Failed to play Gemini TTS audio:", e);
+          fallbackSpeechSynthesis(cleanText);
+        });
+        return;
+      } catch (e) {
+        console.warn("Audio element error:", e);
+        fallbackSpeechSynthesis(cleanText);
+        return;
+      }
+    }
+    
+    fallbackSpeechSynthesis(cleanText);
+  };
+
+  const fallbackSpeechSynthesis = (cleanText) => {
+    if (!hasSpeechSynthesis) {
+      setVoiceState('idle');
+      return;
+    }
+    
     const utterance = new SpeechSynthesisUtterance(cleanText);
     currentUtterance = utterance;
 
-    // Set voice when voices are available
     const assignVoice = () => {
       const voice = getBestVoice(cleanText);
       if (voice) utterance.voice = voice;
@@ -234,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
       window.speechSynthesis.addEventListener('voiceschanged', assignVoice, { once: true });
     }
 
-    // Detect language for utterance
     const arabicPattern = /[\u0600-\u06FF]/;
     utterance.lang = arabicPattern.test(cleanText) ? 'ar-AE' : 'en-US';
     utterance.rate = 0.95;
@@ -244,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     utterance.onend = () => {
       currentUtterance = null;
       setVoiceState('idle');
-      // Auto-restart listening after AI finishes speaking (continuous mode)
       if (voiceAutoRestart) {
         setTimeout(() => {
           if (voiceState === 'idle' && chatWindow.classList.contains('open')) {
@@ -265,6 +296,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const stopSpeaking = () => {
     voiceAutoRestart = false;
+    if (currentAudioObj) {
+      currentAudioObj.pause();
+      currentAudioObj = null;
+    }
     if (hasSpeechSynthesis) {
       window.speechSynthesis.cancel();
     }
@@ -633,7 +668,8 @@ document.addEventListener('DOMContentLoaded', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: chatHistory,
-          context: pageContext
+          context: pageContext,
+          wantAudio: isVoiceInput
         })
       });
 
@@ -647,8 +683,8 @@ document.addEventListener('DOMContentLoaded', () => {
         appendMessage(data.text, 'bot');
 
         // Speak the response aloud if voice was used for the question
-        if (isVoiceInput && hasSpeechSynthesis) {
-          speakResponse(data.text);
+        if (isVoiceInput) {
+          speakResponse(data.text, data.audioBase64);
         } else {
           // Ensure state is idle if not in voice flow
           if (voiceState === 'processing') setVoiceState('idle');

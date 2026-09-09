@@ -218,18 +218,68 @@ router.post('/', async (req, res) => {
           }
         }
 
+
         if (response && response.text) {
-          return res.json({ text: response.text });
+          const replyText = response.text;
+          let audioBase64 = null;
+
+          if (req.body.wantAudio) {
+            try {
+              console.log("Generating natural TTS via Gemini for response...");
+              const audioInteraction = await ai.interactions.create({
+                model: "gemini-3.1-flash-tts-preview",
+                input: replyText,
+                response_format: { type: 'audio' },
+                generation_config: {
+                  speech_config: [{ voice: 'Kore' }] // 'Kore' is firm, 'Charon' is informative, 'Puck' is upbeat
+                }
+              });
+              if (audioInteraction.output_audio && audioInteraction.output_audio.data) {
+                audioBase64 = audioInteraction.output_audio.data;
+                console.log("TTS audio successfully generated.");
+              }
+            } catch (audioErr) {
+              console.error("Gemini TTS Audio generation failed:", audioErr.message || audioErr);
+            }
+          }
+
+          return res.json({ text: replyText, audioBase64 });
         }
+
       } catch (err) {
         lastError = err;
         console.warn(`Model ${modelName} encountered an error, falling back to next candidate:`, err.message || err);
       }
     }
 
+
     if (response && response.text) {
-      return res.json({ text: response.text });
+      const replyText = response.text;
+      let audioBase64 = null;
+
+      if (req.body.wantAudio) {
+        try {
+          console.log("Generating natural TTS via Gemini for response...");
+          const audioInteraction = await ai.interactions.create({
+        model: "gemini-3.1-flash-tts-preview",
+        input: replyText,
+        response_format: { type: 'audio' },
+        generation_config: {
+          speech_config: [{ voice: 'Kore' }] // 'Kore' is firm, 'Charon' is informative, 'Puck' is upbeat
+        }
+          });
+          if (audioInteraction.output_audio && audioInteraction.output_audio.data) {
+        audioBase64 = audioInteraction.output_audio.data;
+        console.log("TTS audio successfully generated.");
+          }
+        } catch (audioErr) {
+          console.error("Gemini TTS Audio generation failed:", audioErr.message || audioErr);
+        }
+      }
+
+      return res.json({ text: replyText, audioBase64 });
     }
+
 
     console.error('All AI Chat candidate models failed. Last error:', lastError);
     return res.json({

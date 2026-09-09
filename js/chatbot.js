@@ -71,11 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         <form class="chatbot-input-container" id="chatbotForm">
           <input type="text" id="chatbotInput" placeholder="Type your inquiry or select an option above..." autocomplete="off" required>
-          ${hasSpeechRecognition ? `
           <button type="button" class="chatbot-voice-btn" id="chatbotVoiceBtn" aria-label="Start voice input" title="Talk to AI">
             <svg id="voiceIconMic" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
             <svg id="voiceIconStop" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
-          </button>` : ''}
+          </button>
           <button type="submit" id="chatbotSubmit" aria-label="Send message">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
           </button>
@@ -359,6 +358,13 @@ document.addEventListener('DOMContentLoaded', () => {
   if (voiceBtn) {
     voiceBtn.addEventListener('click', (e) => {
       e.preventDefault();
+
+      // Check support at click-time (more reliable than at script load)
+      const SpeechRecognitionNow = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+      if (!SpeechRecognitionNow) {
+        appendMessage('🎙️ Voice mode works best on Chrome, Edge, or Safari. Please try on one of those browsers to use the voice feature.', 'bot');
+        return;
+      }
 
       if (voiceState === 'speaking') {
         // Stop AI speaking, go idle

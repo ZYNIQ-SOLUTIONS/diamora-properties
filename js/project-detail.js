@@ -551,6 +551,15 @@ function initStickyNav() {
       stickyNav.classList.remove('is-sticky');
     }
 
+    const mobileBar = document.getElementById('pdetailMobileBar');
+    if (mobileBar) {
+      if (heroBottom <= 0) {
+        mobileBar.classList.add('is-visible');
+      } else {
+        mobileBar.classList.remove('is-visible');
+      }
+    }
+
     // Scrollspy active highlight
     const sections = ['overviewSection', 'gallerySection', 'masterPlanSection', 'unitsSection', 'paymentPlanSection', 'amenitiesSection', 'investmentSection', 'locationSection', 'faqsSection', 'inquireSection'];
     let currentActive = '';
@@ -772,6 +781,19 @@ function renderProjectPage(proj) {
   if (waBtn) {
     const text = encodeURIComponent(`Hello Diamora Properties, I would like VIP details and pricing for ${proj.title} by ${proj.developer}.`);
     waBtn.href = `https://wa.me/971506760668?text=${text}`;
+  }
+
+  // Mobile Sticky Bar Price & WhatsApp
+  const mobilePriceEl = document.getElementById('mobileBarPrice');
+  if (mobilePriceEl) {
+    const p = Number(proj.startingPrice || 0);
+    mobilePriceEl.textContent = p >= 1000000 ? `AED ${(p / 1000000).toFixed(2)}M` : `AED ${p.toLocaleString()}`;
+  }
+
+  const mobileWaBtn = document.getElementById('mobileBarWaBtn');
+  if (mobileWaBtn) {
+    const text = encodeURIComponent(`Hello Diamora Properties, I would like VIP details and pricing for ${proj.title} by ${proj.developer}.`);
+    mobileWaBtn.href = `https://wa.me/971506760668?text=${text}`;
   }
 
   // Inquiry form hidden fields

@@ -23,6 +23,21 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+function resolveDeveloperLogo(proj) {
+  if (proj && proj.developerLogo && !proj.developerLogo.includes('unsplash.com')) {
+    return proj.developerLogo;
+  }
+  const dev = ((proj && proj.developer) || '').toLowerCase();
+  const title = ((proj && proj.title) || '').toLowerCase();
+  if (title.includes('mercedes')) return 'https://herorealestate.ae/wp-content/uploads/Mercedes-Benz-Places-logo-2.webp';
+  if (title.includes('the wilds') || title.includes('wilds')) return 'https://herorealestate.ae/wp-content/uploads/2025/06/wilds_logo_white_en.webp';
+  if (dev.includes('aldar')) return 'https://herorealestate.ae/wp-content/uploads/2024/01/Nikki-Beach-Residences-Aldar-Properties-Logo.png';
+  if (dev.includes('sobha')) return 'https://herorealestate.ae/wp-content/uploads/2025/05/logo-shouba-hartland-II.png';
+  if (dev.includes('binghatti')) return 'https://herorealestate.ae/wp-content/uploads/2025/08/Binghatti-Ivory.svg';
+  if (dev.includes('reportage')) return 'https://herorealestate.ae/wp-content/uploads/2024/01/logo-Reportage-Properties-white.png';
+  return '';
+}
+
 const FALLBACK_PROJECTS = [
   {
     _id: 'the-row-saadiyat',
@@ -386,7 +401,8 @@ function renderProjects(list) {
       imgSrc = '/' + imgSrc;
     }
 
-    const devLogo = proj.developerLogo ? `<div class="offplan-dev-emblem-wrap"><img src="${proj.developerLogo}" alt="${dev}" class="offplan-dev-emblem" loading="lazy"></div>` : '';
+    const logoUrl = resolveDeveloperLogo(proj);
+    const devLogo = logoUrl ? `<div class="offplan-dev-emblem-wrap"><img src="${logoUrl}" alt="${dev}" class="offplan-dev-emblem" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
 
     return `
       <article class="offplan-card" aria-label="${title}">

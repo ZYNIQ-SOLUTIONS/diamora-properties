@@ -261,7 +261,7 @@ const FALLBACK_PROJECTS = [
     slug: 'sobha-city-abu-dhabi',
     tagline: 'Luxury Apartments, Villas & Townhouses by Sobha Realty',
     developer: 'Sobha Realty',
-    developerLogo: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&h=200&fit=crop&q=80',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2025/05/logo-shouba-hartland-II.png',
     location: 'Al Shamkha, Abu Dhabi',
     city: 'Abu Dhabi',
     startingPrice: 1500000,
@@ -361,7 +361,7 @@ const FALLBACK_PROJECTS = [
     slug: 'tilal-binghatti-dubai',
     tagline: 'Futuristic Architectural Masterpiece in Al Jaddaf',
     developer: 'Binghatti Developers',
-    developerLogo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop&q=80',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2025/08/Binghatti-Ivory.svg',
     location: 'Al Jaddaf Waterfront, Dubai',
     city: 'Dubai',
     startingPrice: 1100000,
@@ -446,7 +446,7 @@ const FALLBACK_PROJECTS = [
     slug: 'manchester-city-yas-residences',
     tagline: 'World-First Official Manchester City Branded Living',
     developer: 'Aldar Properties',
-    developerLogo: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&h=200&fit=crop&q=80',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2024/01/Nikki-Beach-Residences-Aldar-Properties-Logo.png',
     location: 'Yas Island, Abu Dhabi',
     city: 'Abu Dhabi',
     startingPrice: 1950000,
@@ -525,6 +525,21 @@ const FALLBACK_PROJECTS = [
 
 let currentProject = null;
 let leafletProjectMap = null;
+
+function resolveDeveloperLogo(proj) {
+  if (proj && proj.developerLogo && !proj.developerLogo.includes('unsplash.com')) {
+    return proj.developerLogo;
+  }
+  const dev = ((proj && proj.developer) || '').toLowerCase();
+  const title = ((proj && proj.title) || '').toLowerCase();
+  if (title.includes('mercedes')) return 'https://herorealestate.ae/wp-content/uploads/Mercedes-Benz-Places-logo-2.webp';
+  if (title.includes('the wilds') || title.includes('wilds')) return 'https://herorealestate.ae/wp-content/uploads/2025/06/wilds_logo_white_en.webp';
+  if (dev.includes('aldar')) return 'https://herorealestate.ae/wp-content/uploads/2024/01/Nikki-Beach-Residences-Aldar-Properties-Logo.png';
+  if (dev.includes('sobha')) return 'https://herorealestate.ae/wp-content/uploads/2025/05/logo-shouba-hartland-II.png';
+  if (dev.includes('binghatti')) return 'https://herorealestate.ae/wp-content/uploads/2025/08/Binghatti-Ivory.svg';
+  if (dev.includes('reportage')) return 'https://herorealestate.ae/wp-content/uploads/2024/01/logo-Reportage-Properties-white.png';
+  return '';
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Mobile nav is globally handled by main.js
@@ -712,9 +727,11 @@ function renderProjectPage(proj) {
   const devName = document.getElementById('pdetailDevName');
   if (devName) devName.textContent = proj.developer || 'Master Developer';
   if (devLogo) {
-    if (proj.developerLogo) {
-      devLogo.src = proj.developerLogo;
+    const logoUrl = resolveDeveloperLogo(proj);
+    if (logoUrl) {
+      devLogo.src = logoUrl;
       devLogo.style.display = 'inline-block';
+      devLogo.onerror = function() { this.style.display = 'none'; };
     } else {
       devLogo.style.display = 'none';
     }
@@ -1237,7 +1254,8 @@ async function loadRelatedProjects(currentProj) {
     const loc = escapeHtml(proj.location || `${proj.city || 'UAE'}`);
     const price = Number(proj.startingPrice || 0);
     const priceStr = price >= 1000000 ? `AED ${(price / 1000000).toFixed(1)}M` : `AED ${price.toLocaleString()}`;
-    const devLogo = proj.developerLogo ? `<div class="offplan-dev-emblem-wrap"><img src="${proj.developerLogo}" alt="${dev}" class="offplan-dev-emblem" loading="lazy"></div>` : '';
+    const logoUrl = resolveDeveloperLogo(proj);
+    const devLogo = logoUrl ? `<div class="offplan-dev-emblem-wrap"><img src="${logoUrl}" alt="${dev}" class="offplan-dev-emblem" loading="lazy" onerror="this.parentElement.style.display='none'"></div>` : '';
 
     let imgSrc = proj.heroImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80';
     if (!imgSrc.startsWith('http') && !imgSrc.startsWith('/')) imgSrc = '/' + imgSrc;

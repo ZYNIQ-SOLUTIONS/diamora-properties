@@ -2007,7 +2007,8 @@ async function fetchProjects() {
     try {
       const res = await fetch(`${API_BASE}/projects`);
       if (res.ok) {
-        projects = await res.json();
+        const data = await res.json();
+        projects = Array.isArray(data) ? data : (data.projects || data.data || []);
         renderProjectsTable(projects);
         return;
       }

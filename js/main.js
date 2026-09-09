@@ -1283,7 +1283,8 @@ async function initFeaturedProjects() {
     const res = await fetch(`${apiBase}/projects?featured=true`);
     if (!res.ok) return;
 
-    const projects = await res.json();
+    const data = await res.json();
+    const projects = Array.isArray(data) ? data : (data.projects || data.data || []);
     if (!Array.isArray(projects) || projects.length === 0) return;
 
     container.innerHTML = projects.slice(0, 6).map(proj => {

@@ -162,7 +162,8 @@ async function loadProjects() {
   try {
     const res = await fetch(`${apiBase}/projects`);
     if (res.ok) {
-      allProjects = await res.json();
+      const data = await res.json();
+      allProjects = Array.isArray(data) ? data : (data.projects || data.data || []);
       if (Array.isArray(allProjects) && allProjects.length > 0) return;
     }
   } catch (err) {

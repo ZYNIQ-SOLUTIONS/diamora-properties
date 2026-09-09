@@ -76,6 +76,7 @@ router.get('/', async (req, res) => {
     res.json({
       success: true,
       projects,
+      data: projects,
       total,
       page: parseInt(page),
       totalPages: Math.ceil(total / limit) || 1
@@ -97,7 +98,7 @@ router.get('/featured', async (req, res) => {
         .limit(6 - projects.length);
       projects = [...projects, ...more];
     }
-    res.json({ success: true, projects });
+    res.json({ success: true, projects, data: projects });
   } catch (err) {
     console.error('Error fetching featured projects:', err.message);
     res.status(500).json({ message: 'Server Error fetching featured projects' });
@@ -131,6 +132,7 @@ router.get('/:idOrSlug', async (req, res) => {
     res.json({
       success: true,
       project,
+      data: project,
       related
     });
   } catch (err) {

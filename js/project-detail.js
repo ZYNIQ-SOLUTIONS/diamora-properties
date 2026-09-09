@@ -430,7 +430,8 @@ async function loadProjectDetail(slugOrId) {
   try {
     const res = await fetch(`${apiBase}/projects/${encodeURIComponent(slugOrId)}`);
     if (res.ok) {
-      currentProject = await res.json();
+      const data = await res.json();
+      currentProject = data.project || data.data || data;
     }
   } catch (e) {
     console.warn('API error, falling back to local / fallback list', e);
@@ -794,7 +795,8 @@ async function loadRelatedProjects(currentProj) {
     const apiBase = getDiamoraApiEndpoint();
     const res = await fetch(`${apiBase}/projects`);
     if (res.ok) {
-      const all = await res.json();
+      const allData = await res.json();
+      const all = Array.isArray(allData) ? allData : (allData.projects || allData.data || []);
       related = all.filter(p => (p.slug !== currentProj.slug && p._id !== currentProj._id));
     }
   } catch (e) {}

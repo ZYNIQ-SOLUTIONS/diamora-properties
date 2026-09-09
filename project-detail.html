@@ -200,13 +200,21 @@
     </div>
 
     <div class="container pdetail-hero-content">
-      <!-- Developer Emblem & Status -->
+      <!-- Developer Emblem, Status & Regulatory Badges -->
       <div class="pdetail-badges-row">
         <div class="pdetail-dev-badge" id="pdetailDevBadge">
           <img id="pdetailDevLogo" src="" alt="Developer Logo" class="pdetail-dev-logo" style="display: none;">
           <span id="pdetailDevName" class="pdetail-dev-name">Developer</span>
         </div>
         <span id="pdetailStatusPill" class="pdetail-status-pill">New Launch</span>
+        <span id="pdetailOwnershipPill" class="pdetail-ownership-pill" style="display: none;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span id="pdetailOwnershipText">100% Freehold - All Nationalities</span>
+        </span>
+        <span id="pdetailPermitPill" class="pdetail-permit-pill" style="display: none;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Permit: <span id="pdetailPermitNum"></span>
+        </span>
       </div>
 
       <h1 id="pdetailTitle" class="pdetail-title font-serif">Project Title</h1>
@@ -267,9 +275,11 @@
     <div class="container pdetail-sticky-nav-inner">
       <a href="#overviewSection" class="nav-anchor active">Overview</a>
       <a href="#gallerySection" class="nav-anchor">Gallery</a>
+      <a href="#masterPlanSection" class="nav-anchor" id="navAnchorMasterPlan" style="display: none;">Master Plan</a>
       <a href="#unitsSection" class="nav-anchor">Unit Types</a>
       <a href="#paymentPlanSection" class="nav-anchor">Payment Plan</a>
       <a href="#amenitiesSection" class="nav-anchor">Amenities</a>
+      <a href="#investmentSection" class="nav-anchor" id="navAnchorInvestment" style="display: none;">Investment</a>
       <a href="#locationSection" class="nav-anchor">Location &amp; Drive Times</a>
       <a href="#faqsSection" class="nav-anchor">FAQs</a>
       <a href="#inquireSection" class="nav-anchor nav-anchor--highlight">Register Interest</a>
@@ -311,6 +321,16 @@
         </div>
       </section>
 
+      <!-- 2.5 MASTER PLAN & SITE LAYOUT (Rendered when project has masterPlanImage) -->
+      <section class="pdetail-section" id="masterPlanSection" style="display: none;">
+        <div class="section-tag" style="color: #D4AF37; margin-bottom: 8px;">Master Architecture</div>
+        <h2 class="pdetail-sec-title font-serif">Master Plan &amp; Site Layout</h2>
+        <p id="pdetailMasterPlanDesc" class="pdetail-masterplan-desc"></p>
+        <div class="pdetail-masterplan-banner" id="pdetailMasterPlanWrap">
+          <img id="pdetailMasterPlanImg" src="" alt="Master Plan &amp; Site Layout" loading="lazy">
+        </div>
+      </section>
+
       <!-- 3. UNIT TYPES & FLOOR PLANS -->
       <section class="pdetail-section" id="unitsSection">
         <div class="section-tag" style="color: #D4AF37; margin-bottom: 8px;">Residential Layouts</div>
@@ -321,6 +341,24 @@
 
         <div class="pdetail-units-grid" id="pdetailUnitsGrid">
           <!-- Unit cards injected -->
+        </div>
+
+        <!-- Comprehensive Units & Pricing Schedule Table -->
+        <div class="pdetail-table-wrap" id="pdetailUnitsTableWrap" style="display: none;">
+          <table class="pdetail-table">
+            <thead>
+              <tr>
+                <th>Unit Typology</th>
+                <th>Avg GSA (Sqm / Sqft)</th>
+                <th>Balcony (Sqm / Sqft)</th>
+                <th>Starting Price</th>
+                <th>Allocation</th>
+              </tr>
+            </thead>
+            <tbody id="pdetailUnitsTableBody">
+              <!-- Table rows injected -->
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -347,10 +385,43 @@
         </div>
       </section>
 
+      <!-- 5.5 INVESTMENT OPPORTUNITIES & YIELDS -->
+      <section class="pdetail-section" id="investmentSection" style="display: none;">
+        <div class="section-tag" style="color: #D4AF37; margin-bottom: 8px;">Investment Intelligence</div>
+        <h2 class="pdetail-sec-title font-serif">Investment Opportunities &amp; Yields</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+          Saadiyat Cultural District provides unmatched sovereign yield backing, finite island supply, and strong global investor demand.
+        </p>
+
+        <div class="pdetail-inv-tabs" id="pdetailInvTabs">
+          <button type="button" class="inv-tab-btn active" id="btnInvTabCapital">Capital Growth Potential</button>
+          <button type="button" class="inv-tab-btn" id="btnInvTabRental">Rental Opportunities</button>
+        </div>
+
+        <div class="inv-tab-content">
+          <div class="inv-tab-pane active" id="paneInvCapital">
+            <p class="inv-pane-desc" id="invCapitalDesc"></p>
+            <ul class="inv-points-list" id="invCapitalPoints"></ul>
+          </div>
+          <div class="inv-tab-pane" id="paneInvRental">
+            <p class="inv-pane-desc" id="invRentalDesc"></p>
+            <ul class="inv-points-list" id="invRentalPoints"></ul>
+          </div>
+        </div>
+      </section>
+
       <!-- 6. LOCATION, CONNECTIVITY & MAP -->
       <section class="pdetail-section" id="locationSection">
         <div class="section-tag" style="color: #D4AF37; margin-bottom: 8px;">Strategic Positioning</div>
         <h2 class="pdetail-sec-title font-serif">Location &amp; Drive Time Proximity</h2>
+
+        <!-- Categorized Lifestyle Proximity Hub -->
+        <div id="pdetailLifestyleCategoriesWrap" style="display: none; margin-bottom: 24px;">
+          <h3 class="font-serif" style="font-size: 1.15rem; color: #FFF5D1; margin-bottom: 12px;">Categorized District Proximity &amp; Landmarks</h3>
+          <div class="pdetail-lifestyle-groups" id="pdetailLifestyleGroups">
+            <!-- Categorized landmark cards injected -->
+          </div>
+        </div>
 
         <!-- Proximity Chips -->
         <div class="pdetail-connectivity-grid" id="pdetailConnectivityGrid">

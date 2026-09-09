@@ -146,7 +146,40 @@ const projectSchema = new mongoose.Schema({
     type: String,
     default: '',
     trim: true
-  }
+  },
+  ownership: {
+    type: String,
+    default: '100% Freehold - All Nationalities',
+    trim: true
+  },
+  masterPlanImage: {
+    type: String,
+    default: ''
+  },
+  masterPlanDescription: {
+    type: String,
+    default: ''
+  },
+  unitsTable: [{
+    unitType: { type: String, default: '' },
+    avgGsaSqm: { type: String, default: '' },
+    avgGsaSqft: { type: String, default: '' },
+    balconySqm: { type: String, default: '' },
+    balconySqft: { type: String, default: '' },
+    startingPrice: { type: String, default: '' }
+  }],
+  lifestyleCategories: [{
+    category: { type: String, default: '' },
+    items: [{
+      name: { type: String, default: '' },
+      time: { type: String, default: '' }
+    }]
+  }],
+  investmentTabs: [{
+    title: { type: String, default: '' },
+    content: { type: String, default: '' },
+    points: [{ type: String }]
+  }]
 }, { timestamps: true });
 
 // Auto-generate slug before saving if not supplied or changed

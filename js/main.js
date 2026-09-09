@@ -1310,22 +1310,25 @@ async function initFeaturedProjects() {
         imgSrc = '/' + imgSrc;
       }
 
+      const devLogo = proj.developerLogo ? `<div class="offplan-dev-emblem-wrap"><img src="${proj.developerLogo}" alt="${dev}" class="offplan-dev-emblem" loading="lazy"></div>` : '';
+
       return `
         <article class="offplan-card" aria-label="${title}">
           <div class="offplan-card-media">
             <img src="${imgSrc}" alt="${title}" class="offplan-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80'">
             <div class="offplan-card-overlay"></div>
-            <div class="offplan-card-top">
-              <div class="offplan-dev-badge">
-                <span class="offplan-dev-name">${dev}</span>
-              </div>
-              <span class="offplan-status-pill">${status}</span>
+          </div>
+          <div class="offplan-card-top">
+            <div class="offplan-dev-badge">
+              <span class="offplan-dev-name">${dev}</span>
             </div>
+            <span class="offplan-status-pill">${status}</span>
           </div>
           <div class="offplan-card-body">
+            ${devLogo}
             <div class="offplan-location">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>${loc}</span>
+              <span>By ${dev} · ${loc}</span>
             </div>
             <h3 class="offplan-title">${title}</h3>
             <p class="offplan-tagline">${tagline}</p>

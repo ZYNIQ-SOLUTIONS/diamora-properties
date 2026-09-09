@@ -25,12 +25,30 @@ function escapeHtml(str) {
 
 const FALLBACK_PROJECTS = [
   {
+    _id: 'the-row-saadiyat',
+    title: 'The Row Saadiyat',
+    slug: 'the-row-saadiyat',
+    tagline: 'Live front row in the heart of Saadiyat Cultural District',
+    developer: 'Aldar Properties',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2024/01/Nikki-Beach-Residences-Aldar-Properties-Logo.png',
+    location: 'Saadiyat Cultural District, Abu Dhabi',
+    city: 'Abu Dhabi',
+    startingPrice: 3700000,
+    handoverDate: '29 Jan 2030',
+    paymentPlan: '65/35 Milestone Plan',
+    downPayment: '5%',
+    status: 'New Launch',
+    isFeatured: true,
+    heroImage: 'https://herorealestate.ae/wp-content/uploads/07b-scaled.jpg',
+    propertyTypes: ['Luxury Apartments', 'Residences with Maid & Study']
+  },
+  {
     _id: 'sobha-city-abu-dhabi',
     title: 'Sobha City Abu Dhabi',
     slug: 'sobha-city-abu-dhabi',
     tagline: 'Luxury Apartments, Villas & Townhouses with crystal lagoons',
     developer: 'Sobha Realty',
-    developerLogo: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&h=200&fit=crop&q=80',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2025/05/logo-shouba-hartland-II.png',
     location: 'Al Shamkha, Abu Dhabi',
     city: 'Abu Dhabi',
     startingPrice: 1500000,
@@ -48,7 +66,7 @@ const FALLBACK_PROJECTS = [
     slug: 'tilal-binghatti-dubai',
     tagline: 'Futuristic architectural suites overlooking Dubai Creek & Burj Khalifa',
     developer: 'Binghatti Developers',
-    developerLogo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=200&h=200&fit=crop&q=80',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2025/08/Binghatti-Ivory.svg',
     location: 'Al Jaddaf Waterfront, Dubai',
     city: 'Dubai',
     startingPrice: 1100000,
@@ -66,7 +84,7 @@ const FALLBACK_PROJECTS = [
     slug: 'manchester-city-yas-residences',
     tagline: 'World-first official Manchester City branded residences by Aldar',
     developer: 'Aldar Properties',
-    developerLogo: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&h=200&fit=crop&q=80',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2024/01/Nikki-Beach-Residences-Aldar-Properties-Logo.png',
     location: 'Yas Island, Abu Dhabi',
     city: 'Abu Dhabi',
     startingPrice: 1950000,
@@ -84,7 +102,7 @@ const FALLBACK_PROJECTS = [
     slug: 'the-wilds-dubai',
     tagline: 'Botanical sanctuary villas immersed in tranquil waterways and nature',
     developer: 'Al Barari Group',
-    developerLogo: '',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2025/06/wilds_logo_white_en.webp',
     location: 'Al Barari, Dubai',
     city: 'Dubai',
     startingPrice: 3800000,
@@ -102,7 +120,7 @@ const FALLBACK_PROJECTS = [
     slug: 'mercedes-benz-places-dubai',
     tagline: 'Sensual Purity and automotive luxury architecture in Downtown Dubai',
     developer: 'Binghatti Developers',
-    developerLogo: '',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/Mercedes-Benz-Places-logo-2.webp',
     location: 'Downtown Dubai, Dubai',
     city: 'Dubai',
     startingPrice: 8800000,
@@ -120,7 +138,7 @@ const FALLBACK_PROJECTS = [
     slug: 'sila-masdar-city',
     tagline: 'Eco-conscious net-zero sustainable luxury suites in Abu Dhabi',
     developer: 'Reportage Properties',
-    developerLogo: '',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2024/01/logo-Reportage-Properties-white.png',
     location: 'Masdar City, Abu Dhabi',
     city: 'Abu Dhabi',
     startingPrice: 890000,
@@ -368,22 +386,25 @@ function renderProjects(list) {
       imgSrc = '/' + imgSrc;
     }
 
+    const devLogo = proj.developerLogo ? `<div class="offplan-dev-emblem-wrap"><img src="${proj.developerLogo}" alt="${dev}" class="offplan-dev-emblem" loading="lazy"></div>` : '';
+
     return `
       <article class="offplan-card" aria-label="${title}">
         <div class="offplan-card-media">
           <img src="${imgSrc}" alt="${title}" class="offplan-card-img" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80'">
           <div class="offplan-card-overlay"></div>
-          <div class="offplan-card-top">
-            <div class="offplan-dev-badge">
-              <span class="offplan-dev-name">${dev}</span>
-            </div>
-            <span class="offplan-status-pill">${status}</span>
+        </div>
+        <div class="offplan-card-top">
+          <div class="offplan-dev-badge">
+            <span class="offplan-dev-name">${dev}</span>
           </div>
+          <span class="offplan-status-pill">${status}</span>
         </div>
         <div class="offplan-card-body">
+          ${devLogo}
           <div class="offplan-location">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>${loc}</span>
+            <span>By ${dev} · ${loc}</span>
           </div>
           <h3 class="offplan-title">${title}</h3>
           <p class="offplan-tagline">${tagline}</p>

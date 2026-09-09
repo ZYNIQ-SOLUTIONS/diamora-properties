@@ -25,6 +25,237 @@ function escapeHtml(str) {
 
 const FALLBACK_PROJECTS = [
   {
+    _id: 'the-row-saadiyat',
+    title: 'The Row Saadiyat',
+    slug: 'the-row-saadiyat',
+    tagline: 'Live front row in the heart of Saadiyat Cultural District',
+    developer: 'Aldar Properties',
+    developerLogo: 'https://herorealestate.ae/wp-content/uploads/2024/01/Nikki-Beach-Residences-Aldar-Properties-Logo.png',
+    location: 'Saadiyat Cultural District, Saadiyat Island, Abu Dhabi',
+    city: 'Abu Dhabi',
+    startingPrice: 3700000,
+    currency: 'AED',
+    handoverDate: '29 January 2030',
+    paymentPlan: '65/35 Milestone Plan',
+    downPayment: '5%',
+    propertyTypes: ['Luxury Apartments', 'Residences with Maid & Study'],
+    bedrooms: '1 to 3 Bedrooms + Maid + Study',
+    status: 'New Launch',
+    isFeatured: true,
+    permitNumber: '20250000657884',
+    ownership: '100% Freehold - All Nationalities',
+    masterPlanImage: 'https://herorealestate.ae/wp-content/uploads/therow_saadiyat_location_banner.webp',
+    masterPlanDescription: 'The Row Saadiyat is an impeccably planned urban cultural masterwork. Designed around pedestrian connectivity, lush biophilic courtyards, subterranean valet networks, and shaded avenues directly connecting to Saadiyat Grove and the museum esplanade.',
+    heroImage: 'https://herorealestate.ae/wp-content/uploads/07b-scaled.jpg',
+    gallery: [
+      'https://herorealestate.ae/wp-content/uploads/07b-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/08-1-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/10-7-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/06b-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/01-2-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/11-2-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/4403_Lifestyle-District_Int_Amenities_Co-Working_Final_CT-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/4403_Lifestyle-District_Int_Amenities_Kids-Room_Final_TL_HR-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/4403_Lifestyle-District_Int_Amenities_Lobby_01_Final_LDCT_HR-scaled.jpg',
+      'https://herorealestate.ae/wp-content/uploads/4403_Lifestyle-District_Int_Amenities_Lobby_02_FINAL_LDCT_HR-scaled.jpg'
+    ],
+    description: `Live front row in the heart of Saadiyat Cultural District. The Row Saadiyat by Aldar Properties redefines modern island living, blending art, architecture, and wellness into an extraordinary community. Located steps from the iconic Louvre Abu Dhabi, Guggenheim Abu Dhabi, and Zayed National Museum, this masterwork offers shaded, climate-controlled pedestrian pathways, curated retail, world-class dining, and lush botanical parks. Across 9 mid-rise residential buildings totaling 717 residences, every home is finished to international luxury standards with panoramic glazing, expansive terraces, and bespoke interiors.`,
+    highlights: [
+      'Prime position within Saadiyat Cultural District steps from Louvre Abu Dhabi, Guggenheim Abu Dhabi & Zayed National Museum',
+      '100% Freehold ownership for all nationalities with guaranteed 10-Year UAE Golden Visa eligibility',
+      'Shaded, climate-controlled pedestrian retail boulevards, artisan florists, and gourmet dining',
+      'Comprehensive wellness ecosystems including boutique reformer pilates, pet spa, members club, and resort pools',
+      'Official Abu Dhabi DMT Permit Number: 20250000657884'
+    ],
+    amenities: [
+      'Pet Spa & Grooming Salon',
+      'Gourmet Cafés & Destination Restaurants',
+      'Co-Working Lounges & Private Members Club',
+      'Gourmet Organic Supermarket',
+      'Boutique Fitness & Reformer Pilates Studios',
+      'Artisan Retail Boutiques & Florists',
+      'Resort-Style Swimming Pools & Sun Decks',
+      '24/7 White-Glove Concierge & Valet Service',
+      'Dedicated Children’s Imaginative Playrooms',
+      'Climate-Controlled Pedestrian Walkways'
+    ],
+    unitTypes: [
+      {
+        name: '1-Bedroom Luxury Apartment',
+        bedrooms: '1 Bedroom',
+        sizeSqFt: '958 Sq.Ft (Avg 89 sqm)',
+        startingPrice: 3700000,
+        floorPlanImage: 'https://herorealestate.ae/wp-content/uploads/07b-scaled.jpg'
+      },
+      {
+        name: '2-Bedroom Luxury Residence',
+        bedrooms: '2 Bedrooms',
+        sizeSqFt: '1,496 Sq.Ft (Avg 139 sqm)',
+        startingPrice: 5800000,
+        floorPlanImage: 'https://herorealestate.ae/wp-content/uploads/08-1-scaled.jpg'
+      },
+      {
+        name: '2-Bedroom + Maid Residence',
+        bedrooms: '2 Bedrooms + Maid',
+        sizeSqFt: '2,239 Sq.Ft (Avg 208 sqm)',
+        startingPrice: 7800000,
+        floorPlanImage: 'https://herorealestate.ae/wp-content/uploads/10-7-scaled.jpg'
+      },
+      {
+        name: '2-Bedroom + Maid + Study',
+        bedrooms: '2 Bedrooms + Maid + Study',
+        sizeSqFt: '2,476 Sq.Ft (Avg 230 sqm)',
+        startingPrice: 8500000,
+        floorPlanImage: 'https://herorealestate.ae/wp-content/uploads/06b-scaled.jpg'
+      },
+      {
+        name: '3-Bedroom + Maid + Study',
+        bedrooms: '3 Bedrooms + Maid + Study',
+        sizeSqFt: '2,895 Sq.Ft (Avg 269 sqm)',
+        startingPrice: 11500000,
+        floorPlanImage: 'https://herorealestate.ae/wp-content/uploads/01-2-scaled.jpg'
+      },
+      {
+        name: '3-Bedroom + Maid + Study (Large)',
+        bedrooms: '3 Bedrooms + Maid + Study Large',
+        sizeSqFt: '4,801 Sq.Ft (Avg 446 sqm)',
+        startingPrice: 16000000,
+        floorPlanImage: 'https://herorealestate.ae/wp-content/uploads/11-2-scaled.jpg'
+      }
+    ],
+    unitsTable: [
+      { unitType: '1-Bedroom', avgGsaSqm: '89 sqm', avgGsaSqft: '958 sq.ft', balconySqm: '19 sqm', balconySqft: '204 sq.ft', startingPrice: 'AED 3.7M' },
+      { unitType: '2-Bedroom', avgGsaSqm: '139 sqm', avgGsaSqft: '1,496 sq.ft', balconySqm: '31 sqm', balconySqft: '333 sq.ft', startingPrice: 'AED 5.8M' },
+      { unitType: '2-Bedroom + Maid', avgGsaSqm: '208 sqm', avgGsaSqft: '2,239 sq.ft', balconySqm: '64 sqm', balconySqft: '688 sq.ft', startingPrice: 'AED 7.8M' },
+      { unitType: '2-Bedroom + Maid + Study', avgGsaSqm: '230 sqm', avgGsaSqft: '2,476 sq.ft', balconySqm: '64 sqm', balconySqft: '688 sq.ft', startingPrice: 'AED 8.5M' },
+      { unitType: '3-Bedroom + Maid + Study', avgGsaSqm: '269 sqm', avgGsaSqft: '2,895 sq.ft', balconySqm: '71 sqm', balconySqft: '764 sq.ft', startingPrice: 'AED 11.5M' },
+      { unitType: '3-Bedroom + Maid + Study (Large)', avgGsaSqm: '446 sqm', avgGsaSqft: '4,801 sq.ft', balconySqm: '202 sqm', balconySqft: '2,174 sq.ft', startingPrice: 'AED 16.0M' }
+    ],
+    paymentMilestones: [
+      { milestone: '1st Installment (Booking)', percentage: 5, notes: 'On Booking' },
+      { milestone: '2nd Installment', percentage: 5, notes: '31 May 2026' },
+      { milestone: '3rd Installment', percentage: 10, notes: '31 January 2027' },
+      { milestone: '4th Installment', percentage: 15, notes: '31 August 2027' },
+      { milestone: '5th Installment', percentage: 15, notes: '30 April 2028' },
+      { milestone: '6th Installment', percentage: 15, notes: '30 November 2028' },
+      { milestone: 'Final Installment (Handover)', percentage: 35, notes: '29 January 2030 (Key Handover)' }
+    ],
+    investmentTabs: [
+      {
+        title: 'Capital Growth Potential',
+        content: 'Saadiyat Island continues to outperform the wider UAE luxury residential market, with year-on-year capital appreciation exceeding 18% in the Cultural District. With finite island topography, world-class museum epics, and strictly regulated master developments by Aldar, supply remains strictly limited while global sovereign and ultra-high-net-worth capital flows accelerate.',
+        points: [
+          'High international demand driven by global brand status and architectural prestige',
+          'Finite beachfront and cultural district land reserves ensuring long-term rarity',
+          'Sustained capital appreciation exceeding prime metropolitan averages across Abu Dhabi'
+        ]
+      },
+      {
+        title: 'Rental Opportunities',
+        content: 'Residences in the Cultural District command premium yields ranging from 6.5% to 8.5% net per annum. Driven by high-earning expatriates, university faculty from NYU Abu Dhabi, museum curators, corporate executives, and affluent cultural tourists, occupancy rates consistently rank among the highest in the UAE.',
+        points: [
+          'Robust short-term luxury holiday home yields during museum exhibitions and major festivals',
+          'Consistent long-term corporate and diplomatic tenant demand',
+          'High retention rates and minimal vacant turnover for premium Aldar master assets'
+        ]
+      }
+    ],
+    lifestyleCategories: [
+      {
+        category: 'Cultural & Beach',
+        items: [
+          { name: 'Saadiyat Beach & Beach Club', time: '3 Mins' },
+          { name: 'Louvre Abu Dhabi', time: '5 Mins' },
+          { name: 'Guggenheim Abu Dhabi', time: '6 Mins' },
+          { name: 'Zayed National Museum', time: '7 Mins' }
+        ]
+      },
+      {
+        category: 'Retail & Leisure',
+        items: [
+          { name: 'Mamsha Al Saadiyat Promenade', time: '4 Mins' },
+          { name: 'Saadiyat Grove Mall & Dining', time: '5 Mins' },
+          { name: 'The Collection Saadiyat', time: '6 Mins' },
+          { name: 'Galleria Mall (Al Maryah Island)', time: '15 Mins' }
+        ]
+      },
+      {
+        category: 'Education',
+        items: [
+          { name: 'Cranleigh Abu Dhabi', time: '4 Mins' },
+          { name: 'Redwood Montessori Nursery', time: '5 Mins' },
+          { name: 'New York University Abu Dhabi (NYU AD)', time: '6 Mins' }
+        ]
+      },
+      {
+        category: 'Healthcare & Wellness',
+        items: [
+          { name: 'Cleveland Clinic Abu Dhabi', time: '15 Mins' },
+          { name: 'Burjeel Medical City', time: '20 Mins' }
+        ]
+      },
+      {
+        category: 'Connectivity & Transit',
+        items: [
+          { name: 'Downtown Abu Dhabi', time: '15 Mins' },
+          { name: 'Zayed International Airport (AUH)', time: '25 Mins' },
+          { name: 'Dubai via E11 Sheikh Zayed Rd', time: '55 Mins' }
+        ]
+      }
+    ],
+    connectivity: [
+      { destination: 'Saadiyat Beach', durationMinutes: 3 },
+      { destination: 'Louvre Abu Dhabi', durationMinutes: 5 },
+      { destination: 'Saadiyat Grove', durationMinutes: 5 },
+      { destination: 'NYU Abu Dhabi', durationMinutes: 6 },
+      { destination: 'Downtown Abu Dhabi', durationMinutes: 15 },
+      { destination: 'Zayed International Airport (AUH)', durationMinutes: 25 }
+    ],
+    coordinates: { lat: 24.5332, lng: 54.4027 },
+    faqs: [
+      {
+        question: 'What is The Row Saadiyat?',
+        answer: 'The Row Saadiyat is an ultra-prime residential development by Aldar Properties located in the prestigious Saadiyat Cultural District, Abu Dhabi, featuring 717 luxury residences across 9 mid-rise buildings.'
+      },
+      {
+        question: 'Where is The Row Saadiyat located?',
+        answer: 'It is situated in the Saadiyat Cultural District on Saadiyat Island, Abu Dhabi, within walking distance of Louvre Abu Dhabi, Guggenheim Abu Dhabi, and Zayed National Museum.'
+      },
+      {
+        question: 'Who is the developer of The Row Saadiyat?',
+        answer: 'The project is developed by Aldar Properties, the premier listed master developer in Abu Dhabi with an internationally acclaimed delivery track record.'
+      },
+      {
+        question: 'What property types and unit layouts are available?',
+        answer: 'The development offers 1, 2, and 3-bedroom luxury apartments, including configurations with maid’s rooms and private study layouts, ranging up to 4,801 sq.ft.'
+      },
+      {
+        question: 'What is the starting price for residences at The Row Saadiyat?',
+        answer: 'Starting prices begin at AED 3,700,000 for 1-bedroom luxury apartments.'
+      },
+      {
+        question: 'What is the payment plan for The Row Saadiyat?',
+        answer: 'An attractive 65/35 milestone payment plan is offered: 5% on booking, 60% across construction milestones, and the remaining 35% on handover.'
+      },
+      {
+        question: 'When is the expected handover date?',
+        answer: 'Handover is scheduled for 29 January 2030 (Q1 2030).'
+      },
+      {
+        question: 'Can foreign buyers purchase property at The Row Saadiyat?',
+        answer: 'Yes, The Row Saadiyat is designated as a 100% freehold investment zone, permitting full ownership for all nationalities.'
+      },
+      {
+        question: 'Does purchasing at The Row Saadiyat qualify for the UAE Golden Visa?',
+        answer: 'Yes, all units exceed the AED 2,000,000 threshold, qualifying purchasers and their immediate families for the 10-Year UAE Golden Visa.'
+      },
+      {
+        question: 'What is the official DMT project permit number?',
+        answer: 'The official Abu Dhabi Department of Municipalities and Transport permit number is 20250000657884.'
+      }
+    ]
+  },
+  {
     _id: 'sobha-city-abu-dhabi',
     title: 'Sobha City Abu Dhabi',
     slug: 'sobha-city-abu-dhabi',
@@ -321,7 +552,7 @@ function initStickyNav() {
     }
 
     // Scrollspy active highlight
-    const sections = ['overviewSection', 'gallerySection', 'unitsSection', 'paymentPlanSection', 'amenitiesSection', 'locationSection', 'faqsSection', 'inquireSection'];
+    const sections = ['overviewSection', 'gallerySection', 'masterPlanSection', 'unitsSection', 'paymentPlanSection', 'amenitiesSection', 'investmentSection', 'locationSection', 'faqsSection', 'inquireSection'];
     let currentActive = '';
 
     for (let id of sections) {
@@ -480,6 +711,29 @@ function renderProjectPage(proj) {
     }
   }
 
+  // Regulatory & Permit Badges
+  const permitPill = document.getElementById('pdetailPermitPill');
+  const permitNum = document.getElementById('pdetailPermitNum');
+  if (permitPill && permitNum) {
+    if (proj.permitNumber) {
+      permitNum.textContent = proj.permitNumber;
+      permitPill.style.display = 'inline-flex';
+    } else {
+      permitPill.style.display = 'none';
+    }
+  }
+
+  const ownershipPill = document.getElementById('pdetailOwnershipPill');
+  const ownershipText = document.getElementById('pdetailOwnershipText');
+  if (ownershipPill && ownershipText) {
+    if (proj.ownership) {
+      ownershipText.textContent = proj.ownership;
+      ownershipPill.style.display = 'inline-flex';
+    } else {
+      ownershipPill.style.display = 'none';
+    }
+  }
+
   // Status Pill
   const statusPill = document.getElementById('pdetailStatusPill');
   if (statusPill) statusPill.textContent = proj.status || 'New Launch';
@@ -555,8 +809,12 @@ function renderProjectPage(proj) {
   // Gallery
   renderGallery(proj);
 
-  // Unit Types
+  // Master Plan
+  renderMasterPlan(proj);
+
+  // Unit Types & Pricing Schedule Table
   renderUnitTypes(proj);
+  renderUnitsTable(proj);
 
   // Payment Milestones
   renderPaymentMilestones(proj);
@@ -564,8 +822,12 @@ function renderProjectPage(proj) {
   // Amenities
   renderAmenities(proj);
 
-  // Connectivity & Map
+  // Investment Opportunities
+  renderInvestment(proj);
+
+  // Connectivity, Categorized Lifestyle & Map
   renderConnectivityAndMap(proj);
+  renderLifestyleCategories(proj);
 
   // FAQs
   renderFaqs(proj);
@@ -775,6 +1037,158 @@ function renderFaqs(proj) {
   `).join('');
 }
 
+function renderMasterPlan(proj) {
+  const sec = document.getElementById('masterPlanSection');
+  const navAnchor = document.getElementById('navAnchorMasterPlan');
+  const img = document.getElementById('pdetailMasterPlanImg');
+  const desc = document.getElementById('pdetailMasterPlanDesc');
+  const wrap = document.getElementById('pdetailMasterPlanWrap');
+  if (!sec) return;
+
+  if (proj.masterPlanImage || proj.masterPlanDescription) {
+    sec.style.display = 'block';
+    if (navAnchor) navAnchor.style.display = 'inline-block';
+    if (desc) desc.textContent = proj.masterPlanDescription || `${proj.title} is an integrated master-planned community designed for seamless pedestrian movement and lush greenery.`;
+    if (img && proj.masterPlanImage) {
+      img.src = proj.masterPlanImage;
+      wrap.style.display = 'block';
+    } else if (wrap) {
+      wrap.style.display = 'none';
+    }
+  } else {
+    sec.style.display = 'none';
+    if (navAnchor) navAnchor.style.display = 'none';
+  }
+}
+
+function renderUnitsTable(proj) {
+  const wrap = document.getElementById('pdetailUnitsTableWrap');
+  const tbody = document.getElementById('pdetailUnitsTableBody');
+  if (!wrap || !tbody) return;
+
+  if (Array.isArray(proj.unitsTable) && proj.unitsTable.length > 0) {
+    wrap.style.display = 'block';
+    tbody.innerHTML = proj.unitsTable.map(u => `
+      <tr>
+        <td class="table-unit-name font-serif">${escapeHtml(u.unitType)}</td>
+        <td>${escapeHtml(u.avgGsaSqm)} <span style="color: var(--text-muted); font-size: 0.78rem;">(${escapeHtml(u.avgGsaSqft)})</span></td>
+        <td>${escapeHtml(u.balconySqm)} <span style="color: var(--text-muted); font-size: 0.78rem;">(${escapeHtml(u.balconySqft)})</span></td>
+        <td class="table-price font-serif">${escapeHtml(u.startingPrice)}</td>
+        <td>
+          <a href="#inquireSection" class="table-action-btn">
+            <span>Inquire Unit</span>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+        </td>
+      </tr>
+    `).join('');
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
+function renderInvestment(proj) {
+  const sec = document.getElementById('investmentSection');
+  const navAnchor = document.getElementById('navAnchorInvestment');
+  if (!sec) return;
+
+  if (Array.isArray(proj.investmentTabs) && proj.investmentTabs.length > 0) {
+    sec.style.display = 'block';
+    if (navAnchor) navAnchor.style.display = 'inline-block';
+    
+    const capitalTab = proj.investmentTabs.find(t => t.title && t.title.toLowerCase().includes('capital')) || proj.investmentTabs[0];
+    const rentalTab = proj.investmentTabs.find(t => t.title && t.title.toLowerCase().includes('rental')) || proj.investmentTabs[1] || proj.investmentTabs[0];
+
+    const capitalDesc = document.getElementById('invCapitalDesc');
+    const capitalPoints = document.getElementById('invCapitalPoints');
+    if (capitalDesc && capitalTab) capitalDesc.textContent = capitalTab.content || '';
+    if (capitalPoints && capitalTab && Array.isArray(capitalTab.points)) {
+      capitalPoints.innerHTML = capitalTab.points.map(pt => `
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>${escapeHtml(pt)}</span>
+        </li>
+      `).join('');
+    }
+
+    const rentalDesc = document.getElementById('invRentalDesc');
+    const rentalPoints = document.getElementById('invRentalPoints');
+    if (rentalDesc && rentalTab) rentalDesc.textContent = rentalTab.content || '';
+    if (rentalPoints && rentalTab && Array.isArray(rentalTab.points)) {
+      rentalPoints.innerHTML = rentalTab.points.map(pt => `
+        <li>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>${escapeHtml(pt)}</span>
+        </li>
+      `).join('');
+    }
+
+    // Set up tab buttons
+    const btnCapital = document.getElementById('btnInvTabCapital');
+    const btnRental = document.getElementById('btnInvTabRental');
+    if (btnCapital && capitalTab) btnCapital.textContent = capitalTab.title;
+    if (btnRental && rentalTab) btnRental.textContent = rentalTab.title;
+
+    if (btnCapital) {
+      btnCapital.onclick = () => switchInvTab('capital');
+    }
+    if (btnRental) {
+      btnRental.onclick = () => switchInvTab('rental');
+    }
+  } else {
+    sec.style.display = 'none';
+    if (navAnchor) navAnchor.style.display = 'none';
+  }
+}
+
+function switchInvTab(type) {
+  const btnCapital = document.getElementById('btnInvTabCapital');
+  const btnRental = document.getElementById('btnInvTabRental');
+  const paneCapital = document.getElementById('paneInvCapital');
+  const paneRental = document.getElementById('paneInvRental');
+
+  if (type === 'capital') {
+    if (btnCapital) btnCapital.classList.add('active');
+    if (btnRental) btnRental.classList.remove('active');
+    if (paneCapital) paneCapital.classList.add('active');
+    if (paneRental) paneRental.classList.remove('active');
+  } else {
+    if (btnCapital) btnCapital.classList.remove('active');
+    if (btnRental) btnRental.classList.add('active');
+    if (paneCapital) paneCapital.classList.remove('active');
+    if (paneRental) paneRental.classList.add('active');
+  }
+}
+window.switchInvTab = switchInvTab;
+
+function renderLifestyleCategories(proj) {
+  const wrap = document.getElementById('pdetailLifestyleCategoriesWrap');
+  const container = document.getElementById('pdetailLifestyleGroups');
+  if (!wrap || !container) return;
+
+  if (Array.isArray(proj.lifestyleCategories) && proj.lifestyleCategories.length > 0) {
+    wrap.style.display = 'block';
+    container.innerHTML = proj.lifestyleCategories.map(cat => `
+      <div class="lifestyle-group-card">
+        <h4 class="lifestyle-group-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>${escapeHtml(cat.category)}</span>
+        </h4>
+        <ul class="lifestyle-items-list">
+          ${(cat.items || []).map(item => `
+            <li class="lifestyle-item">
+              <span class="lifestyle-item-name">${escapeHtml(item.name)}</span>
+              <span class="lifestyle-item-time">${escapeHtml(item.time)}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    `).join('');
+  } else {
+    wrap.style.display = 'none';
+  }
+}
+
 async function loadRelatedProjects(currentProj) {
   const container = document.getElementById('relatedProjectsGrid');
   if (!container) return;
@@ -801,24 +1215,26 @@ async function loadRelatedProjects(currentProj) {
     const loc = escapeHtml(proj.location || `${proj.city || 'UAE'}`);
     const price = Number(proj.startingPrice || 0);
     const priceStr = price >= 1000000 ? `AED ${(price / 1000000).toFixed(1)}M` : `AED ${price.toLocaleString()}`;
+    const devLogo = proj.developerLogo ? `<div class="offplan-dev-emblem-wrap"><img src="${proj.developerLogo}" alt="${dev}" class="offplan-dev-emblem" loading="lazy"></div>` : '';
 
     let imgSrc = proj.heroImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80';
     if (!imgSrc.startsWith('http') && !imgSrc.startsWith('/')) imgSrc = '/' + imgSrc;
 
     return `
-      <article class="offplan-card">
+      <article class="offplan-card" aria-label="${title}">
         <div class="offplan-card-media">
           <img src="${imgSrc}" alt="${title}" class="offplan-card-img" loading="lazy">
           <div class="offplan-card-overlay"></div>
-          <div class="offplan-card-top">
-            <div class="offplan-dev-badge"><span class="offplan-dev-name">${dev}</span></div>
-            <span class="offplan-status-pill">${escapeHtml(proj.status || 'New Launch')}</span>
-          </div>
+        </div>
+        <div class="offplan-card-top">
+          <div class="offplan-dev-badge"><span class="offplan-dev-name">${dev}</span></div>
+          <span class="offplan-status-pill">${escapeHtml(proj.status || 'New Launch')}</span>
         </div>
         <div class="offplan-card-body">
+          ${devLogo}
           <div class="offplan-location">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>${loc}</span>
+            <span>By ${dev} · ${loc}</span>
           </div>
           <h3 class="offplan-title">${title}</h3>
           <div class="offplan-meta-grid">

@@ -3510,7 +3510,13 @@ body.loaded #loader-wrapper {
   font-size: 0.86rem;
   font-weight: 700;
   color: #FDFBF7;
-  white-space: nowrap;
+  white-space: normal;
+  line-height: 1.25;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .btn-offplan-explore {

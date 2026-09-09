@@ -654,6 +654,73 @@ h1, h2, h3, h4, .font-serif {
   display: flex !important;
 }
 
+/* ── Gallery photo uploader ── */
+.gallery-drop-zone {
+  border: 2px dashed var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 28px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 0.85rem;
+}
+.gallery-drop-zone:hover,
+.gallery-drop-zone.dragover {
+  border-color: var(--gold-primary);
+  background: rgba(212,175,55,0.06);
+  color: var(--gold-primary);
+}
+.gallery-drop-zone svg { margin-bottom: 8px; opacity: 0.7; }
+.gallery-drop-zone p { margin: 4px 0; }
+.gallery-drop-zone .gallery-browse-link {
+  color: var(--gold-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.gallery-hint { font-size: 0.78rem; opacity: 0.55; }
+
+.gallery-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+.gallery-thumb {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+.gallery-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.gallery-thumb .thumb-remove {
+  position: absolute; top: 3px; right: 3px;
+  background: rgba(0,0,0,0.65);
+  border: none; border-radius: 50%;
+  color: #fff; width: 20px; height: 20px;
+  font-size: 11px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.gallery-thumb .thumb-remove:hover { background: #c0392b; }
+.gallery-thumb .thumb-uploading::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+.gallery-thumb .thumb-spinner {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #fff; pointer-events: none;
+}
+
+
 .modal-content {
   background: var(--bg-surface);
   border: 1px solid var(--border-gold);

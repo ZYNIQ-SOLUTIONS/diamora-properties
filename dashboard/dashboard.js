@@ -2138,6 +2138,7 @@ function openAddProjectModal() {
   if (document.getElementById('project-master-plan-image')) document.getElementById('project-master-plan-image').value = '';
   updateProjectHeroPreview('');
   updateProjectLogoPreview('');
+  populateGalleryUploader([]);
   if (projectModalTitle) projectModalTitle.textContent = 'Add New Off-Plan Project';
   if (projectModal) {
     projectModal.style.display = 'flex';
@@ -2171,7 +2172,7 @@ function openEditProjectModal(id) {
   document.getElementById('project-description').value = proj.description || '';
   document.getElementById('project-highlights').value = Array.isArray(proj.highlights) ? proj.highlights.join('\n') : (proj.highlights || '');
   document.getElementById('project-amenities').value = Array.isArray(proj.amenities) ? proj.amenities.join(', ') : (proj.amenities || '');
-  document.getElementById('project-gallery').value = Array.isArray(proj.gallery) ? proj.gallery.join('\n') : (proj.gallery || '');
+  populateGalleryUploader(Array.isArray(proj.gallery) ? proj.gallery : (proj.gallery ? [proj.gallery] : []));
   document.getElementById('project-brochure').value = proj.brochureUrl || '';
   document.getElementById('project-lat').value = proj.coordinates?.lat || '';
   document.getElementById('project-lng').value = proj.coordinates?.lng || '';
@@ -2357,6 +2358,158 @@ function initProjectMediaUploadListeners() {
       updateProjectLogoPreview('');
     });
   }
+
+  // ── Gallery multi-photo uploader ──
+  initGalleryUploader();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Gallery uploader helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Sync the hidden #project-gallery value from current thumbnail grid */
+function syncGalleryHiddenField() {
+  const grid = document.getElementById('gallery-preview-grid');
+  if (!grid) return;
+  const urls = Array.from(grid.querySelectorAll('.gallery-thumb[data-url]')).map(el => el.dataset.url);
+  document.getElementById('project-gallery').value = urls.join('\n');
+}
+
+/** Add a thumbnail card to the preview grid */
+function addGalleryThumb(url, isUploading = false) {
+  const grid = document.getElementById('gallery-preview-grid');
+  if (!grid) return null;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'gallery-thumb';
+  wrapper.dataset.url = url;
+
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Gallery photo';
+  wrapper.appendChild(img);
+
+  if (isUploading) {
+    wrapper.classList.add('thumb-uploading');
+    const spinner = document.createElement('div');
+    spinner.className = 'thumb-spinner';
+    spinner.textContent = '⏳';
+    wrapper.appendChild(spinner);
+  }
+
+  const removeBtn = document.createElement('button');
+  removeBtn.className = 'thumb-remove';
+  removeBtn.type = 'button';
+  removeBtn.title = 'Remove photo';
+  removeBtn.textContent = '×';
+  removeBtn.addEventListener('click', () => {
+    wrapper.remove();
+    syncGalleryHiddenField();
+  });
+  wrapper.appendChild(removeBtn);
+
+  grid.appendChild(wrapper);
+  return wrapper;
+}
+
+/** Pre-populate the gallery grid with existing URLs (called when opening edit modal) */
+function populateGalleryUploader(urls) {
+  const grid = document.getElementById('gallery-preview-grid');
+  if (grid) grid.innerHTML = '';
+  const hidden = document.getElementById('project-gallery');
+  if (hidden) hidden.value = '';
+  if (!Array.isArray(urls)) return;
+  urls.forEach(url => { if (url) addGalleryThumb(url); });
+  syncGalleryHiddenField();
+}
+
+/** Upload File objects to /api/upload/multiple and add thumbs */
+async function uploadGalleryFiles(files) {
+  if (!files || files.length === 0) return;
+  const token = localStorage.getItem('diamora_token');
+  if (!token) { alert('You must be logged in to upload photos.'); return; }
+
+  // Create placeholder thumbs immediately with object URLs
+  const placeholders = Array.from(files).map(file => {
+    const objectUrl = URL.createObjectURL(file);
+    const thumb = addGalleryThumb(objectUrl, true);
+    return { file, thumb, objectUrl };
+  });
+
+  const formData = new FormData();
+  placeholders.forEach(({ file }) => formData.append('files', file));
+
+  try {
+    const resp = await fetch('/api/upload/multiple', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` },
+      body: formData
+    });
+    const data = await resp.json();
+
+    if (!resp.ok || !data.success) {
+      placeholders.forEach(({ thumb, objectUrl }) => {
+        URL.revokeObjectURL(objectUrl);
+        if (thumb) thumb.remove();
+      });
+      alert('Upload failed: ' + (data.message || 'Unknown error'));
+      return;
+    }
+
+    // Replace placeholder object-URLs with real server URLs
+    data.files.forEach((uploaded, i) => {
+      const p = placeholders[i];
+      if (!p || !p.thumb) return;
+      const realUrl = uploaded.url; // e.g. /uploads/diamora_xxx.jpg
+      p.thumb.dataset.url = realUrl;
+      p.thumb.querySelector('img').src = realUrl;
+      p.thumb.classList.remove('thumb-uploading');
+      const spinner = p.thumb.querySelector('.thumb-spinner');
+      if (spinner) spinner.remove();
+      URL.revokeObjectURL(p.objectUrl);
+    });
+
+    syncGalleryHiddenField();
+  } catch (err) {
+    placeholders.forEach(({ thumb, objectUrl }) => {
+      URL.revokeObjectURL(objectUrl);
+      if (thumb) thumb.remove();
+    });
+    alert('Upload error: ' + err.message);
+  }
+}
+
+/** Wire up the gallery drop-zone and file picker */
+function initGalleryUploader() {
+  const dropZone = document.getElementById('gallery-drop-zone');
+  const fileInput = document.getElementById('gallery-file-input');
+  if (!dropZone || !fileInput) return;
+
+  // Click anywhere in drop zone → open file picker
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  // Drag-over highlight
+  dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+  });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+
+  // Drop
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    if (files.length) uploadGalleryFiles(files);
+  });
+
+  // File picker change
+  fileInput.addEventListener('change', (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length) uploadGalleryFiles(files);
+    // Reset so same files can be picked again
+    e.target.value = '';
+  });
 }
 
 async function handleProjectSubmit(e) {

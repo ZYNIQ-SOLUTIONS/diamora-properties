@@ -992,9 +992,18 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
           </div>
         </div>
 
+        <!-- Photo Gallery Upload -->
         <div class="form-group" style="margin-bottom: 16px;">
-          <label for="project-gallery" class="form-label">Photo Gallery Image URLs (one per line)</label>
-          <textarea id="project-gallery" class="form-input form-textarea" rows="2" placeholder="https://images.unsplash.com/...&#10;https://images.unsplash.com/..."></textarea>
+          <label class="form-label">Photo Gallery</label>
+          <div id="gallery-drop-zone" class="gallery-drop-zone">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p>Drag &amp; drop photos here, or <span class="gallery-browse-link">browse</span></p>
+            <p class="gallery-hint">JPG, PNG, WEBP — up to 20 images</p>
+            <input type="file" id="gallery-file-input" multiple accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;">
+          </div>
+          <div id="gallery-preview-grid" class="gallery-preview-grid"></div>
+          <!-- Hidden field stores final URL list (uploaded + any existing remote URLs) -->
+          <input type="hidden" id="project-gallery">
         </div>
 
         <div class="modal-grid-3" style="margin-bottom: 16px;">
@@ -1033,6 +1042,6 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
   <div id="dash-toast" class="toast"></div>
 
   <!-- Script -->
-  <script src="/dashboard/dashboard.js?v=3.0"></script>
+  <script src="/dashboard/dashboard.js?v=4.0"></script>
 </body>
 </html>

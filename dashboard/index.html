@@ -686,7 +686,7 @@
   <!-- =========================================================================
        4. BLOG MODAL (ADD / EDIT)
        ========================================================================= -->
-  <div id="blog-modal" class="modal-backdrop" style="display: none;">
+  <div id="blog-modal" class="modal-backdrop">
     <div class="modal-content" style="max-width: 900px;">
       <div class="modal-header">
         <h3 id="blog-modal-title" class="font-serif">Add New Blog Post</h3>
@@ -830,7 +830,7 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
   <!-- =========================================================================
        5. OFF-PLAN PROJECT MODAL (ADD / EDIT)
        ========================================================================= -->
-  <div id="project-modal" class="modal-backdrop" style="display: none;">
+  <div id="project-modal" class="modal-backdrop">
     <div class="modal-content" style="max-width: 920px;">
       <div class="modal-header">
         <h3 id="project-modal-title" class="font-serif">Add New Off-Plan Project</h3>
@@ -872,6 +872,18 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
           <div class="form-group">
             <label for="project-location" class="form-label">District / Location *</label>
             <input type="text" id="project-location" class="form-input" placeholder="e.g. Al Shamkha, Abu Dhabi" required>
+          </div>
+        </div>
+
+        <div class="modal-grid-2" style="margin-bottom: 16px;">
+          <div class="form-group">
+            <label for="project-permit-number" class="form-label">DMT / Regulatory Permit Number</label>
+            <input type="text" id="project-permit-number" class="form-input" placeholder="e.g. 20250000657884">
+          </div>
+
+          <div class="form-group">
+            <label for="project-ownership" class="form-label">Ownership Structure</label>
+            <input type="text" id="project-ownership" class="form-input" placeholder="e.g. 100% Freehold - All Nationalities">
           </div>
         </div>
 
@@ -936,7 +948,7 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
               <img id="projectHeroPreviewImg" class="media-preview-thumb" src="" alt="Hero Preview" style="height: 120px; width: 100%; object-fit: cover; border-radius: var(--radius-xs);">
               <button type="button" id="btnRemoveProjectHero" class="media-remove-btn" title="Remove">&times;</button>
             </div>
-            <input type="hidden" id="project-hero-image" required>
+            <input type="text" id="project-hero-image" class="form-input" style="margin-top: 8px; font-size: 0.8rem;" placeholder="Upload above or enter hero render URL / path" required>
           </div>
 
           <!-- 2. Developer Logo -->
@@ -954,8 +966,13 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
               <img id="projectLogoPreviewImg" class="media-preview-thumb" src="" alt="Logo Preview" style="height: 80px; width: auto; max-width: 140px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 8px; border-radius: var(--radius-xs);">
               <button type="button" id="btnRemoveProjectLogo" class="media-remove-btn" title="Remove">&times;</button>
             </div>
-            <input type="hidden" id="project-developer-logo">
+            <input type="text" id="project-developer-logo" class="form-input" style="margin-top: 8px; font-size: 0.8rem;" placeholder="Upload above or enter developer logo URL / path">
           </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label for="project-master-plan-image" class="form-label">Master Plan Banner Image URL (Optional)</label>
+          <input type="url" id="project-master-plan-image" class="form-input" placeholder="https://.../master_plan.webp">
         </div>
 
         <div class="form-group" style="margin-bottom: 16px;">
@@ -1016,6 +1033,6 @@ Dubai's luxury real estate sector continues to demonstrate solid capital appreci
   <div id="dash-toast" class="toast"></div>
 
   <!-- Script -->
-  <script src="/dashboard/dashboard.js?v=2.9"></script>
+  <script src="/dashboard/dashboard.js?v=3.0"></script>
 </body>
 </html>

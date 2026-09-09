@@ -2133,17 +2133,27 @@ function openAddProjectModal() {
   document.getElementById('project-id').value = '';
   document.getElementById('project-hero-image').value = '';
   document.getElementById('project-developer-logo').value = '';
+  if (document.getElementById('project-permit-number')) document.getElementById('project-permit-number').value = '';
+  if (document.getElementById('project-ownership')) document.getElementById('project-ownership').value = '100% Freehold - All Nationalities';
+  if (document.getElementById('project-master-plan-image')) document.getElementById('project-master-plan-image').value = '';
   updateProjectHeroPreview('');
   updateProjectLogoPreview('');
   if (projectModalTitle) projectModalTitle.textContent = 'Add New Off-Plan Project';
-  if (projectModal) projectModal.classList.add('open');
+  if (projectModal) {
+    projectModal.style.display = 'flex';
+    projectModal.classList.add('open');
+  }
 }
 
 function openEditProjectModal(id) {
-  const proj = projects.find(p => p._id === id || p.slug === id);
-  if (!proj || !projectForm) return;
+  const proj = projects.find(p => p._id === id || p.slug === id || String(p._id) === String(id));
+  if (!proj || !projectForm) {
+    console.warn('Project not found for editing:', id);
+    showToast('Could not find project to edit');
+    return;
+  }
 
-  document.getElementById('project-id').value = proj._id || '';
+  document.getElementById('project-id').value = proj._id || proj.slug || '';
   document.getElementById('project-title').value = proj.title || '';
   document.getElementById('project-developer').value = proj.developer || '';
   document.getElementById('project-tagline').value = proj.tagline || '';
@@ -2167,15 +2177,31 @@ function openEditProjectModal(id) {
   document.getElementById('project-lng').value = proj.coordinates?.lng || '';
   document.getElementById('project-featured').checked = !!proj.isFeatured;
 
+  if (document.getElementById('project-permit-number')) {
+    document.getElementById('project-permit-number').value = proj.permitNumber || '';
+  }
+  if (document.getElementById('project-ownership')) {
+    document.getElementById('project-ownership').value = proj.ownership || '100% Freehold - All Nationalities';
+  }
+  if (document.getElementById('project-master-plan-image')) {
+    document.getElementById('project-master-plan-image').value = proj.masterPlanImage || '';
+  }
+
   updateProjectHeroPreview(proj.heroImage || '');
   updateProjectLogoPreview(proj.developerLogo || '');
 
   if (projectModalTitle) projectModalTitle.textContent = 'Edit Off-Plan Project';
-  if (projectModal) projectModal.classList.add('open');
+  if (projectModal) {
+    projectModal.style.display = 'flex';
+    projectModal.classList.add('open');
+  }
 }
 
 function closeProjectModal() {
-  if (projectModal) projectModal.classList.remove('open');
+  if (projectModal) {
+    projectModal.style.display = 'none';
+    projectModal.classList.remove('open');
+  }
 }
 
 function updateProjectHeroPreview(url) {
@@ -2266,6 +2292,7 @@ function initProjectMediaUploadListeners() {
   const heroDropzone = document.getElementById('projectHeroDropzone');
   const heroFileInput = document.getElementById('projectHeroFileInput');
   const btnRemoveHero = document.getElementById('btnRemoveProjectHero');
+  const heroInputText = document.getElementById('project-hero-image');
 
   if (heroDropzone && heroFileInput) {
     heroDropzone.addEventListener('click', () => heroFileInput.click());
@@ -2285,6 +2312,10 @@ function initProjectMediaUploadListeners() {
     });
   }
 
+  if (heroInputText) {
+    heroInputText.addEventListener('input', (e) => updateProjectHeroPreview(e.target.value));
+  }
+
   if (btnRemoveHero) {
     btnRemoveHero.addEventListener('click', () => {
       document.getElementById('project-hero-image').value = '';
@@ -2296,6 +2327,7 @@ function initProjectMediaUploadListeners() {
   const logoDropzone = document.getElementById('projectLogoDropzone');
   const logoFileInput = document.getElementById('projectLogoFileInput');
   const btnRemoveLogo = document.getElementById('btnRemoveProjectLogo');
+  const logoInputText = document.getElementById('project-developer-logo');
 
   if (logoDropzone && logoFileInput) {
     logoDropzone.addEventListener('click', () => logoFileInput.click());
@@ -2313,6 +2345,10 @@ function initProjectMediaUploadListeners() {
         handleProjectFileUpload(e.target.files[0], 'logo');
       }
     });
+  }
+
+  if (logoInputText) {
+    logoInputText.addEventListener('input', (e) => updateProjectLogoPreview(e.target.value));
   }
 
   if (btnRemoveLogo) {
@@ -2348,6 +2384,10 @@ async function handleProjectSubmit(e) {
     return;
   }
 
+  const permitNumber = document.getElementById('project-permit-number') ? document.getElementById('project-permit-number').value.trim() : '';
+  const ownership = document.getElementById('project-ownership') ? document.getElementById('project-ownership').value.trim() : '100% Freehold - All Nationalities';
+  const masterPlanImage = document.getElementById('project-master-plan-image') ? document.getElementById('project-master-plan-image').value.trim() : '';
+
   const projectData = {
     title: document.getElementById('project-title').value.trim(),
     developer: document.getElementById('project-developer').value.trim(),
@@ -2369,15 +2409,24 @@ async function handleProjectSubmit(e) {
     gallery,
     brochureUrl: document.getElementById('project-brochure').value.trim(),
     coordinates: (!isNaN(latVal) && !isNaN(lngVal)) ? { lat: latVal, lng: lngVal } : undefined,
-    isFeatured: document.getElementById('project-featured').checked
+    isFeatured: document.getElementById('project-featured').checked,
+    permitNumber,
+    ownership,
+    masterPlanImage
   };
+
+  const saveBtn = document.getElementById('project-save-btn');
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving Project...';
+  }
 
   const token = localStorage.getItem('diamora_token');
 
   // Try API first
   if (isLiveApiConnected && token) {
     try {
-      const url = id ? `${API_BASE}/projects/${id}` : `${API_BASE}/projects`;
+      const url = id ? `${API_BASE}/projects/${encodeURIComponent(id)}` : `${API_BASE}/projects`;
       const method = id ? 'PUT' : 'POST';
       const res = await fetch(url, {
         method,
@@ -2395,16 +2444,24 @@ async function handleProjectSubmit(e) {
         return;
       } else {
         const errJson = await res.json().catch(() => ({}));
-        showToast(errJson.error || 'Failed to save project');
+        showToast(errJson.message || errJson.error || 'Failed to save project to server');
+        return;
       }
     } catch (err) {
-      console.warn('API error during project save, saving locally', err);
+      console.warn('API error during project save:', err);
+      showToast('Connection error while saving project: ' + err.message);
+      return;
+    } finally {
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Off-Plan Project';
+      }
     }
   }
 
-  // LocalStorage Fallback
+  // LocalStorage Fallback (only in standalone mode)
   if (id) {
-    const idx = projects.findIndex(p => p._id === id);
+    const idx = projects.findIndex(p => p._id === id || p.slug === id || String(p._id) === String(id));
     if (idx !== -1) {
       projects[idx] = { ...projects[idx], ...projectData };
     }
@@ -2422,6 +2479,10 @@ async function handleProjectSubmit(e) {
   closeProjectModal();
   renderProjectsTable(projects);
   updateMetricCards();
+  if (saveBtn) {
+    saveBtn.disabled = false;
+    saveBtn.textContent = 'Save Off-Plan Project';
+  }
   showToast(id ? 'Project updated locally' : 'New project added to local catalog');
 }
 
@@ -2431,7 +2492,7 @@ async function deleteProjectItem(id) {
   const token = localStorage.getItem('diamora_token');
   if (isLiveApiConnected && token) {
     try {
-      const res = await fetch(`${API_BASE}/projects/${id}`, {
+      const res = await fetch(`${API_BASE}/projects/${encodeURIComponent(id)}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -2440,13 +2501,19 @@ async function deleteProjectItem(id) {
         updateMetricCards();
         showToast('Project deleted successfully');
         return;
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        showToast(errJson.message || errJson.error || 'Failed to delete project');
+        return;
       }
     } catch (err) {
-      console.warn('API delete error, removing locally', err);
+      console.warn('API delete error:', err);
+      showToast('Error connecting to server');
+      return;
     }
   }
 
-  projects = projects.filter(p => p._id !== id && p.slug !== id);
+  projects = projects.filter(p => p._id !== id && p.slug !== id && String(p._id) !== String(id));
   localStorage.setItem('diamora_projects', JSON.stringify(projects));
   renderProjectsTable(projects);
   updateMetricCards();
@@ -2459,7 +2526,7 @@ async function toggleProjectFeatured(id, currentVal) {
 
   if (isLiveApiConnected && token) {
     try {
-      const res = await fetch(`${API_BASE}/projects/${id}`, {
+      const res = await fetch(`${API_BASE}/projects/${encodeURIComponent(id)}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -2469,20 +2536,26 @@ async function toggleProjectFeatured(id, currentVal) {
       });
       if (res.ok) {
         await fetchProjects();
-        showToast(newVal ? 'Project featured on landing page' : 'Project removed from featured');
+        showToast(newVal ? 'Project featured on landing page' : 'Project removed from featured showcase');
+        return;
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        showToast(errJson.message || errJson.error || 'Failed to update featured status');
         return;
       }
     } catch (e) {
       console.warn('API error toggling featured', e);
+      showToast('Connection error');
+      return;
     }
   }
 
-  const idx = projects.findIndex(p => p._id === id || p.slug === id);
+  const idx = projects.findIndex(p => p._id === id || p.slug === id || String(p._id) === String(id));
   if (idx !== -1) {
     projects[idx].isFeatured = newVal;
     localStorage.setItem('diamora_projects', JSON.stringify(projects));
     renderProjectsTable(projects);
-    showToast(newVal ? 'Featured status updated' : 'Featured status removed');
+    showToast(newVal ? 'Featured status updated locally' : 'Featured status removed locally');
   }
 }
 

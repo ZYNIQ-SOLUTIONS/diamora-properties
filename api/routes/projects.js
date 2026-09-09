@@ -173,18 +173,25 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// PUT /api/projects/:id - Update project (Private - Admin)
-router.put('/:id', auth, async (req, res) => {
+// PUT /api/projects/:idOrSlug - Update project (Private - Admin)
+router.put('/:idOrSlug', auth, async (req, res) => {
   try {
-    const { id } = req.params;
-    let project = await Project.findById(id);
+    const { idOrSlug } = req.params;
+    let project = null;
+
+    if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
+      project = await Project.findById(idOrSlug);
+    }
+    if (!project) {
+      project = await Project.findOne({ slug: idOrSlug.toLowerCase() });
+    }
 
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
 
     const updates = { ...req.body };
-    if (updates.startingPrice) {
+    if (updates.startingPrice !== undefined && updates.startingPrice !== '') {
       updates.startingPrice = Number(updates.startingPrice);
     }
 
@@ -195,16 +202,19 @@ router.put('/:id', auth, async (req, res) => {
         .filter(Boolean);
     }
 
-    project = await Project.findByIdAndUpdate(
-      id,
-      { $set: updates },
-      { new: true, runValidators: true }
-    );
+    // Apply updates directly to the project model
+    Object.keys(updates).forEach(key => {
+      if (updates[key] !== undefined && key !== '_id' && key !== '__v') {
+        project[key] = updates[key];
+      }
+    });
+
+    const saved = await project.save();
 
     res.json({
       success: true,
       message: 'Project updated successfully',
-      project
+      project: saved
     });
   } catch (err) {
     console.error('Error updating project:', err.message);
@@ -212,17 +222,24 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// DELETE /api/projects/:id - Remove project (Private - Admin)
-router.delete('/:id', auth, async (req, res) => {
+// DELETE /api/projects/:idOrSlug - Remove project (Private - Admin)
+router.delete('/:idOrSlug', auth, async (req, res) => {
   try {
-    const { id } = req.params;
-    const project = await Project.findById(id);
+    const { idOrSlug } = req.params;
+    let project = null;
+
+    if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
+      project = await Project.findById(idOrSlug);
+    }
+    if (!project) {
+      project = await Project.findOne({ slug: idOrSlug.toLowerCase() });
+    }
 
     if (!project) {
       return res.status(404).json({ message: 'Project not found' });
     }
 
-    await Project.findByIdAndDelete(id);
+    await Project.findByIdAndDelete(project._id);
 
     res.json({
       success: true,

@@ -4,6 +4,12 @@ const mongoose = require('mongoose');
 const Project = require('../models/Project');
 const auth = require('../middleware/auth');
 
+// Helper to escape user input before using in RegExp to prevent ReDoS
+function escapeRegex(text) {
+  if (typeof text !== 'string') return '';
+  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // GET /api/projects - Public listing with filters & search
 router.get('/', async (req, res) => {
   try {
@@ -28,7 +34,7 @@ router.get('/', async (req, res) => {
     }
 
     if (developer && developer !== 'all') {
-      query.developer = new RegExp(`^${developer}$`, 'i');
+      query.developer = new RegExp(`^${escapeRegex(developer)}$`, 'i');
     }
 
     if (status && status !== 'all') {
@@ -50,7 +56,7 @@ router.get('/', async (req, res) => {
     }
 
     if (search && search.trim()) {
-      const term = search.trim();
+      const term = escapeRegex(search.trim());
       query.$or = [
         { title: { $regex: term, $options: 'i' } },
         { developer: { $regex: term, $options: 'i' } },

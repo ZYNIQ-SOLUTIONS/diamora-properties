@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const auth = require('../middleware/auth');
+const { getJwtSecret } = require('../utils/jwtConfig');
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
@@ -31,9 +32,11 @@ router.post('/login', async (req, res) => {
       }
     };
 
+    const secret = getJwtSecret();
+
     jwt.sign(
       payload,
-      process.env.JWT_SECRET || 'secret',
+      secret,
       { expiresIn: '7d' },
       (err, token) => {
         if (err) throw err;

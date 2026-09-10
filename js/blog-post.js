@@ -72,22 +72,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!raw || !raw.trim()) return '';
     const trimmed = raw.trim();
 
-    // If content contains standard HTML block tags, render as direct clean HTML
+    // DOMPurify config: allow standard formatting tags, block scripts/events
+    const purifyConfig = {
+      ALLOWED_TAGS: ['p','div','h1','h2','h3','h4','h5','h6','ul','ol','li',
+        'table','thead','tbody','tr','td','th','blockquote','pre','code',
+        'strong','b','em','i','u','s','br','hr','a','img','figure','figcaption',
+        'article','section','header','footer','span','sup','sub'],
+      ALLOWED_ATTR: ['href','src','alt','title','class','id','target','rel',
+        'width','height','loading','style'],
+      FORBID_ATTR: ['onerror','onload','onclick','onmouseover','onfocus',
+        'onblur','onchange','onsubmit'],
+      ALLOW_DATA_ATTR: false
+    };
+
+    const sanitize = (html) => {
+      if (window.DOMPurify && typeof window.DOMPurify.sanitize === 'function') {
+        return window.DOMPurify.sanitize(html, purifyConfig);
+      }
+      // Fallback: strip all tags if DOMPurify is unavailable
+      return html.replace(/<[^>]*>/g, '');
+    };
+
+    // If content contains standard HTML block tags, sanitize and render
     const hasHtmlTags = /<\/?(div|p|h[1-6]|ul|ol|li|table|tr|td|th|article|section|blockquote|header|footer|span|strong|b|em|i|img)[\s>]/i.test(trimmed);
     if (hasHtmlTags) {
-      return trimmed;
+      return sanitize(trimmed);
     }
 
-    // Otherwise render as Markdown
+    // Otherwise render as Markdown, then sanitize the output
     if (window.marked && typeof window.marked.parse === 'function') {
       try {
-        return window.marked.parse(trimmed, { gfm: true, breaks: true });
+        const rendered = window.marked.parse(trimmed, { gfm: true, breaks: true });
+        return sanitize(rendered);
       } catch (err) {
-        return trimmed.replace(/\n/g, '<br>');
+        return sanitize(trimmed.replace(/\n/g, '<br>'));
       }
     }
 
-    return trimmed.replace(/\n/g, '<br>');
+    return sanitize(trimmed.replace(/\n/g, '<br>'));
   }
 
     // Scroll progress bar

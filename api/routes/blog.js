@@ -3,13 +3,15 @@ const router = express.Router();
 const BlogPost = require('../models/BlogPost');
 const auth = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
+const { getJwtSecret } = require('../utils/jwtConfig');
 
 // Helper: Extract user from token if present (does not block unauthenticated)
 function getUserFromToken(req) {
   const token = req.header('Authorization');
   if (!token) return null;
   try {
-    const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET || 'secret');
+    const secret = getJwtSecret();
+    const decoded = jwt.verify(token.replace('Bearer ', ''), secret);
     return decoded.user || null;
   } catch (err) {
     return null;

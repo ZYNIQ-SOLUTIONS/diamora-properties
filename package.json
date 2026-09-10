@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "npx serve .",
-    "dev": "npx serve ."
+    "dev": "npx serve .",
+    "test": "node --test tests/baseline/*.test.mjs"
   },
   "keywords": [
     "real-estate",

@@ -966,6 +966,113 @@ function renderPaymentMilestones(proj) {
   `).join('');
 }
 
+function getAmenitySvg(name) {
+  const n = (name || '').toLowerCase();
+
+  // 1. Pets / Grooming (paw icon)
+  if (/\b(pet|pets|dog|dogs|cat|cats|grooming)\b/.test(n)) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></svg>`;
+  }
+
+  // 2. Cinema / Movie / Theater
+  if (n.includes('cinema') || n.includes('theatre') || n.includes('theater') || n.includes('movie')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>`;
+  }
+
+  // 3. Swimming / Pool / Lagoon / Swimmable / Splash / Plunge / Hydrotherapy / Jacuzzi
+  if (n.includes('pool') || n.includes('lagoon') || n.includes('swimm') || n.includes('splash') || n.includes('plunge') || n.includes('hydrotherapy') || n.includes('jacuzzi')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></svg>`;
+  }
+
+  // 4. Helipad / Aviation / Helicopter
+  if (n.includes('helipad') || n.includes('helicopter') || n.includes('aviation') || n.includes('flight')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 7v10"/><path d="M16 7v10"/><path d="M8 12h8"/></svg>`;
+  }
+
+  // 5. Vehicles / Mercedes / Chauffeur / Fleet / Car / Parking
+  if (n.includes('chauffeur') || n.includes('fleet') || n.includes('mercedes') || n.includes('parking') || n.includes('car ') || n.includes('cars')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H7.5a1 1 0 0 0-.8.4L4 11l-5.16.86a1 1 0 0 0-.84.99V16h3"/><circle cx="6.5" cy="16.5" r="2.5"/><circle cx="16.5" cy="16.5" r="2.5"/></svg>`;
+  }
+
+  // 6. EV / Electric / Charger
+  if (/\b(ev|charger|chargers|charging)\b/.test(n) || n.includes('fast charger') || n.includes('electric vehicle')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
+  }
+
+  // 7. Marina / Yacht / Boat / Mooring / Boardwalk / Pier
+  if (n.includes('marina') || n.includes('yacht') || n.includes('boat') || n.includes('mooring') || n.includes('boardwalk')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>`;
+  }
+
+  // 8. Beach / Cabana / Coastal / Sun Loungers / Sky Deck / Horizon / Skyline / Burj Khalifa
+  if (n.includes('beach') || n.includes('cabana') || n.includes('sun lounger') || n.includes('sky deck') || n.includes('skyline') || n.includes('burj')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`;
+  }
+
+  // 9. Spa / Wellness / Hammam / Sauna / Massage / Holistic / Cryo
+  if (n.includes('spa') || n.includes('wellness') || n.includes('hammam') || n.includes('sauna') || n.includes('massage') || n.includes('holistic') || n.includes('cryo')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-1.5 3-4 6-8 7 4 1 6.5 4 8 7 1.5-3 4-6 8-7-4-1-6.5-4-8-7z"/><path d="M12 10v7"/><path d="M8 14c2 .5 3 1.5 4 3 1-1.5 2-2.5 4-3"/></svg>`;
+  }
+
+  // 10. Fitness / Gym / Pilates / Workout / Athletic / Training / TechnoGym / Performance Center
+  if (n.includes('fit') || n.includes('gym') || n.includes('pilates') || n.includes('athletic') || n.includes('training') || n.includes('technogym') || n.includes('workout') || n.includes('performance center')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/><path d="m18 22 4-4"/><path d="m2 6 4-4"/><path d="m3 10 7-7"/><path d="m14 21 7-7"/></svg>`;
+  }
+
+  // 11. Yoga / Zen / Meditation
+  if (n.includes('yoga') || n.includes('zen') || n.includes('meditation')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M4 17l4-2 4 2 4-2 4 2"/><path d="M12 7v6"/><path d="M7 11l5 2 5-2"/></svg>`;
+  }
+
+  // 12. Tennis / Padel / Pickleball / Court / Football / Pitch / Sports Arena / Simulator
+  if (n.includes('padel') || n.includes('tennis') || n.includes('pickleball') || n.includes('court') || n.includes('pitch') || n.includes('football') || n.includes('sports arena') || n.includes('simulator') || (n.includes('sports') && !n.includes('bar'))) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2.2 14.8C5.5 13 8 10.5 9.8 7.2"/><path d="M14.2 21.8c1.8-3.3 4.3-5.8 7.6-7.6"/></svg>`;
+  }
+
+  // 13. Children / Kids / Playrooms / Playground / Gaming / Arena
+  if (n.includes('child') || n.includes('kid') || n.includes('playroom') || n.includes('playground') || n.includes('play area') || n.includes('gaming') || n.includes('game room') || n.includes('e-gaming') || n.includes('nursery') || (n.includes('play') && !n.includes('display'))) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>`;
+  }
+
+  // 14. Dining / Restaurant / Cafe / Bistro / Kitchen / Chef / Catering / Bar / Lounge / Cigar
+  if (n.includes('café') || n.includes('cafe') || n.includes('restaurant') || n.includes('dining') || n.includes('bistro') || n.includes('kitchen') || n.includes('chef') || n.includes('catering') || n.includes('bar') || n.includes('cigar')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M15 11v11"/><path d="M5 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V2"/><path d="M7 14v8"/></svg>`;
+  }
+
+  // 15. Supermarket / Grocery / Market / Farm-to-Table
+  if (n.includes('supermarket') || n.includes('grocery') || n.includes('market') || n.includes('farm-to-table')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>`;
+  }
+
+  // 16. Retail / Boutique / Florist / Shop
+  if (n.includes('retail') || n.includes('boutique') || n.includes('florist') || n.includes('shop')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`;
+  }
+
+  // 17. Co-working / Lounge / Club / Private Members / Business / Salon
+  if (n.includes('co-working') || n.includes('coworking') || n.includes('work') || n.includes('business') || n.includes('lounge') || n.includes('club') || n.includes('member') || n.includes('salon')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`;
+  }
+
+  // 18. Park / Garden / Green / Forest / Walking / Jogging / Trail / Walkways / Equestrian / Tree
+  if (n.includes('park') || n.includes('garden') || n.includes('green') || n.includes('forest') || n.includes('trail') || n.includes('walk') || n.includes('jog') || n.includes('path') || n.includes('equestrian') || n.includes('nature')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-7"/><path d="M7 15a5 5 0 0 1 10 0Z"/><path d="M8 11a4 4 0 0 1 8 0Z"/><path d="M9 7a3 3 0 0 1 6 0Z"/></svg>`;
+  }
+
+  // 19. Smart Home / Automation / Technology
+  if (n.includes('smart home') || n.includes('automation') || n.includes('smart ') || n.includes('tech')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
+  }
+
+  // 20. Concierge / Valet / Security / 24/7 / White-Glove / Gated / Service
+  if (n.includes('concierge') || n.includes('valet') || n.includes('security') || n.includes('white-glove') || n.includes('gated') || n.includes('service')) {
+    return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><circle cx="12" cy="2" r="1"/></svg>`;
+  }
+
+  // 21. Default Luxury Diamond / Gem icon
+  return `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg>`;
+}
+
 function renderAmenities(proj) {
   const container = document.getElementById('pdetailAmenitiesGrid');
   if (!container) return;
@@ -976,8 +1083,8 @@ function renderAmenities(proj) {
 
   container.innerHTML = amenities.map(am => `
     <div class="amenity-item">
-      <div class="amenity-icon-wrap">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold-primary)" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div class="amenity-icon-wrap" aria-hidden="true">
+        ${getAmenitySvg(am)}
       </div>
       <span class="amenity-name">${escapeHtml(am)}</span>
     </div>

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -317,6 +318,9 @@ function loadProjectsRoute(options = {}) {
   const customRequire = (id) => {
     if (id === 'express') return { Router: () => mockRouter };
     if (id === 'mongoose') return mockMongoose;
+    if (id === 'path') return path;
+    if (id === 'fs') return fs;
+    if (id.endsWith('brochureExtractor')) return { processBrochure: async () => ({}) };
     if (id.endsWith('Project')) return options.mockProject;
     if (id.endsWith('auth')) {
       return (req, res, next) => {
@@ -327,7 +331,11 @@ function loadProjectsRoute(options = {}) {
         next();
       };
     }
-    return require(id);
+    try {
+      return createRequire(import.meta.url)(id);
+    } catch (e) {
+      return {};
+    }
   };
 
   const fn = new Function('require', 'module', 'exports', 'console', code);

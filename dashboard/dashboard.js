@@ -2359,8 +2359,250 @@ function initProjectMediaUploadListeners() {
     });
   }
 
+  // ── Brochure PDF Uploader & AI Auto-Fill ──
+  initBrochureExtractionListeners();
+
   // ── Gallery multi-photo uploader ──
   initGalleryUploader();
+}
+
+/**
+ * Initialize listeners for PDF Brochure upload and AI extraction
+ */
+function initBrochureExtractionListeners() {
+  const btnBrowse = document.getElementById('btnBrowseBrochure');
+  const fileInput = document.getElementById('projectBrochureFileInput');
+  const btnExtract = document.getElementById('btnExtractBrochure');
+  const brochureInput = document.getElementById('project-brochure');
+
+  if (btnBrowse && fileInput) {
+    btnBrowse.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', async (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        await handleBrochurePdfUpload(e.target.files[0]);
+      }
+    });
+  }
+
+  if (btnExtract) {
+    btnExtract.addEventListener('click', async () => {
+      const url = brochureInput ? brochureInput.value.trim() : '';
+      if (!url) {
+        showToast('Please upload a PDF brochure or paste a brochure link first.');
+        return;
+      }
+      await triggerBrochureExtraction(url);
+    });
+  }
+}
+
+/**
+ * Upload brochure PDF file to the backend
+ */
+async function handleBrochurePdfUpload(file) {
+  if (!file) return;
+
+  const token = localStorage.getItem('diamora_token');
+  if (!token) {
+    showToast('Session expired. Please log in again.');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const statusBox = document.getElementById('brochureExtractionStatus');
+  const statusText = document.getElementById('brochureStatusText');
+
+  try {
+    if (statusBox && statusText) {
+      statusBox.style.display = 'block';
+      statusText.textContent = `Uploading ${file.name}...`;
+    }
+    showToast(`Uploading PDF brochure (${(file.size / (1024 * 1024)).toFixed(1)} MB)...`);
+
+    const res = await fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    const data = await res.json();
+    if (res.ok && data.url) {
+      document.getElementById('project-brochure').value = data.url;
+      showToast('PDF brochure uploaded successfully! Click Extract to auto-fill.');
+      if (statusText) {
+        statusText.textContent = 'Brochure uploaded. Ready to extract project details and images.';
+      }
+      // Automatically prompt to extract
+      await triggerBrochureExtraction(data.url);
+    } else {
+      showToast(data.message || 'Brochure upload failed');
+      if (statusBox) statusBox.style.display = 'none';
+    }
+  } catch (err) {
+    console.error('Brochure upload error:', err);
+    showToast('Failed to upload brochure PDF. Check connection.');
+    if (statusBox) statusBox.style.display = 'none';
+  }
+}
+
+/**
+ * Calls the backend to extract text, images, and AI structured data from the brochure PDF
+ */
+async function triggerBrochureExtraction(brochureUrl) {
+  const token = localStorage.getItem('diamora_token');
+  if (!token) {
+    showToast('Session expired. Please log in again.');
+    return;
+  }
+
+  const btnExtract = document.getElementById('btnExtractBrochure');
+  const btnText = document.getElementById('extractBrochureBtnText');
+  const statusBox = document.getElementById('brochureExtractionStatus');
+  const statusText = document.getElementById('brochureStatusText');
+
+  try {
+    if (btnExtract) btnExtract.disabled = true;
+    if (btnText) btnText.textContent = 'Extracting...';
+    if (statusBox) statusBox.style.display = 'block';
+    if (statusText) statusText.textContent = 'Analyzing brochure text with AI & rendering high-res images...';
+
+    showToast('Extracting project data & images from brochure...');
+
+    const res = await fetch(`${API_BASE}/projects/extract-brochure`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ brochureUrl })
+    });
+
+    const result = await res.json();
+
+    if (res.ok && result.success && result.data) {
+      applyExtractedBrochureData(result.data);
+      showToast(`Extraction complete! Filled project details & ${result.imagesCount || 0} images.`);
+      if (statusText) {
+        statusText.textContent = `Extraction successful: populated form fields and ${result.imagesCount || 0} high-res renders.`;
+      }
+    } else {
+      showToast(result.message || 'Brochure extraction failed');
+      if (statusText) {
+        statusText.textContent = result.message || 'Extraction failed.';
+      }
+    }
+  } catch (err) {
+    console.error('Brochure extraction request error:', err);
+    showToast('Error communicating with extraction service.');
+    if (statusText) statusText.textContent = 'Error during extraction.';
+  } finally {
+    if (btnExtract) btnExtract.disabled = false;
+    if (btnText) btnText.textContent = 'Extract Info & Images';
+    setTimeout(() => {
+      if (statusBox) statusBox.style.display = 'none';
+    }, 6000);
+  }
+}
+
+/**
+ * Fills the modal project form with the extracted details and images
+ */
+function applyExtractedBrochureData(extracted) {
+  if (!extracted) return;
+
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if (el && val !== undefined && val !== null && val !== '') {
+      el.value = val;
+    }
+  };
+
+  // Title & developer & tagline
+  if (extracted.title) setVal('project-title', extracted.title);
+  if (extracted.developer) setVal('project-developer', extracted.developer);
+  if (extracted.tagline) setVal('project-tagline', extracted.tagline);
+
+  // Region / City
+  if (extracted.city) {
+    const citySelect = document.getElementById('project-city');
+    if (citySelect) {
+      // Find case-insensitive match
+      for (const opt of citySelect.options) {
+        if (opt.value.toLowerCase() === extracted.city.toLowerCase()) {
+          citySelect.value = opt.value;
+          break;
+        }
+      }
+    }
+  }
+
+  // District / Location
+  if (extracted.location) setVal('project-location', extracted.location);
+
+  // Regulatory Permit & Ownership
+  if (extracted.permitNumber) setVal('project-permit-number', extracted.permitNumber);
+  if (extracted.ownership) setVal('project-ownership', extracted.ownership);
+
+  // Pricing & Handover & Payment Plan
+  if (extracted.startingPrice) setVal('project-price', extracted.startingPrice);
+  if (extracted.handoverDate) setVal('project-handover', extracted.handoverDate);
+  if (extracted.paymentPlan) setVal('project-payment-plan', extracted.paymentPlan);
+  if (extracted.downPayment) setVal('project-down-payment', extracted.downPayment);
+  if (extracted.bedrooms) setVal('project-bedrooms', extracted.bedrooms);
+
+  // Status
+  if (extracted.status) {
+    const statusSelect = document.getElementById('project-status');
+    if (statusSelect) {
+      for (const opt of statusSelect.options) {
+        if (opt.value.toLowerCase() === extracted.status.toLowerCase()) {
+          statusSelect.value = opt.value;
+          break;
+        }
+      }
+    }
+  }
+
+  // Property typologies
+  if (Array.isArray(extracted.propertyTypes) && extracted.propertyTypes.length > 0) {
+    setVal('project-property-types', extracted.propertyTypes.join(', '));
+  } else if (typeof extracted.propertyTypes === 'string') {
+    setVal('project-property-types', extracted.propertyTypes);
+  }
+
+  // Description
+  if (extracted.description) setVal('project-description', extracted.description);
+
+  // Highlights
+  if (Array.isArray(extracted.highlights) && extracted.highlights.length > 0) {
+    setVal('project-highlights', extracted.highlights.join('\n'));
+  }
+
+  // Amenities
+  if (Array.isArray(extracted.amenities) && extracted.amenities.length > 0) {
+    setVal('project-amenities', extracted.amenities.join(', '));
+  }
+
+  // Coordinates
+  if (extracted.coordinates) {
+    if (extracted.coordinates.lat) setVal('project-lat', extracted.coordinates.lat);
+    if (extracted.coordinates.lng) setVal('project-lng', extracted.coordinates.lng);
+  }
+
+  // Hero Image
+  if (extracted.heroImage) {
+    setVal('project-hero-image', extracted.heroImage);
+    updateProjectHeroPreview(extracted.heroImage);
+  }
+
+  // Gallery Photos
+  if (Array.isArray(extracted.gallery) && extracted.gallery.length > 0) {
+    populateGalleryUploader(extracted.gallery);
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

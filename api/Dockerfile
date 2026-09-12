@@ -18,7 +18,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Add curl for healthchecks
-RUN apk add --no-cache curl
+RUN apk add --no-cache curl poppler-utils
 
 # Copy installed dependencies and source code
 COPY --from=builder /app/node_modules ./node_modules

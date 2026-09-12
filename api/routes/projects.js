@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const path = require('path');
+const fs = require('fs');
 const Project = require('../models/Project');
 const auth = require('../middleware/auth');
+const { processBrochure } = require('../utils/brochureExtractor');
 
 // Helper to escape user input before using in RegExp to prevent ReDoS
 function escapeRegex(text) {
@@ -144,6 +147,51 @@ router.get('/:idOrSlug', async (req, res) => {
   } catch (err) {
     console.error('Error fetching project:', err.message);
     res.status(500).json({ message: 'Server Error fetching project' });
+  }
+});
+
+// POST /api/projects/extract-brochure - Extract project info & images from brochure PDF (Private - Admin)
+router.post('/extract-brochure', auth, async (req, res) => {
+  try {
+    const { brochureUrl } = req.body;
+    if (!brochureUrl || typeof brochureUrl !== 'string') {
+      return res.status(400).json({ message: 'A valid brochureUrl string is required for extraction.' });
+    }
+
+    const uploadsDir = path.join(__dirname, '../uploads');
+    let pdfPath = '';
+
+    // Handle uploaded file path vs external URL
+    if (brochureUrl.startsWith('/uploads/')) {
+      const filename = path.basename(brochureUrl);
+      pdfPath = path.join(uploadsDir, filename);
+    } else if (brochureUrl.includes('/uploads/')) {
+      const parts = brochureUrl.split('/uploads/');
+      const filename = parts[parts.length - 1];
+      pdfPath = path.join(uploadsDir, filename);
+    } else if (brochureUrl.startsWith('http://') || brochureUrl.startsWith('https://')) {
+      // Download remote PDF into uploads temporary file
+      const tempFilename = `remote_brochure_${Date.now()}.pdf`;
+      pdfPath = path.join(uploadsDir, tempFilename);
+      const fetchResponse = await fetch(brochureUrl);
+      if (!fetchResponse.ok) {
+        return res.status(400).json({ message: `Failed to download remote brochure: HTTP ${fetchResponse.status}` });
+      }
+      const arrayBuffer = await fetchResponse.arrayBuffer();
+      fs.writeFileSync(pdfPath, Buffer.from(arrayBuffer));
+    } else {
+      return res.status(400).json({ message: 'Unrecognized brochureUrl format.' });
+    }
+
+    if (!fs.existsSync(pdfPath)) {
+      return res.status(404).json({ message: 'Brochure PDF file was not found on the server.' });
+    }
+
+    const result = await processBrochure(pdfPath, uploadsDir, brochureUrl);
+    res.json(result);
+  } catch (err) {
+    console.error('Error extracting brochure:', err);
+    res.status(500).json({ message: `Brochure extraction failed: ${err.message}` });
   }
 });
 
